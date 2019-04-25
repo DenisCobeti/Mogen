@@ -19,14 +19,11 @@ import java.net.URL;
  */
 public class OSMApi {
 
-    private String apiUrl;
+   
     
+    public OSMApi() {}
     
-    public OSMApi() {
-        this.apiUrl = apiUrl;
-    }
-    
-    public void getMapAPI() throws ProtocolException, IOException, MalformedURLException{
+    public void getMapAPI(double lat, double lon) throws ProtocolException, IOException, MalformedURLException{
        
         HttpURLConnection connection = creteConnection(Config.API);
         connection.setRequestMethod("GET");

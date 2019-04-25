@@ -203,7 +203,7 @@ public class C4R {
 	public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
             
             OSMApi api = new OSMApi();
-            api.getMapAPI();
+            api.getMapAPI(0,0);
 	}
 	
 }
