@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.io.IOException;
@@ -16,6 +11,7 @@ import java.net.ProtocolException;
  */
 public interface MapAPI {
     
-    public InputStream getMap(double minLon, double minLat, double maxLon, double maxLat) throws ProtocolException, IOException, MalformedURLException;
+    public InputStream getMap(double minLon, double minLat, double maxLon, double maxLat) 
+            throws ProtocolException, IOException, MalformedURLException;
     
 }
