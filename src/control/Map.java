@@ -3,12 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.constants;
+package control;
 
 /**
  *
- * @author Neblis
+ * @author Denis C
  */
-public class Netgenerate {
+public class Map {
+    private static  String convertString;
+
+    public Map(double minLon, double minLat, double maxLat, double maxLon) {
+    }
+    
     
 }

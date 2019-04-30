@@ -3,8 +3,19 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Neblis/Documents/NetBeansProjects/C4R/src/c4r/OSMNode.java</file>
-            <file>file:/C:/Users/Neblis/Documents/NetBeansProjects/C4R/src/c4r/C4R.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/C4RModel.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/constants/Netconvert.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/C4R.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/OSMApi.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/MapAPI.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/c4r/OSMNode.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/c4r/C4R.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/Config.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/ViewListener.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/PlainTextIO.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/C4RControl.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/Map.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/constants/Sumo.java</file>
         </group>
     </open-files>
 </project-private>

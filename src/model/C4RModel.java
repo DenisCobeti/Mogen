@@ -10,7 +10,7 @@ import view.C4RView;
 
 /**
  *
- * @author Neblis
+ * @author Denis C
  */
 public class C4RModel {
     

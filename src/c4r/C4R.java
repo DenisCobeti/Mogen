@@ -10,7 +10,6 @@ import java.io.DataOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -25,7 +24,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import model.Config;
 import model.OSMApi;
 
 import org.w3c.dom.Document;
@@ -203,7 +201,12 @@ public class C4R {
 	public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
             
             OSMApi api = new OSMApi();
-            api.getMapAPI(0,0);
+            BufferedReader rd = null;
+            String linea;
+            rd = new BufferedReader(new InputStreamReader(api.getMap(0,0, 3.4,5.5),"UTF-8"));
+            while((linea = rd.readLine()) != null)
+                System.out.println(linea);
+            rd.close();
 	}
 	
 }

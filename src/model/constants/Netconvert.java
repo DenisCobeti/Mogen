@@ -6,8 +6,9 @@
 package model.constants;
 
 /**
- *
- * @author Neblis
+ * Enum that contains all the constants related to the Netconvert tool.
+ * This tool is used to convert an OSM Map to the format used by SUMO
+ * @author Denis C
  */
 public enum Netconvert {
     

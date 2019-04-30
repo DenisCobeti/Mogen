@@ -7,7 +7,7 @@ package model;
 
 /**
  *
- * @author Neblis
+ * @author Denis C
  */
 class PlainTextIO {
     

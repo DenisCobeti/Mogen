@@ -5,34 +5,37 @@
  */
 package model;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
 /**
- *
- * @author Neblis
+ * Class that obtains the Map XML in Open Street Maps
+ * @author Denis C
  */
-public class OSMApi {
+public class OSMApi implements MapAPI{
 
-   
+    public static String API2 = "http://overpass-api.de/api/map?bbox=";
+    public static String API = "https://lz4.overpass-api.de/api/map?bbox=2.0823,41.3454,2.222,41.4445";
     
     public OSMApi() {}
     
-    public void getMapAPI(double lat, double lon) throws ProtocolException, IOException, MalformedURLException{
-       
-        HttpURLConnection connection = creteConnection(Config.API);
+    
+    @Override
+    public InputStream getMap(double minLon, double minLat, double maxLat, double maxLon) 
+                throws ProtocolException, IOException, MalformedURLException{
+        
+        String petition = String.format( "%s%s,%s,%s,%s", API2, minLon, minLat, maxLat, maxLon );
+        System.out.println(petition);
+        HttpURLConnection connection = creteConnection(API);
         connection.setRequestMethod("GET");
-        BufferedReader rd = null;
-           String linea;
-        rd = new BufferedReader(new InputStreamReader(connection.getInputStream(),"UTF-8"));
-        while((linea = rd.readLine()) != null)
-        System.out.println(linea);
-        rd.close();
+        
+        
+        return connection.getInputStream();
         
     }
     

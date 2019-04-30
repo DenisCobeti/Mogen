@@ -7,10 +7,10 @@ package control;
 
 /**
  *
- * @author Neblis
+ * @author Denis C
  */
 public interface ViewListener {
-    public enum Event { SALIR}
+    public enum Event {SALIR}
     
     public void producedEvent(Event evento, Object obj);
 }

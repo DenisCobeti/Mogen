@@ -10,7 +10,7 @@ import view.C4RView;
 
 /**
  *
- * @author Neblis
+ * @author Denis C
  */
 public class C4RControl {
     private C4RModel model;
@@ -21,4 +21,5 @@ public class C4RControl {
         this.view = view;
     }
   
+    
 }

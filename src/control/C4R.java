@@ -10,12 +10,12 @@ import view.C4RView;
 
 /**
  *
- * @author Neblis
+ * @author Denis C
  */
 public class C4R implements ViewListener{
     
-    private C4RModel model;
     private C4RControl control;
+    private C4RModel model;
     private C4RView view;
    
     public C4R(String[] args) {
