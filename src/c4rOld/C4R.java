@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package c4r;
+package c4rOld;
 
+import control.GeoMap;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.FileReader;
@@ -24,6 +25,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import model.Config;
 import model.OSMApi;
 
 import org.w3c.dom.Document;
@@ -40,7 +42,7 @@ public class C4R {
 	private static final String OVERPASS_API = "http://www.overpass-api.de/api/interpreter";
 	private static final String OPENSTREETMAP_API_06 = "http://www.openstreetmap.org/api/0.6/";
 
-	public static c4r.OSMNode getNode(String nodeId) throws IOException, ParserConfigurationException, SAXException {
+	public static c4rOld.OSMNode getNode(String nodeId) throws IOException, ParserConfigurationException, SAXException {
 		String string = "http://www.openstreetmap.org/api/0.6/node/" + nodeId;
 		URL osm = new URL(string);
 		HttpURLConnection connection = (HttpURLConnection) osm.openConnection();
@@ -48,7 +50,7 @@ public class C4R {
 		DocumentBuilderFactory dbfac = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = dbfac.newDocumentBuilder();
 		Document document = docBuilder.parse(connection.getInputStream());
-		List<c4r.OSMNode> nodes = getNodes(document);
+		List<c4rOld.OSMNode> nodes = getNodes(document);
 		if (!nodes.isEmpty()) {
 			return nodes.iterator().next();
 		}
@@ -97,8 +99,8 @@ public class C4R {
 	 * @return a list of openseamap nodes extracted from xml
 	 */
 	@SuppressWarnings("nls")
-	public static List<c4r.OSMNode> getNodes(Document xmlDocument) {
-		List<c4r.OSMNode> osmNodes = new ArrayList<c4r.OSMNode>();
+	public static List<c4rOld.OSMNode> getNodes(Document xmlDocument) {
+		List<c4rOld.OSMNode> osmNodes = new ArrayList<c4rOld.OSMNode>();
 
 		// Document xml = getXML(8.32, 49.001);
 		Node osmRoot = xmlDocument.getFirstChild();
@@ -137,7 +139,7 @@ public class C4R {
 		return osmNodes;
 	}
 
-	public static List<c4r.OSMNode> getOSMNodesInVicinity(double lat, double lon, double vicinityRange) throws IOException,
+	public static List<c4rOld.OSMNode> getOSMNodesInVicinity(double lat, double lon, double vicinityRange) throws IOException,
 			SAXException, ParserConfigurationException {
 		return C4R.getNodes(getXML(lon, lat, vicinityRange));
 	}
@@ -200,13 +202,8 @@ public class C4R {
 	 */
 	public static void main(String[] args) throws IOException, SAXException, ParserConfigurationException {
             
-            OSMApi api = new OSMApi();
-            BufferedReader rd = null;
-            String linea;
-            rd = new BufferedReader(new InputStreamReader(api.getMap(0,0, 3.4,5.5),"UTF-8"));
-            while((linea = rd.readLine()) != null)
-                System.out.println(linea);
-            rd.close();
+            
+            
 	}
 	
 }

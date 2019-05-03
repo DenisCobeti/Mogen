@@ -17,7 +17,13 @@ public enum FilesExtension {
         this.extension = extension;
     }
 
-    public String getCommand() {
+    public String getExtension() {
         return extension;
     }
+
+    @Override
+    public String toString() {
+        return extension;
+    }
+    
 }

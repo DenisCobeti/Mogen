@@ -11,7 +11,6 @@ import java.net.ProtocolException;
  */
 public interface MapAPI {
     
-    public InputStream getMap(double minLon, double minLat, double maxLon, double maxLat) 
-            throws ProtocolException, IOException, MalformedURLException;
+    public InputStream getMap() throws IOException;
     
 }

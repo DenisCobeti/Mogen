@@ -14,23 +14,24 @@ import java.net.URL;
  */
 public class OSMApi implements MapAPI{
 
-    public static final String API2 = "http://overpass-api.de/api/map?bbox=";
+    public String API = "http://overpass-api.de/api/map?bbox=";
+    private HttpURLConnection connection;
     private static final String API_FORMAT = "%s%s,%s,%s,%s";
-    public static final String API = "https://lz4.overpass-api.de/api/map?bbox=2.0823,41.3454,2.222,41.4445";
+    public static final String API2 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
     
-    public OSMApi() {}
+    public OSMApi(double minLon, double minLat, double maxLat, double maxLon) 
+                    throws MalformedURLException, ProtocolException, IOException  {
+        this.API = Config.API;
+        //String petition = String.format(API_FORMAT, API2, minLon, minLat, maxLon, maxLat );
+        
+        URL url = new URL(API);
+        connection = (HttpURLConnection)url.openConnection();
+        connection.setRequestMethod("GET");
+    }
     
     
     @Override
-    public InputStream getMap(double minLon, double minLat, double maxLat, double maxLon) 
-                throws ProtocolException, IOException, MalformedURLException{
-        
-        String petition = String.format(API_FORMAT, API2, minLon, minLat, maxLat, maxLon );
-        
-        System.out.println(petition);
-        HttpURLConnection connection = creteConnection(API);
-        connection.setRequestMethod("GET");
-        
+    public InputStream getMap() throws IOException{
         
         return connection.getInputStream();
         
