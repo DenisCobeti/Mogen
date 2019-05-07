@@ -7,6 +7,7 @@ package view;
 
 import control.C4RControl;
 import control.ViewListener;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
@@ -22,7 +23,10 @@ public class C4RView extends JFrame implements ActionListener, Observer{
     private C4RModel model;
     private C4RControl control;
   
-    private  ViewListener listenerUI;
+    public final static Font FONT = 
+                    new Font("Century Gothic", Font.PLAIN, 14);
+    
+    private final ViewListener listenerUI;
 
     public C4RView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;

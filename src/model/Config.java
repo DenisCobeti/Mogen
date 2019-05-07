@@ -15,7 +15,9 @@ public class Config {
     public static  final String API = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
     
     public static String OSM_API = "http://overpass-api.de/api/map?bbox=";
-    public static final String OSM_MAP = "lastOSMMap";
+    
+    public static final String OSM_MAP = "./maps/OSMap";
+    public static final String SUMO_MAP = "./maps/SUMOMap";
     
     private static final String DEFAULT_OSM_MAP = "./maps/OSMap";
     private static final String DEFAULT_SUMO_MAP = "./maps/SUMOMap";

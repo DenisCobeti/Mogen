@@ -3,14 +3,14 @@ package model.constants;
 /**
  * Enum that contains all the constants related to the Netconvert tool.
  * The options that have a default boolean, are writen with the oposite one.
- * This tool is used to convert an OSM Map to the format used by SUMO
+ * This tool is used to convert an OSM Map to the format used by SUMO.
  * @author Denis C
  */
 public enum Netconvert {
     
     PROGRAM ("netconvert"), //name of the conversion programm
     
-    OSM_MAP ("--osm"), //OSM map to convert
+    OSM_MAP ("--osm "), //OSM map to convert
     OUTPUT ("-o "), //File to output
     
     REMOVE_GEOMETRY ("--geometry.remove"), //Simplyfies the irrelevant geometry

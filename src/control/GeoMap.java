@@ -4,15 +4,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 import model.Config;
 import model.MapAPI;
 import model.constants.Errors;
 import model.constants.FilesExtension;
+import model.constants.Netconvert;
 
 /**
  * Map once already converted using netconvert
@@ -28,15 +24,20 @@ public class GeoMap {
 
     public GeoMap(MapAPI api) throws IOException {
         
-        
         File file = new File(Config.OSM_MAP + FilesExtension.OSM);
-        ProcessBuilder netconvert = new ProcessBuilder();
         InputStream in = api.getMap();
+        ProcessBuilder netconvert = new ProcessBuilder(api.netconvertCommand());
+       
+        copyInputStreamToFile(in, file);
         
-        copyInputStreamToFile(in,  file);
-   
+        try{
+            netconvert.start();
+        }catch(IOException e){
+            C4R.handleError(e, Errors.NETCONVERT_CMD);
+        }
     }
     
+    //esto esta copiado, habra que cambiarlo
     private static void copyInputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
 

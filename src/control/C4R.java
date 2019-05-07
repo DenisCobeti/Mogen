@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import model.C4RModel;
 import model.Config;
 import model.MapAPI;
-import model.OSMApi;
+import model.OsmAPI;
 import model.constants.Errors;
 import view.C4RView;
 
@@ -27,23 +27,7 @@ public class C4R implements ViewListener{
     public C4R(String[] args) {
         view = new C4RView(this);
         model = new C4RModel(control, view);
-        control = new C4RControl(model, view);
-        
-        MapAPI api = null;
-        
-        try{
-            api = new OSMApi(0, 0, 0, 0);
-        }catch(ProtocolException | MalformedURLException ex){
-            handleError(ex, Errors.OSM_DOWNLOAD);
-            
-        } catch (IOException ex) {
-            handleError(ex, Errors.FILE_WRITE);
-        }finally{
-            try{ GeoMap map = new GeoMap(api);
-            } catch (IOException ex) {
-                handleError(ex, Errors.FILE_WRITE);
-            }
-        }
+        control = new C4RControl(model, view);    
     }
 
     @Override
@@ -59,7 +43,7 @@ public class C4R implements ViewListener{
         System.exit(0);
     }
     
-    private void handleError(Exception e, Errors error){
+    public static void handleError(Exception e, Errors error){
         switch(error){
             case OSM_DOWNLOAD:
                 //logger.log(Level.SEVERE, error.toString(), e);

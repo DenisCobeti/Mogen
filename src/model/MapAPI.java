@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.util.List;
+import model.constants.Netconvert;
 
 /**
  *
@@ -11,6 +13,8 @@ import java.net.ProtocolException;
  */
 public interface MapAPI {
     
-    public InputStream getMap() throws IOException;
+    public InputStream getMap() throws MalformedURLException, ProtocolException, IOException;
     
+    public List<String> netconvertCommand(List<Netconvert> options);
+    public List<String> netconvertCommand();
 }
