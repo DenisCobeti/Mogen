@@ -1,8 +1,13 @@
 package model;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import model.constants.Netconvert;
 
@@ -13,20 +18,32 @@ import model.constants.Netconvert;
  */
 public class Config {
     public static  final String API = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
-    
+    private static final String CONFIG_FILE = "config.properties";
     public static String OSM_API = "http://overpass-api.de/api/map?bbox=";
+    private static Properties properties;
     
-    public static final String OSM_MAP = "./maps/OSMap";
-    public static final String SUMO_MAP = "./maps/SUMOMap";
+    public static String osmMap = "osmMapFile";
+    public static String sumoMap = "netconvertMapFile";
     
-    private static final String DEFAULT_OSM_MAP = "./maps/OSMap";
-    private static final String DEFAULT_SUMO_MAP = "./maps/SUMOMap";
+    public static final String OSM_MAP_DEFAULT = "./maps/OSMap";
+    public static final String SUMO_MAP_DEFFAULT = "./maps/SUMOMap";
     
-    public static List<String> netconvertOptions = new LinkedList<>(
-                    Arrays.asList(Netconvert.PROGRAM.getCommand(),
-                        Netconvert.OUTPUT.getCommand() + Config.OSM_MAP,
-                        Netconvert.REMOVE_GEOMETRY.getCommand(),
-                        Netconvert.GUESS_ROUNDABOUTS.getCommand())
-    );
-    
+    public static void load()  {
+        properties = new Properties();
+        
+        try {
+            FileInputStream in = new FileInputStream(CONFIG_FILE);
+            properties.load(in);
+            
+            osmMap = (String)properties.get(osmMap);
+            sumoMap = (String)properties.get(sumoMap);
+            
+        }catch (IOException ex) {
+        //If the config file isnt found, it uses the default values
+            osmMap = OSM_MAP_DEFAULT;
+            sumoMap = SUMO_MAP_DEFFAULT;
+        }
+    }
+        
+    private Config() {}
 }

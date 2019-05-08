@@ -8,7 +8,6 @@ import model.Config;
 import model.MapAPI;
 import model.constants.Errors;
 import model.constants.FilesExtension;
-import model.constants.Netconvert;
 
 /**
  * Map once already converted using netconvert
@@ -20,18 +19,21 @@ public class GeoMap {
     
     private static  String convertString;
     private MapAPI api;
-    
 
     public GeoMap(MapAPI api) throws IOException {
         
-        File file = new File(Config.OSM_MAP + FilesExtension.OSM);
-        InputStream in = api.getMap();
-        ProcessBuilder netconvert = new ProcessBuilder(api.netconvertCommand());
-       
-        copyInputStreamToFile(in, file);
-        
+        //InputStream in = api.getMap();
+        File osmFile = new File(Config.osmMap + FilesExtension.OSM);
+        File netconvertFile = new File(Config.sumoMap + FilesExtension.NETCONVERT);
+        ProcessBuilder netconvert = new ProcessBuilder(api.netconvertCommand
+               (osmFile.getCanonicalPath(), netconvertFile.getCanonicalPath()));
+        //copyInputStreamToFile(in, osmFile);
+        netconvertFile.createNewFile();
         try{
+            
             netconvert.start();
+            System.out.println(api.netconvertCommand
+               (osmFile.getCanonicalPath(), netconvertFile.getCanonicalPath()));
         }catch(IOException e){
             C4R.handleError(e, Errors.NETCONVERT_CMD);
         }
@@ -40,7 +42,8 @@ public class GeoMap {
     //esto esta copiado, habra que cambiarlo
     private static void copyInputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
-
+        file.createNewFile();
+        
         try (FileOutputStream outputStream = new FileOutputStream(file)) {
 
             int read;

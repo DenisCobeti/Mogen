@@ -7,6 +7,7 @@ import model.constants.Errors;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import model.C4RModel;
+import model.Config;
 import model.MapAPI;
 import view.C4RView;
 
@@ -22,7 +23,9 @@ public class C4RControl {
         this.model = model;
         this.view = view;
         
-        
+        //obtainMap(0,0,0,0);
+        Config.load();
+        System.out.println(Config.osmMap +" " +Config.sumoMap);
     }
     
     private void obtainMap(double minLon, double minLat, double maxLat, double maxLon){
@@ -43,8 +46,6 @@ public class C4RControl {
             
             } catch (IOException ex) {
                 C4R.handleError(ex, Errors.FILE_WRITE);
-            }finally{
-                convertMap();
             }
         }
     }

@@ -1,14 +1,6 @@
 package control;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.C4RModel;
-import model.Config;
-import model.MapAPI;
-import model.OsmAPI;
 import model.constants.Errors;
 import view.C4RView;
 
@@ -47,6 +39,8 @@ public class C4R implements ViewListener{
         switch(error){
             case OSM_DOWNLOAD:
                 //logger.log(Level.SEVERE, error.toString(), e);
+            case NETCONVERT_CMD:
+                System.out.println(e.toString());
         }
     }
     public static void main(String[] args) {

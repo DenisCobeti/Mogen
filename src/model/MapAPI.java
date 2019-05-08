@@ -15,6 +15,7 @@ public interface MapAPI {
     
     public InputStream getMap() throws MalformedURLException, ProtocolException, IOException;
     
-    public List<String> netconvertCommand(List<Netconvert> options);
-    public List<String> netconvertCommand();
+    public List<String> netconvertCommand(List<Netconvert> options, 
+                                        String osmFile, String netconvertFile );
+    public List<String> netconvertCommand(String osmFile, String netconvertFile);
 }
