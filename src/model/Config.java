@@ -2,14 +2,7 @@ package model;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import model.constants.Netconvert;
 
 /**
  * Class that will read the config.ini file for values. If these variables 

@@ -40,7 +40,7 @@ public class C4R implements ViewListener{
             case OSM_DOWNLOAD:
                 //logger.log(Level.SEVERE, error.toString(), e);
             case NETCONVERT_CMD:
-                System.out.println(e.toString());
+                e.printStackTrace();
         }
     }
     public static void main(String[] args) {

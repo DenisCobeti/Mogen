@@ -30,8 +30,16 @@ public class C4RView extends JFrame implements ActionListener, Observer{
 
     public C4RView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;
+        initUI();
     }
     
+    private void initUI(){
+        this.setVisible(true);
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        this.setJMenuBar(new MenuBar());
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         switch(e.getActionCommand()){
