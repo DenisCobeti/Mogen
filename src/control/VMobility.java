@@ -2,6 +2,7 @@ package control;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import model.routes.Flow;
 import model.routes.Route;
 import model.routes.VType;
@@ -12,7 +13,7 @@ import model.routes.Vehicle;
  * @author Neblis
  */
 public class VMobility {
-    public enum Types {FLOW, VEHICLE, ROUTE, VTYPE};
+    public static enum Types {FLOW, VEHICLE, ROUTE, VTYPE};
     
     private List<VType> vTypes;
     private List<Vehicle> vehicles;

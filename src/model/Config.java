@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Toolkit;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -20,6 +21,11 @@ public class Config {
     
     public static final String OSM_MAP_DEFAULT = "./maps/OSMap";
     public static final String SUMO_MAP_DEFFAULT = "./maps/SUMOMap";
+    
+    public static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit()
+                                                     .getScreenSize().width;
+    public static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit()
+                                                     .getScreenSize().height;
     
     public static void load()  {
         properties = new Properties();

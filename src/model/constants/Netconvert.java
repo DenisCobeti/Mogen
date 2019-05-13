@@ -11,7 +11,7 @@ public enum Netconvert {
     PROGRAM ("netconvert"), //name of the conversion programm
     
     OSM_MAP ("--osm"), //OSM map to convert
-    OUTPUT ("---o"), //File to output
+    OUTPUT ("-o"), //File to output
     
     REMOVE_GEOMETRY ("--geometry.remove"), //Simplyfies the irrelevant geometry
     GUESS_ROUNDABOUTS("--roundabouts.guess"), //Decides direction of roundabouts
