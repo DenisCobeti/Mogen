@@ -4,6 +4,7 @@ import java.awt.Toolkit;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
+import org.jxmapviewer.viewer.GeoPosition;
 
 /**
  * Class that will read the config.ini file for values. If these variables 
@@ -26,6 +27,7 @@ public class Config {
                                                      .getScreenSize().width;
     public static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit()
                                                      .getScreenSize().height;
+    public static final GeoPosition DEFAULT_POSITION = new GeoPosition(50.11, 8.68);
     
     public static void load()  {
         properties = new Properties();
