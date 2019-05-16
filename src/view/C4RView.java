@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
 import model.C4RModel;
+import view.jxmapviewer2.MapViewer;
 
 /**
  *
@@ -16,6 +17,8 @@ import model.C4RModel;
 public class C4RView extends javax.swing.JFrame  implements ActionListener, Observer{
     private C4RModel model;
     private C4RControl control;
+    
+    private static MapViewer map;
     
     private static final String MENU_ITEM_EXIT = "Exit programm";
     
@@ -30,6 +33,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         this.listenerUI = listenerUI;
         initComponents();
         //menuFileExit.addActionListener(this);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
 
@@ -43,8 +47,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jMenuBar1 = new javax.swing.JMenuBar();
+        menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
+        menuFileNew = new javax.swing.JMenuItem();
         menuFileExit = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
 
@@ -63,23 +68,31 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
         menuFile.setText("File");
 
+        menuFileNew.setText("New simulation");
+        menuFileNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuFileNewActionPerformed(evt);
+            }
+        });
+        menuFile.add(menuFileNew);
+
         menuFileExit.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
         menuFileExit.setText("Exit");
         menuFileExit.setToolTipText("");
         menuFileExit.setActionCommand(MENU_ITEM_EXIT);
-        menuFileExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                menuFileExitActionPerformed(evt);
+        menuFileExit.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                menuFileExitMousePressed(evt);
             }
         });
         menuFile.add(menuFileExit);
 
-        jMenuBar1.add(menuFile);
+        menuBar.add(menuFile);
 
         menuEdit.setText("Edit");
-        jMenuBar1.add(menuEdit);
+        menuBar.add(menuEdit);
 
-        setJMenuBar(jMenuBar1);
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -97,39 +110,17 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void menuFileExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileExitActionPerformed
+    private void menuFileExitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFileExitMousePressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_menuFileExitActionPerformed
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(C4RView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(C4RView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(C4RView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(C4RView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
+        listenerUI.producedEvent(ViewListener.Event.SALIR, null);
+    }//GEN-LAST:event_menuFileExitMousePressed
 
-    }
+    private void menuFileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileNewActionPerformed
+        // TODO add your handling code here:
+        NewProject selection = new NewProject(this);
+        selection.setVisible(true);
+    }//GEN-LAST:event_menuFileNewActionPerformed
+    
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -144,10 +135,19 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem menuFileExit;
+    private javax.swing.JMenuItem menuFileNew;
     // End of variables declaration//GEN-END:variables
+
+    void openOsmMap(NewProject selection) {
+        selection.dispose();
+    }
+    void selectMapArea(NewProject selection) {
+        selection.dispose();
+        map = new MapViewer(this);
+    }
 }

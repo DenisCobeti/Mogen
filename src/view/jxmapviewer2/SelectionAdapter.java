@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import model.MapSelection;
 
 import org.jxmapviewer.JXMapViewer;
 import org.jxmapviewer.viewer.GeoPosition;
@@ -83,12 +84,14 @@ public class SelectionAdapter extends MouseAdapter {
 
         return null;
     }
-    public GeoPosition[] getGeoCoordinates(JXMapViewer map){
-        
+    public MapSelection getGeoCoordinates(JXMapViewer map){
+        /*
         return new GeoPosition[]{
                     map.convertPointToGeoPosition(startPos),
                     map.convertPointToGeoPosition(endPos)
-        };
+        };*/
+        return new MapSelection(map.convertPointToGeoPosition(startPos),
+                                map.convertPointToGeoPosition(endPos));
     }
 
 }
