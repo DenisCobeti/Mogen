@@ -10,6 +10,7 @@ import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.SwingConstants;
 import javax.swing.event.MouseInputListener;
 import model.Config;
 
@@ -39,7 +40,7 @@ public class MapViewer extends JFrame{
     public MapViewer(C4RView view) {
         // Create a TileFactoryInfo for OpenStreetMap
         TileFactoryInfo info = new OSMTileFactoryInfo();
-        JLabel label = new JLabel(EXPORT_TEXT);
+        JLabel label = initMenuButton(EXPORT_TEXT, new Dimension(100, 30));
         File cacheDir = new File(CACHE_FILE);
         JXMapViewer mapViewer = new JXMapViewer();
         this.view = view;
@@ -87,7 +88,7 @@ public class MapViewer extends JFrame{
             updateWindowTitle(this, mapViewer);
         });
         mapViewer.getCenterPosition();
-        label.setMinimumSize(new Dimension(400, 400));
+        label.setMinimumSize(new Dimension(500, 500));
         label.setVisible(true);
         label.addMouseListener(new MouseAdapter() {
             @Override
@@ -102,7 +103,7 @@ public class MapViewer extends JFrame{
             }
             @Override
             public void mouseClicked(MouseEvent evt){
-                System.out.println(sa.getGeoCoordinates(mapViewer).toString());
+                exportSelection(sa, mapViewer);
             }
         });
         label.addMouseListener(sa);
@@ -112,7 +113,31 @@ public class MapViewer extends JFrame{
         updateWindowTitle(this, mapViewer);
     }
     
-
+    private JLabel initMenuButton(String text, Dimension size){
+        
+        JLabel label = new JLabel(text);
+        //Dimension dimension = new Dimension(SCREEN_WIDTH/5, SCREEN_HEIGHT/20);
+        //Color labelBackground = new Color(0, 0, 0, 220);
+        
+        label.setPreferredSize(size);
+        label.setMaximumSize(size);
+        label.setMinimumSize(size);
+        
+        label.setForeground(Color.WHITE);
+        label.setOpaque(true);
+        label.setBackground(Color.BLACK);
+        
+        
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setVerticalAlignment(SwingConstants.CENTER);
+        
+        return label;
+    }
+    
+    private void exportSelection(SelectionAdapter sa, JXMapViewer mapViewer){
+        System.out.println(sa.getGeoCoordinates(mapViewer).toString());
+        view.importMap(this, sa.getGeoCoordinates(mapViewer));
+    }
     private static void updateWindowTitle(JFrame frame, JXMapViewer mapViewer){
         
         double lat = mapViewer.getCenterPosition().getLatitude();

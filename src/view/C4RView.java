@@ -7,7 +7,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.JFrame;
 import model.C4RModel;
+import model.MapSelection;
+import org.jxmapviewer.JXMapViewer;
 import view.jxmapviewer2.MapViewer;
 
 /**
@@ -18,12 +21,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private C4RModel model;
     private C4RControl control;
     
+    private final static Font FONT = new java.awt.Font("Century Gothic", Font.PLAIN, 14);
     private static MapViewer map;
     
     private static final String MENU_ITEM_EXIT = "Exit programm";
     
-    public final static Font FONT = 
-                    new Font("Century Gothic", Font.PLAIN, 14);
     
     private final ViewListener listenerUI;
     /**
@@ -67,8 +69,10 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         );
 
         menuFile.setText("File");
+        menuFile.setFont(FONT);
 
         menuFileNew.setText("New simulation");
+        menuFileNew.setFont(FONT);
         menuFileNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuFileNewActionPerformed(evt);
@@ -76,7 +80,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         });
         menuFile.add(menuFileNew);
 
-        menuFileExit.setFont(new java.awt.Font("Century Gothic", 0, 13)); // NOI18N
+        menuFileExit.setFont(FONT);
         menuFileExit.setText("Exit");
         menuFileExit.setToolTipText("");
         menuFileExit.setActionCommand(MENU_ITEM_EXIT);
@@ -90,6 +94,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         menuBar.add(menuFile);
 
         menuEdit.setText("Edit");
+        menuEdit.setFont(FONT);
         menuBar.add(menuEdit);
 
         setJMenuBar(menuBar);
@@ -143,8 +148,12 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JMenuItem menuFileNew;
     // End of variables declaration//GEN-END:variables
 
-    void openOsmMap(NewProject selection) {
+    public void openOsmMap(NewProject selection) {
         selection.dispose();
+    }
+    public void importMap(JFrame map, MapSelection selection) {
+        map.dispose();
+        listenerUI.producedEvent(ViewListener.Event.NUEVO_MAPA, selection);
     }
     void selectMapArea(NewProject selection) {
         selection.dispose();

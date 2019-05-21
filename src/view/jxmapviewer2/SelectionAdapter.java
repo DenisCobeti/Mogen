@@ -7,7 +7,6 @@ import java.awt.geom.Point2D;
 import model.MapSelection;
 
 import org.jxmapviewer.JXMapViewer;
-import org.jxmapviewer.viewer.GeoPosition;
 
 /**
  * Creates a selection rectangle based on mouse input
@@ -32,11 +31,14 @@ public class SelectionAdapter extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e){
         
-        if (e.getButton() != MouseEvent.BUTTON3){
+        
+        
+        if (e.getButton() == MouseEvent.BUTTON1){
             dragging = false;
             viewer.repaint();
             return;
         }
+        if (e.getButton() != MouseEvent.BUTTON3) return;
         startPos.setLocation(e.getX(), e.getY());
         endPos.setLocation(e.getX(), e.getY());
 
