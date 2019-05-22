@@ -33,6 +33,7 @@ public class OsmAPI implements MapAPI{
         System.out.println(petition);
         
         URL url = new URL(API2);
+        
         connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod("GET");
     }
