@@ -13,6 +13,11 @@ public enum Sumo {
     private Sumo(String opcion) {
         this.opcion = opcion;
     }
+
+    @Override
+    public String toString() {
+        return opcion;
+    }
     
     
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <osm version="0.6" generator="Overpass API 0.7.55.7 8b86ff77">
 <note>The data included in this document is from www.openstreetmap.org. The data is made available under ODbL.</note>
-<meta osm_base="2019-05-08T06:24:02Z"/>
+<meta osm_base="2019-05-22T07:42:03Z"/>
 
   <bounds minlat="40.3381000" minlon="-1.1055700" maxlat="40.3418300" maxlon="-1.1001300"/>
 
@@ -1454,6 +1454,13 @@
     <tag k="service:print" v="yes"/>
     <tag k="shop" v="kiosk"/>
     <tag k="wheelchair" v="yes"/>
+  </node>
+  <node id="6467169986" lat="40.3415318" lon="-1.1053196" version="1" timestamp="2019-05-11T23:57:01Z" changeset="70149531" uid="4501118" user="Parabonaut">
+    <tag k="addr:housenumber" v="2"/>
+    <tag k="addr:postcode" v="44001"/>
+    <tag k="addr:street" v="Calle San Esteban"/>
+    <tag k="amenity" v="restaurant"/>
+    <tag k="name" v="La Bella Neda Asador de Lena"/>
   </node>
   <way id="23070232" version="3" timestamp="2013-07-26T16:05:02Z" changeset="17103685" uid="718437" user="carlosz22">
     <nd ref="248492861"/>

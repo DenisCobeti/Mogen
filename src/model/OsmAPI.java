@@ -16,8 +16,10 @@ import model.constants.Netconvert;
  */
 public class OsmAPI implements MapAPI{
 
+    // minLon, minLat, maxLon, maxLat
     public static final String API2 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
-    public String API = "http://overpass-api.de/api/map?bbox=";
+    public static final String API3 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
+    public String API = "https://lz4.overpass-api.de/api/map?bbox=";
     private static final String API_FORMAT = "%s%s,%s,%s,%s";
     private final HttpURLConnection connection;
     
@@ -26,10 +28,11 @@ public class OsmAPI implements MapAPI{
     public OsmAPI(double minLon, double minLat, double maxLat, double maxLon) 
                   throws MalformedURLException, ProtocolException, IOException{
         
-        this.API = Config.API;
-        //String petition = String.format(API_FORMAT, API2, minLon, minLat, maxLon, maxLat );
+        //this.API = Config.API;
+        String petition = String.format(API_FORMAT, API, minLon, minLat, maxLon, maxLat );
+        System.out.println(petition);
         
-        URL url = new URL(API);
+        URL url = new URL(API2);
         connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod("GET");
     }

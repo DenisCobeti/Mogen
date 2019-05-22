@@ -9,6 +9,7 @@ import java.net.ProtocolException;
 import model.C4RModel;
 import model.Config;
 import model.MapAPI;
+import model.MapSelection;
 import view.C4RView;
 
 /**
@@ -28,12 +29,13 @@ public class C4RControl {
         System.out.println(Config.osmMap +" " +Config.sumoMap);
     }
     
-    private void obtainMap(double minLon, double minLat, double maxLat, double maxLon){
+    public void obtainMap(MapSelection selection){
         
         MapAPI api = null;
         
         try{
-            api = new OsmAPI(minLon, minLat, maxLat, maxLon);
+            api = new OsmAPI(selection.minLon, selection.minLat, 
+                                selection.maxLat, selection.maxLon);
         }catch(ProtocolException | MalformedURLException ex){
             C4R.handleError(ex, Errors.OSM_DOWNLOAD);
             
@@ -43,7 +45,7 @@ public class C4RControl {
         }finally{
             try{ 
                 GeoMap map = new GeoMap(api);
-            
+                
             } catch (IOException ex) {
                 C4R.handleError(ex, Errors.FILE_WRITE);
             }

@@ -1,6 +1,7 @@
 package control;
 
 import model.C4RModel;
+import model.MapSelection;
 import model.constants.Errors;
 import view.C4RView;
 
@@ -28,6 +29,9 @@ public class C4R implements ViewListener{
             case SALIR:
                 salir();
                 break;
+            case NEW_MAP:
+                control.obtainMap((MapSelection)obj);
+                break;
         } 
     }
 
@@ -39,6 +43,7 @@ public class C4R implements ViewListener{
         switch(error){
             case OSM_DOWNLOAD:
                 //logger.log(Level.SEVERE, error.toString(), e);
+                e.printStackTrace();
             case NETCONVERT_CMD:
                 e.printStackTrace();
         }

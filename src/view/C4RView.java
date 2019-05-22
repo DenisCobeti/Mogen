@@ -148,12 +148,12 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JMenuItem menuFileNew;
     // End of variables declaration//GEN-END:variables
 
-    public void openOsmMap(NewProject selection) {
+    public void newProject(NewProject selection) {
         selection.dispose();
     }
     public void importMap(JFrame map, MapSelection selection) {
         map.dispose();
-        listenerUI.producedEvent(ViewListener.Event.NUEVO_MAPA, selection);
+        listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
     }
     void selectMapArea(NewProject selection) {
         selection.dispose();

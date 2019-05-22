@@ -22,12 +22,13 @@ public class GeoMap {
 
     public GeoMap(MapAPI api) throws IOException {
         
-        //InputStream in = api.getMap();
+        InputStream in = api.getMap();
         File osmFile = new File(Config.osmMap + FilesExtension.OSM);
+        osmFile.createNewFile();
         File netconvertFile = new File(Config.sumoMap + FilesExtension.NETCONVERT);
         ProcessBuilder netconvert = new ProcessBuilder(api.netconvertCommand
                (osmFile.getCanonicalPath(), netconvertFile.getCanonicalPath()));
-        //copyInputStreamToFile(in, osmFile);
+        copyInputStreamToFile(in, osmFile);
         netconvertFile.createNewFile();
         try{
             

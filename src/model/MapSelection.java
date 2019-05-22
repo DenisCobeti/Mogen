@@ -9,7 +9,7 @@ import org.jxmapviewer.viewer.GeoPosition;
  */
 public class MapSelection {
     
-    private double minLat, maxLat, minLon, maxLon ;
+    public double minLat, maxLat, minLon, maxLon ;
 
     public MapSelection(double minLon, double maxLon, double minLat, double maxLat) {
         this.minLon = minLon;
@@ -18,7 +18,7 @@ public class MapSelection {
         this.maxLat = maxLat;
     }
 
-    //latitud es el primero, ok?
+    //latitud es el primero
     public MapSelection(Point2D point1, Point2D point2) {
         
         orderPoints (point1.getX(), point2.getX(), 
