@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import model.C4RModel;
 import model.MapSelection;
 import view.jxmapviewer2.MapViewer;
+import view.wizard.Wizard;
 
 /**
  *
@@ -49,24 +50,47 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
+        mapPanel = new javax.swing.JPanel();
+        optionsPanel = new Wizard(this);
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuFileNew = new javax.swing.JMenuItem();
         menuFileExit = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
 
+        jMenu1.setText("File");
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText("Edit");
+        jMenuBar1.add(jMenu2);
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 973, Short.MAX_VALUE)
+        javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
+        mapPanel.setLayout(mapPanelLayout);
+        mapPanelLayout.setHorizontalGroup(
+            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 708, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 57, Short.MAX_VALUE)
+        mapPanelLayout.setVerticalGroup(
+            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 599, Short.MAX_VALUE)
+        );
+
+        optionsPanel.setBackground(new java.awt.Color(0, 204, 204));
+
+        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
+        optionsPanel.setLayout(optionsPanelLayout);
+        optionsPanelLayout.setHorizontalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 235, Short.MAX_VALUE)
+        );
+        optionsPanelLayout.setVerticalGroup(
+            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         menuFile.setText("File");
@@ -104,13 +128,21 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 564, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -143,12 +175,16 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel mapPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem menuFileExit;
     private javax.swing.JMenuItem menuFileNew;
+    private javax.swing.JPanel optionsPanel;
     // End of variables declaration//GEN-END:variables
 
     public void newProject(NewProject selection) {

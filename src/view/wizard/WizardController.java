@@ -11,7 +11,6 @@ public class WizardController implements ActionListener{
     private final Wizard wizard;
 
     public WizardController(Wizard wizard) {
-        
         this.wizard = wizard;
     }
 
