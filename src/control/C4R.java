@@ -31,6 +31,7 @@ public class C4R implements ViewListener{
                 break;
             case NEW_MAP:
                 control.obtainMap((MapSelection)obj);
+                view.update(model, null);
                 break;
         } 
     }

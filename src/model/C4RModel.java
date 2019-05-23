@@ -1,13 +1,14 @@
 package model;
 
 import control.C4RControl;
+import java.util.Observable;
 import view.C4RView;
 
 /**
  *
  * @author Denis C
  */
-public class C4RModel {
+public class C4RModel extends Observable{
     
     private C4RControl control;
     private C4RView view;

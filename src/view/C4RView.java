@@ -10,7 +10,6 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import model.C4RModel;
 import model.MapSelection;
-import org.jxmapviewer.JXMapViewer;
 import view.jxmapviewer2.MapViewer;
 
 /**
@@ -20,6 +19,8 @@ import view.jxmapviewer2.MapViewer;
 public class C4RView extends javax.swing.JFrame  implements ActionListener, Observer{
     private C4RModel model;
     private C4RControl control;
+    
+    private LoadingMap loading;
     
     private final static Font FONT = new java.awt.Font("Century Gothic", Font.PLAIN, 14);
     private static MapViewer map;
@@ -137,7 +138,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
     @Override
     public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (arg == null){
+            doneLoading();
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -153,10 +156,19 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     }
     public void importMap(JFrame map, MapSelection selection) {
         map.dispose();
+        loading = new LoadingMap();
+        this.add(loading);
+        loading.setEnabled(true);
+        loading.show(this, 100, 100);
+        loading.setVisible(true);
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
     }
     void selectMapArea(NewProject selection) {
         selection.dispose();
         map = new MapViewer(this);
+    }
+    public void doneLoading(){
+        loading.setVisible(false);
+        loading = null;
     }
 }
