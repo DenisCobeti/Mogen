@@ -63,7 +63,6 @@ public class OsmAPI implements MapAPI{
        
         return convertCommand;
     }
-    
     @Override
     public List<String> netconvertCommand(List<Netconvert> options, 
                                         String osmFile, String netconvertFile){
