@@ -27,7 +27,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private static MapViewer map;
     
     private static final String MENU_ITEM_EXIT = "Exit programm";
-    
+    private static final String VEHICLE_TYPES = "vehicle types";
     
     private final ViewListener listenerUI;
     /**
@@ -53,8 +53,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-        mapPanel = new javax.swing.JPanel();
-        optionsPanel = new Wizard(this);
+        panelFile = new javax.swing.JPanel();
+        panelOptions = new javax.swing.JTabbedPane();
+        VTypesTab = new javax.swing.JPanel();
+        panelMaps = new javax.swing.JTabbedPane();
+        mapTab1 = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuFileNew = new javax.swing.JMenuItem();
@@ -69,29 +72,42 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
-        mapPanel.setLayout(mapPanelLayout);
-        mapPanelLayout.setHorizontalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 708, Short.MAX_VALUE)
+        javax.swing.GroupLayout panelFileLayout = new javax.swing.GroupLayout(panelFile);
+        panelFile.setLayout(panelFileLayout);
+        panelFileLayout.setHorizontalGroup(
+            panelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 470, Short.MAX_VALUE)
         );
-        mapPanelLayout.setVerticalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 599, Short.MAX_VALUE)
-        );
-
-        optionsPanel.setBackground(new java.awt.Color(0, 204, 204));
-
-        javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
-        optionsPanel.setLayout(optionsPanelLayout);
-        optionsPanelLayout.setHorizontalGroup(
-            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 235, Short.MAX_VALUE)
-        );
-        optionsPanelLayout.setVerticalGroup(
-            optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        panelFileLayout.setVerticalGroup(
+            panelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        javax.swing.GroupLayout VTypesTabLayout = new javax.swing.GroupLayout(VTypesTab);
+        VTypesTab.setLayout(VTypesTabLayout);
+        VTypesTabLayout.setHorizontalGroup(
+            VTypesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 468, Short.MAX_VALUE)
+        );
+        VTypesTabLayout.setVerticalGroup(
+            VTypesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 215, Short.MAX_VALUE)
+        );
+
+        panelOptions.addTab(null, VTypesTab);
+
+        javax.swing.GroupLayout mapTab1Layout = new javax.swing.GroupLayout(mapTab1);
+        mapTab1.setLayout(mapTab1Layout);
+        mapTab1Layout.setHorizontalGroup(
+            mapTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 948, Short.MAX_VALUE)
+        );
+        mapTab1Layout.setVerticalGroup(
+            mapTab1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 322, Short.MAX_VALUE)
+        );
+
+        panelMaps.addTab("tab1", mapTab1);
 
         menuFile.setText("File");
         menuFile.setFont(FONT);
@@ -130,18 +146,23 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(optionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelMaps)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(panelFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(panelOptions)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(panelOptions)
+                    .addComponent(panelFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelMaps)
                 .addContainerGap())
         );
 
@@ -175,16 +196,19 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel VTypesTab;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JPanel mapPanel;
+    private javax.swing.JPanel mapTab1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem menuFileExit;
     private javax.swing.JMenuItem menuFileNew;
-    private javax.swing.JPanel optionsPanel;
+    private javax.swing.JPanel panelFile;
+    private javax.swing.JTabbedPane panelMaps;
+    private javax.swing.JTabbedPane panelOptions;
     // End of variables declaration//GEN-END:variables
 
     public void newProject(NewProject selection) {

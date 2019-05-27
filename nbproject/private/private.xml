@@ -3,10 +3,23 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/sumo/Downtown.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/constants/Netconvert.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/C4R.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/sumo/Connection.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/MapAPI.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/view/NewJFrame.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/view/wizard/WizardController.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/sumo/Edge.java</file>
             <file>file:/C:/Users/Neblis/Desktop/C4R/src/view/C4RView.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/C4RControl.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/MapConverter.java</file>
             <file>file:/C:/Users/Neblis/Desktop/C4R/src/view/wizard/Wizard.java</file>
             <file>file:/C:/Users/Neblis/Desktop/C4R/src/view/wizard/WizardDowntowns.java</file>
-            <file>file:/C:/Users/Neblis/Desktop/C4R/src/view/wizard/WizardController.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/Position.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/sumo/SumoNetwork.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/model/OsmAPI.java</file>
+            <file>file:/C:/Users/Neblis/Desktop/C4R/src/control/sumo/RoadType.java</file>
         </group>
     </open-files>
 </project-private>

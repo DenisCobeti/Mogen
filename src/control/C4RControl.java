@@ -2,6 +2,7 @@ package control;
 
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import model.OsmAPI;
@@ -55,7 +56,7 @@ public class C4RControl {
                 File osmFile = new File(map);
                 
                 osmFile.createNewFile();
-                MapConverter.copyInputStreamToFile(in, osmFile);
+                copyInputStreamToFile(in, osmFile);
                 // Modify second parameter to change the imported map type
                 converter = new MapConverter(map, APIS.OSM);
                 
@@ -68,6 +69,22 @@ public class C4RControl {
     private void convertMap(){
         
     }
-  
+    
+    //esto esta copiado, habra que cambiarlo
+    public static void copyInputStreamToFile(InputStream inputStream, File file) 
+		throws IOException {
+        file.createNewFile();
+        
+        try (FileOutputStream outputStream = new FileOutputStream(file)) {
+
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+        }
+
+    }
     
 }

@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import model.Config;
 import model.MapAPI;
@@ -60,31 +62,32 @@ public class MapConverter {
     }
     
     public MapConverter(String map, APIS api) throws IOException {
-        convertCommand = java.util.Arrays.asList(
-                                Netconvert.PROGRAM.toString(), 
-                                Netconvert.OSM_MAP.toString(), map);
-        
+        convertCommand = new LinkedList();
+        convertCommand.add(Netconvert.PROGRAM.toString());
         switch(api){
             case OSM:
                 // add recommended options when an OSM file is converted
-                
+                convertCommand.add(Netconvert.OSM_MAP.toString());
+                convertCommand.add(Config.osmMap);
         }
     }
     
     public void executeConvert(String convertedMap) throws IOException{
-        File netconvertFile = new File(Config.sumoMap + FilesExtension.NETCONVERT);
+        File netconvertFile = new File(convertedMap + FilesExtension.NETCONVERT);
         ProcessBuilder netconvert = new ProcessBuilder(convertCommand);
         try{
             netconvertFile.createNewFile();
-            netconvert.start();
+            //netconvert.start();
             System.out.println(convertCommand);
         }catch(IOException e){
             C4R.handleError(e, Errors.NETCONVERT_CMD);
         }
     }
-    public void addOption(String option){
-        
+    
+    public void addOptions(String... options){
+        convertCommand.addAll(Arrays.asList(options));
     }
+    
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
