@@ -44,7 +44,6 @@ public class MapViewer extends JFrame{
         File cacheDir = new File(CACHE_FILE);
         JXMapViewer mapViewer = new JXMapViewer();
         this.view = view;
-        
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
         tileFactory.setLocalCache(new FileBasedLocalCache(cacheDir, false));
         mapViewer.setTileFactory(tileFactory);
@@ -75,7 +74,7 @@ public class MapViewer extends JFrame{
         this.add(new JLabel(USE_INSTRUCTIONS), BorderLayout.NORTH);
         this.add(mapViewer, BorderLayout.CENTER);
         this.setSize(800, 600);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(view);
         this.setVisible(true);
         

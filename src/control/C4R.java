@@ -1,5 +1,6 @@
 package control;
 
+import control.VehicleMobility.Types;
 import model.C4RModel;
 import model.MapSelection;
 import model.constants.Errors;
@@ -16,11 +17,15 @@ public class C4R implements ViewListener{
     private C4RControl control;
     private C4RModel model;
     private C4RView view;
+    
+    private VehicleMobility vehicleManager;
    
     public C4R(String[] args) {
         view = new C4RView(this);
         model = new C4RModel(control, view);
-        control = new C4RControl(model, view);    
+        control = new C4RControl(model, view);  
+        
+        vehicleManager = new VehicleMobility();
     }
 
     @Override
@@ -33,6 +38,9 @@ public class C4R implements ViewListener{
                 control.saveMap((MapSelection)obj);
                 view.update(model, null);
                 break;
+            case NEW_VEHICLE_TYPE:
+                vehicleManager.addElement(Types.VTYPE, obj);
+                view.update(model, vehicleManager.getvTypes());
         } 
     }
 

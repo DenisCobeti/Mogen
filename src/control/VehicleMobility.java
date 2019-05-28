@@ -12,7 +12,7 @@ import model.routes.Vehicle;
  *
  * @author Neblis
  */
-public class VMobility {
+public class VehicleMobility {
     public static enum Types {FLOW, VEHICLE, ROUTE, VTYPE};
     
     private List<VType> vTypes;
@@ -20,7 +20,7 @@ public class VMobility {
     private List<Route> routes;
     private List<Flow> flows;
 
-    public VMobility(List<VType> vTypes, List<Vehicle> vehicles, 
+    public VehicleMobility(List<VType> vTypes, List<Vehicle> vehicles, 
             List<Route> routes, List<Flow> flows) {
         this.vTypes = vTypes;
         this.vehicles = vehicles;
@@ -28,7 +28,7 @@ public class VMobility {
         this.flows = flows;
     }
 
-    public VMobility() {
+    public VehicleMobility() {
         this.vTypes = new LinkedList<>();
         this.vehicles = new LinkedList<>();
         this.routes = new LinkedList<>();
@@ -61,4 +61,21 @@ public class VMobility {
     public String toFile(){
         return null;
     }
+
+    public List<VType> getvTypes() {
+        return vTypes;
+    }
+
+    public List<Vehicle> getVehicles() {
+        return vehicles;
+    }
+
+    public List<Route> getRoutes() {
+        return routes;
+    }
+
+    public List<Flow> getFlows() {
+        return flows;
+    }
+    
 }

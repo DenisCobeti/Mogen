@@ -16,16 +16,16 @@ public class VType {
     private double sigma;
     
     private int length;
-    private int speed;
+    private int maxSpeed;
 
     public VType(int id, double accel, double decel, double sigma, 
-                    int length, int speed) {
+                    int length, int maxSpeed) {
         this.id = id;
         this.accel = accel;
         this.decel = decel;
         this.sigma = sigma;
         this.length = length;
-        this.speed = speed;
+        this.maxSpeed = maxSpeed;
     }
     
     

@@ -1,42 +1,79 @@
 package view;
 
-import control.C4RControl;
 import control.ViewListener;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JFrame;
-import model.C4RModel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import model.MapSelection;
 import view.jxmapviewer2.MapViewer;
-import view.wizard.Wizard;
 
 /**
  *
  * @author Neblis
  */
+
 public class C4RView extends javax.swing.JFrame  implements ActionListener, Observer{
-    private C4RModel model;
-    private C4RControl control;
-    
     private LoadingMap loading;
     
-    private final static Font FONT = new java.awt.Font("Century Gothic", Font.PLAIN, 14);
+    private final static Font FONT = new java.awt.Font("Century Gothic", Font.PLAIN, 12);
     private static MapViewer map;
     
-    private static final String MENU_ITEM_EXIT = "Exit programm";
-    private static final String VEHICLE_TYPES = "vehicle types";
+    private static final String MENU_ITEM_EXIT = "Exit";
+    private static final String MENU_ITEM_FILE = "Exit programm";
+    private static final String MENU_ITEM_NEW_MAP = "New map";
+    private static final String MENU_ITEM_OPEN_MAP = "Open map";
+    
+    private static final String VEHICLE_TYPES = "Vehicle types";
+    private static final String RSU = "RSU";
+    private static final String DOWNTOWNS = "Downtowns";
+    
+    private static final String ADD_SIMULATION = " +  ";
+    
+    private static final String PROGRAM = "C4R";
     
     private final ViewListener listenerUI;
+    private int numSimulations;
+    private boolean avalibleMap;
     /**
      * Creates new form NewJFrame
      */
     public C4RView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (UnsupportedLookAndFeelException | IllegalAccessException |  
+                InstantiationException | ClassNotFoundException ex) {}
         initComponents();
+        JPanel panel = new JPanel();
+        panelMaps.addTab(ADD_SIMULATION, panel);
+        panelMaps.addChangeListener(new ChangeListener(){
+            public void stateChanged(ChangeEvent evt){
+
+                panelMaps = (JTabbedPane)evt.getSource();
+                if(panelMaps.getSelectedIndex() == panelMaps.indexOfTab
+                        (ADD_SIMULATION))  addSimulation();
+
+            }
+        });
         //menuFileExit.addActionListener(this);
+        panelMaps.setFont(FONT);
+        panelOptions.setFont(FONT);
+        
+        numSimulations = 0; //////////////////////////
+        avalibleMap = false;
+        
+        this.setTitle(PROGRAM);
+       
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -50,25 +87,18 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         panelFile = new javax.swing.JPanel();
-        panelOptions = new javax.swing.JTabbedPane();
-        VTypesTab = new javax.swing.JPanel();
         panelMaps = new javax.swing.JTabbedPane();
         mapTab1 = new javax.swing.JPanel();
+        panelOptions = new javax.swing.JTabbedPane();
+        vehicleTypesScroll = new javax.swing.JScrollPane();
+        RSUScroll = new javax.swing.JScrollPane();
+        downtownScroll = new javax.swing.JScrollPane();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuFileNew = new javax.swing.JMenuItem();
         menuFileExit = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
-
-        jMenu1.setText("File");
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -80,21 +110,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         );
         panelFileLayout.setVerticalGroup(
             panelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 243, Short.MAX_VALUE)
         );
-
-        javax.swing.GroupLayout VTypesTabLayout = new javax.swing.GroupLayout(VTypesTab);
-        VTypesTab.setLayout(VTypesTabLayout);
-        VTypesTabLayout.setHorizontalGroup(
-            VTypesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
-        );
-        VTypesTabLayout.setVerticalGroup(
-            VTypesTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 215, Short.MAX_VALUE)
-        );
-
-        panelOptions.addTab(null, VTypesTab);
 
         javax.swing.GroupLayout mapTab1Layout = new javax.swing.GroupLayout(mapTab1);
         mapTab1.setLayout(mapTab1Layout);
@@ -109,11 +126,16 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
         panelMaps.addTab("tab1", mapTab1);
 
+        panelOptions.addTab(VEHICLE_TYPES, vehicleTypesScroll);
+        panelOptions.addTab(RSU, RSUScroll);
+        panelOptions.addTab(DOWNTOWNS, downtownScroll);
+
         menuFile.setText("File");
         menuFile.setFont(FONT);
 
-        menuFileNew.setText("New simulation");
+        menuFileNew.setText(MENU_ITEM_NEW_MAP);
         menuFileNew.setFont(FONT);
+        menuFileNew.setActionCommand(MENU_ITEM_NEW_MAP);
         menuFileNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuFileNewActionPerformed(evt);
@@ -122,7 +144,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         menuFile.add(menuFileNew);
 
         menuFileExit.setFont(FONT);
-        menuFileExit.setText("Exit");
+        menuFileExit.setText(MENU_ITEM_EXIT);
         menuFileExit.setToolTipText("");
         menuFileExit.setActionCommand(MENU_ITEM_EXIT);
         menuFileExit.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -159,8 +181,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelOptions)
-                    .addComponent(panelFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(panelFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelOptions))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelMaps)
                 .addContainerGap())
@@ -176,8 +198,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
     private void menuFileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileNewActionPerformed
         // TODO add your handling code here:
-        NewProject selection = new NewProject(this);
-        selection.setVisible(true);
+        map = new MapViewer(this);
     }//GEN-LAST:event_menuFileNewActionPerformed
     
     
@@ -186,6 +207,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         switch(e.getActionCommand()){
             case MENU_ITEM_EXIT:
                 listenerUI.producedEvent(ViewListener.Event.SALIR, null);
+            case MENU_ITEM_NEW_MAP:
+                map = new MapViewer(this);
         }
     }
 
@@ -193,13 +216,13 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     public void update(Observable o, Object arg) {
         if (arg == null){
             doneLoading();
+        }else if (arg instanceof List){
+            updateLists((List)arg);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel VTypesTab;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JScrollPane RSUScroll;
+    private javax.swing.JScrollPane downtownScroll;
     private javax.swing.JPanel mapTab1;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
@@ -209,11 +232,19 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JPanel panelFile;
     private javax.swing.JTabbedPane panelMaps;
     private javax.swing.JTabbedPane panelOptions;
+    private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
 
+    private void addSimulation(){
+        System.out.println("boom");
+    }
+    private void updateLists(List list){
+        
+    }
     public void newProject(NewProject selection) {
         selection.dispose();
     }
+    
     public void importMap(JFrame map, MapSelection selection) {
         map.dispose();
         loading = new LoadingMap();
@@ -222,6 +253,10 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         loading.show(this, 100, 100);
         loading.setVisible(true);
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
+        avalibleMap = true;
+    }
+    void noAvalibleMap(){
+        avalibleMap = false;
     }
     void selectMapArea(NewProject selection) {
         selection.dispose();
