@@ -1,13 +1,18 @@
 package view;
 
 import control.ViewListener;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
@@ -25,7 +30,9 @@ import view.jxmapviewer2.MapViewer;
 public class C4RView extends javax.swing.JFrame  implements ActionListener, Observer{
     private LoadingMap loading;
     
-    private final static Font FONT = new java.awt.Font("Century Gothic", Font.PLAIN, 12);
+    public final static Font FONT = new java.awt.Font("Century Gothic", Font.PLAIN, 12);
+    public final static Font SMALL_FONT = FONT.deriveFont(10,0);
+    
     private static MapViewer map;
     
     private static final String MENU_ITEM_EXIT = "Exit";
@@ -53,6 +60,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException | IllegalAccessException |  
                 InstantiationException | ClassNotFoundException ex) {}
+        
         initComponents();
         JPanel panel = new JPanel();
         panelMaps.addTab(ADD_SIMULATION, panel);
@@ -69,6 +77,18 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         panelMaps.setFont(FONT);
         panelOptions.setFont(FONT);
         
+        vehicleTypesPanel.setLayout(new BoxLayout(vehicleTypesPanel, BoxLayout.Y_AXIS));
+        
+        VehicleTypeElement v1 = new VehicleTypeElement("boom", this);
+        VehicleTypeElement v2 = new VehicleTypeElement("boom", this);
+        VehicleTypeElement v3 = new VehicleTypeElement("boom", this);
+        VehicleTypeElement v4 = new VehicleTypeElement("boom", this);
+        VehicleTypeElement v5 = new VehicleTypeElement("boom", this);
+        vehicleTypesPanel.add(v1);
+        vehicleTypesPanel.add(v2);
+        vehicleTypesPanel.add(v3);
+        vehicleTypesPanel.add(v4);
+        vehicleTypesPanel.add(v5);
         numSimulations = 0; //////////////////////////
         avalibleMap = false;
         
@@ -92,6 +112,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         mapTab1 = new javax.swing.JPanel();
         panelOptions = new javax.swing.JTabbedPane();
         vehicleTypesScroll = new javax.swing.JScrollPane();
+        vehicleTypesPanel = new javax.swing.JPanel();
         RSUScroll = new javax.swing.JScrollPane();
         downtownScroll = new javax.swing.JScrollPane();
         menuBar = new javax.swing.JMenuBar();
@@ -102,6 +123,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        panelFile.setBackground(new java.awt.Color(255, 255, 255));
+        panelFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+
         javax.swing.GroupLayout panelFileLayout = new javax.swing.GroupLayout(panelFile);
         panelFile.setLayout(panelFileLayout);
         panelFileLayout.setHorizontalGroup(
@@ -110,8 +134,10 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         );
         panelFileLayout.setVerticalGroup(
             panelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 243, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
+
+        mapTab1.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout mapTab1Layout = new javax.swing.GroupLayout(mapTab1);
         mapTab1.setLayout(mapTab1Layout);
@@ -125,6 +151,26 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         );
 
         panelMaps.addTab("tab1", mapTab1);
+
+        vehicleTypesScroll.setBorder(null);
+        vehicleTypesScroll.setHorizontalScrollBar(null);
+        vehicleTypesScroll.setMaximumSize(new java.awt.Dimension(468, 215));
+        vehicleTypesScroll.setPreferredSize(new java.awt.Dimension(220, 215));
+
+        vehicleTypesPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout vehicleTypesPanelLayout = new javax.swing.GroupLayout(vehicleTypesPanel);
+        vehicleTypesPanel.setLayout(vehicleTypesPanelLayout);
+        vehicleTypesPanelLayout.setHorizontalGroup(
+            vehicleTypesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 468, Short.MAX_VALUE)
+        );
+        vehicleTypesPanelLayout.setVerticalGroup(
+            vehicleTypesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 231, Short.MAX_VALUE)
+        );
+
+        vehicleTypesScroll.setViewportView(vehicleTypesPanel);
 
         panelOptions.addTab(VEHICLE_TYPES, vehicleTypesScroll);
         panelOptions.addTab(RSU, RSUScroll);
@@ -232,6 +278,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JPanel panelFile;
     private javax.swing.JTabbedPane panelMaps;
     private javax.swing.JTabbedPane panelOptions;
+    private javax.swing.JPanel vehicleTypesPanel;
     private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
 
@@ -266,4 +313,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         loading.setVisible(false);
         loading = null;
     }
+    
+    
 }
