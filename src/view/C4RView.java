@@ -1,9 +1,7 @@
 package view;
 
+import view.elements.VehicleType;
 import control.ViewListener;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,15 +9,19 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import model.C4RModel.ElementType;
 import model.MapSelection;
+import model.Tuple;
+import model.routes.VType;
+import view.elements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 
 /**
@@ -36,7 +38,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private static MapViewer map;
     
     private static final String MENU_ITEM_EXIT = "Exit";
-    private static final String MENU_ITEM_FILE = "Exit programm";
+    private static final String MENU_ITEM_EDIT = "Edit";
+    private static final String MENU_ITEM_FILE = "Exit program";
     private static final String MENU_ITEM_NEW_MAP = "New map";
     private static final String MENU_ITEM_OPEN_MAP = "Open map";
     
@@ -47,6 +50,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private static final String ADD_SIMULATION = " +  ";
     
     private static final String PROGRAM = "C4R";
+    
+    private JButton addVehicleType;
     
     private final ViewListener listenerUI;
     private int numSimulations;
@@ -62,6 +67,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
                 InstantiationException | ClassNotFoundException ex) {}
         
         initComponents();
+        
         JPanel panel = new JPanel();
         panelMaps.addTab(ADD_SIMULATION, panel);
         panelMaps.addChangeListener(new ChangeListener(){
@@ -79,11 +85,18 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         
         vehicleTypesPanel.setLayout(new BoxLayout(vehicleTypesPanel, BoxLayout.Y_AXIS));
         
-        VehicleTypeElement v1 = new VehicleTypeElement("boom", this);
-        VehicleTypeElement v2 = new VehicleTypeElement("boom", this);
-        VehicleTypeElement v3 = new VehicleTypeElement("boom", this);
-        VehicleTypeElement v4 = new VehicleTypeElement("boom", this);
-        VehicleTypeElement v5 = new VehicleTypeElement("boom", this);
+        addVehicleType = new JButton("+");
+        VehicleType v1 = new VehicleType("boom", this);
+        VehicleType v2 = new VehicleType("boom", this);
+        VehicleType v3 = new VehicleType("boom", this);
+        VehicleType v4 = new VehicleType("boom", this);
+        VehicleType v5 = new VehicleType("boom", this);
+        addVehicleType.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                addVehicleType(evt);
+            }
+        });
+        vehicleTypesPanel.add(addVehicleType);
         vehicleTypesPanel.add(v1);
         vehicleTypesPanel.add(v2);
         vehicleTypesPanel.add(v3);
@@ -118,6 +131,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuFileNew = new javax.swing.JMenuItem();
+        menuFileOpen = new javax.swing.JMenuItem();
         menuFileExit = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
 
@@ -189,6 +203,15 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         });
         menuFile.add(menuFileNew);
 
+        menuFileOpen.setFont(FONT);
+        menuFileOpen.setText(MENU_ITEM_OPEN_MAP);
+        menuFileOpen.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                menuFileOpenMouseClicked(evt);
+            }
+        });
+        menuFile.add(menuFileOpen);
+
         menuFileExit.setFont(FONT);
         menuFileExit.setText(MENU_ITEM_EXIT);
         menuFileExit.setToolTipText("");
@@ -238,15 +261,17 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     }// </editor-fold>//GEN-END:initComponents
 
     private void menuFileExitMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFileExitMousePressed
-        // TODO add your handling code here:
         listenerUI.producedEvent(ViewListener.Event.SALIR, null);
     }//GEN-LAST:event_menuFileExitMousePressed
 
     private void menuFileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileNewActionPerformed
-        // TODO add your handling code here:
         map = new MapViewer(this);
     }//GEN-LAST:event_menuFileNewActionPerformed
-    
+
+    private void menuFileOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFileOpenMouseClicked
+        
+    }//GEN-LAST:event_menuFileOpenMouseClicked
+   
     
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -262,8 +287,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     public void update(Observable o, Object arg) {
         if (arg == null){
             doneLoading();
-        }else if (arg instanceof List){
-            updateLists((List)arg);
+        } else if (arg instanceof Tuple){
+            updateLists((ElementType)((Tuple) arg).obj1,  
+                            (List)((Tuple) arg).obj2);
+        } else if (arg instanceof VType){
+            updateVehicleTypes((VType) arg);
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -275,6 +303,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem menuFileExit;
     private javax.swing.JMenuItem menuFileNew;
+    private javax.swing.JMenuItem menuFileOpen;
     private javax.swing.JPanel panelFile;
     private javax.swing.JTabbedPane panelMaps;
     private javax.swing.JTabbedPane panelOptions;
@@ -285,7 +314,17 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private void addSimulation(){
         System.out.println("boom");
     }
-    private void updateLists(List list){
+    public void enableEvents(){
+        
+    }
+    private void updateLists(ElementType type, List list){
+        switch(type){
+            case VTYPE:
+                /*VehicleType v1 = new VehicleType("boom", this);
+                vehicleTypesPanel.add(v1);*/
+        }
+    }
+    private void updateVehicleTypes(VType type){
         
     }
     public void newProject(NewProject selection) {
@@ -301,6 +340,18 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         loading.setVisible(true);
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
         avalibleMap = true;
+    }
+    public void addVehicleType(java.awt.event.MouseEvent evt){
+        DialogAddType addDialog = new DialogAddType(this);
+        //listenerUI.producedEvent(ViewListener.Event.NEW_VEHICLE_TYPE, null);
+    }
+    public boolean addVehicleType(String id){
+        //listenerUI.producedEvent(ViewListener.Event.NEW_VEHICLE_TYPE, null);
+        return true;
+    }
+    public void selectIcon(){
+        
+        System.out.println("boom");
     }
     void noAvalibleMap(){
         avalibleMap = false;

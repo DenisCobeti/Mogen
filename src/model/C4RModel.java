@@ -13,6 +13,8 @@ public class C4RModel extends Observable{
     private C4RControl control;
     private C4RView view;
 
+    public static enum ElementType {FLOW, VEHICLE, ROUTE, VTYPE};
+    
     public C4RModel(C4RControl control, C4RView view) {
         this.control = control;
         this.view = view;

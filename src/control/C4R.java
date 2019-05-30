@@ -1,9 +1,10 @@
 package control;
 
-import control.VehicleMobility.Types;
 import model.C4RModel;
+import model.C4RModel.ElementType;
 import model.MapSelection;
 import model.constants.Errors;
+import model.routes.VType;
 import view.C4RView;
 
 /**
@@ -39,7 +40,7 @@ public class C4R implements ViewListener{
                 view.update(model, null);
                 break;
             case NEW_VEHICLE_TYPE:
-                vehicleManager.addElement(Types.VTYPE, obj);
+                vehicleManager.addElement(ElementType.VTYPE, (String)obj, new VType());
                 view.update(model, vehicleManager.getvTypes());
         } 
     }

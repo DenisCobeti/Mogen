@@ -1,7 +1,10 @@
 package control;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import model.C4RModel.ElementType;
 
 import model.routes.Flow;
 import model.routes.Route;
@@ -13,14 +16,14 @@ import model.routes.Vehicle;
  * @author Neblis
  */
 public class VehicleMobility {
-    public static enum Types {FLOW, VEHICLE, ROUTE, VTYPE};
     
-    private List<VType> vTypes;
+    
+    private Map<String,VType> vTypes;
     private List<Vehicle> vehicles;
     private List<Route> routes;
     private List<Flow> flows;
 
-    public VehicleMobility(List<VType> vTypes, List<Vehicle> vehicles, 
+    public VehicleMobility(Map<String,VType> vTypes, List<Vehicle> vehicles, 
             List<Route> routes, List<Flow> flows) {
         this.vTypes = vTypes;
         this.vehicles = vehicles;
@@ -29,13 +32,13 @@ public class VehicleMobility {
     }
 
     public VehicleMobility() {
-        this.vTypes = new LinkedList<>();
+        this.vTypes = new HashMap<>();
         this.vehicles = new LinkedList<>();
         this.routes = new LinkedList<>();
         this.flows = new LinkedList<>();
     }
     
-    public boolean addElement(Types type, Object element){
+    public boolean addElement(ElementType type, String id, Object element){
         switch(type){
             case FLOW:
                 return flows.add((Flow)element);
@@ -44,7 +47,8 @@ public class VehicleMobility {
             case ROUTE:
                 return routes.add((Route)element);
             case VTYPE:
-                return vTypes.add((VType)element);
+                vTypes.put(id, (VType)element);
+                return true;
             default:
                 return false;
         }
@@ -62,7 +66,7 @@ public class VehicleMobility {
         return null;
     }
 
-    public List<VType> getvTypes() {
+    public Map<String, VType> getvTypes() {
         return vTypes;
     }
 

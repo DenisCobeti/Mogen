@@ -7,10 +7,9 @@ package model.routes;
 public class VType {
     
     //Format that will appear on the XML File
-    private static final String FILE_FORMAT = "<Vtype id=\"%i\" accel=\"%.2f\""
+    private static final String FILE_FORMAT = "<Vtype id=\"%s\" accel=\"%.2f\""
             + " decel=\"%.2f\" sigma=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" />";
     
-    private int id;
     private double accel;
     private double decel;
     private double sigma;
@@ -18,15 +17,40 @@ public class VType {
     private int length;
     private int maxSpeed;
 
-    public VType(int id, double accel, double decel, double sigma, 
+    private static final double DEFAULT_ACCEL = 3;
+    private static final double DEFAULT_DECEL = 5;
+    private static final double DEFAULT_SIGMA = 0.5;
+    
+    private static final int DEFAULT_LENGTH = 1;
+    private static final int DEFAULT_SPEED = 100;
+    
+    public VType() {
+        this.accel = DEFAULT_ACCEL;
+        this.decel = DEFAULT_DECEL;
+        this.sigma = DEFAULT_SIGMA;
+        
+        this.length = DEFAULT_LENGTH;
+        this.maxSpeed = DEFAULT_SPEED;
+    }
+    
+    public VType(String id, double accel, double decel, double sigma, 
                     int length, int maxSpeed) {
-        this.id = id;
         this.accel = accel;
         this.decel = decel;
         this.sigma = sigma;
         this.length = length;
         this.maxSpeed = maxSpeed;
     }
+
+    public void setAccel(double accel) { this.accel = accel; }
+
+    public void setDecel(double decel) { this.decel = decel; }
+
+    public void setSigma(double sigma) { this.sigma = sigma; }
+
+    public void setLength(int length) { this.length = length; }
+
+    public void setMaxSpeed(int maxSpeed) { this.maxSpeed = maxSpeed; }
     
     
 }

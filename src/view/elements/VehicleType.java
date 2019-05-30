@@ -1,19 +1,15 @@
-package view;
+package view.elements;
 
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JPopupMenu;
+import view.C4RView;
 
 /**
  *
  * @author Neblis
  */
-public class VehicleTypeElement extends javax.swing.JPanel {
+public class VehicleType extends javax.swing.JPanel {
 
     /**
      * Creates new form vehicleTypeElement
@@ -22,38 +18,35 @@ public class VehicleTypeElement extends javax.swing.JPanel {
     private static final String ACCEL = "Accel";
     private static final String DECEL = "Decel";
     private static final String SIGMA = "Sigma";
+    private static final String LENGHT = "Length";
     
     private final static Font NAME_FONT = new Font("Century Gothic", Font.BOLD, 14);
     
     private C4RView view;
     private String name;
     
-    private enum type {
-        car("car.png"), 
-        sport(""), 
-        truck(""), 
-        heavy("");
+    private enum Icon {
+        CAR("resources/icon/car.png"), 
+        SPORT("resources/icon/sport.png"), 
+        TRUCK("resources/icon/truck.png"), 
+        HEAVY("resources/icon/heavy.png");
         
-        private String location; 
+        private final String location; 
         
-        private type(String location){
+        private Icon(String location){
             this.location = location;
         }
+        
+        private String getLocation(){
+            return location;
+        }
     }
-    public VehicleTypeElement(String name, C4RView view) {
+    public VehicleType(String name, C4RView view) {
         this.name = name;
         this.view = view;
-        BufferedImage img = null;
-        try {
-            img = ImageIO.read(new File("car.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         
         initComponents();
-        Image dimg = img.getScaledInstance(icon.getPreferredSize().width, icon.getPreferredSize().height,
-        Image.SCALE_SMOOTH);
-        ImageIcon imageIcon = new ImageIcon(dimg);
+        ImageIcon imageIcon = new ImageIcon(Icon.SPORT.getLocation());
         icon.setIcon(imageIcon);
         
         setFont(view.getFont());
@@ -79,12 +72,19 @@ public class VehicleTypeElement extends javax.swing.JPanel {
         accelField = new javax.swing.JFormattedTextField();
         decelField = new javax.swing.JFormattedTextField();
         speedField = new javax.swing.JFormattedTextField();
+        lengthLabel = new javax.swing.JLabel();
+        lengthField = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         setMaximumSize(new java.awt.Dimension(449, 85));
 
-        icon.setPreferredSize(new java.awt.Dimension(40, 40));
+        icon.setPreferredSize(new java.awt.Dimension(50, 50));
+        icon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                iconMouseClicked(evt);
+            }
+        });
 
         optionsPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -108,10 +108,20 @@ public class VehicleTypeElement extends javax.swing.JPanel {
         sigmaField.setText("jFormattedTextField2");
 
         accelField.setText("jFormattedTextField3");
+        accelField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accelFieldActionPerformed(evt);
+            }
+        });
 
         decelField.setText("jFormattedTextField4");
 
         speedField.setText("jFormattedTextField5");
+
+        lengthLabel.setFont(view.getFont());
+        lengthLabel.setText(LENGHT);
+
+        lengthField.setText("jFormattedTextField1");
 
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
@@ -120,8 +130,8 @@ public class VehicleTypeElement extends javax.swing.JPanel {
             .addGroup(optionsPanelLayout.createSequentialGroup()
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(68, 68, 68)
+                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(accelLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(accelField, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -134,9 +144,14 @@ public class VehicleTypeElement extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(decelField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sigmaLabel)
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sigmaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lengthLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(sigmaField, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE))
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lengthField, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
+                    .addComponent(sigmaField, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         optionsPanelLayout.setVerticalGroup(
             optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -154,7 +169,9 @@ public class VehicleTypeElement extends javax.swing.JPanel {
                         .addComponent(speedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(decelLabel)
-                        .addComponent(decelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(decelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lengthLabel)
+                        .addComponent(lengthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -179,6 +196,15 @@ public class VehicleTypeElement extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconMouseClicked
+        // TODO add your handling code here:
+        view.selectIcon();
+    }//GEN-LAST:event_iconMouseClicked
+
+    private void accelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accelFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_accelFieldActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField accelField;
@@ -186,6 +212,8 @@ public class VehicleTypeElement extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField decelField;
     private javax.swing.JLabel decelLabel;
     private javax.swing.JLabel icon;
+    private javax.swing.JFormattedTextField lengthField;
+    private javax.swing.JLabel lengthLabel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JFormattedTextField sigmaField;
