@@ -1,4 +1,4 @@
-package model;
+package model.map;
 
 import java.io.IOException;
 import java.io.InputStream;

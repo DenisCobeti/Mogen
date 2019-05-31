@@ -43,14 +43,30 @@ public class VType {
     }
 
     public void setAccel(double accel) { this.accel = accel; }
-
     public void setDecel(double decel) { this.decel = decel; }
-
     public void setSigma(double sigma) { this.sigma = sigma; }
-
     public void setLength(int length) { this.length = length; }
-
     public void setMaxSpeed(int maxSpeed) { this.maxSpeed = maxSpeed; }
+
+    public double getAccel() {
+        return accel;
+    }
+
+    public double getDecel() {
+        return decel;
+    }
+
+    public double getSigma() {
+        return sigma;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
     
     
 }

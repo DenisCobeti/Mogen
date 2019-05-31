@@ -9,6 +9,7 @@ public enum Errors {
     OSM_DOWNLOAD("Error: couldn´t download OSM map"),
     FILE_WRITE("Error: "),
     NETCONVERT_CMD("Error: "),
+    DUPLICATED_VTYPE("Error: can´t have 2 vehicle types with the same name"),
     ROUTE(".rou.xml");
     
     private final String msg;

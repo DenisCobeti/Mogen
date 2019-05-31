@@ -1,5 +1,6 @@
-package model;
+package model.map;
 
+import model.map.MapAPI;
 import java.io.IOException;
 import java.io.InputStream;
 

@@ -1,4 +1,4 @@
-package model;
+package model.map;
 
 import java.awt.geom.Point2D;
 import org.jxmapviewer.viewer.GeoPosition;
