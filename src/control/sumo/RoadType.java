@@ -7,12 +7,12 @@ package control.sumo;
 public class RoadType {
     private String numLanea;
     private boolean oneway;
-    private double widrh;
+    private double width;
 
-    public RoadType(String numLanea, boolean oneway, double widrh) {
+    public RoadType(String numLanea, boolean oneway, double width) {
         this.numLanea = numLanea;
         this.oneway = oneway;
-        this.widrh = widrh;
+        this.width = width;
     }
     
     

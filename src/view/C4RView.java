@@ -2,15 +2,21 @@ package view;
 
 import view.mapelements.VehicleType;
 import control.ViewListener;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,6 +32,7 @@ import model.Tuple;
 import model.routes.VType;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
+import view.simulation.TabElement;
 
 /**
  *
@@ -50,6 +57,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private static final String VEHICLE_TYPES = "Vehicle types";
     private static final String RSU = "RSU";
     private static final String DOWNTOWNS = "Downtowns";
+    private static final String ADD_SIMULATION_TOOLTIP = "New simulation";
     
     private static final String ADD_SIMULATION = " +  ";
     private static final String WELCOME = "Welcome!";
@@ -325,7 +333,12 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
     private void addSimulation(){
         System.out.println("boom");
-        panelMaps.addTab("New Tab",new JPanel());
+        JPanel tabTitle = new TabElement(this, tab, "new");
+        JPanel panel = new JPanel();
+        
+        
+        panelMaps.add(panel);
+        panelMaps.setTabComponentAt(tab, tabTitle);
         panelMaps.setSelectedIndex(tab);
         tab++;
     }

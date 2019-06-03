@@ -1,5 +1,6 @@
 package view.mapelements;
 
+import view.Dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
