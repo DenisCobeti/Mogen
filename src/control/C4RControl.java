@@ -5,15 +5,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import model.OsmAPI;
+import model.map.OsmAPI;
 import model.constants.Errors;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import model.C4RModel;
 import model.Config;
-import model.MapAPI;
-import model.MapAPI.APIS;
-import model.MapSelection;
+import model.map.MapAPI;
+import model.map.MapAPI.APIS;
+import model.map.MapSelection;
 import model.constants.FilesExtension;
 import view.C4RView;
 
@@ -35,7 +35,7 @@ public class C4RControl {
         Config.load();
         System.out.println(Config.osmMap +" " +Config.sumoMap);
     }
-    
+    /*
     public void saveMap(MapSelection selection){
         
         MapAPI api = null;
@@ -64,8 +64,26 @@ public class C4RControl {
                 C4R.handleError(ex, Errors.FILE_WRITE);
             }
         }
+    }*/
+    public void saveMap(MapSelection selection) throws ProtocolException, 
+                                                            IOException{
+        
+        MapAPI api = null;
+        String map = Config.osmMap + FilesExtension.OSM;
+        
+        api = new OsmAPI(selection.minLon, selection.minLat, 
+                            selection.maxLat, selection.maxLon);
+
+        InputStream in = api.getMap();
+        File osmFile = new File(map);
+
+        osmFile.createNewFile();
+        copyInputStreamToFile(in, osmFile);
+        // Modify second parameter to change the imported map type
+        converter = new MapConverter(map, APIS.OSM);
+            
+        
     }
-    
     private void convertMap(){
         
     }

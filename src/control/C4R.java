@@ -1,9 +1,13 @@
 package control;
 
+import java.io.IOException;
 import model.C4RModel;
 import model.C4RModel.ElementType;
-import model.MapSelection;
+import model.Tuple;
+import model.map.MapSelection;
 import model.constants.Errors;
+import model.exceptions.DownloadMapException;
+import model.exceptions.DuplicatedKeyException;
 import model.routes.VType;
 import view.C4RView;
 
@@ -30,21 +34,33 @@ public class C4R implements ViewListener{
     }
 
     @Override
-    public void producedEvent(Event evento, Object obj) {
-        switch (evento) {
+    public void producedEvent(Event event, Object obj) {
+        switch (event) {
             case SALIR:
                 salir();
                 break;
             case NEW_MAP:
-                control.saveMap((MapSelection)obj);
-                view.update(model, null);
+                try {
+                    control.saveMap((MapSelection)obj);
+                } catch (IOException ex) {
+                    view.update(model, new DownloadMapException
+                                           (Errors.OSM_DOWNLOAD.toString()));
+                }finally{
+                    view.update(model, null);
+                }
                 break;
             case NEW_VEHICLE_TYPE:
-                vehicleManager.addElement(ElementType.VTYPE, (String)obj, new VType());
-                view.update(model, vehicleManager.getvTypes());
+                VType type = new VType();
+                if(vehicleManager.addElement((String)obj, type)){ 
+                    view.update(model, new Tuple<>((String)obj, type));
+                    System.out.println(obj.toString());
+                }else{
+                    view.update(model, new DuplicatedKeyException
+                                            (Errors.DUPLICATED_VTYPE));
+                }
         } 
     }
-
+    
     private void salir() {
         System.exit(0);
     }
@@ -61,4 +77,6 @@ public class C4R implements ViewListener{
     public static void main(String[] args) {
         new control.C4R(args);
     } 
+
+    
 }

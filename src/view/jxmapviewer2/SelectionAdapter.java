@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
-import model.MapSelection;
+import model.map.MapSelection;
 
 import org.jxmapviewer.JXMapViewer;
 

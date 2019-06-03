@@ -7,5 +7,6 @@ package control;
 public interface ViewListener {
     public enum Event {SALIR, NEW_MAP, NEW_VEHICLE_TYPE}
     
-    public void producedEvent(Event evento, Object obj);
+    public void producedEvent(Event event, Object obj);
+    
 }

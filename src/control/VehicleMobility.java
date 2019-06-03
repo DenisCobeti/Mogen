@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import model.C4RModel.ElementType;
+import model.exceptions.DuplicatedKeyException;
 
 import model.routes.Flow;
 import model.routes.Route;
@@ -39,6 +40,10 @@ public class VehicleMobility {
     }
     
     public boolean addElement(ElementType type, String id, Object element){
+        if (element instanceof VType){
+            vTypes.put(id, (VType)element);
+            return true;
+        }
         switch(type){
             case FLOW:
                 return flows.add((Flow)element);
@@ -52,6 +57,15 @@ public class VehicleMobility {
             default:
                 return false;
         }
+    }
+    
+    public boolean addElement(String id, Object element){
+        if (element instanceof VType){
+            if  (vTypes.containsKey(id)) return false;
+            vTypes.put(id, (VType)element);
+            return true;
+        }
+        return false;
     }
     
     public void save(){

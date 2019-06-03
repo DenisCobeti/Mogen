@@ -1,4 +1,4 @@
-package view.elements;
+package view.mapelements;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -40,12 +40,9 @@ public class DialogAddType extends Dialog{
         
         acceptButton.addActionListener(new ActionListener() { 
             @Override
-            public void actionPerformed(ActionEvent e) { 
-                try{
-                    if(view.addVehicleType(id.getText())) close();
-                }catch(NullPointerException ex){
-                    
-                }
+            public void actionPerformed(ActionEvent e) {
+                view.addVehicleType(id.getText());
+                dispose();
             } 
         });
         add(panel,BorderLayout.NORTH);
