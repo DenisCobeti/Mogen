@@ -6,7 +6,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import view.C4RView;
 
 /**
  *
@@ -40,7 +39,7 @@ public abstract class Dialog extends JDialog {
     }
     
     protected void close() {
-        view.enableEvents();
+        view.enableEvents(false);
         dispose();    
     }
 }

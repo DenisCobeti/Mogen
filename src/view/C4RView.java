@@ -32,6 +32,8 @@ import model.Tuple;
 import model.routes.VType;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
+import view.simulation.AddSimulation;
+import view.simulation.AddSimulationListener;
 import view.simulation.TabElement;
 
 /**
@@ -59,7 +61,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private static final String DOWNTOWNS = "Downtowns";
     private static final String ADD_SIMULATION_TOOLTIP = "New simulation";
     
-    private static final String ADD_SIMULATION = " +  ";
+    public static final String ADD_SIMULATION = " +  ";
     private static final String WELCOME = "Welcome!";
     
     private static final String PROGRAM = "C4R";
@@ -74,6 +76,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private final ViewListener listenerUI;
     private int numSimulations;
     private boolean avalibleMap;
+    private AddSimulationListener simListener;
     
     private List<VehicleType> VehicleTypes;
     /**
@@ -82,6 +85,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     
     public C4RView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;
+        this.simListener = new AddSimulationListener(this);
         Locale.setDefault(Locale.Category.FORMAT,new Locale("en", "UK"));
         
         try {
@@ -93,16 +97,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         
         JPanel panel = new JPanel();
         panelMaps.addTab(ADD_SIMULATION, panel);
-        panelMaps.addChangeListener(new ChangeListener(){
-            
-            public void stateChanged(ChangeEvent evt){
-
-                    JTabbedPane tabbedPane = (JTabbedPane)evt.getSource();
-                    if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab
-                        (ADD_SIMULATION)) addSimulation();
-
-                }
-            });
+        panelMaps.addChangeListener(simListener);
         //menuFileExit.addActionListener(this);
         tab = 2;
         panelMaps.setFont(FONT);
@@ -331,20 +326,21 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
 
-    private void addSimulation(){
+    public void addSimulation(){
         System.out.println("boom");
-        JPanel tabTitle = new TabElement(this, tab, "new");
+        JFrame simulation = new AddSimulation(this);
+        simulation.setVisible(true);
         JPanel panel = new JPanel();
+        JPanel tabTitle = new TabElement(this, tab, "new", panel);
         
-        
-        panelMaps.add(panel);
+        panelMaps.add(tabTitle.getUIClassID(), panel);
         panelMaps.setTabComponentAt(tab, tabTitle);
         panelMaps.setSelectedIndex(tab);
         tab++;
     }
     
-    public void enableEvents(){
-        
+    public void enableEvents(boolean events){
+        this.setEnabled(events);
     }
     private void updateLists(Tuple tuple){
         if(tuple.obj2 instanceof VType){
@@ -408,6 +404,10 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     public void doneLoading(){
         loading.setVisible(false);
         loading = null;
+    }
+
+    public void closeSimulation(JPanel simulation) {
+         panelMaps.remove(simulation);
     }
     
     
