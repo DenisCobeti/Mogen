@@ -328,7 +328,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
     public void addSimulation(){
         System.out.println("boom");
-        JFrame simulation = new AddSimulation(this);
+        JFrame simulation = new AddSimulation(this, "new " + tab);
         simulation.setVisible(true);
         JPanel panel = new JPanel();
         JPanel tabTitle = new TabElement(this, tab, "new", panel);
@@ -407,7 +407,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     }
 
     public void closeSimulation(JPanel simulation) {
-         panelMaps.remove(simulation);
+        
+        panelMaps.remove(simulation);
     }
     
     
