@@ -1,8 +1,8 @@
 package control;
 
 import java.io.IOException;
+import java.util.List;
 import model.C4RModel;
-import model.C4RModel.ElementType;
 import model.Tuple;
 import model.map.MapSelection;
 import model.constants.Errors;
@@ -39,6 +39,7 @@ public class C4R implements ViewListener{
             case SALIR:
                 salir();
                 break;
+                
             case NEW_MAP:
                 try {
                     control.saveMap((MapSelection)obj);
@@ -49,8 +50,21 @@ public class C4R implements ViewListener{
                     view.update(model, null);
                 }
                 break;
+                
+            case OPEN_MAP:
+                try {
+                    control.openMap((String)obj);
+                } catch (IOException ex) {
+                    view.update(model, new DownloadMapException
+                                           (Errors.OSM_DOWNLOAD.toString()));
+                }finally{
+                    view.update(model, null);
+                }
+                break;
+                
             case NEW_VEHICLE_TYPE:
                 VType type = new VType();
+                
                 if(vehicleManager.addElement((String)obj, type)){ 
                     view.update(model, new Tuple<>((String)obj, type));
                     System.out.println(obj.toString());
@@ -58,6 +72,18 @@ public class C4R implements ViewListener{
                     view.update(model, new DuplicatedKeyException
                                             (Errors.DUPLICATED_VTYPE));
                 }
+                break;
+                
+            case NEW_SIMULATION:
+                Tuple tuple = (Tuple)obj;
+                
+                try {
+                    control.createSimulation((String)tuple.obj1, (List)tuple.obj2);
+                } catch (IOException ex) {
+                    handleError(ex, Errors.NETCONVERT_CMD);
+                }
+                break;
+        
         } 
     }
     

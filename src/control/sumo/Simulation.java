@@ -11,7 +11,7 @@ import javax.xml.stream.XMLStreamReader;
  *
  * @author Neblis
  */
-public class SumoNetwork {
+public class Simulation {
     private HashMap<String, Edge> edges = new HashMap<>();
     private HashMap<String, Connection> connections = new HashMap<>();
     private HashMap<String, Junction> junctions = new HashMap<>();
@@ -19,7 +19,7 @@ public class SumoNetwork {
     
     private String mapLocation;
 
-    public SumoNetwork(String mapLocation) {
+    public Simulation(String mapLocation) {
         this.mapLocation = mapLocation;
     }
     

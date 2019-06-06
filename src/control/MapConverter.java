@@ -43,7 +43,7 @@ public class MapConverter {
             C4R.handleError(e, Errors.NETCONVERT_CMD);
         }
     }*/
-    
+    /*
     public MapConverter(MapAPI api, String map) throws IOException {
         
         File netconvertFile = new File(Config.sumoMap + FilesExtension.NETCONVERT);
@@ -59,7 +59,7 @@ public class MapConverter {
         }catch(IOException e){
             C4R.handleError(e, Errors.NETCONVERT_CMD);
         }
-    }
+    }*/
     
     public MapConverter(String map, APIS api) throws IOException {
         convertCommand = new LinkedList();
@@ -68,26 +68,28 @@ public class MapConverter {
             case OSM:
                 // add recommended options when an OSM file is converted
                 convertCommand.add(Netconvert.OSM_MAP.toString());
-                convertCommand.add(Config.osmMap);
+                convertCommand.add(map);
         }
     }
     
     public void executeConvert(String convertedMap) throws IOException{
         File netconvertFile = new File(convertedMap + FilesExtension.NETCONVERT);
         ProcessBuilder netconvert = new ProcessBuilder(convertCommand);
-        try{
-            netconvertFile.createNewFile();
-            //netconvert.start();
-            System.out.println(convertCommand);
-        }catch(IOException e){
-            C4R.handleError(e, Errors.NETCONVERT_CMD);
-        }
+        
+        netconvertFile.createNewFile();
+        netconvert.start();
+        System.out.println(convertCommand);
+        
     }
     
     public void addOptions(String... options){
         convertCommand.addAll(Arrays.asList(options));
     }
-    
+    public void addOptions(List<String> options){
+        for (String option : options)
+            convertCommand.add(option);
+    }
+    /*
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
@@ -103,7 +105,7 @@ public class MapConverter {
             }
         }
 
-    }
+    }*/
     
     
 }

@@ -1,6 +1,7 @@
 package control;
 
 
+import control.sumo.Simulation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -9,6 +10,8 @@ import model.map.OsmAPI;
 import model.constants.Errors;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.util.HashMap;
+import java.util.List;
 import model.C4RModel;
 import model.Config;
 import model.map.MapAPI;
@@ -26,6 +29,7 @@ public class C4RControl {
     private C4RView view;
     
     private MapConverter converter;
+    private HashMap<String, Simulation> simulations;
 
     public C4RControl(C4RModel model, C4RView view) {
         this.model = model;
@@ -65,6 +69,9 @@ public class C4RControl {
             }
         }
     }*/
+    
+    
+    
     public void saveMap(MapSelection selection) throws ProtocolException, 
                                                             IOException{
         
@@ -81,13 +88,18 @@ public class C4RControl {
         copyInputStreamToFile(in, osmFile);
         // Modify second parameter to change the imported map type
         converter = new MapConverter(map, APIS.OSM);
-            
+    }
+    public void openMap(String location) throws ProtocolException, 
+                                                            IOException{
+        // Modify second parameter to change the imported map type
+        converter = new MapConverter(location, APIS.OSM);
         
     }
-    private void convertMap(){
-        
+    public void createSimulation(String name, List<String> commands) 
+                                    throws IOException{
+        converter.addOptions(commands);
+        converter.executeConvert(name + FilesExtension.NETCONVERT);
     }
-    
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
