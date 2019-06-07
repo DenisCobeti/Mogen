@@ -9,6 +9,7 @@ import model.constants.Errors;
 import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
 import model.routes.VType;
+import model.sumo.Simulation;
 import view.C4RView;
 
 /**
@@ -76,12 +77,14 @@ public class C4R implements ViewListener{
                 
             case NEW_SIMULATION:
                 Tuple tuple = (Tuple)obj;
-                
+                Simulation sim = null;
                 try {
-                    control.createSimulation((String)tuple.obj1, (List)tuple.obj2);
+                    sim = control.createSimulation((String)tuple.obj1, (String[])tuple.obj2);
+                    view.update(model, sim);
                 } catch (IOException ex) {
                     handleError(ex, Errors.NETCONVERT_CMD);
-                }
+                    
+                } 
                 break;
         
         } 

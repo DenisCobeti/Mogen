@@ -1,7 +1,7 @@
 package control;
 
 
-import control.sumo.Simulation;
+import model.sumo.Simulation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,6 +11,7 @@ import model.constants.Errors;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import model.C4RModel;
 import model.Config;
@@ -29,12 +30,13 @@ public class C4RControl {
     private C4RView view;
     
     private MapConverter converter;
-    private HashMap<String, Simulation> simulations;
+    //private HashMap<String, Simulation> simulations;
+    private List<Simulation> simulations;
 
     public C4RControl(C4RModel model, C4RView view) {
         this.model = model;
         this.view = view;
-        
+        simulations = new LinkedList<>();
         //obtainMap(0,0,0,0);
         Config.load();
         System.out.println(Config.osmMap +" " +Config.sumoMap);
@@ -95,10 +97,13 @@ public class C4RControl {
         converter = new MapConverter(location, APIS.OSM);
         
     }
-    public void createSimulation(String name, List<String> commands) 
+    public Simulation createSimulation(String name, String[] commands) 
                                     throws IOException{
+        Simulation sim = new Simulation(name);
         converter.addOptions(commands);
-        converter.executeConvert(name + FilesExtension.NETCONVERT);
+        converter.executeConvert(name);
+        simulations.add(sim);
+        return sim;
     }
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 

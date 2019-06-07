@@ -1,7 +1,10 @@
 package view.simulation;
 
 import java.awt.Font;
+import java.util.Arrays;
 import java.util.HashSet;
+import javax.swing.JFrame;
+import model.constants.Netconvert;
 import view.C4RView;
 
 /**
@@ -26,6 +29,7 @@ public class AddSimulation extends javax.swing.JFrame {
     private final static String OVERTAKE_LANES = "Overtake lanes";
     
     private static final String  TITLE = "New simulation";
+    private static final String  ACCEPT = "Accept";
     
     private final Font  TITLE_FONT;
     
@@ -38,10 +42,11 @@ public class AddSimulation extends javax.swing.JFrame {
         this.name = name;
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         command = new HashSet<>();
+        command.add(Netconvert.FLATTEN.getCommand());
         view.enableEvents(false);
         initComponents();
         this.setLocationRelativeTo(view);
-        //this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -66,14 +71,15 @@ public class AddSimulation extends javax.swing.JFrame {
         roundaboutsLabel = new javax.swing.JLabel();
         streetNamesLabel = new javax.swing.JLabel();
         overtakeLanesLabel = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
+        lefthandedBox = new javax.swing.JCheckBox();
+        geometryBox = new javax.swing.JCheckBox();
+        roundaboutBox = new javax.swing.JCheckBox();
+        streetNamesBox = new javax.swing.JCheckBox();
+        overtakeBox = new javax.swing.JCheckBox();
         lefthandedLabel1 = new javax.swing.JLabel();
         vehicleFilterTab = new javax.swing.JPanel();
         roadFilterType = new javax.swing.JPanel();
+        acceptLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -124,15 +130,15 @@ public class AddSimulation extends javax.swing.JFrame {
         overtakeLanesLabel.setFont(view.FONT);
         overtakeLanesLabel.setText(OVERTAKE_LANES);
 
-        jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
+        lefthandedBox.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox2.setBackground(new java.awt.Color(255, 255, 255));
+        geometryBox.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox3.setBackground(new java.awt.Color(255, 255, 255));
+        roundaboutBox.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox4.setBackground(new java.awt.Color(255, 255, 255));
+        streetNamesBox.setBackground(new java.awt.Color(255, 255, 255));
 
-        jCheckBox5.setBackground(new java.awt.Color(255, 255, 255));
+        overtakeBox.setBackground(new java.awt.Color(255, 255, 255));
 
         lefthandedLabel1.setFont(view.FONT);
         lefthandedLabel1.setText(LEFTHANDED);
@@ -151,13 +157,13 @@ public class AddSimulation extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(togglePanelLayout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
+                        .addComponent(lefthandedBox)
                         .addGap(18, 18, 18)
                         .addComponent(lefthandedLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
-                    .addComponent(jCheckBox2)
-                    .addComponent(jCheckBox3)
-                    .addComponent(jCheckBox4)
-                    .addComponent(jCheckBox5))
+                    .addComponent(geometryBox)
+                    .addComponent(roundaboutBox)
+                    .addComponent(streetNamesBox)
+                    .addComponent(overtakeBox))
                 .addGap(90, 90, 90))
         );
         togglePanelLayout.setVerticalGroup(
@@ -171,22 +177,22 @@ public class AddSimulation extends javax.swing.JFrame {
                                     .addGroup(togglePanelLayout.createSequentialGroup()
                                         .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(lefthandedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lefthandedBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lefthandedLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(geometryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(geometryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(roundaboutsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(roundaboutBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(streetNamesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jCheckBox4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(streetNamesBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(overtakeLanesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 16, Short.MAX_VALUE))
+                    .addComponent(overtakeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout optionsTabLayout = new javax.swing.GroupLayout(optionsTab);
@@ -230,7 +236,7 @@ public class AddSimulation extends javax.swing.JFrame {
         );
         vehicleFilterTabLayout.setVerticalGroup(
             vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 221, Short.MAX_VALUE)
+            .addGap(0, 205, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(VEHICLE_FILTERS, vehicleFilterTab);
@@ -245,20 +251,32 @@ public class AddSimulation extends javax.swing.JFrame {
         );
         roadFilterTypeLayout.setVerticalGroup(
             roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 221, Short.MAX_VALUE)
+            .addGap(0, 205, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(ROAD_FILTERS, roadFilterType);
+
+        acceptLabel.setBackground(new java.awt.Color(255, 255, 255));
+        acceptLabel.setFont(view.FONT);
+        acceptLabel.setText(ACCEPT);
+        acceptLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                acceptLabelMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tabPanel)
-                    .addComponent(titlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tabPanel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
@@ -267,8 +285,9 @@ public class AddSimulation extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(tabPanel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -291,23 +310,34 @@ public class AddSimulation extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void acceptLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptLabelMouseClicked
+        name = nameField.getText();
+        String[] commands = new String[command.size()];
+        commands = command.toArray(commands);
+        view.newSimulation(name, commands);
+        view.enableEvents(true);
+        this.dispose();
+    }//GEN-LAST:event_acceptLabelMouseClicked
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel acceptLabel;
+    private javax.swing.JCheckBox geometryBox;
     private javax.swing.JLabel geometryLabel;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
-    private javax.swing.JCheckBox jCheckBox4;
-    private javax.swing.JCheckBox jCheckBox5;
+    private javax.swing.JCheckBox lefthandedBox;
     private javax.swing.JLabel lefthandedLabel;
     private javax.swing.JLabel lefthandedLabel1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField nameField;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JPanel optionsTab;
+    private javax.swing.JCheckBox overtakeBox;
     private javax.swing.JLabel overtakeLanesLabel;
     private javax.swing.JPanel roadFilterType;
+    private javax.swing.JCheckBox roundaboutBox;
     private javax.swing.JLabel roundaboutsLabel;
+    private javax.swing.JCheckBox streetNamesBox;
     private javax.swing.JLabel streetNamesLabel;
     private javax.swing.JTabbedPane tabPanel;
     private javax.swing.JLabel titleLabel;

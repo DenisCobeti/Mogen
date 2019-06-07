@@ -2,34 +2,26 @@ package view;
 
 import view.mapelements.VehicleType;
 import control.ViewListener;
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import model.C4RModel.ElementType;
 import model.map.MapSelection;
 import model.Tuple;
 import model.routes.VType;
+import model.sumo.Simulation;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.simulation.AddSimulation;
@@ -65,12 +57,16 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private static final String WELCOME = "Welcome!";
     
     private static final String PROGRAM = "C4R";
+    private static final String DEFAULT_SIM_NAME = "New ";
+    
     
     private final JLabel addVTypeButton;
     //private final JLabel addDowntown;
     //private final JLabel addRSU;
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
+    private static final String ICON_LOCATION = "resources/icon/icon.png";
+    private static final int DEFAULT_NUM_TABS = 2;
     private ImageIcon ADD_ICON = new ImageIcon(ADD_ICON_IMG);
     
     private final ViewListener listenerUI;
@@ -87,6 +83,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         this.listenerUI = listenerUI;
         this.simListener = new AddSimulationListener(this);
         Locale.setDefault(Locale.Category.FORMAT,new Locale("en", "UK"));
+        ImageIcon icon = new ImageIcon(ICON_LOCATION);
         
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -99,7 +96,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         panelMaps.addTab(ADD_SIMULATION, panel);
         panelMaps.addChangeListener(simListener);
         //menuFileExit.addActionListener(this);
-        tab = 2;
+        tab = DEFAULT_NUM_TABS;
         panelMaps.setFont(FONT);
         panelOptions.setFont(FONT);
         
@@ -117,6 +114,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         avalibleMap = false;
         
         this.setTitle(PROGRAM);
+        this.setIconImage(icon.getImage());
         this.setLocationRelativeTo(null);
         this.setVisible(true);
     }
@@ -306,6 +304,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             
         } else if (arg instanceof Exception){
             error(((Exception) arg).getMessage());
+            
+        } else if (arg instanceof Simulation){
+            updateSimulation(((Simulation) arg).getName());
         }
     }
     
@@ -326,14 +327,21 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
 
-    public void addSimulation(){
-        System.out.println("boom");
-        JFrame simulation = new AddSimulation(this, "new " + tab);
+    public void addSimulationDialog(){
+        JFrame simulation = new AddSimulation(this, DEFAULT_SIM_NAME + tab);
         simulation.setVisible(true);
+    }
+    
+    public void newSimulation(String name, String[] commands){
+        listenerUI.producedEvent(ViewListener.Event.NEW_SIMULATION, 
+                                                new Tuple<>(name, commands));
+    }
+    
+    public void updateSimulation(String name){
         JPanel panel = new JPanel();
-        JPanel tabTitle = new TabElement(this, tab, "new", panel);
+        JPanel tabTitle = new TabElement(this, tab, name, panel);
         
-        panelMaps.add(tabTitle.getUIClassID(), panel);
+        panelMaps.add(panel);
         panelMaps.setTabComponentAt(tab, tabTitle);
         panelMaps.setSelectedIndex(tab);
         tab++;
