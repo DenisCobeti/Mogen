@@ -1,16 +1,24 @@
 package model.sumo;
 
-import java.util.Collection;
 /**
  *
  * @author Neblis
  */
 public class Edge {
-    private final double lenght;
-    private final Collection shapePositions;
+    private final double length;
+    private final String shape;
+    
+    public final static String TAG = "edge";
+    public final static String LANE = "lane";
+    public final static String LENGTH = "length";
+    public final static String SHAPE = "shape";
 
-    public Edge(double linght, Collection shapePositions) {
-        this.lenght = linght;
-        this.shapePositions = shapePositions;
+    public Edge(double length, String shape) {
+        this.length = length;
+        this.shape = shape;
+    }
+    public Edge(String length, String shape) {
+        this.length = Double.valueOf(length);
+        this.shape = shape;
     }
 }
