@@ -1,7 +1,6 @@
 package control;
 
 
-import model.sumo.Simulation;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

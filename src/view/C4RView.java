@@ -21,7 +21,7 @@ import model.C4RModel.ElementType;
 import model.map.MapSelection;
 import model.Tuple;
 import model.routes.VType;
-import model.sumo.Simulation;
+import control.Simulation;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.simulation.AddSimulation;
@@ -169,7 +169,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         );
         addTabLayout.setVerticalGroup(
             addTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 322, Short.MAX_VALUE)
+            .addGap(0, 361, Short.MAX_VALUE)
         );
 
         panelMaps.addTab(WELCOME, addTab);
@@ -259,9 +259,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(panelFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelOptions))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelMaps)
+                    .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelMaps, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
                 .addContainerGap())
         );
 

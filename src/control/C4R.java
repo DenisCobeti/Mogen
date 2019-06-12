@@ -1,7 +1,11 @@
 package control;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.stream.XMLStreamException;
 import model.C4RModel;
 import model.Tuple;
 import model.map.MapSelection;
@@ -9,7 +13,6 @@ import model.constants.Errors;
 import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
 import model.routes.VType;
-import model.sumo.Simulation;
 import view.C4RView;
 
 /**
@@ -27,11 +30,17 @@ public class C4R implements ViewListener{
     private VehicleMobility vehicleManager;
    
     public C4R(String[] args) {
-        view = new C4RView(this);
-        model = new C4RModel(control, view);
-        control = new C4RControl(model, view);  
+        //view = new C4RView(this);
+        //model = new C4RModel(control, view);
+        //control = new C4RControl(model, view);  
         
-        vehicleManager = new VehicleMobility();
+        //vehicleManager = new VehicleMobility();
+        Simulation sim = new Simulation("boom");
+        try {
+            sim.parseNetwork("New3.net.xml");
+        } catch (FileNotFoundException | XMLStreamException ex) {
+            System.out.println("Error");
+        }
     }
 
     @Override
