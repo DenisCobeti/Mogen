@@ -10,6 +10,8 @@ public enum Errors {
     FILE_WRITE("Error: "),
     NETCONVERT_CMD("Error: "),
     DUPLICATED_VTYPE("Error: can´t have 2 vehicle types with the same name"),
+    FIRST_SIM("Error: a simulation must be created first"),
+    NO_SELECTED_SIM("Error: a simulation must be selected"),
     ROUTE(".rou.xml");
     
     private final String msg;

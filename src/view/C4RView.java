@@ -22,6 +22,10 @@ import model.map.MapSelection;
 import model.Tuple;
 import model.routes.VType;
 import control.Simulation;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import model.constants.Errors;
+import model.constants.FilesExtension;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.simulation.AddSimulation;
@@ -47,6 +51,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private static final String MENU_ITEM_FILE = "Exit program";
     private static final String MENU_ITEM_NEW_MAP = "New map";
     private static final String MENU_ITEM_OPEN_MAP = "Open map";
+    private static final String MENU_ITEM_EXPORT = "Export simulation";
     
     private static final String VEHICLE_TYPES = "Vehicle types";
     private static final String RSU = "RSU";
@@ -142,6 +147,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         menuFileOpen = new javax.swing.JMenuItem();
         menuFileExit = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
+        menuEditExport = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -213,9 +219,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
         menuFileOpen.setFont(FONT);
         menuFileOpen.setText(MENU_ITEM_OPEN_MAP);
-        menuFileOpen.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                menuFileOpenMouseClicked(evt);
+        menuFileOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuFileOpenActionPerformed(evt);
             }
         });
         menuFile.add(menuFileOpen);
@@ -235,6 +241,15 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
         menuEdit.setText("Edit");
         menuEdit.setFont(FONT);
+
+        menuEditExport.setText(MENU_ITEM_EXPORT);
+        menuEditExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEditExportActionPerformed(evt);
+            }
+        });
+        menuEdit.add(menuEditExport);
+
         menuBar.add(menuEdit);
 
         setJMenuBar(menuBar);
@@ -261,7 +276,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
                     .addComponent(panelFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelMaps, javax.swing.GroupLayout.DEFAULT_SIZE, 389, Short.MAX_VALUE)
+                .addComponent(panelMaps)
                 .addContainerGap())
         );
 
@@ -276,9 +291,34 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         map = new MapViewer(this);
     }//GEN-LAST:event_menuFileNewActionPerformed
 
-    private void menuFileOpenMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFileOpenMouseClicked
-        
-    }//GEN-LAST:event_menuFileOpenMouseClicked
+    private void menuEditExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditExportActionPerformed
+
+        if(panelMaps.getTabCount() < 3){
+            JOptionPane.showMessageDialog(this,Errors.FIRST_SIM);
+            return;
+        }
+        if(panelMaps.getSelectedIndex() < 2) {
+            JOptionPane.showMessageDialog(this,Errors.NO_SELECTED_SIM);
+            return;
+        }
+        System.out.println(((TabElement)panelMaps.getTabComponentAt
+                                    (panelMaps.getSelectedIndex())).getName());
+    }//GEN-LAST:event_menuEditExportActionPerformed
+
+    private void menuFileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileOpenActionPerformed
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter
+                                      (null, "osm");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println("You chose to open this file: " +
+            chooser.getSelectedFile().getName());
+            listenerUI.producedEvent(ViewListener.Event.OPEN_MAP, 
+                        chooser.getSelectedFile().getAbsolutePath());
+        }
+    }//GEN-LAST:event_menuFileOpenActionPerformed
    
     
     @Override
@@ -316,6 +356,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JScrollPane downtownScroll;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
+    private javax.swing.JMenuItem menuEditExport;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem menuFileExit;
     private javax.swing.JMenuItem menuFileNew;

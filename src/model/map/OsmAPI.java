@@ -20,7 +20,7 @@ public class OsmAPI implements MapAPI{
     // minLon, minLat, maxLon, maxLat
     public static final String API2 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
     public static final String API3 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
-    public String API = "https://lz4.overpass-api.de/api/map?bbox=";
+    public String API = "http://lz4.overpass-api.de/api/map?bbox=";
     private static final String API_FORMAT = "%s%s,%s,%s,%s";
     private final HttpURLConnection connection;
     
@@ -42,6 +42,11 @@ public class OsmAPI implements MapAPI{
     
     @Override
     public InputStream getMap() throws IOException{
+        try{
+            connection.getInputStream();
+        } catch(IOException e){
+            System.out.println(e);
+        }
         return connection.getInputStream();
     }
     

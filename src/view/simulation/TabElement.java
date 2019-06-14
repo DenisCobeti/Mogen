@@ -31,6 +31,7 @@ public class TabElement extends JPanel{
         if (name.isEmpty() || name == null){ 
             titleLabel = new JLabel(NEW_SIMULATION + tab);
         }else{
+            this.setName(name);
             titleLabel = new JLabel(name);
         }
         closeButton = new JLabel(CLOSE_SIMULATION);
@@ -53,5 +54,4 @@ public class TabElement extends JPanel{
     private void closeSimulation(JPanel simulation){
         view.closeSimulation(simulation);
     }
-    
 }

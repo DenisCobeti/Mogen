@@ -64,8 +64,6 @@ public class C4R implements ViewListener{
                 } catch (IOException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
-                }finally{
-                    view.update(model, null);
                 }
                 break;
                 
@@ -99,13 +97,13 @@ public class C4R implements ViewListener{
         System.exit(0);
     }
     
-    public static void handleError(Exception e, Errors error){
+    public  void handleError(Exception e, Errors error){
         switch(error){
             case OSM_DOWNLOAD:
                 //logger.log(Level.SEVERE, error.toString(), e);
-                e.printStackTrace();
+                view.update(model, e);
             case NETCONVERT_CMD:
-                e.printStackTrace();
+                view.update(model, e);
         }
     }
     public static void main(String[] args) {
