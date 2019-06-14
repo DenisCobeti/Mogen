@@ -379,9 +379,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     public void importMap(JFrame map, MapSelection selection) {
         map.dispose();
         loading = new LoadingMap();
-        this.add(loading);
         loading.setEnabled(true);
-        loading.show(this, 100, 100);
+        loading.setLocationRelativeTo(this);
         loading.setVisible(true);
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
         avalibleMap = true;
