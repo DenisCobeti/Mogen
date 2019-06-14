@@ -16,5 +16,10 @@ public class Lane {
         this.length = Double.valueOf(length);
         this.shape = shape;
     }
+
+    @Override
+    public String toString() {
+        return "Lane{ " + length + ", " + shape + '}';
+    }
     
 }

@@ -42,6 +42,7 @@ public class AddSimulation extends javax.swing.JFrame {
         this.name = name;
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         command = new HashSet<>();
+        //command.add(Netconvert.FLATTEN.getCommand());
         view.enableEvents(false);
         initComponents();
         this.setLocationRelativeTo(view);

@@ -29,8 +29,10 @@ public enum Netconvert {
     KEEP_TYPE("--keep-edges.by-vclass"),
     REMOVE_TYPE("--remove-edges.by-vclass"),
     
-    GUESS_TRAFIC_LIGHTS("--tls.guess TRUE");
+    GUESS_TRAFIC_LIGHTS("--tls.guess TRUE"),
     
+    TRUE("TRUE"); /* Needed after OSM_NO_DUPLICATES, OVERTAKE_LANES, 
+                    STREET_NAMES, FLATTEN, GUESS_TRAFIC_LIGHTS.*/
     private final String command;
     
     private Netconvert(String command) {

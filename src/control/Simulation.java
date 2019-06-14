@@ -4,7 +4,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import model.sumo.Connection;
@@ -22,12 +25,12 @@ public class Simulation {
     private final static String ID = "id";
     private final static int MAX_LANES = 4;
     
-    private HashMap<String, Lane> lanes = new HashMap<>();
-    private HashMap<String, Connection> connections = new HashMap<>();
-    private HashMap<String, Junction> junctions = new HashMap<>();
-    private HashMap<String, RoadType> roadTypes = new HashMap<>();
+    private final HashMap<String, Lane> lanes = new HashMap<>();
+    private final HashMap<String, Connection> connections = new HashMap<>();
+    private final HashMap<String, String> junctions = new HashMap<>();
+    private final HashMap<String, RoadType> roadTypes = new HashMap<>();
     
-    private String  name;
+    private final String  name;
 
     public Simulation(String name) {
         this.name = name;
@@ -39,29 +42,54 @@ public class Simulation {
         InputStream in = new FileInputStream(location);
         XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
         reader.nextTag(); // pass the net tag
-        
+        int event;
+        String tag;
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
         while (reader.hasNext()){
-            switch(reader.getLocalName()){
-                 case Lane.TAG:
-                     lanes.put(reader.getAttributeValue(null, ID),
-                         new Lane( reader.getAttributeValue(null, Lane.LENGTH)
-                             ,reader.getAttributeValue(null, Lane.SHAPE)));
-                     System.out.println(reader.getAttributeValue(null, Lane.SHAPE));
-                     reader.next();
-                     break;
-                 case Junction.TAG:
-                     reader.next();
-                     break;
-                 default: 
-                     reader.next();
-            }
+            event = reader.next();
+            if(event == XMLStreamConstants.START_ELEMENT){
+                /*switch(reader.getLocalName()){
+                     case Lane.TAG:
+                         lanes.put(reader.getAttributeValue(null, ID),
+                             new Lane( reader.getAttributeValue(null, Lane.LENGTH)
+                                 ,reader.getAttributeValue(null, Lane.SHAPE)));
+                         System.out.println(reader.getAttributeValue(null, Lane.SHAPE));
+                         
+                         break;
+                     case Junction.TAG:
+                        
+                         break;
+                     default: 
+                        
+                }*/
+                tag = reader.getLocalName();
+                
+                if(tag.equals(Lane.TAG)){
+                    lanes.put(reader.getAttributeValue(null, ID),
+                        new Lane( reader.getAttributeValue(null, Lane.LENGTH)
+                                 ,reader.getAttributeValue(null, Lane.SHAPE)));
+                    //System.out.println(reader.getAttributeValue(null, Lane.SHAPE));
+                }else if(tag.equals(Junction.TAG)){
+                    junctions.put(reader.getAttributeValue(null, ID), 
+                                  reader.getAttributeValue(null, Lane.SHAPE));
+                }      
+            }  
+            
         }
+        printMap(lanes);
+        printMap(junctions);
        
     }
 
     public String getName() {
         return name;
     }
-    
+    public static void printMap(Map mp) {
+    Iterator it = mp.entrySet().iterator();
+    while (it.hasNext()) {
+        Map.Entry pair = (Map.Entry)it.next();
+        System.out.println(pair.getKey() + " = " + pair.getValue());
+        it.remove(); // avoids a ConcurrentModificationException
+    }
+}
 }

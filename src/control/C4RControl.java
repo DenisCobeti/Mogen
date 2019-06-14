@@ -9,6 +9,7 @@ import model.map.OsmAPI;
 import model.constants.Errors;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class C4RControl {
     private MapConverter converter;
     //private HashMap<String, Simulation> simulations;
     private List<Simulation> simulations;
+    private boolean hasMap = false;
 
     public C4RControl(C4RModel model, C4RView view) {
         this.model = model;
@@ -89,21 +91,25 @@ public class C4RControl {
         copyInputStreamToFile(in, osmFile);
         // Modify second parameter to change the imported map type
         converter = new MapConverter(map, APIS.OSM);
+        hasMap = true;
     }
+    
     public void openMap(String location) throws ProtocolException, 
                                                             IOException{
         // Modify second parameter to change the imported map type
         converter = new MapConverter(location, APIS.OSM);
-        
+        hasMap = true;
     }
+    
     public Simulation createSimulation(String name, String[] commands) 
                                     throws IOException{
         Simulation sim = new Simulation(name);
-        converter.addOptions(commands);
+        converter.addOptions(cleanOptions(commands));
         converter.executeConvert(name);
         simulations.add(sim);
         return sim;
     }
+    
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
@@ -120,5 +126,22 @@ public class C4RControl {
         }
 
     }
-    
+
+    private List cleanOptions(String[] commands) {
+        LinkedList<String> newCommands = new LinkedList<>();
+        
+        for (String command: commands){
+            if (command.contains(" ")){
+                newCommands.addAll(Arrays.asList(command.split(" ")));
+            }else{
+                newCommands.add(command);
+            }
+        }
+        
+        return newCommands;
+    }
+
+    public boolean hasMap() {
+        return hasMap;
+    }
 }
