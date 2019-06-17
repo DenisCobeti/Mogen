@@ -9,6 +9,7 @@ import model.map.MapSelection;
 import model.constants.Errors;
 import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
+import model.mobility.MobilityModel;
 import model.routes.VType;
 import view.C4RView;
 
@@ -24,14 +25,14 @@ public class C4R implements ViewListener{
     private C4RModel model;
     private C4RView view;
     
-    private VehicleMobility vehicleManager;
+    private VehicleManager vehicleManager;
    
     public C4R(String[] args) {
         view = new C4RView(this);
         model = new C4RModel(control, view);
         control = new C4RControl(model, view);  
         
-        vehicleManager = new VehicleMobility();
+        vehicleManager = new VehicleManager();
         /*Simulation sim = new Simulation("boom");
         try {
             sim.parseNetwork("New3.net.xml");
@@ -70,7 +71,7 @@ public class C4R implements ViewListener{
             case NEW_VEHICLE_TYPE:
                 VType type = new VType();
                 
-                if(vehicleManager.addElement((String)obj, type)){ 
+                if(model.addElement((String)obj, type)){ 
                     view.update(model, new Tuple<>((String)obj, type));
                     System.out.println(obj.toString());
                 }else{
@@ -81,15 +82,24 @@ public class C4R implements ViewListener{
                 
             case NEW_SIMULATION:
                 Tuple tuple = (Tuple)obj;
-                Simulation sim = null;
                 try {
-                    sim = control.createSimulation((String)tuple.obj1, (String[])tuple.obj2);
-                    view.update(model, sim);
+                    control.createSimulation((String)tuple.obj1, 
+                                                    (String[])tuple.obj2);
+                    view.update(model, (String)tuple.obj1);
                 } catch (IOException ex) {
                     handleError(ex, Errors.NETCONVERT_CMD);
                 } 
                 break;
-        
+                
+            case EXPORT:
+                Tuple tuple2 = (Tuple)obj;
+                try{
+                    control.exportSimulation((MobilityModel)tuple2.obj1, 
+                                             (String)tuple2.obj2);
+                } catch (IOException ex) {
+                    handleError(ex, Errors.ROUTE);
+                }
+                break;
         } 
     }
     
@@ -106,6 +116,7 @@ public class C4R implements ViewListener{
                 view.update(model, e);
         }
     }
+    
     public static void main(String[] args) {
         new control.C4R(args);
     } 

@@ -28,6 +28,7 @@ public class Config {
     public static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit()
                                                      .getScreenSize().height;
     public static final GeoPosition DEFAULT_POSITION = new GeoPosition(50.11, 8.68);
+    public static final String SUMO_LOCATION = "C:\\Program Files (x86)\\Eclipse\\Sumo";
     
     public static void load()  {
         properties = new Properties();

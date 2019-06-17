@@ -67,6 +67,10 @@ public class VType {
     public int getMaxSpeed() {
         return maxSpeed;
     }
+
+    public String toFile(String id) {
+        return String.format(FILE_FORMAT, id, accel, decel, sigma, length, maxSpeed);
+    }
     
     
 }

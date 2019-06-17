@@ -30,10 +30,10 @@ public class Simulation {
     private final HashMap<String, String> junctions = new HashMap<>();
     private final HashMap<String, RoadType> roadTypes = new HashMap<>();
     
-    private final String  name;
+    private final String[]  commands;
 
-    public Simulation(String name) {
-        this.name = name;
+    public Simulation(String[] commands) {
+        this.commands = commands;
     }
     
     public void parseNetwork(String location) throws FileNotFoundException, 
@@ -81,9 +81,6 @@ public class Simulation {
        
     }
 
-    public String getName() {
-        return name;
-    }
     public static void printMap(Map mp) {
     Iterator it = mp.entrySet().iterator();
     while (it.hasNext()) {

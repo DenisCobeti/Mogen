@@ -26,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.constants.Errors;
 import model.constants.FilesExtension;
+import model.mobility.Random;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.simulation.AddSimulation;
@@ -303,6 +304,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         }
         System.out.println(((TabElement)panelMaps.getTabComponentAt
                                     (panelMaps.getSelectedIndex())).getName());
+        Tuple tuple = new Tuple(new Random(10,10), ((TabElement)panelMaps.getTabComponentAt
+                                    (panelMaps.getSelectedIndex())).getName());
+        listenerUI.producedEvent(ViewListener.Event.EXPORT, tuple);
     }//GEN-LAST:event_menuEditExportActionPerformed
 
     private void menuFileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileOpenActionPerformed
@@ -345,8 +349,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         } else if (arg instanceof Exception){
             error(((Exception) arg).getMessage());
             
-        } else if (arg instanceof Simulation){
-            updateSimulation(((Simulation) arg).getName());
+        } else if (arg instanceof String){
+            updateSimulation((String)arg);
         }
     }
     

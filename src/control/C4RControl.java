@@ -16,6 +16,8 @@ import model.map.MapAPI;
 import model.map.MapAPI.APIS;
 import model.map.MapSelection;
 import model.constants.FilesExtension;
+import model.mobility.MobilityModel;
+import model.mobility.MobilityModel.Models;
 import view.C4RView;
 
 /**
@@ -27,17 +29,19 @@ public class C4RControl {
     private C4RView view;
     
     private MapConverter converter;
+    private VehicleManager vehicleManager;
     //private HashMap<String, Simulation> simulations;
-    private List<Simulation> simulations;
     private boolean hasMap = false;
 
     public C4RControl(C4RModel model, C4RView view) {
         this.model = model;
         this.view = view;
-        simulations = new LinkedList<>();
+        
+        vehicleManager = new VehicleManager();
         //obtainMap(0,0,0,0);
         Config.load();
         System.out.println(Config.osmMap +" " +Config.sumoMap);
+        
     }
     /*
     public void saveMap(MapSelection selection){
@@ -100,13 +104,17 @@ public class C4RControl {
     
     public Simulation createSimulation(String name, String[] commands) 
                                     throws IOException{
-        Simulation sim = new Simulation(name);
+        Simulation sim = new Simulation(commands);
         converter.addOptions(cleanOptions(commands));
         converter.executeConvert(name);
-        simulations.add(sim);
+        model.addElement(name, sim);
         return sim;
     }
     
+    public void exportSimulation(MobilityModel mobilityModel, String sim) 
+                                                            throws IOException{
+        mobilityModel.export("pruebasses", sim, model.getvTypes());
+    }
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
