@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 06/17/19 13:46:07 by Eclipse SUMO netconvert Version 1.1.0
+<!-- generated on 06/18/19 13:48:08 by Eclipse SUMO netconvert Version 1.1.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
@@ -8,7 +8,7 @@
     </input>
 
     <output>
-        <output-file value="New%202.net.xml"/>
+        <output-file value="New2.net.xml"/>
     </output>
 
     <projection>
