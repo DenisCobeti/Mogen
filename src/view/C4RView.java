@@ -26,7 +26,9 @@ import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.constants.Errors;
 import model.constants.FilesExtension;
+import model.mobility.MobilityModel;
 import model.mobility.Random;
+import view.export.MobilityModelFrame;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.simulation.AddSimulation;
@@ -304,9 +306,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         }
         System.out.println(((TabElement)panelMaps.getTabComponentAt
                                     (panelMaps.getSelectedIndex())).getName());
-        Tuple tuple = new Tuple(new Random(10,10), ((TabElement)panelMaps.getTabComponentAt
-                                    (panelMaps.getSelectedIndex())).getName());
-        listenerUI.producedEvent(ViewListener.Event.EXPORT, tuple);
+        JFrame export = new MobilityModelFrame(this, ((TabElement)panelMaps
+                .getTabComponentAt(panelMaps.getSelectedIndex())).getName());
+        export.setVisible(true);
     }//GEN-LAST:event_menuEditExportActionPerformed
 
     private void menuFileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileOpenActionPerformed
@@ -342,9 +344,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             
         } else if (arg instanceof Tuple){
             updateLists((Tuple)arg);
-            
-        } else if (arg instanceof VType){
-            updateTypes((VType) arg);
             
         } else if (arg instanceof Exception){
             error(((Exception) arg).getMessage());
@@ -392,6 +391,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         tab++;
     }
     
+    public void exportSimulation(MobilityModel model, String name){
+        Tuple tuple = new Tuple(model, name);
+        listenerUI.producedEvent(ViewListener.Event.EXPORT, tuple);
+    }
+    
     public void enableEvents(boolean events){
         this.setEnabled(events);
     }
@@ -410,7 +414,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         }
     }
     
-    private void updateTypes(VType type){
+    private void updateTypes(){
         
     }
     

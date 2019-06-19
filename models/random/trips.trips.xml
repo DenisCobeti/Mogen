@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated on 2019-06-18 13:48:09.891000 by $Id$
+<!-- generated on 2019-06-19 12:42:23.389000 by $Id$
   options: -n New2.net.xml <doubleminus>additional-file ./models/random/vehicles.add.xml -e 10 -o ./models/random/trips.trips.xml -r ./models/random/routes.rou.xml
 -->
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <trip id="0" depart="0.00" from="47457276" to="47751835"/>
-    <trip id="1" depart="1.00" from="47751768#0" to="668090809#1"/>
-    <trip id="2" depart="2.00" from="228371130" to="-47457262#1"/>
-    <trip id="3" depart="3.00" from="447469848#4" to="-668090809#2"/>
-    <trip id="4" depart="4.00" from="447693571#2" to="47457261#1"/>
-    <trip id="5" depart="5.00" from="-228371106#3" to="-228371126#1"/>
-    <trip id="6" depart="6.00" from="47457267" to="228371128#1"/>
-    <trip id="7" depart="7.00" from="-447693571#1" to="-447469848#6"/>
-    <trip id="8" depart="8.00" from="333598111#2" to="447469848#0"/>
-    <trip id="9" depart="9.00" from="333598111#0" to="228371131#1"/>
+    <trip id="0" depart="0.00" from="228371106#2" to="333598111#1"/>
+    <trip id="1" depart="1.00" from="47457390" to="47457294#1"/>
+    <trip id="2" depart="2.00" from="454067558#2" to="-228371185"/>
+    <trip id="3" depart="3.00" from="47457272" to="447469848#7"/>
+    <trip id="4" depart="4.00" from="47457266#1" to="-47751768#1"/>
+    <trip id="5" depart="5.00" from="-228371126#1" to="668090809#2"/>
+    <trip id="6" depart="6.00" from="-38283578#1" to="228371124#1"/>
+    <trip id="7" depart="7.00" from="-47457262#0" to="-38283578#2"/>
+    <trip id="8" depart="8.00" from="228371124#3" to="47751812"/>
+    <trip id="9" depart="9.00" from="47751741#0" to="447469848#2"/>
 </routes>

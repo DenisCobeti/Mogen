@@ -80,11 +80,6 @@ public class VehicleManager {
     public String toFile(){
         return null;
     }
-    private void defaultVTypes(){
-        vTypes.put("Car", new VType());
-        vTypes.put("Sport", new VType());
-        vTypes.put("Truck", new VType());
-    }
     public Map<String, VType> getvTypes() {
         return vTypes;
     }

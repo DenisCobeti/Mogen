@@ -1,5 +1,5 @@
 <additional>
-<Vtype id="Sport" accel="3.00" decel="5.00" sigma="0.5" length="1" maxSpeed="100" />
-<Vtype id="Car" accel="3.00" decel="5.00" sigma="0.5" length="1" maxSpeed="100" />
-<Vtype id="Truck" accel="3.00" decel="5.00" sigma="0.5" length="1" maxSpeed="100" />
+<Vtype id="Sport" accel="3.00" decel="5.00" sigma="7.0" length="1" maxSpeed="100" />
+<Vtype id="Car" accel="3.00" decel="5.00" sigma="7.0" length="1" maxSpeed="100" />
+<Vtype id="Truck" accel="3.00" decel="5.00" sigma="7.0" length="1" maxSpeed="100" />
 </additional>

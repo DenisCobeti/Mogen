@@ -12,12 +12,12 @@ import java.util.LinkedList;
 import java.util.List;
 import model.C4RModel;
 import model.Config;
+import model.Tuple;
 import model.map.MapAPI;
 import model.map.MapAPI.APIS;
 import model.map.MapSelection;
 import model.constants.FilesExtension;
 import model.mobility.MobilityModel;
-import model.mobility.MobilityModel.Models;
 import view.C4RView;
 
 /**
@@ -41,7 +41,7 @@ public class C4RControl {
         //obtainMap(0,0,0,0);
         Config.load();
         System.out.println(Config.osmMap +" " +Config.sumoMap);
-        
+        model.getvTypes().forEach((k, v) -> view.update(model, new Tuple(k, v)));
     }
     /*
     public void saveMap(MapSelection selection){
