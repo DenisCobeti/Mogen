@@ -1,6 +1,6 @@
 package view;
 
-import view.mapelements.VehicleType;
+import view.mapelements.VehicleTypePanel;
 import control.ViewListener;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -82,7 +82,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private boolean avalibleMap;
     private AddSimulationListener simListener;
     
-    private List<VehicleType> VehicleTypes;
+    private List<VehicleTypePanel> VehicleTypes;
     /**
      * Creates new form NewJFrame
      */
@@ -401,7 +401,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     }
     private void updateLists(Tuple tuple){
         if(tuple.obj2 instanceof VType){
-            VehicleType vType = new VehicleType((String)tuple.obj1, (VType)tuple.obj2, this);
+            VehicleTypePanel vType = new VehicleTypePanel((String)tuple.obj1, (VType)tuple.obj2, this);
             vehicleTypesPanel.add(vType);
             vehicleTypesPanel.updateUI();
         }
@@ -415,7 +415,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     }
     
     private void updateTypes(){
-        
+        listenerUI.producedEvent(ViewListener.Event.EDIT_VTYPE, null);
     }
     
     public void newProject(NewProject selection) {
@@ -448,7 +448,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         avalibleMap = false;
     }
     
-    public void deleteVType(VehicleType type){
+    public void editVType(String name, VType type){
+        listenerUI.producedEvent(ViewListener.Event.EDIT_VTYPE, new Tuple(name, type));
+    }
+    
+    public void deleteVType(VehicleTypePanel type){
         vehicleTypesPanel.remove(type);
         vehicleTypesPanel.updateUI();
     }

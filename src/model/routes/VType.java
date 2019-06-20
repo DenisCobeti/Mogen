@@ -1,6 +1,7 @@
 package model.routes;
 
 import model.followingmodels.FollowingModel;
+import model.followingmodels.KraussModel;
 
 /**
  *
@@ -10,7 +11,7 @@ public class VType {
     
     //Format that will appear on the XML File
     private static final String FILE_FORMAT = "<Vtype id=\"%s\" accel=\"%.2f\""
-            + " decel=\"%.2f\" sigma=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" />";
+            + " decel=\"%.2f\" tau=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" %s />";
     
     private double accel;
     private double decel;
@@ -35,6 +36,7 @@ public class VType {
         
         this.length = DEFAULT_LENGTH;
         this.maxSpeed = DEFAULT_SPEED;
+        this.model = new KraussModel(0.5, 1);
     }
     
     public VType(String id, double accel, double decel, double tau, 
@@ -61,28 +63,19 @@ public class VType {
     public void setLength(int length) { this.length = length; }
     public void setMaxSpeed(int maxSpeed) { this.maxSpeed = maxSpeed; }
 
-    public double getAccel() {
-        return accel;
-    }
+    public double getAccel() { return accel; }
 
-    public double getDecel() {
-        return decel;
-    }
+    public double getDecel() { return decel; }
 
-    public double getTau() {
-        return tau;
-    }
+    public double getTau() { return tau; }
 
-    public int getLength() {
-        return length;
-    }
+    public int getLength() { return length; }
 
-    public int getMaxSpeed() {
-        return maxSpeed;
-    }
+    public int getMaxSpeed() { return maxSpeed; }
 
     public String toFile(String id) {
-        return String.format(FILE_FORMAT, id, accel, decel, tau, length, maxSpeed);
+        return String.format(FILE_FORMAT, id, accel, decel, tau, length, 
+                            maxSpeed, model.toSimulation());
     }
     
     

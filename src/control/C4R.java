@@ -43,6 +43,7 @@ public class C4R implements ViewListener{
 
     @Override
     public void producedEvent(Event event, Object obj) {
+        Tuple tuple;
         switch (event) {
             case SALIR:
                 salir();
@@ -81,7 +82,7 @@ public class C4R implements ViewListener{
                 break;
                 
             case NEW_SIMULATION:
-                Tuple tuple = (Tuple)obj;
+                tuple = (Tuple)obj;
                 try {
                     control.createSimulation((String)tuple.obj1, 
                                                     (String[])tuple.obj2);
@@ -92,13 +93,17 @@ public class C4R implements ViewListener{
                 break;
                 
             case EXPORT:
-                Tuple tuple2 = (Tuple)obj;
+                tuple = (Tuple)obj;
                 try{
-                    control.exportSimulation((MobilityModel)tuple2.obj1, 
-                                             (String)tuple2.obj2);
+                    control.exportSimulation((MobilityModel)tuple.obj1, 
+                                             (String)tuple.obj2);
                 } catch (IOException ex) {
                     handleError(ex, Errors.ROUTE);
                 }
+                break;
+            case EDIT_VTYPE:
+                tuple = (Tuple)obj;
+                model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);
                 break;
         } 
     }

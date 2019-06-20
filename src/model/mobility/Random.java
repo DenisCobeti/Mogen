@@ -30,6 +30,8 @@ public class Random implements MobilityModel{
     private final static String OUTPUT_OPT = "-o";
     private final static String ROUTES_OPT = "-r";
     private final static String NUM_OPT = "-n";
+    private final static String ATT_OPT = "--trip-attributes";
+    private final static String DIST_OPT = "type='dist1'";
     
     private final static String FILE_LOCATION = "./models/random/";
     private final static String VEHICLE_FILE = "vehicles.add.xml";
@@ -60,9 +62,11 @@ public class Random implements MobilityModel{
         
         PrintWriter writer = new PrintWriter(FILE_LOCATION + VEHICLE_FILE, "UTF-8");
         writer.println("<additional>");
+        writer.println("<vTypeDistribution id=\"dist1\">");
         for (Map.Entry<String, VType> entry : vTypes.entrySet()) {
             writer.println(entry.getValue().toFile(entry.getKey()));
         }
+        writer.println("</vTypeDistribution>");
         writer.println("</additional>");
         writer.close();
         
@@ -73,6 +77,8 @@ public class Random implements MobilityModel{
         command.add(FILE_LOCATION + TRIPS_FILE);
         command.add(ROUTES_OPT);
         command.add(FILE_LOCATION + ROUTES_FILE);
+        command.add(ATT_OPT);
+        command.add(DIST_OPT);
         System.out.println(command.toString());
         
         ProcessBuilder randomTrips = new ProcessBuilder(command);

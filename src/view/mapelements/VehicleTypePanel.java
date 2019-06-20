@@ -12,7 +12,7 @@ import view.export.MobilityModelFrame;
  *
  * @author Neblis
  */
-public class VehicleType extends javax.swing.JPanel {
+public class VehicleTypePanel extends javax.swing.JPanel {
 
     /**
      * Creates new form vehicleTypeElement
@@ -53,7 +53,7 @@ public class VehicleType extends javax.swing.JPanel {
         }
     }
     
-    public VehicleType(String name, VType type, C4RView view) {
+    public VehicleTypePanel(String name, VType type, C4RView view) {
         this.name = name;
         this.view = view;
         this.type = type;
@@ -274,6 +274,14 @@ public class VehicleType extends javax.swing.JPanel {
 
     private void accelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accelFieldActionPerformed
         // TODO add your handling code here:
+        //
+        //
+        //hay que tratar errores
+        //
+        //
+        accelField.setText(accelField.getText().replace(',', '.'));
+        type.setAccel(Double.valueOf(accelField.getText()));
+        view.editVType(name, type);
     }//GEN-LAST:event_accelFieldActionPerformed
 
     private void removeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeLabelMouseClicked
