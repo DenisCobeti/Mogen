@@ -27,7 +27,7 @@ public class VType {
     private static final double DEFAULT_TAU = 7;
     
     private static final int DEFAULT_LENGTH = 1;
-    private static final int DEFAULT_SPEED = 100;
+    private static final int DEFAULT_SPEED = 50;
     
     public VType() {
         this.accel = DEFAULT_ACCEL;

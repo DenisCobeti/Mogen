@@ -57,12 +57,14 @@ public class C4R implements ViewListener{
                                            (Errors.OSM_DOWNLOAD.toString()));
                 }finally{
                     view.update(model, null);
+                    view.update(model, true);
                 }
                 break;
                 
             case OPEN_MAP:
                 try {
                     control.openMap((String)obj);
+                    view.update(model, true);
                 } catch (IOException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));

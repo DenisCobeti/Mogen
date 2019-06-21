@@ -5,6 +5,7 @@ import control.ViewListener;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -21,13 +22,10 @@ import model.C4RModel.ElementType;
 import model.map.MapSelection;
 import model.Tuple;
 import model.routes.VType;
-import control.Simulation;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.constants.Errors;
-import model.constants.FilesExtension;
 import model.mobility.MobilityModel;
-import model.mobility.Random;
 import view.export.MobilityModelFrame;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
@@ -63,10 +61,25 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     
     public static final String ADD_SIMULATION = " +  ";
     private static final String WELCOME = "Welcome!";
+    private static final String  TITLE = "New simulation";
     
     private static final String PROGRAM = "C4R";
     private static final String DEFAULT_SIM_NAME = "New ";
+    private static final String MAP_ERROR = "Map has to be imported first";
+    private final Font  TITLE_FONT;
     
+    private final static String VEHICLE_FILTERS = "Vehicle filters";
+    private final static String ROAD_FILTERS = "Road filters";
+    
+    private final static String OPTIONS = "Options";
+    
+    private final static String NAME = "Name";
+    private final static String LEFTHANDED = "Lefthanded";
+    private final static String REMOVE_GEOMETRY = "Remove geometry";
+    private final static String ROUNDABOUTS = "Guess roundabouts";
+    private final static String STREET_NAMES = "Street names";
+    private final static String OVERTAKE_LANES = "Overtake lanes";
+    private static final String ACCEPT = "Accept";
     
     private final JLabel addVTypeButton;
     //private final JLabel addDowntown;
@@ -83,6 +96,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private AddSimulationListener simListener;
     
     private List<VehicleTypePanel> VehicleTypes;
+    private HashSet<String> command;
+    
+    private String name;
     /**
      * Creates new form NewJFrame
      */
@@ -90,9 +106,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     public C4RView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;
         this.simListener = new AddSimulationListener(this);
+        TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
+        
         Locale.setDefault(Locale.Category.FORMAT,new Locale("en", "UK"));
         ImageIcon icon = new ImageIcon(ICON_LOCATION);
-        
+        command = new HashSet<>();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException | IllegalAccessException |  
@@ -136,9 +154,30 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelFile = new javax.swing.JPanel();
         panelMaps = new javax.swing.JTabbedPane();
         addTab = new javax.swing.JPanel();
+        mainPanel = new javax.swing.JPanel();
+        titlePanel = new javax.swing.JPanel();
+        titleLabel = new javax.swing.JLabel();
+        tabPanel = new javax.swing.JTabbedPane();
+        optionsTab = new javax.swing.JPanel();
+        nameLabel = new javax.swing.JLabel();
+        nameField = new javax.swing.JTextField();
+        togglePanel = new javax.swing.JPanel();
+        lefthandedLabel = new javax.swing.JLabel();
+        geometryLabel = new javax.swing.JLabel();
+        roundaboutsLabel = new javax.swing.JLabel();
+        streetNamesLabel = new javax.swing.JLabel();
+        overtakeLanesLabel = new javax.swing.JLabel();
+        lefthandedBox = new javax.swing.JCheckBox();
+        geometryBox = new javax.swing.JCheckBox();
+        roundaboutBox = new javax.swing.JCheckBox();
+        streetNamesBox = new javax.swing.JCheckBox();
+        overtakeBox = new javax.swing.JCheckBox();
+        lefthandedLabel1 = new javax.swing.JLabel();
+        vehicleFilterTab = new javax.swing.JPanel();
+        roadFilterType = new javax.swing.JPanel();
+        acceptLabel = new javax.swing.JLabel();
         panelOptions = new javax.swing.JTabbedPane();
         vehicleTypesScroll = new javax.swing.JScrollPane();
         vehicleTypesPanel = new javax.swing.JPanel();
@@ -154,31 +193,228 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        panelFile.setBackground(new java.awt.Color(255, 255, 255));
-        panelFile.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-
-        javax.swing.GroupLayout panelFileLayout = new javax.swing.GroupLayout(panelFile);
-        panelFile.setLayout(panelFileLayout);
-        panelFileLayout.setHorizontalGroup(
-            panelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 470, Short.MAX_VALUE)
-        );
-        panelFileLayout.setVerticalGroup(
-            panelFileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
         addTab.setBackground(new java.awt.Color(255, 255, 255));
+
+        titleLabel.setFont(TITLE_FONT);
+        titleLabel.setForeground(new java.awt.Color(204, 0, 102));
+        titleLabel.setText(TITLE);
+
+        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
+        titlePanel.setLayout(titlePanelLayout);
+        titlePanelLayout.setHorizontalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(titlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        titlePanelLayout.setVerticalGroup(
+            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(titlePanelLayout.createSequentialGroup()
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        tabPanel.setBackground(new java.awt.Color(255, 255, 255));
+        tabPanel.setFont(FONT);
+
+        optionsTab.setBackground(new java.awt.Color(255, 255, 255));
+
+        nameLabel.setFont(FONT);
+        nameLabel.setText(NAME);
+
+        nameField.setText(name);
+
+        togglePanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        lefthandedLabel.setFont(FONT);
+        lefthandedLabel.setText(LEFTHANDED);
+
+        geometryLabel.setFont(FONT);
+        geometryLabel.setText(REMOVE_GEOMETRY);
+
+        roundaboutsLabel.setFont(FONT);
+        roundaboutsLabel.setText(ROUNDABOUTS);
+
+        streetNamesLabel.setFont(FONT);
+        streetNamesLabel.setText(STREET_NAMES);
+
+        overtakeLanesLabel.setFont(FONT);
+        overtakeLanesLabel.setText(OVERTAKE_LANES);
+
+        lefthandedBox.setBackground(new java.awt.Color(255, 255, 255));
+
+        geometryBox.setBackground(new java.awt.Color(255, 255, 255));
+
+        roundaboutBox.setBackground(new java.awt.Color(255, 255, 255));
+
+        streetNamesBox.setBackground(new java.awt.Color(255, 255, 255));
+
+        overtakeBox.setBackground(new java.awt.Color(255, 255, 255));
+
+        lefthandedLabel1.setFont(FONT);
+        lefthandedLabel1.setText(LEFTHANDED);
+
+        javax.swing.GroupLayout togglePanelLayout = new javax.swing.GroupLayout(togglePanel);
+        togglePanel.setLayout(togglePanelLayout);
+        togglePanelLayout.setHorizontalGroup(
+            togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(togglePanelLayout.createSequentialGroup()
+                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lefthandedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                    .addComponent(geometryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(roundaboutsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(streetNamesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(overtakeLanesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(togglePanelLayout.createSequentialGroup()
+                        .addComponent(lefthandedBox)
+                        .addGap(18, 18, 18)
+                        .addComponent(lefthandedLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
+                    .addComponent(geometryBox)
+                    .addComponent(roundaboutBox)
+                    .addComponent(streetNamesBox)
+                    .addComponent(overtakeBox))
+                .addGap(90, 90, 90))
+        );
+        togglePanelLayout.setVerticalGroup(
+            togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(togglePanelLayout.createSequentialGroup()
+                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(togglePanelLayout.createSequentialGroup()
+                        .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(togglePanelLayout.createSequentialGroup()
+                                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(togglePanelLayout.createSequentialGroup()
+                                        .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(lefthandedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lefthandedBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(lefthandedLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(geometryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(geometryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(roundaboutsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(roundaboutBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(streetNamesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(streetNamesBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(overtakeLanesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(overtakeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout optionsTabLayout = new javax.swing.GroupLayout(optionsTab);
+        optionsTab.setLayout(optionsTabLayout);
+        optionsTabLayout.setHorizontalGroup(
+            optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(togglePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(optionsTabLayout.createSequentialGroup()
+                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        optionsTabLayout.setVerticalGroup(
+            optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(optionsTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(togglePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        tabPanel.addTab(OPTIONS, optionsTab);
+
+        vehicleFilterTab.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout vehicleFilterTabLayout = new javax.swing.GroupLayout(vehicleFilterTab);
+        vehicleFilterTab.setLayout(vehicleFilterTabLayout);
+        vehicleFilterTabLayout.setHorizontalGroup(
+            vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 623, Short.MAX_VALUE)
+        );
+        vehicleFilterTabLayout.setVerticalGroup(
+            vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 594, Short.MAX_VALUE)
+        );
+
+        tabPanel.addTab(VEHICLE_FILTERS, vehicleFilterTab);
+
+        roadFilterType.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout roadFilterTypeLayout = new javax.swing.GroupLayout(roadFilterType);
+        roadFilterType.setLayout(roadFilterTypeLayout);
+        roadFilterTypeLayout.setHorizontalGroup(
+            roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 623, Short.MAX_VALUE)
+        );
+        roadFilterTypeLayout.setVerticalGroup(
+            roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 594, Short.MAX_VALUE)
+        );
+
+        tabPanel.addTab(ROAD_FILTERS, roadFilterType);
+
+        acceptLabel.setBackground(new java.awt.Color(255, 255, 255));
+        acceptLabel.setFont(FONT);
+        acceptLabel.setText(ACCEPT);
+        acceptLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                acceptLabelMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tabPanel, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(tabPanel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         javax.swing.GroupLayout addTabLayout = new javax.swing.GroupLayout(addTab);
         addTab.setLayout(addTabLayout);
         addTabLayout.setHorizontalGroup(
             addTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 948, Short.MAX_VALUE)
+            .addGroup(addTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         addTabLayout.setVerticalGroup(
             addTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 361, Short.MAX_VALUE)
+            .addGroup(addTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         panelMaps.addTab(WELCOME, addTab);
@@ -194,11 +430,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         vehicleTypesPanel.setLayout(vehicleTypesPanelLayout);
         vehicleTypesPanelLayout.setHorizontalGroup(
             vehicleTypesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 468, Short.MAX_VALUE)
+            .addGap(0, 502, Short.MAX_VALUE)
         );
         vehicleTypesPanelLayout.setVerticalGroup(
             vehicleTypesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 231, Short.MAX_VALUE)
+            .addGap(0, 727, Short.MAX_VALUE)
         );
 
         vehicleTypesScroll.setViewportView(vehicleTypesPanel);
@@ -206,6 +442,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         panelOptions.addTab(VEHICLE_TYPES, vehicleTypesScroll);
         panelOptions.addTab(RSU, RSUScroll);
         panelOptions.addTab(DOWNTOWNS, downtownScroll);
+
+        menuBar.setFont(FONT);
 
         menuFile.setText("File");
         menuFile.setFont(FONT);
@@ -262,24 +500,18 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelMaps)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(panelFile, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(panelOptions)))
+                .addComponent(panelMaps)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(panelOptions, javax.swing.GroupLayout.PREFERRED_SIZE, 507, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelFile, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelMaps)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelMaps)
+                    .addComponent(panelOptions))
                 .addContainerGap())
         );
 
@@ -325,6 +557,17 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
                         chooser.getSelectedFile().getAbsolutePath());
         }
     }//GEN-LAST:event_menuFileOpenActionPerformed
+
+    private void acceptLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptLabelMouseClicked
+        if (avalibleMap){
+            name = nameField.getText();
+            String[] commands = new String[command.size()];
+            commands = command.toArray(commands);
+            newSimulation(name, commands);
+        }else{
+            error(MAP_ERROR);
+        }
+    }//GEN-LAST:event_acceptLabelMouseClicked
    
     
     @Override
@@ -350,13 +593,23 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             
         } else if (arg instanceof String){
             updateSimulation((String)arg);
+            
+        } else if (arg instanceof Boolean){
+            avalibleMap = true;
         }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane RSUScroll;
+    private javax.swing.JLabel acceptLabel;
     private javax.swing.JPanel addTab;
     private javax.swing.JScrollPane downtownScroll;
+    private javax.swing.JCheckBox geometryBox;
+    private javax.swing.JLabel geometryLabel;
+    private javax.swing.JCheckBox lefthandedBox;
+    private javax.swing.JLabel lefthandedLabel;
+    private javax.swing.JLabel lefthandedLabel1;
+    private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenuItem menuEditExport;
@@ -364,9 +617,23 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JMenuItem menuFileExit;
     private javax.swing.JMenuItem menuFileNew;
     private javax.swing.JMenuItem menuFileOpen;
-    private javax.swing.JPanel panelFile;
+    private javax.swing.JTextField nameField;
+    private javax.swing.JLabel nameLabel;
+    private javax.swing.JPanel optionsTab;
+    private javax.swing.JCheckBox overtakeBox;
+    private javax.swing.JLabel overtakeLanesLabel;
     private javax.swing.JTabbedPane panelMaps;
     private javax.swing.JTabbedPane panelOptions;
+    private javax.swing.JPanel roadFilterType;
+    private javax.swing.JCheckBox roundaboutBox;
+    private javax.swing.JLabel roundaboutsLabel;
+    private javax.swing.JCheckBox streetNamesBox;
+    private javax.swing.JLabel streetNamesLabel;
+    private javax.swing.JTabbedPane tabPanel;
+    private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel titlePanel;
+    private javax.swing.JPanel togglePanel;
+    private javax.swing.JPanel vehicleFilterTab;
     private javax.swing.JPanel vehicleTypesPanel;
     private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
@@ -432,7 +699,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         loading.setLocationRelativeTo(this);
         loading.setVisible(true);
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
-        avalibleMap = true;
     }
     public void addVehicleType(java.awt.event.MouseEvent evt){
         DialogAddType addDialog = new DialogAddType(this);
@@ -467,8 +733,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     }
 
     public void closeSimulation(JPanel simulation) {
-        
         panelMaps.remove(simulation);
+        tab--;
     }
     
     

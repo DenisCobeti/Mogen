@@ -28,7 +28,10 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private final static String DELETE_ICON_IMG = "resources/button/delete.png";
     private final static String EDIT_ICON_IMG = "resources/button/editFollowingModel.png";
     
-    
+    private final static int SPEED_SPORT = 50;
+    private final static double ACCEL_SPORT = 3;
+    private final static double LENGTH_TRUCK = 3;
+
     ImageIcon DELETE_ICON = new ImageIcon(DELETE_ICON_IMG);
     ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
     
@@ -58,7 +61,15 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         this.view = view;
         this.type = type;
         
-        ImageIcon imageIcon = new ImageIcon(Icon.SPORT.getLocation());
+        ImageIcon imageIcon;
+                
+        if (type.getAccel() > ACCEL_SPORT || type.getMaxSpeed() > SPEED_SPORT){
+            imageIcon = new ImageIcon(Icon.SPORT.getLocation());
+        }else if (type.getLength() >= LENGTH_TRUCK){
+            imageIcon = new ImageIcon(Icon.TRUCK.getLocation());
+        }else{
+            imageIcon = new ImageIcon(Icon.CAR.getLocation());
+        }
         
         initComponents();
         update();

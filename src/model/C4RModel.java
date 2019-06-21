@@ -46,10 +46,26 @@ public class C4RModel extends Observable{
         return false;
     }
     
+    public void removeSim(String id){
+        simulations.remove(id);
+    }
+    
+    public void removeVType(String id){
+        vTypes.remove(id);
+    }
+    
     private void defaultVTypes(){
         vTypes.put("Car", new VType());
-        vTypes.put("Sport", new VType());
-        vTypes.put("Truck", new VType());
+        
+        VType sport = new VType();
+        sport.setMaxSpeed(80);
+        vTypes.put("Sport", sport);
+        
+        VType truck = new VType();
+        truck.setMaxSpeed(40);
+        truck.setAccel(1.4);
+        truck.setLength(3);
+        vTypes.put("Truck", truck);
     }
     public Map<String, VType> getvTypes() {
         return vTypes;

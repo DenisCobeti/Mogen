@@ -79,7 +79,6 @@ public class MapConverter {
         ProcessBuilder netconvert = new ProcessBuilder(convertCommand);
         
         netconvertFile.createNewFile();
-        System.out.println(convertCommand);
         netconvert.start();
         System.out.println(convertCommand);
         
