@@ -4,7 +4,7 @@ package model.followingmodels;
  *
  * @author Denis Florin Cobeti
  */
-public class KraussModel implements FollowingModel {
+public class Krauss implements FollowingModel {
 
     private final static String FORMAT = "carFollowModel=\"%s\" sigma=\"%.1f\""
             + " minGap=\"%d\" ";
@@ -13,7 +13,7 @@ public class KraussModel implements FollowingModel {
     private final double sigma;
     private final int minGap;
 
-    public KraussModel(double sigma, int minGap) {
+    public Krauss(double sigma, int minGap) {
         if (sigma > 1) sigma = 1;
         if (sigma < 0) sigma = 0;
         this.sigma = sigma;

@@ -302,7 +302,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
 
     private void editLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editLabelMouseClicked
         // TODO add your handling code here:
-        JFrame edit = new FollowingModelFrame(view);
+        JFrame edit = new FollowingModelFrame(view, name, type);
         edit.setVisible(true);
     }//GEN-LAST:event_editLabelMouseClicked
 

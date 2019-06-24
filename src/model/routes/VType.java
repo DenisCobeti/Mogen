@@ -1,7 +1,7 @@
 package model.routes;
 
 import model.followingmodels.FollowingModel;
-import model.followingmodels.KraussModel;
+import model.followingmodels.Krauss;
 
 /**
  *
@@ -36,7 +36,7 @@ public class VType {
         
         this.length = DEFAULT_LENGTH;
         this.maxSpeed = DEFAULT_SPEED;
-        this.model = new KraussModel(0.5, 1);
+        this.model = new Krauss(0.5, 1);
     }
     
     public VType(String id, double accel, double decel, double tau, 

@@ -2,30 +2,43 @@
 package view.mapelements;
 
 import java.awt.Font;
+import model.followingmodels.FollowingModel;
+import model.routes.VType;
 import view.C4RView;
 
 /**
  *
  * @author Neblis
+ * Krauss / Wagner / Kerner / IDM
  */
 public class FollowingModelFrame extends javax.swing.JFrame {
 
     private final C4RView view;
+    private final String name;
+    private final VType vehice;
+    private final FollowingModel model = null;
     
     private static final String  TITLE = "Set following model";
     private static final String  ACCEPT = "Accept";
     
     private static final String  KRAUSS = "Krauss";
+    private static final String  KRAUSS_SIGMA = "Sigma";
+    
     private static final String  PWAGNER  = "PWagner2009";
     private static final String  KERNER  = "BKerner";
     private static final String  IDM  = "IDM";
     
+    private static final String  MIN_GAP  = "Minimum gap";
+    
     private final Font  TITLE_FONT;
     
     /** Creates new form FollowingModelFrame
-     * @param view */
-    public FollowingModelFrame(C4RView view) {
+     * @param view
+     * @param name */
+    public FollowingModelFrame(C4RView view, String name, VType vehicle) {
         this.view = view;
+        this.name = name;
+        this.vehice = vehicle;
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         initComponents();
         this.setLocationRelativeTo(view);
@@ -44,9 +57,16 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         titleLabel = new javax.swing.JLabel();
         tabPanel = new javax.swing.JTabbedPane();
         kraussPanel = new javax.swing.JPanel();
+        kraussMainPanel = new javax.swing.JPanel();
+        sigmaLabel = new javax.swing.JLabel();
+        sigmaField = new javax.swing.JTextField();
+        minGapLabel = new javax.swing.JLabel();
+        minGapField = new javax.swing.JTextField();
         PWagnerPanel = new javax.swing.JPanel();
         KernerPanel = new javax.swing.JPanel();
+        IDMPanel = new javax.swing.JPanel();
         acceptLabel = new javax.swing.JLabel();
+        acceptButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -71,15 +91,58 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        sigmaLabel.setText(KRAUSS_SIGMA);
+
+        sigmaField.setText("jTextField1");
+
+        minGapLabel.setText(MIN_GAP);
+
+        minGapField.setText("jTextField2");
+
+        javax.swing.GroupLayout kraussMainPanelLayout = new javax.swing.GroupLayout(kraussMainPanel);
+        kraussMainPanel.setLayout(kraussMainPanelLayout);
+        kraussMainPanelLayout.setHorizontalGroup(
+            kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kraussMainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(minGapLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(sigmaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sigmaField, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+                    .addComponent(minGapField))
+                .addGap(96, 96, 96))
+        );
+        kraussMainPanelLayout.setVerticalGroup(
+            kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kraussMainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(sigmaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sigmaField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(minGapLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minGapField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout kraussPanelLayout = new javax.swing.GroupLayout(kraussPanel);
         kraussPanel.setLayout(kraussPanelLayout);
         kraussPanelLayout.setHorizontalGroup(
             kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
+            .addGroup(kraussPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(kraussMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         kraussPanelLayout.setVerticalGroup(
             kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 263, Short.MAX_VALUE)
+            .addGroup(kraussPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(kraussMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(70, Short.MAX_VALUE))
         );
 
         tabPanel.addTab(KRAUSS, kraussPanel);
@@ -88,11 +151,11 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         PWagnerPanel.setLayout(PWagnerPanelLayout);
         PWagnerPanelLayout.setHorizontalGroup(
             PWagnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
+            .addGap(0, 348, Short.MAX_VALUE)
         );
         PWagnerPanelLayout.setVerticalGroup(
             PWagnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 263, Short.MAX_VALUE)
+            .addGap(0, 154, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(PWAGNER, PWagnerPanel);
@@ -101,17 +164,38 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         KernerPanel.setLayout(KernerPanelLayout);
         KernerPanelLayout.setHorizontalGroup(
             KernerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 368, Short.MAX_VALUE)
+            .addGap(0, 348, Short.MAX_VALUE)
         );
         KernerPanelLayout.setVerticalGroup(
             KernerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 263, Short.MAX_VALUE)
+            .addGap(0, 154, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(KERNER, KernerPanel);
 
+        javax.swing.GroupLayout IDMPanelLayout = new javax.swing.GroupLayout(IDMPanel);
+        IDMPanel.setLayout(IDMPanelLayout);
+        IDMPanelLayout.setHorizontalGroup(
+            IDMPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 348, Short.MAX_VALUE)
+        );
+        IDMPanelLayout.setVerticalGroup(
+            IDMPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 154, Short.MAX_VALUE)
+        );
+
+        tabPanel.addTab(IDM, IDMPanel);
+
         acceptLabel.setFont(view.FONT);
         acceptLabel.setText(ACCEPT);
+
+        acceptButton.setFont(view.getFont());
+        acceptButton.setText(ACCEPT);
+        acceptButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                acceptButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -124,7 +208,9 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                     .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(acceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -135,19 +221,33 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tabPanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(acceptLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(acceptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_acceptButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel IDMPanel;
     private javax.swing.JPanel KernerPanel;
     private javax.swing.JPanel PWagnerPanel;
+    private javax.swing.JButton acceptButton;
     private javax.swing.JLabel acceptLabel;
+    private javax.swing.JPanel kraussMainPanel;
     private javax.swing.JPanel kraussPanel;
+    private javax.swing.JTextField minGapField;
+    private javax.swing.JLabel minGapLabel;
+    private javax.swing.JTextField sigmaField;
+    private javax.swing.JLabel sigmaLabel;
     private javax.swing.JTabbedPane tabPanel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel titlePanel;
