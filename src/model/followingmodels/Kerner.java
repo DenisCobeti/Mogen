@@ -8,17 +8,51 @@ public class Kerner implements FollowingModel{
     private final static String FORMAT = "carFollowModel=\"%s\" minGap=\"%d\"  "
                                         + "phi=\"%d\" k=\"%d\"";
     private final static String NAME = "PWagner2009";
+    public final static String EXPLANATION = "";
     
-    private final int minGap;
-    private final int k;
-    private final int phi;
+    private int minGap;
+    private int k;
+    private int phi;
 
+    private static final int MIN_GAP_DFLT = 1;
+    private static final int K_DFLT = 1;
+    private static final int PHI_DFLT = 1;
+    
     public Kerner (int minGap, int phi, int k) {
         this.minGap = minGap;
         this.phi = phi;
         this.k = k;
     }
     
+    public Kerner () {
+        this.minGap = MIN_GAP_DFLT;
+        this.phi = PHI_DFLT;
+        this.k = K_DFLT;
+    }
+
+    public int getMinGap() {
+        return minGap;
+    }
+
+    public int getK() {
+        return k;
+    }
+
+    public int getPhi() {
+        return phi;
+    }
+
+    public void setMinGap(int minGap) {
+        this.minGap = minGap;
+    }
+
+    public void setK(int k) {
+        this.k = k;
+    }
+
+    public void setPhi(int phi) {
+        this.phi = phi;
+    }
     
     @Override
     public String toSimulation() {

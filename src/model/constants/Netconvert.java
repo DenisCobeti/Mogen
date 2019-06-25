@@ -18,7 +18,7 @@ public enum Netconvert {
     JOIN_JUNCTIONS ("--junctions.join"), // Joins duplicated junctions, may fail
     FLATTEN("--flatten TRUE"),	//Remove all z-data; default: false
     LEFTHANDED ("--lefthand"),
-    STREET_NAMES ("--output.street-names TRUE"), // Keep street names if avalible
+    STREET_NAMES ("--output.street-names"), // Keep street names if avalible
     
     OVERTAKE_LANES("--opposites.guess TRUE"), // Guess the overtake lanes
     OSM_NO_DUPLICATES("--osm.skip-duplicates-check TRUE"), // 

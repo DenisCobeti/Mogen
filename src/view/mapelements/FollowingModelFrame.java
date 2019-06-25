@@ -3,6 +3,10 @@ package view.mapelements;
 
 import java.awt.Font;
 import model.followingmodels.FollowingModel;
+import model.followingmodels.IDM;
+import model.followingmodels.Kerner;
+import model.followingmodels.Krauss;
+import model.followingmodels.PW2009;
 import model.routes.VType;
 import view.C4RView;
 
@@ -15,8 +19,12 @@ public class FollowingModelFrame extends javax.swing.JFrame {
 
     private final C4RView view;
     private final String name;
-    private final VType vehice;
-    private final FollowingModel model = null;
+    private final VType vehicle;
+    
+    private Krauss krauss = new Krauss();
+    private IDM IDMModel = new IDM();
+    private Kerner kerner = new Kerner();
+    private PW2009 PW2009 = new PW2009();
     
     private static final String  TITLE = "Set following model";
     private static final String  ACCEPT = "Accept";
@@ -38,7 +46,19 @@ public class FollowingModelFrame extends javax.swing.JFrame {
     public FollowingModelFrame(C4RView view, String name, VType vehicle) {
         this.view = view;
         this.name = name;
-        this.vehice = vehicle;
+        this.vehicle = vehicle;
+        FollowingModel model = vehicle.getModel();
+        
+        if (model instanceof Krauss){
+            krauss = (Krauss)model;
+        }else if (model instanceof IDM){
+            IDMModel = (IDM) model;
+        }else if (model instanceof Kerner){
+            kerner = (Kerner) model;
+        }else if(model instanceof PW2009){
+            PW2009 = (PW2009) model; 
+        }
+        
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         initComponents();
         this.setLocationRelativeTo(view);
@@ -59,17 +79,19 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         kraussPanel = new javax.swing.JPanel();
         kraussMainPanel = new javax.swing.JPanel();
         sigmaLabel = new javax.swing.JLabel();
-        sigmaField = new javax.swing.JTextField();
         minGapLabel = new javax.swing.JLabel();
-        minGapField = new javax.swing.JTextField();
+        sigmaField = new javax.swing.JFormattedTextField();
+        minGapField = new javax.swing.JFormattedTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
         PWagnerPanel = new javax.swing.JPanel();
         KernerPanel = new javax.swing.JPanel();
         IDMPanel = new javax.swing.JPanel();
-        acceptLabel = new javax.swing.JLabel();
         acceptButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        titleLabel.setBackground(new java.awt.Color(255, 255, 255));
         titleLabel.setFont(TITLE_FONT);
         titleLabel.setForeground(new java.awt.Color(204, 0, 102));
         titleLabel.setText(TITLE);
@@ -91,13 +113,27 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        tabPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        kraussPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        kraussMainPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        sigmaLabel.setFont(view.getFont());
         sigmaLabel.setText(KRAUSS_SIGMA);
 
-        sigmaField.setText("jTextField1");
-
+        minGapLabel.setFont(view.getFont());
         minGapLabel.setText(MIN_GAP);
 
-        minGapField.setText("jTextField2");
+        sigmaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        sigmaField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        sigmaField.setText(String.valueOf(krauss.getSigma()));
+        sigmaField.setFont(view.getFont());
+
+        minGapField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        minGapField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        minGapField.setText(String.valueOf(krauss.getMinGap()));
+        minGapField.setFont(view.getFont());
 
         javax.swing.GroupLayout kraussMainPanelLayout = new javax.swing.GroupLayout(kraussMainPanel);
         kraussMainPanel.setLayout(kraussMainPanelLayout);
@@ -110,23 +146,29 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                     .addComponent(sigmaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sigmaField, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
-                    .addComponent(minGapField))
+                    .addComponent(sigmaField)
+                    .addComponent(minGapField, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
                 .addGap(96, 96, 96))
         );
         kraussMainPanelLayout.setVerticalGroup(
             kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kraussMainPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(sigmaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(sigmaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(sigmaField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(11, 11, 11)
                 .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(minGapLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(minGapField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(minGapField))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setFont(view.getFont());
+        jTextArea1.setRows(5);
+        jTextArea1.setText(Krauss.EXPLANATION);
+        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout kraussPanelLayout = new javax.swing.GroupLayout(kraussPanel);
         kraussPanel.setLayout(kraussPanelLayout);
@@ -134,15 +176,19 @@ public class FollowingModelFrame extends javax.swing.JFrame {
             kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kraussPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(kraussMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kraussMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         kraussPanelLayout.setVerticalGroup(
             kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(kraussPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kraussPanelLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(kraussMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(70, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         tabPanel.addTab(KRAUSS, kraussPanel);
@@ -151,11 +197,11 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         PWagnerPanel.setLayout(PWagnerPanelLayout);
         PWagnerPanelLayout.setHorizontalGroup(
             PWagnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 348, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
         PWagnerPanelLayout.setVerticalGroup(
             PWagnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 154, Short.MAX_VALUE)
+            .addGap(0, 197, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(PWAGNER, PWagnerPanel);
@@ -164,11 +210,11 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         KernerPanel.setLayout(KernerPanelLayout);
         KernerPanelLayout.setHorizontalGroup(
             KernerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 348, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
         KernerPanelLayout.setVerticalGroup(
             KernerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 154, Short.MAX_VALUE)
+            .addGap(0, 197, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(KERNER, KernerPanel);
@@ -177,17 +223,14 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         IDMPanel.setLayout(IDMPanelLayout);
         IDMPanelLayout.setHorizontalGroup(
             IDMPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 348, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
         IDMPanelLayout.setVerticalGroup(
             IDMPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 154, Short.MAX_VALUE)
+            .addGap(0, 197, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(IDM, IDMPanel);
-
-        acceptLabel.setFont(view.FONT);
-        acceptLabel.setText(ACCEPT);
 
         acceptButton.setFont(view.getFont());
         acceptButton.setText(ACCEPT);
@@ -208,8 +251,6 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                     .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(acceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -221,9 +262,7 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tabPanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(acceptLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(acceptButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(acceptButton)
                 .addContainerGap())
         );
 
@@ -232,7 +271,23 @@ public class FollowingModelFrame extends javax.swing.JFrame {
 
     private void acceptButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptButtonActionPerformed
         // TODO add your handling code here:
-        
+        System.out.println(tabPanel.getSelectedIndex());
+        switch (tabPanel.getSelectedIndex()){
+            case 0:
+                vehicle.setModel(krauss);
+                break;
+            case 1:
+                vehicle.setModel(PW2009);
+                break;
+            case 2:
+                vehicle.setModel(kerner);
+                break;
+            case 3:
+                vehicle.setModel(IDMModel);
+                break;
+        }
+        view.editVType(name, vehicle);
+        this.dispose();
     }//GEN-LAST:event_acceptButtonActionPerformed
 
 
@@ -241,12 +296,13 @@ public class FollowingModelFrame extends javax.swing.JFrame {
     private javax.swing.JPanel KernerPanel;
     private javax.swing.JPanel PWagnerPanel;
     private javax.swing.JButton acceptButton;
-    private javax.swing.JLabel acceptLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel kraussMainPanel;
     private javax.swing.JPanel kraussPanel;
-    private javax.swing.JTextField minGapField;
+    private javax.swing.JFormattedTextField minGapField;
     private javax.swing.JLabel minGapLabel;
-    private javax.swing.JTextField sigmaField;
+    private javax.swing.JFormattedTextField sigmaField;
     private javax.swing.JLabel sigmaLabel;
     private javax.swing.JTabbedPane tabPanel;
     private javax.swing.JLabel titleLabel;

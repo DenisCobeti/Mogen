@@ -36,7 +36,8 @@ public class VType {
         
         this.length = DEFAULT_LENGTH;
         this.maxSpeed = DEFAULT_SPEED;
-        this.model = new Krauss(0.5, 1);
+        
+        this.model = new Krauss();
     }
     
     public VType(String id, double accel, double decel, double tau, 
@@ -62,17 +63,15 @@ public class VType {
     public void setTau(double tau) { this.tau = tau; }
     public void setLength(int length) { this.length = length; }
     public void setMaxSpeed(int maxSpeed) { this.maxSpeed = maxSpeed; }
+    public void setModel(FollowingModel model) { this.model = model; }
 
     public double getAccel() { return accel; }
-
     public double getDecel() { return decel; }
-
     public double getTau() { return tau; }
-
     public int getLength() { return length; }
-
     public int getMaxSpeed() { return maxSpeed; }
-
+    public FollowingModel getModel() { return model; }
+    
     public String toFile(String id) {
         return String.format(FILE_FORMAT, id, accel, decel, tau, length, 
                             maxSpeed, model.toSimulation());

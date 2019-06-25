@@ -75,6 +75,7 @@ public class MapConverter {
     public void executeConvert(String convertedMap) throws IOException{
         String fileOutput = convertedMap + FilesExtension.NETCONVERT;
         File netconvertFile = new File(fileOutput);
+        addOptions(Netconvert.STREET_NAMES.getCommand());
         addOptions(Netconvert.OUTPUT.getCommand(), fileOutput);
         ProcessBuilder netconvert = new ProcessBuilder(convertCommand);
         
