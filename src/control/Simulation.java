@@ -77,7 +77,7 @@ public class Simulation {
             
         }
         printMap(lanes);
-        printMap(junctions);
+        //printMap(junctions);
        
     }
 

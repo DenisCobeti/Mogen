@@ -1,7 +1,11 @@
 package control;
 
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 import model.C4RModel;
 import model.Tuple;
@@ -28,17 +32,26 @@ public class C4R implements ViewListener{
     private VehicleManager vehicleManager;
    
     public C4R(String[] args) {
-        view = new C4RView(this);
+        /*view = new C4RView(this);
         model = new C4RModel(control, view);
         control = new C4RControl(model, view);  
         
-        vehicleManager = new VehicleManager();
-        /*Simulation sim = new Simulation("boom");
+        vehicleManager = new VehicleManager();*/
+        Simulation sim = new Simulation(new String[] {"boom"});
         try {
-            sim.parseNetwork("New3.net.xml");
+            sim.parseNetwork("dede.net.xml");
         } catch (FileNotFoundException | XMLStreamException ex) {
             System.out.println("Error");
-        }*/
+        }
+        JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        JPanel panel = new JPanel();
+        panel.setSize(960, 960);
+        frame.setVisible(true);
+        frame.setSize(960, 960);
+        panel.getGraphics().drawPolyline(new int[]{100,240, 300}, new int[]{100,200,300}, 3);
+        frame.add(panel);
+        frame.repaint();
     }
 
     @Override

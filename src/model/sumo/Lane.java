@@ -6,7 +6,7 @@ package model.sumo;
  */
 public class Lane {
     private final double length;
-    private final String shape;
+    private final int[] shape;
     
     public final static String TAG = "lane";
     public final static String LENGTH = "length";
@@ -14,7 +14,7 @@ public class Lane {
 
     public Lane(String length, String shape) {
         this.length = Double.valueOf(length);
-        this.shape = shape;
+        this.shape = parseShape(shape.replace(".", "").split("[\\s,]+"));
     }
 
     @Override
@@ -22,4 +22,12 @@ public class Lane {
         return "Lane{ " + length + ", " + shape + '}';
     }
     
+    private static int[] parseShape(String[] shapes){
+        int[] shapeNum = new int[shapes.length];
+         
+        for (int i = 0; i < shapeNum.length; i++){
+            shapeNum[i] = Integer.parseInt(shapes[i]);
+        }
+        return shapeNum;
+    }
 }
