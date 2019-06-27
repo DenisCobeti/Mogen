@@ -18,9 +18,7 @@ public class AddSimulationListener implements ChangeListener {
     
     @Override
     public void stateChanged(ChangeEvent evt) {
-        JTabbedPane tabbedPane = (JTabbedPane)evt.getSource();
-                    if(tabbedPane.getSelectedIndex() == tabbedPane.indexOfTab
-                        (C4RView.ADD_SIMULATION)) view.addSimulationDialog();
+        
     }
     
 }

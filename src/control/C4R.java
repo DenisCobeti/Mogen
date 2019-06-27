@@ -3,6 +3,7 @@ package control;
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import javax.swing.JFrame;
 import static javax.swing.JFrame.EXIT_ON_CLOSE;
 import javax.swing.JPanel;
@@ -29,15 +30,14 @@ public class C4R implements ViewListener{
     private C4RModel model;
     private C4RView view;
     
-    private VehicleManager vehicleManager;
    
     public C4R(String[] args) {
-        /*view = new C4RView(this);
+        
+        view = new C4RView(this);
         model = new C4RModel(control, view);
         control = new C4RControl(model, view);  
         
-        vehicleManager = new VehicleManager();*/
-        Simulation sim = new Simulation(new String[] {"boom"});
+        /*Simulation sim = new Simulation(new String[] {"boom"});
         try {
             sim.parseNetwork("dede.net.xml");
         } catch (FileNotFoundException | XMLStreamException ex) {
@@ -49,9 +49,9 @@ public class C4R implements ViewListener{
         panel.setSize(960, 960);
         frame.setVisible(true);
         frame.setSize(960, 960);
-        panel.getGraphics().drawPolyline(new int[]{100,240, 300}, new int[]{100,200,300}, 3);
-        frame.add(panel);
-        frame.repaint();
+        frame.getGraphics().drawPolyline(new int[]{100,240, 300}, new int[]{100,200,300}, 3);
+
+        frame.repaint();*/
     }
 
     @Override
@@ -99,9 +99,9 @@ public class C4R implements ViewListener{
             case NEW_SIMULATION:
                 tuple = (Tuple)obj;
                 try {
-                    control.createSimulation((String)tuple.obj1, 
+                    InputStream output = control.createSimulation((String)tuple.obj1, 
                                                     (String[])tuple.obj2);
-                    view.update(model, (String)tuple.obj1);
+                    view.update(model, new Tuple((String)tuple.obj1, output));
                 } catch (IOException ex) {
                     handleError(ex, Errors.NETCONVERT_CMD);
                 } 

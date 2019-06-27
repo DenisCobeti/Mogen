@@ -1,15 +1,20 @@
 package view;
 
-import view.mapelements.VehicleTypePanel;
 import control.ViewListener;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
+
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,21 +22,25 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.JFileChooser;
+import javax.swing.JTextArea;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
+
 import model.C4RModel.ElementType;
 import model.map.MapSelection;
 import model.Tuple;
 import model.routes.VType;
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import model.constants.Errors;
 import model.mobility.MobilityModel;
+
 import view.export.MobilityModelFrame;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.simulation.AddSimulation;
 import view.simulation.AddSimulationListener;
 import view.simulation.TabElement;
+import view.mapelements.VehicleTypePanel;
 
 /**
  *
@@ -87,7 +96,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
     private static final String ICON_LOCATION = "resources/icon/icon.png";
-    private static final int DEFAULT_NUM_TABS = 2;
+    private static final int DEFAULT_NUM_TABS = 1;
     private ImageIcon ADD_ICON = new ImageIcon(ADD_ICON_IMG);
     
     private final ViewListener listenerUI;
@@ -118,8 +127,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         
         initComponents();
         
-        JPanel panel = new JPanel();
-        panelMaps.addTab(ADD_SIMULATION, panel);
         panelMaps.addChangeListener(simListener);
         //menuFileExit.addActionListener(this);
         tab = DEFAULT_NUM_TABS;
@@ -528,11 +535,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
 
     private void menuEditExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditExportActionPerformed
 
-        if(panelMaps.getTabCount() < 3){
+        if(panelMaps.getTabCount() < 2){
             JOptionPane.showMessageDialog(this,Errors.FIRST_SIM);
             return;
         }
-        if(panelMaps.getSelectedIndex() < 2) {
+        if(panelMaps.getSelectedIndex() < 1) {
             JOptionPane.showMessageDialog(this,Errors.NO_SELECTED_SIM);
             return;
         }
@@ -637,11 +644,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JPanel vehicleTypesPanel;
     private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
-
+    /*
     public void addSimulationDialog(){
         JFrame simulation = new AddSimulation(this, DEFAULT_SIM_NAME + tab);
         simulation.setVisible(true);
-    }
+    }*/
     
     public void newSimulation(String name, String[] commands){
         listenerUI.producedEvent(ViewListener.Event.NEW_SIMULATION, 
@@ -666,12 +673,47 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     public void enableEvents(boolean events){
         this.setEnabled(events);
     }
+    
     private void updateLists(Tuple tuple){
         if(tuple.obj2 instanceof VType){
-            VehicleTypePanel vType = new VehicleTypePanel((String)tuple.obj1, (VType)tuple.obj2, this);
+            
+            VehicleTypePanel vType = new VehicleTypePanel((String)tuple.obj1, 
+                                                    (VType)tuple.obj2, this);
             vehicleTypesPanel.add(vType);
             vehicleTypesPanel.updateUI();
+            
+        } else if (tuple.obj2 instanceof InputStream){
+            
+            JPanel panel = new JPanel();
+            JPanel tabTitle = new TabElement(this, tab, (String)tuple.obj1, panel);
+            JTextArea text = new JTextArea();
+            
+            BufferedReader in = new BufferedReader  
+                    (new InputStreamReader((InputStream)tuple.obj2));  
+            
+            panelMaps.add(panel);
+            panelMaps.setTabComponentAt(tab, tabTitle);
+            panelMaps.setComponentAt(tab, text);
+            panelMaps.setSelectedIndex(tab);
+            tab++;
+            
+            String line;
+            try {
+                while ((line = in.readLine()) != null) {
+                   System.out.println(line);
+                    // You should set JtextArea
+                    text.append(line + "\n");
+                }
+                in.close();
+            } catch (IOException e) { // exception thrown
+                System.err.println("Command failed!");
+            }
+            
         }
+    }
+    static String convertStreamToString(InputStream is) {
+        java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
+        return s.hasNext() ? s.next() : "";
     }
     private void updateLists(ElementType type, List list){
         switch(type){

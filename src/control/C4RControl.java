@@ -29,7 +29,7 @@ public class C4RControl {
     private C4RView view;
     
     private MapConverter converter;
-    private VehicleManager vehicleManager;
+    private final VehicleManager vehicleManager;
     //private HashMap<String, Simulation> simulations;
     private boolean hasMap = false;
 
@@ -102,13 +102,13 @@ public class C4RControl {
         hasMap = true;
     }
     
-    public Simulation createSimulation(String name, String[] commands) 
+    public InputStream createSimulation(String name, String[] commands) 
                                     throws IOException{
         Simulation sim = new Simulation(commands);
         converter.addOptions(cleanOptions(commands));
-        converter.executeConvert(name);
+        InputStream output = converter.executeConvert(name);
         model.addElement(name, sim);
-        return sim;
+        return output;
     }
     
     public void exportSimulation(MobilityModel mobilityModel, String sim) 

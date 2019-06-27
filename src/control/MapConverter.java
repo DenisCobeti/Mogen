@@ -1,9 +1,11 @@
 package control;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -21,7 +23,6 @@ import model.constants.Netconvert;
 public class MapConverter {
     
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
-    
     private static  List<String> convertCommand;
     /*
     public MapConverter(MapAPI api) throws IOException {
@@ -72,19 +73,17 @@ public class MapConverter {
         }
     }
     
-    public void executeConvert(String convertedMap) throws IOException{
+    public InputStream executeConvert(String convertedMap) throws IOException{
         String fileOutput = convertedMap + FilesExtension.NETCONVERT;
         File netconvertFile = new File(fileOutput);
-        addOptions(Netconvert.STREET_NAMES.getCommand());
         addOptions(Netconvert.OUTPUT.getCommand(), fileOutput);
         ProcessBuilder netconvert = new ProcessBuilder(convertCommand);
+        netconvert.redirectErrorStream(true);
         
         netconvertFile.createNewFile();
-        netconvert.start();
         System.out.println(convertCommand);
-        
+        return netconvert.start().getInputStream();
     }
-    
     public void addOptions(String... options){
         convertCommand.addAll(Arrays.asList(options));
     }
