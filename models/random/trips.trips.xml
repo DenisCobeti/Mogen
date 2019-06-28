@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated on 2019-06-20 13:59:16.357000 by $Id$
-  options: -n New2.net.xml <doubleminus>additional-file ./models/random/vehicles.add.xml -e 10 -o ./models/random/trips.trips.xml -r ./models/random/routes.rou.xml <doubleminus>trip-attributes type='dist1'
+<!-- generated on 2019-06-28 10:01:35.286000 by $Id$
+  options: -n new.net.xml <doubleminus>additional-file ./models/random/vehicles.add.xml -e 10 -o ./models/random/trips.trips.xml -r ./models/random/routes.rou.xml <doubleminus>trip-attributes type='dist1'
 -->
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <trip id="0" depart="0.00" from="47457295#3" to="-228371187" type='dist1'/>
-    <trip id="1" depart="1.00" from="47457390" to="47457278#2" type='dist1'/>
-    <trip id="2" depart="2.00" from="47457387#1" to="-447469848#2" type='dist1'/>
-    <trip id="3" depart="3.00" from="228371130" to="-454067557#2" type='dist1'/>
-    <trip id="4" depart="4.00" from="47457278#2" to="-47457265#0" type='dist1'/>
-    <trip id="5" depart="5.00" from="228371134#1" to="454067557#0" type='dist1'/>
-    <trip id="6" depart="6.00" from="-668090809#0" to="47751835" type='dist1'/>
-    <trip id="7" depart="7.00" from="47751772#1" to="47457261#1" type='dist1'/>
-    <trip id="8" depart="8.00" from="-47751768#0" to="47457271#2" type='dist1'/>
-    <trip id="9" depart="9.00" from="47457277" to="47457294#2" type='dist1'/>
+    <trip id="0" depart="0.00" from="47457259#10" to="47751741#1" type='dist1'/>
+    <trip id="1" depart="1.00" from="447693571#2" to="228371125#0" type='dist1'/>
+    <trip id="2" depart="2.00" from="47457387#2" to="447469848#6" type='dist1'/>
+    <trip id="3" depart="3.00" from="228371106#1" to="-454067558#0" type='dist1'/>
+    <trip id="4" depart="4.00" from="-230769158#1" to="228371131#0" type='dist1'/>
+    <trip id="5" depart="5.00" from="-38283578#2" to="-228371126#0" type='dist1'/>
+    <trip id="6" depart="6.00" from="-447693571#0" to="-47457262#1" type='dist1'/>
+    <trip id="7" depart="7.00" from="47457281" to="47457278#2" type='dist1'/>
+    <trip id="8" depart="8.00" from="23070232#0" to="228371106#1" type='dist1'/>
+    <trip id="9" depart="9.00" from="-47751812" to="-447469848#2" type='dist1'/>
 </routes>

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 06/20/19 13:59:16 by Eclipse SUMO duarouter Version 1.1.0
+<!-- generated on 06/28/19 10:01:35 by Eclipse SUMO duarouter Version 1.1.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>
-        <net-file value="New2.net.xml"/>
+        <net-file value="new.net.xml"/>
         <additional-files value="./models/random/vehicles.add.xml"/>
         <route-files value="./models/random/trips.trips.xml"/>
     </input>
@@ -29,22 +29,22 @@
 -->
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="0" type="dist1" depart="0.00">
+        <route edges="47457259#10 333598111#1 333598111#2 228371124#0 47457266#1 47457266#2 47751741#0 47751741#1"/>
+    </vehicle>
     <vehicle id="1" type="dist1" depart="1.00">
-        <route edges="47457390 47457387#2 447469848#1 -228371106#6 -228371106#5 -228371106#4 -228371106#3 47457271#0 47457271#1 -47457278#4 -47457278#3 -47457278#2 47457278#2"/>
+        <route edges="447693571#2 47457259#4 47457259#5 47457259#6 47457259#7 47457259#8 47457259#9 47457259#10 333598111#1 333598111#2 228371124#0 228371124#1 228371124#2 228371124#3 228371125#0"/>
     </vehicle>
     <vehicle id="2" type="dist1" depart="2.00">
-        <route edges="47457387#1 47457387#2 447469848#1 447469848#2 -447469848#2"/>
+        <route edges="47457387#2 447469848#1 447469848#2 447469848#3 447469848#4 447469848#5 447469848#6"/>
     </vehicle>
-    <vehicle id="4" type="dist1" depart="4.00">
-        <route edges="47457278#2 47457278#3 47457278#4 47457278#5 -47457265#0"/>
+    <vehicle id="3" type="dist1" depart="3.00">
+        <route edges="228371106#1 228371106#2 228371106#3 228371106#4 47457262#0 47457262#1 -47457265#2 -454067558#1 -454067558#0"/>
+    </vehicle>
+    <vehicle id="6" type="dist1" depart="6.00">
+        <route edges="-447693571#0 -447693539 -447693568 -230769158#2 -230769158#1 -230769158#0 -228371106#6 -228371106#5 47457262#0 47457262#1 -47457262#1"/>
     </vehicle>
     <vehicle id="7" type="dist1" depart="7.00">
-        <route edges="47751772#1 47457281 47751765 47457278#1 47457278#2 47457278#3 47457278#4 47457278#5 47457265#1 47457265#2 228371120#0 228371120#1 447469848#3 47457260#0 47457260#1 47457261#0 47457261#1"/>
-    </vehicle>
-    <vehicle id="8" type="dist1" depart="8.00">
-        <route edges="-47751768#0 47457281 47751765 47457278#1 47457278#2 47457278#3 47457278#4 47457271#2"/>
-    </vehicle>
-    <vehicle id="9" type="dist1" depart="9.00">
-        <route edges="47457277 47457278#3 47457278#4 47457278#5 -47457265#0 454067557#1 454067557#2 -447469848#6 47457258#0 47457294#2"/>
+        <route edges="47457281 47751765 47457278#1 47457278#2"/>
     </vehicle>
 </routes>

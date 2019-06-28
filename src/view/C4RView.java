@@ -1,6 +1,7 @@
 package view;
 
 import control.ViewListener;
+import java.awt.Dimension;
 
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -37,8 +38,6 @@ import model.mobility.MobilityModel;
 import view.export.MobilityModelFrame;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
-import view.simulation.AddSimulation;
-import view.simulation.AddSimulationListener;
 import view.simulation.TabElement;
 import view.mapelements.VehicleTypePanel;
 
@@ -102,7 +101,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private final ViewListener listenerUI;
     private int numSimulations;
     private boolean avalibleMap;
-    private AddSimulationListener simListener;
     
     private List<VehicleTypePanel> VehicleTypes;
     private HashSet<String> command;
@@ -114,7 +112,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     
     public C4RView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;
-        this.simListener = new AddSimulationListener(this);
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         Locale.setDefault(Locale.Category.FORMAT,new Locale("en", "UK"));
@@ -127,7 +124,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         
         initComponents();
         
-        panelMaps.addChangeListener(simListener);
         //menuFileExit.addActionListener(this);
         tab = DEFAULT_NUM_TABS;
         panelMaps.setFont(FONT);
@@ -687,7 +683,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             JPanel panel = new JPanel();
             JPanel tabTitle = new TabElement(this, tab, (String)tuple.obj1, panel);
             JTextArea text = new JTextArea();
-            
+            text.setFont(FONT);
+            //text.setPreferredSize(new Dimension(648, 705));
             BufferedReader in = new BufferedReader  
                     (new InputStreamReader((InputStream)tuple.obj2));  
             

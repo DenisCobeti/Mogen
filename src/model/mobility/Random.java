@@ -17,7 +17,7 @@ import model.routes.VType;
  *
  * @author Neblis
  */
-public class Random implements MobilityModel{
+public class Random extends MobilityModel{
 
     private final static String PYTHON_SCRIPT_NAME = "\\tools\\randomTrips.py";
     private final static String PYTHON = "python2";
@@ -58,7 +58,10 @@ public class Random implements MobilityModel{
         command.add(VEHICLE_OPT);
         
         File vehicles = new File(FILE_LOCATION + VEHICLE_FILE);
+        File output = new File(FILE_LOCATION + sim + FilesExtension.OSM);
+        
         vehicles.createNewFile();
+        output.createNewFile();
         
         PrintWriter writer = new PrintWriter(FILE_LOCATION + VEHICLE_FILE, "UTF-8");
         writer.println("<additional>");
@@ -83,5 +86,9 @@ public class Random implements MobilityModel{
         
         ProcessBuilder randomTrips = new ProcessBuilder(command);
         randomTrips.start();
+        ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
+                sim + FilesExtension.NETCONVERT, FILE_LOCATION + ROUTES_FILE, 
+                FILE_LOCATION + sim + FilesExtension.OSM));
+        sumo.start();
     }
 }

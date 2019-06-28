@@ -48,7 +48,8 @@ public class MobilityModelFrame extends javax.swing.JFrame {
         headerLabel = new javax.swing.JPanel();
         titleLabel = new javax.swing.JLabel();
         modelsTab = new javax.swing.JTabbedPane();
-        jPanel2 = new javax.swing.JPanel();
+        randomPanel = new javax.swing.JPanel();
+        typesScroll = new javax.swing.JScrollPane();
         exportLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -74,20 +75,26 @@ public class MobilityModelFrame extends javax.swing.JFrame {
 
         modelsTab.setFont(C4RView.FONT);
 
-        jPanel2.setFont(C4RView.FONT);
+        randomPanel.setFont(C4RView.FONT);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 360, Short.MAX_VALUE)
+        javax.swing.GroupLayout randomPanelLayout = new javax.swing.GroupLayout(randomPanel);
+        randomPanel.setLayout(randomPanelLayout);
+        randomPanelLayout.setHorizontalGroup(
+            randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(typesScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 313, Short.MAX_VALUE)
+        randomPanelLayout.setVerticalGroup(
+            randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(typesScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
-        modelsTab.addTab(RANDOM, jPanel2);
+        modelsTab.addTab(RANDOM, randomPanel);
 
         exportLabel.setText(EXPORT);
         exportLabel.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -116,9 +123,9 @@ public class MobilityModelFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(headerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(modelsTab, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(modelsTab)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exportLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addComponent(exportLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -134,8 +141,9 @@ public class MobilityModelFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel exportLabel;
     private javax.swing.JPanel headerLabel;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JTabbedPane modelsTab;
+    private javax.swing.JPanel randomPanel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JScrollPane typesScroll;
     // End of variables declaration//GEN-END:variables
 }

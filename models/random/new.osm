@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 06/28/19 10:01:35 by Eclipse SUMO Version 1.1.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="new.net.xml"/>
+        <route-files value="./models/random/routes.rou.xml"/>
+    </input>
+
+    <output>
+        <full-output value="./models/random/new.osm"/>
+    </output>
+
+</configuration>
+-->
+
+<full-export xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/full_file.xsd">
+</full-export>

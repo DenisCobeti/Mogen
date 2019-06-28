@@ -3,6 +3,7 @@ package view.mapelements;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import model.routes.VType;
 import view.C4RView;
@@ -23,7 +24,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private static final String TAU = "Tau";
     private static final String LENGHT = "Length";
     
-    private final static Font NAME_FONT = new Font("Century Gothic", Font.BOLD, 14);
+    public final static Font NAME_FONT = new Font("Century Gothic", Font.BOLD, 14);
     
     private final static String DELETE_ICON_IMG = "resources/button/delete.png";
     private final static String EDIT_ICON_IMG = "resources/button/editFollowingModel.png";
@@ -306,6 +307,10 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         edit.setVisible(true);
     }//GEN-LAST:event_editLabelMouseClicked
 
+    public JLabel getIcon() {
+        return icon;
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField accelField;

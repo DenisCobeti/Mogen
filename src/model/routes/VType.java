@@ -10,7 +10,7 @@ import model.followingmodels.Krauss;
 public class VType {
     
     //Format that will appear on the XML File
-    private static final String FILE_FORMAT = "<Vtype id=\"%s\" accel=\"%.2f\""
+    private static final String FILE_FORMAT = "<vType id=\"%s\" accel=\"%.2f\""
             + " decel=\"%.2f\" tau=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" %s />";
     
     private double accel;
