@@ -1,8 +1,14 @@
 package view.export;
 
 import java.awt.Font;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import javax.swing.BoxLayout;
 import model.mobility.Random;
 import view.C4RView;
+import view.mapelements.VehicleTypePanel;
 
 /**
  *
@@ -25,13 +31,25 @@ public class MobilityModelFrame extends javax.swing.JFrame {
     private final C4RView view;
     private final String simulation;
     
-    public MobilityModelFrame(C4RView view, String simulation) {
+    private HashMap<String, Double> vTypesProbability;
+    
+    public MobilityModelFrame(C4RView view, String simulation, List<VehicleTypePanel> vTypes) {
         this.view = view;
         this.simulation = simulation;
-        
+        vTypesProbability = new HashMap();
         HEADER_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         initComponents();
+        
+        typesPanel.setLayout(new BoxLayout(typesPanel, BoxLayout.Y_AXIS));
+        
+        vTypes.forEach((vehicle) -> {
+            vTypesProbability.put(vehicle.getName(), 0.0);
+            System.out.println(vehicle.getName());
+            typesPanel.add(new TypeElement(vehicle.getName(), view, vehicle.getIconLabel().getIcon()));
+        });
+        typesPanel.updateUI();
+        
         this.setLocationRelativeTo(view);
         this.setAlwaysOnTop(true);
     }
@@ -50,6 +68,7 @@ public class MobilityModelFrame extends javax.swing.JFrame {
         modelsTab = new javax.swing.JTabbedPane();
         randomPanel = new javax.swing.JPanel();
         typesScroll = new javax.swing.JScrollPane();
+        typesPanel = new javax.swing.JPanel();
         exportLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -76,6 +95,21 @@ public class MobilityModelFrame extends javax.swing.JFrame {
         modelsTab.setFont(C4RView.FONT);
 
         randomPanel.setFont(C4RView.FONT);
+
+        typesScroll.setBorder(null);
+
+        javax.swing.GroupLayout typesPanelLayout = new javax.swing.GroupLayout(typesPanel);
+        typesPanel.setLayout(typesPanelLayout);
+        typesPanelLayout.setHorizontalGroup(
+            typesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 340, Short.MAX_VALUE)
+        );
+        typesPanelLayout.setVerticalGroup(
+            typesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 315, Short.MAX_VALUE)
+        );
+
+        typesScroll.setViewportView(typesPanel);
 
         javax.swing.GroupLayout randomPanelLayout = new javax.swing.GroupLayout(randomPanel);
         randomPanel.setLayout(randomPanelLayout);
@@ -144,6 +178,7 @@ public class MobilityModelFrame extends javax.swing.JFrame {
     private javax.swing.JTabbedPane modelsTab;
     private javax.swing.JPanel randomPanel;
     private javax.swing.JLabel titleLabel;
+    private javax.swing.JPanel typesPanel;
     private javax.swing.JScrollPane typesScroll;
     // End of variables declaration//GEN-END:variables
 }

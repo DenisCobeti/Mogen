@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
@@ -99,7 +100,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private ImageIcon ADD_ICON = new ImageIcon(ADD_ICON_IMG);
     
     private final ViewListener listenerUI;
-    private int numSimulations;
     private boolean avalibleMap;
     
     private List<VehicleTypePanel> VehicleTypes;
@@ -112,6 +112,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     
     public C4RView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;
+        VehicleTypes = new LinkedList();
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         Locale.setDefault(Locale.Category.FORMAT,new Locale("en", "UK"));
@@ -139,7 +140,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             }
         });
         vehicleTypesPanel.add(addVTypeButton);
-        numSimulations = 0; //////////////////////////
         avalibleMap = false;
         
         this.setTitle(PROGRAM);
@@ -542,7 +542,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         System.out.println(((TabElement)panelMaps.getTabComponentAt
                                     (panelMaps.getSelectedIndex())).getName());
         JFrame export = new MobilityModelFrame(this, ((TabElement)panelMaps
-                .getTabComponentAt(panelMaps.getSelectedIndex())).getName());
+                .getTabComponentAt(panelMaps.getSelectedIndex())).getName(),
+                VehicleTypes);
         export.setVisible(true);
     }//GEN-LAST:event_menuEditExportActionPerformed
 
@@ -675,6 +676,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             
             VehicleTypePanel vType = new VehicleTypePanel((String)tuple.obj1, 
                                                     (VType)tuple.obj2, this);
+            VehicleTypes.add(vType);
+            
             vehicleTypesPanel.add(vType);
             vehicleTypesPanel.updateUI();
             
@@ -733,10 +736,12 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     }
     public void importMap(JFrame map, MapSelection selection) {
         map.dispose();
+        
         loading = new LoadingMap();
         loading.setEnabled(true);
         loading.setLocationRelativeTo(this);
         loading.setVisible(true);
+        
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
     }
     public void addVehicleType(java.awt.event.MouseEvent evt){
@@ -759,6 +764,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     
     public void deleteVType(VehicleTypePanel type){
         vehicleTypesPanel.remove(type);
+        VehicleTypes.remove(type);
         vehicleTypesPanel.updateUI();
     }
     

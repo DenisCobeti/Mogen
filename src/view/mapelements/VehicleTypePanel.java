@@ -307,11 +307,14 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         edit.setVisible(true);
     }//GEN-LAST:event_editLabelMouseClicked
 
-    public JLabel getIcon() {
+    public JLabel getIconLabel() {
         return icon;
     }
-    
 
+    @Override
+    public String getName() {
+        return name;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField accelField;
     private javax.swing.JLabel accelLabel;
