@@ -1,10 +1,6 @@
 package view.export;
 
-import java.util.LinkedList;
-import java.util.List;
 import javax.swing.Icon;
-import javax.swing.text.View;
-import view.C4RView;
 import view.mapelements.VehicleTypePanel;
 
 /**
@@ -20,13 +16,15 @@ public class TypeElement extends javax.swing.JPanel {
     
     private static String name;
     private double probability = 0;
-    private final C4RView view;
+    private final MobilityModelFrame frame;
     
     //private final List vTypes;
     
-    public TypeElement(String name, C4RView view, Icon icon) {
+    public TypeElement(String name, MobilityModelFrame frame, Icon icon, 
+                                    double probability) {
         this.name = name;
-        this.view = view;
+        this.frame = frame;
+        this.probability = probability;
         initComponents();
         this.icon.setIcon(icon);
     }
@@ -56,12 +54,20 @@ public class TypeElement extends javax.swing.JPanel {
         nameLabel.setText(name
         );
 
-        probabilityLabel.setFont(view.getFont());
+        probabilityLabel.setFont(frame.getFont());
         probabilityLabel.setText(PROBABILITY);
 
         probabilityField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        probabilityField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        probabilityField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         probabilityField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        probabilityField.setText(String.valueOf(probability).substring(0, 4)
+        );
+        probabilityField.setFont(frame.getFont());
+        probabilityField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                probabilityFieldActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
@@ -117,6 +123,12 @@ public class TypeElement extends javax.swing.JPanel {
     private void iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_iconMouseClicked
+
+    private void probabilityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_probabilityFieldActionPerformed
+        // TODO add your handling code here:
+        probabilityField.setText(probabilityField.getText().replace(',', '.'));
+        frame.setProbability(name, Double.valueOf(probabilityField.getText()));
+    }//GEN-LAST:event_probabilityFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

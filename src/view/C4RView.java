@@ -25,7 +25,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -685,7 +687,9 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             
             JPanel panel = new JPanel();
             JPanel tabTitle = new TabElement(this, tab, (String)tuple.obj1, panel);
+            JScrollPane textScroll = new JScrollPane();
             JTextArea text = new JTextArea();
+            
             text.setFont(FONT);
             //text.setPreferredSize(new Dimension(648, 705));
             BufferedReader in = new BufferedReader  
@@ -693,7 +697,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             
             panelMaps.add(panel);
             panelMaps.setTabComponentAt(tab, tabTitle);
-            panelMaps.setComponentAt(tab, text);
+            panelMaps.setComponentAt(tab, textScroll);
             panelMaps.setSelectedIndex(tab);
             tab++;
             
@@ -708,7 +712,10 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             } catch (IOException e) { // exception thrown
                 System.err.println("Command failed!");
             }
-            
+            textScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+            textScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            textScroll.setBorder(null);
+            textScroll.setViewportView(text);
         }
     }
     static String convertStreamToString(InputStream is) {

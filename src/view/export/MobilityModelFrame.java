@@ -19,14 +19,20 @@ public class MobilityModelFrame extends javax.swing.JFrame {
     /**
      * Creates new form MobilityModelFrame
      */
-    private final static String TITLE = "";
+    private final static String TITLE = "Mobility model";
     private final static String HEADER = "Select a mobility model: ";
     
     private final static String RANDOM = "Random";
+    private final static String RANDOM_TIME = "Time: ";
+    private final static String RANDOM_TIME_DFLT = "60";
+    private final static String RANDOM_REPETITION = "Repetition rate: ";
+    private final static String RANDOM_REPETITION_DFLT = "3";
+    
     private final static String KRAUSS = "Krauss";
     
     private final static String EXPORT = "Export";
-    private static  Font HEADER_FONT;  
+    private final Font HEADER_FONT;  
+    private static Font FONT;  
     
     private final C4RView view;
     private final String simulation;
@@ -36,22 +42,25 @@ public class MobilityModelFrame extends javax.swing.JFrame {
     public MobilityModelFrame(C4RView view, String simulation, List<VehicleTypePanel> vTypes) {
         this.view = view;
         this.simulation = simulation;
+        FONT = view.getFont();
         vTypesProbability = new HashMap();
         HEADER_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         initComponents();
-        
         typesPanel.setLayout(new BoxLayout(typesPanel, BoxLayout.Y_AXIS));
-        
+        Double probability = 1.0 / vTypes.size();
+       
         vTypes.forEach((vehicle) -> {
-            vTypesProbability.put(vehicle.getName(), 0.0);
-            System.out.println(vehicle.getName());
-            typesPanel.add(new TypeElement(vehicle.getName(), view, vehicle.getIconLabel().getIcon()));
+            vTypesProbability.put(vehicle.getName(), probability);
+            typesPanel.add(new TypeElement(vehicle.getName(), this, 
+                                vehicle.getIconLabel().getIcon(), probability));
         });
+        
         typesPanel.updateUI();
         
         this.setLocationRelativeTo(view);
         this.setAlwaysOnTop(true);
+        this.setTitle(TITLE);
     }
 
     /**
@@ -69,6 +78,11 @@ public class MobilityModelFrame extends javax.swing.JFrame {
         randomPanel = new javax.swing.JPanel();
         typesScroll = new javax.swing.JScrollPane();
         typesPanel = new javax.swing.JPanel();
+        errorLabel = new javax.swing.JLabel();
+        timeLabel = new javax.swing.JLabel();
+        timeField = new javax.swing.JFormattedTextField();
+        repetitionLabel = new javax.swing.JLabel();
+        repetitionField = new javax.swing.JFormattedTextField();
         exportLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -94,15 +108,18 @@ public class MobilityModelFrame extends javax.swing.JFrame {
 
         modelsTab.setFont(C4RView.FONT);
 
+        randomPanel.setBackground(new java.awt.Color(255, 255, 255));
         randomPanel.setFont(C4RView.FONT);
 
         typesScroll.setBorder(null);
+
+        typesPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout typesPanelLayout = new javax.swing.GroupLayout(typesPanel);
         typesPanel.setLayout(typesPanelLayout);
         typesPanelLayout.setHorizontalGroup(
             typesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 340, Short.MAX_VALUE)
+            .addGap(0, 354, Short.MAX_VALUE)
         );
         typesPanelLayout.setVerticalGroup(
             typesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,13 +128,38 @@ public class MobilityModelFrame extends javax.swing.JFrame {
 
         typesScroll.setViewportView(typesPanel);
 
+        timeLabel.setFont(FONT);
+        timeLabel.setText(RANDOM_TIME);
+
+        timeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        timeField.setText(RANDOM_TIME_DFLT);
+        timeField.setFont(FONT);
+
+        repetitionLabel.setFont(FONT);
+        repetitionLabel.setText(RANDOM_REPETITION);
+
+        repetitionField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        repetitionField.setText(RANDOM_REPETITION_DFLT);
+        repetitionField.setFont(FONT);
+
         javax.swing.GroupLayout randomPanelLayout = new javax.swing.GroupLayout(randomPanel);
         randomPanel.setLayout(randomPanelLayout);
         randomPanelLayout.setHorizontalGroup(
             randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(randomPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(typesScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(randomPanelLayout.createSequentialGroup()
+                        .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(repetitionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(repetitionField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(errorLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(typesScroll, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         randomPanelLayout.setVerticalGroup(
@@ -125,7 +167,15 @@ public class MobilityModelFrame extends javax.swing.JFrame {
             .addGroup(randomPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(typesScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(repetitionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(repetitionField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20))
         );
 
         modelsTab.addTab(RANDOM, randomPanel);
@@ -147,7 +197,7 @@ public class MobilityModelFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(exportLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(modelsTab)
+                    .addComponent(modelsTab, javax.swing.GroupLayout.PREFERRED_SIZE, 373, Short.MAX_VALUE)
                     .addComponent(headerLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -171,12 +221,32 @@ public class MobilityModelFrame extends javax.swing.JFrame {
         view.exportSimulation(new Random(10,10), simulation);
     }//GEN-LAST:event_exportLabelMouseClicked
 
+    public void setProbability(String name, double probability){
+        vTypesProbability.put(name, probability);
+    }
 
+    public static Font getFONT() {
+        return FONT;
+    }
+    
+    public double totalProbability(){
+        double total = 0.0;
+        
+        for(Double probability : vTypesProbability.values()){
+            total += probability;
+        }
+        return total;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel exportLabel;
     private javax.swing.JPanel headerLabel;
     private javax.swing.JTabbedPane modelsTab;
     private javax.swing.JPanel randomPanel;
+    private javax.swing.JFormattedTextField repetitionField;
+    private javax.swing.JLabel repetitionLabel;
+    private javax.swing.JFormattedTextField timeField;
+    private javax.swing.JLabel timeLabel;
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel typesPanel;
     private javax.swing.JScrollPane typesScroll;

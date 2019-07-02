@@ -40,7 +40,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private String name;
     private VType type;
     
-    private enum Icon {
+    private static enum Icon {
         CAR("resources/icon/car.png"), 
         SPORT("resources/icon/sport.png"), 
         TRUCK("resources/icon/truck.png"), 
@@ -84,7 +84,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         accelField.setText(Double.toString(type.getAccel()));
         decelField.setText(Double.toString(type.getDecel()));
         lengthField.setText(Integer.toString(type.getLength()));
-        sigmaField.setText(Double.toString(type.getTau()));
+        tauField.setText(Double.toString(type.getTau()));
         speedField.setText(Integer.toString(type.getMaxSpeed()));
         this.updateUI();
     }
@@ -104,7 +104,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         accelLabel = new javax.swing.JLabel();
         decelLabel = new javax.swing.JLabel();
         sigmaLabel = new javax.swing.JLabel();
-        sigmaField = new javax.swing.JFormattedTextField();
+        tauField = new javax.swing.JFormattedTextField();
         accelField = new javax.swing.JFormattedTextField();
         decelField = new javax.swing.JFormattedTextField();
         speedField = new javax.swing.JFormattedTextField();
@@ -144,9 +144,14 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         sigmaLabel.setFont(view.getFont());
         sigmaLabel.setText(TAU);
 
-        sigmaField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        sigmaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        sigmaField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tauField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        tauField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        tauField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tauField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tauFieldActionPerformed(evt);
+            }
+        });
 
         accelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         accelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
@@ -160,10 +165,20 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         decelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         decelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         decelField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        decelField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                decelFieldActionPerformed(evt);
+            }
+        });
 
         speedField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         speedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         speedField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        speedField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                speedFieldActionPerformed(evt);
+            }
+        });
 
         lengthLabel.setFont(view.getFont());
         lengthLabel.setText(LENGHT);
@@ -171,6 +186,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         lengthField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         lengthField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         lengthField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        lengthField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lengthFieldActionPerformed(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(5, 5));
@@ -231,7 +251,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
                     .addComponent(lengthLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sigmaField, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tauField, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lengthField, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -245,7 +265,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
                     .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(accelLabel)
                     .addComponent(sigmaLabel)
-                    .addComponent(sigmaField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tauField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(accelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -307,6 +327,32 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         edit.setVisible(true);
     }//GEN-LAST:event_editLabelMouseClicked
 
+    private void speedFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speedFieldActionPerformed
+        // TODO add your handling code here:
+        type.setMaxSpeed(Integer.parseInt(speedField.getText()));
+        view.editVType(name, type);
+    }//GEN-LAST:event_speedFieldActionPerformed
+
+    private void decelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decelFieldActionPerformed
+        // TODO add your handling code here:
+        decelField.setText(decelField.getText().replace(',', '.'));
+        type.setDecel(Double.valueOf(decelField.getText()));
+        view.editVType(name, type);
+    }//GEN-LAST:event_decelFieldActionPerformed
+
+    private void tauFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tauFieldActionPerformed
+        // TODO add your handling code here:
+        tauField.setText(tauField.getText().replace(',', '.'));
+        type.setTau(Double.valueOf(tauField.getText()));
+        view.editVType(name, type);
+    }//GEN-LAST:event_tauFieldActionPerformed
+
+    private void lengthFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lengthFieldActionPerformed
+        // TODO add your handling code here:
+        type.setLength(Integer.parseInt(lengthField.getText()));
+        view.editVType(name, type);
+    }//GEN-LAST:event_lengthFieldActionPerformed
+
     public JLabel getIconLabel() {
         return icon;
     }
@@ -328,9 +374,9 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private javax.swing.JLabel nameLabel;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JLabel removeLabel;
-    private javax.swing.JFormattedTextField sigmaField;
     private javax.swing.JLabel sigmaLabel;
     private javax.swing.JFormattedTextField speedField;
     private javax.swing.JLabel speedLabel;
+    private javax.swing.JFormattedTextField tauField;
     // End of variables declaration//GEN-END:variables
 }
