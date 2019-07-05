@@ -1,7 +1,7 @@
 <additional>
-	<vTypeDistribution id="dist1">
-		<vType id="Sport" accel="3.00" decel="5.00" tau="7.0" length="1" maxSpeed="80" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.5" />
-		<vType id="Car" accel="3.00" decel="5.00" tau="7.0" length="1" maxSpeed="50" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.1"/>
-		<vType id="Truck" accel="1.40" decel="5.00" tau="7.0" length="3" maxSpeed="40" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.1"/>
-	</vTypeDistribution>
+<vTypeDistribution id="dist1">
+<vType id="Sport" accel="3.00" decel="5.00" tau="7.0" length="1" maxSpeed="80" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.33" />
+<vType id="Car" accel="3.00" decel="5.00" tau="7.0" length="1" maxSpeed="50" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.33" />
+<vType id="Truck" accel="1.40" decel="5.00" tau="7.0" length="3" maxSpeed="40" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.33" />
+</vTypeDistribution>
 </additional>

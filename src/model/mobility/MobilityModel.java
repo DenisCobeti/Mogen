@@ -15,7 +15,7 @@ public abstract class MobilityModel {
     protected final static int SUMO_ROUTES_OPT = 4;
     protected final static int SUMO_OUTPUT_OPT = 6;
     
-    private static final String[] SUMO_CMD= {"sumo", "-n", "", "-r", "", 
+    private static final String[] SUMO_CMD = {"sumo", "-n", "", "-r", "", 
                                                 "--full-output", ""};
     
     public abstract void export(String location, String sim, Map<String, VType> vTypes) throws IOException;

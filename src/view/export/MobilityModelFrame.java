@@ -131,6 +131,7 @@ public class MobilityModelFrame extends javax.swing.JFrame {
         timeLabel.setFont(FONT);
         timeLabel.setText(RANDOM_TIME);
 
+        timeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         timeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         timeField.setText(RANDOM_TIME_DFLT);
         timeField.setFont(FONT);
@@ -138,6 +139,7 @@ public class MobilityModelFrame extends javax.swing.JFrame {
         repetitionLabel.setFont(FONT);
         repetitionLabel.setText(RANDOM_REPETITION);
 
+        repetitionField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         repetitionField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         repetitionField.setText(RANDOM_REPETITION_DFLT);
         repetitionField.setFont(FONT);
@@ -166,7 +168,7 @@ public class MobilityModelFrame extends javax.swing.JFrame {
             randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(randomPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(typesScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(typesScroll)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -218,7 +220,8 @@ public class MobilityModelFrame extends javax.swing.JFrame {
 
     private void exportLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportLabelMouseClicked
         // TODO add your handling code here:
-        view.exportSimulation(new Random(10,10), simulation);
+        view.exportSimulation(new Random(Integer.valueOf(repetitionField.getText()),
+                Integer.valueOf(timeField.getText()), vTypesProbability), simulation);
     }//GEN-LAST:event_exportLabelMouseClicked
 
     public void setProbability(String name, double probability){

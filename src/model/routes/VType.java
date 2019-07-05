@@ -13,6 +13,10 @@ public class VType {
     private static final String FILE_FORMAT = "<vType id=\"%s\" accel=\"%.2f\""
             + " decel=\"%.2f\" tau=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" %s />";
     
+    private static final String FILE_FORMAT_PROB = "<vType id=\"%s\" accel=\"%.2f\""
+            + " decel=\"%.2f\" tau=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" %s "
+            + "probability=\"%.2f\" />";
+    
     private double accel;
     private double decel;
     private double tau;
@@ -76,6 +80,9 @@ public class VType {
         return String.format(FILE_FORMAT, id, accel, decel, tau, length, 
                             maxSpeed, model.toSimulation());
     }
-    
+    public String toFile(String id, double probability) {
+        return String.format(FILE_FORMAT_PROB, id, accel, decel, tau, length, 
+                            maxSpeed, model.toSimulation(), probability);
+    }
     
 }

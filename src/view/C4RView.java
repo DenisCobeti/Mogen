@@ -1,6 +1,7 @@
 package view;
 
 import control.ViewListener;
+import java.awt.Color;
 import java.awt.Dimension;
 
 import java.awt.Font;
@@ -98,6 +99,11 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
     private static final String ICON_LOCATION = "resources/icon/icon.png";
+    
+    private static final String MAP_UNAVALIBLE = "No map currently opened. File "
+                                                    + "-> Open map/New map";
+    private static final String MAP_AVALIBLE = "Current map opened: ";
+    
     private static final int DEFAULT_NUM_TABS = 1;
     private ImageIcon ADD_ICON = new ImageIcon(ADD_ICON_IMG);
     
@@ -108,6 +114,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private HashSet<String> command;
     
     private String name;
+    private String mapInfo;
     /**
      * Creates new form NewJFrame
      */
@@ -143,6 +150,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         });
         vehicleTypesPanel.add(addVTypeButton);
         avalibleMap = false;
+        mapInfoLabel.setText(MAP_UNAVALIBLE);
+        mapInfoLabel.setForeground(Color.red);
         
         this.setTitle(PROGRAM);
         this.setIconImage(icon.getImage());
@@ -180,6 +189,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         streetNamesBox = new javax.swing.JCheckBox();
         overtakeBox = new javax.swing.JCheckBox();
         lefthandedLabel1 = new javax.swing.JLabel();
+        mapInfoLabel = new javax.swing.JLabel();
         vehicleFilterTab = new javax.swing.JPanel();
         roadFilterType = new javax.swing.JPanel();
         acceptLabel = new javax.swing.JLabel();
@@ -309,18 +319,22 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
                 .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(overtakeLanesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(overtakeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 139, Short.MAX_VALUE))
         );
+
+        mapInfoLabel.setFont(FONT);
+        mapInfoLabel.setText("jLabel1");
 
         javax.swing.GroupLayout optionsTabLayout = new javax.swing.GroupLayout(optionsTab);
         optionsTab.setLayout(optionsTabLayout);
         optionsTabLayout.setHorizontalGroup(
             optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionsTabLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(togglePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(optionsTabLayout.createSequentialGroup()
+                .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(mapInfoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(togglePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, optionsTabLayout.createSequentialGroup()
                         .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -335,8 +349,10 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
                     .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(togglePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(togglePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(mapInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(188, Short.MAX_VALUE))
         );
 
         tabPanel.addTab(OPTIONS, optionsTab);
@@ -557,8 +573,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         chooser.setFileFilter(filter);
         int returnVal = chooser.showOpenDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
-            System.out.println("You chose to open this file: " +
-            chooser.getSelectedFile().getName());
+            mapInfo = chooser.getSelectedFile().getAbsolutePath();
             listenerUI.producedEvent(ViewListener.Event.OPEN_MAP, 
                         chooser.getSelectedFile().getAbsolutePath());
         }
@@ -601,6 +616,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
             updateSimulation((String)arg);
             
         } else if (arg instanceof Boolean){
+            mapInfoLabel.setText(MAP_AVALIBLE + mapInfo);
+            mapInfoLabel.setForeground(Color.BLACK);
             avalibleMap = true;
         }
     }
@@ -616,6 +633,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
     private javax.swing.JLabel lefthandedLabel;
     private javax.swing.JLabel lefthandedLabel1;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel mapInfoLabel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenuItem menuEditExport;
@@ -722,21 +740,7 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }
-    private void updateLists(ElementType type, List list){
-        switch(type){
-            case VTYPE:
-                /*VehicleType v1 = new VehicleType("boom", this);
-                vehicleTypesPanel.add(v1);*/
-        }
-    }
     
-    private void updateTypes(){
-        listenerUI.producedEvent(ViewListener.Event.EDIT_VTYPE, null);
-    }
-    
-    public void newProject(NewProject selection) {
-        selection.dispose();
-    }
     
     public void error(String msg){
         JOptionPane.showMessageDialog(this, msg);
@@ -749,6 +753,8 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         loading.setLocationRelativeTo(this);
         loading.setVisible(true);
         
+        mapInfo = selection.maxLat + ", " + selection.minLat + "; " 
+                + selection.maxLon + ", " + selection.minLon;
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
     }
     public void addVehicleType(java.awt.event.MouseEvent evt){
@@ -775,10 +781,6 @@ public class C4RView extends javax.swing.JFrame  implements ActionListener, Obse
         vehicleTypesPanel.updateUI();
     }
     
-    void selectMapArea(NewProject selection) {
-        selection.dispose();
-        map = new MapViewer(this);
-    }
     public void doneLoading(){
         loading.setVisible(false);
         loading = null;

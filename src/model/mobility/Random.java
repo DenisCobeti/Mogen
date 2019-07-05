@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 
 import model.Config;
 import model.constants.FilesExtension;
@@ -29,21 +30,23 @@ public class Random extends MobilityModel{
     private final static String TIME_OPT = "-e";
     private final static String OUTPUT_OPT = "-o";
     private final static String ROUTES_OPT = "-r";
-    private final static String NUM_OPT = "-n";
     private final static String ATT_OPT = "--trip-attributes";
     private final static String DIST_OPT = "type='dist1'";
     
     private final static String FILE_LOCATION = "./models/random/";
     private final static String VEHICLE_FILE = "vehicles.add.xml";
     
-    private final int number;
+    private final int repetition;
     private final int time;
     
-    public Random(int number, int time) {
-        this.number = number;
-        this.time = time;
-    }
+    HashMap<String, Double> vTypesProbability;
     
+    
+    public Random(int repetition, int time, HashMap<String, Double> vTypesProbability) {
+        this.repetition = repetition;
+        this.time = time;
+        this.vTypesProbability = vTypesProbability;
+    }
     
     @Override
     public  void export(String location, String sim, Map<String, VType> vTypes) 
@@ -67,7 +70,9 @@ public class Random extends MobilityModel{
         writer.println("<additional>");
         writer.println("<vTypeDistribution id=\"dist1\">");
         for (Map.Entry<String, VType> entry : vTypes.entrySet()) {
-            writer.println(entry.getValue().toFile(entry.getKey()));
+            //writer.println(entry.getValue().toFile(entry.getKey()));
+            writer.println(entry.getValue().toFile(entry.getKey(), 
+                    vTypesProbability.get(entry.getKey())));
         }
         writer.println("</vTypeDistribution>");
         writer.println("</additional>");

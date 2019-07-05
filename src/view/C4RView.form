@@ -272,9 +272,10 @@
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
+                              <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="mapInfoLabel" max="32767" attributes="0"/>
                                       <Component id="togglePanel" alignment="0" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="nameLabel" min="-2" pref="95" max="-2" attributes="0"/>
@@ -296,8 +297,10 @@
                                       <Component id="nameField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="togglePanel" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="togglePanel" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="mapInfoLabel" min="-2" pref="62" max="-2" attributes="0"/>
+                                  <EmptySpace pref="188" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
@@ -388,7 +391,7 @@
                                           <Component id="overtakeLanesLabel" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
                                           <Component id="overtakeBox" alignment="1" min="-2" pref="21" max="-2" attributes="0"/>
                                       </Group>
-                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <EmptySpace min="0" pref="139" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                             </DimensionLayout>
@@ -491,6 +494,14 @@
                             </Component>
                           </SubComponents>
                         </Container>
+                        <Component class="javax.swing.JLabel" name="mapInfoLabel">
+                          <Properties>
+                            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                              <Connection code="FONT" type="code"/>
+                            </Property>
+                            <Property name="text" type="java.lang.String" value="jLabel1"/>
+                          </Properties>
+                        </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="vehicleFilterTab">
