@@ -13,7 +13,7 @@ import javax.swing.JTextField;
  */
 public abstract class Dialog extends JDialog {
     
-    protected C4RView view;
+    protected MogenView view;
     
     private final int WIDTH = 120;
     private final int HEIGHT = 25;

@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import model.C4RModel.ElementType;
+import model.MogenModel.ElementType;
 import model.exceptions.DuplicatedKeyException;
 
 import model.routes.Flow;

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import javax.swing.BoxLayout;
 import model.mobility.Random;
-import view.C4RView;
+import view.MogenView;
 import view.mapelements.VehicleTypePanel;
 
 /**
@@ -34,12 +34,12 @@ public class MobilityModelFrame extends javax.swing.JFrame {
     private final Font HEADER_FONT;  
     private static Font FONT;  
     
-    private final C4RView view;
+    private final MogenView view;
     private final String simulation;
     
     private HashMap<String, Double> vTypesProbability;
     
-    public MobilityModelFrame(C4RView view, String simulation, List<VehicleTypePanel> vTypes) {
+    public MobilityModelFrame(MogenView view, String simulation, List<VehicleTypePanel> vTypes) {
         this.view = view;
         this.simulation = simulation;
         FONT = view.getFont();
@@ -106,10 +106,10 @@ public class MobilityModelFrame extends javax.swing.JFrame {
             .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
         );
 
-        modelsTab.setFont(C4RView.FONT);
+        modelsTab.setFont(MogenView.FONT);
 
         randomPanel.setBackground(new java.awt.Color(255, 255, 255));
-        randomPanel.setFont(C4RView.FONT);
+        randomPanel.setFont(MogenView.FONT);
 
         typesScroll.setBorder(null);
 

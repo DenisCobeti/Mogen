@@ -5,7 +5,7 @@ import java.awt.FlowLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import view.C4RView;
+import view.MogenView;
 
 /**
  *
@@ -17,14 +17,14 @@ public class TabElement extends JPanel{
     private static final String CLOSE_SIMULATION = "   X ";
     private static final String NEW_SIMULATION = "new ";
     
-    C4RView view;
+    MogenView view;
     
     JLabel titleLabel;
     JLabel closeButton;
     
     private final int tab;
 
-    public TabElement(C4RView view, int tab, String name, JPanel simulation) {
+    public TabElement(MogenView view, int tab, String name, JPanel simulation) {
         
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         

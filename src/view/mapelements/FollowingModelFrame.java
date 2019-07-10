@@ -8,7 +8,7 @@ import model.followingmodels.Kerner;
 import model.followingmodels.Krauss;
 import model.followingmodels.PW2009;
 import model.routes.VType;
-import view.C4RView;
+import view.MogenView;
 
 /**
  *
@@ -17,11 +17,15 @@ import view.C4RView;
  */
 public class FollowingModelFrame extends javax.swing.JFrame {
 
-    private final C4RView view;
+    private final MogenView view;
     private final String name;
     private final VType vehicle;
     
     private Krauss krauss = new Krauss();
+    private static final double MAX_SIGMA = 1;
+    private static final double MIN_SIGMA = 0;
+    private static final int MIN_GAP = 0;
+    
     private IDM IDMModel = new IDM();
     private Kerner kerner = new Kerner();
     private PW2009 PW2009 = new PW2009();
@@ -36,14 +40,14 @@ public class FollowingModelFrame extends javax.swing.JFrame {
     private static final String  KERNER  = "BKerner";
     private static final String  IDM  = "IDM";
     
-    private static final String  MIN_GAP  = "Minimum gap";
+    private static final String  MIN_GAP_TXT  = "Minimum gap";
     
     private final Font  TITLE_FONT;
     
     /** Creates new form FollowingModelFrame
      * @param view
      * @param name */
-    public FollowingModelFrame(C4RView view, String name, VType vehicle) {
+    public FollowingModelFrame(MogenView view, String name, VType vehicle) {
         this.view = view;
         this.name = name;
         this.vehicle = vehicle;
@@ -82,8 +86,8 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         minGapLabel = new javax.swing.JLabel();
         sigmaField = new javax.swing.JFormattedTextField();
         minGapField = new javax.swing.JFormattedTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        kraussTextScroll = new javax.swing.JScrollPane();
+        kraussText = new javax.swing.JTextArea();
         PWagnerPanel = new javax.swing.JPanel();
         KernerPanel = new javax.swing.JPanel();
         IDMPanel = new javax.swing.JPanel();
@@ -123,17 +127,27 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         sigmaLabel.setText(KRAUSS_SIGMA);
 
         minGapLabel.setFont(view.getFont());
-        minGapLabel.setText(MIN_GAP);
+        minGapLabel.setText(MIN_GAP_TXT);
 
         sigmaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         sigmaField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         sigmaField.setText(String.valueOf(krauss.getSigma()));
         sigmaField.setFont(view.getFont());
+        sigmaField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                sigmaFieldFocusLost(evt);
+            }
+        });
 
         minGapField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         minGapField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         minGapField.setText(String.valueOf(krauss.getMinGap()));
         minGapField.setFont(view.getFont());
+        minGapField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                minGapFieldFocusLost(evt);
+            }
+        });
 
         javax.swing.GroupLayout kraussMainPanelLayout = new javax.swing.GroupLayout(kraussMainPanel);
         kraussMainPanel.setLayout(kraussMainPanelLayout);
@@ -164,11 +178,15 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setFont(view.getFont());
-        jTextArea1.setRows(5);
-        jTextArea1.setText(Krauss.EXPLANATION);
-        jScrollPane1.setViewportView(jTextArea1);
+        kraussTextScroll.setBorder(null);
+
+        kraussText.setEditable(false);
+        kraussText.setColumns(20);
+        kraussText.setFont(view.getFont());
+        kraussText.setRows(5);
+        kraussText.setText(Krauss.EXPLANATION);
+        kraussText.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        kraussTextScroll.setViewportView(kraussText);
 
         javax.swing.GroupLayout kraussPanelLayout = new javax.swing.GroupLayout(kraussPanel);
         kraussPanel.setLayout(kraussPanelLayout);
@@ -177,7 +195,7 @@ public class FollowingModelFrame extends javax.swing.JFrame {
             .addGroup(kraussPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kraussTextScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(kraussMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -185,7 +203,7 @@ public class FollowingModelFrame extends javax.swing.JFrame {
             kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kraussPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(kraussTextScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(kraussMainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -290,16 +308,44 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_acceptButtonActionPerformed
 
+    private void sigmaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_sigmaFieldFocusLost
+        // TODO add your handling code here:
+        if(sigmaField.getText().contains(",")) 
+            sigmaField.setText(sigmaField.getText().replace(',', '.'));
+        
+        double value = Double.valueOf(sigmaField.getText());
+        
+        if (value > MAX_SIGMA){
+            value = MAX_SIGMA;
+        } else if (value < MIN_SIGMA){
+            value = MIN_SIGMA;
+        }
+        sigmaField.setText(String.valueOf(value));
+        krauss.setSigma(value);
+        sigmaField.updateUI();
+    }//GEN-LAST:event_sigmaFieldFocusLost
+
+    private void minGapFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_minGapFieldFocusLost
+        // TODO add your handling code here:
+        int value = Integer.valueOf(minGapField.getText());
+        
+        if (value > MIN_GAP){
+            minGapField.setText(String.valueOf(MIN_GAP));
+        }
+        
+        krauss.setMinGap(value);
+    }//GEN-LAST:event_minGapFieldFocusLost
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel IDMPanel;
     private javax.swing.JPanel KernerPanel;
     private javax.swing.JPanel PWagnerPanel;
     private javax.swing.JButton acceptButton;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JPanel kraussMainPanel;
     private javax.swing.JPanel kraussPanel;
+    private javax.swing.JTextArea kraussText;
+    private javax.swing.JScrollPane kraussTextScroll;
     private javax.swing.JFormattedTextField minGapField;
     private javax.swing.JLabel minGapLabel;
     private javax.swing.JFormattedTextField sigmaField;

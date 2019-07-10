@@ -23,7 +23,7 @@ import org.jxmapviewer.input.PanMouseInputListener;
 import org.jxmapviewer.input.ZoomMouseWheelListenerCursor;
 import org.jxmapviewer.viewer.DefaultTileFactory;
 import org.jxmapviewer.viewer.TileFactoryInfo;
-import view.C4RView;
+import view.MogenView;
 
 /**
  * 
@@ -35,9 +35,9 @@ public class MapViewer extends JFrame{
     private final static String CACHE_FILE = "cache.jxmapviewer2";
     private final static String EXPORT_TEXT = "Export selection";
 
-    private final C4RView view;
+    private final MogenView view;
     
-    public MapViewer(C4RView view) {
+    public MapViewer(MogenView view) {
         // Create a TileFactoryInfo for OpenStreetMap
         TileFactoryInfo info = new OSMTileFactoryInfo();
         JLabel label = initMenuButton(EXPORT_TEXT, new Dimension(100, 30));

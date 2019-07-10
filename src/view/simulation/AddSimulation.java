@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.JFrame;
 import model.constants.Netconvert;
-import view.C4RView;
+import view.MogenView;
 
 /**
  *
@@ -34,10 +34,10 @@ public class AddSimulation extends javax.swing.JFrame {
     private final Font  TITLE_FONT;
     
     private HashSet<String> command;
-    private C4RView view;
+    private MogenView view;
     private String name;
 
-    public AddSimulation(C4RView view, String name) {
+    public AddSimulation(MogenView view, String name) {
         this.view = view;
         this.name = name;
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);

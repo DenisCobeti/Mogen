@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import view.C4RView;
+import view.MogenView;
 
 /**
  *
@@ -23,7 +23,7 @@ public class DialogAddType extends Dialog{
 
     private final String ACCEPT = "Accept";
     
-    public DialogAddType(C4RView view) {
+    public DialogAddType(MogenView view) {
         this.view = view;
         
         JPanel panel = new JPanel();

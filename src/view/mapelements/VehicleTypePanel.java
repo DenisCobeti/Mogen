@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import model.routes.VType;
-import view.C4RView;
+import view.MogenView;
 import view.export.MobilityModelFrame;
 
 /**
@@ -36,7 +36,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     ImageIcon DELETE_ICON = new ImageIcon(DELETE_ICON_IMG);
     ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
     
-    private C4RView view;
+    private MogenView view;
     private String name;
     private VType type;
     
@@ -57,7 +57,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         }
     }
     
-    public VehicleTypePanel(String name, VType type, C4RView view) {
+    public VehicleTypePanel(String name, VType type, MogenView view) {
         this.name = name;
         this.view = view;
         this.type = type;
