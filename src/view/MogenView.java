@@ -19,6 +19,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,6 +32,7 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
+import model.MogenModel.Mobility;
 
 import model.map.MapSelection;
 import model.Tuple;
@@ -52,10 +54,12 @@ import view.mapelements.VehicleTypePanel;
 public class MogenView extends javax.swing.JFrame  implements ActionListener, Observer{
     private LoadingMap loading;
     
-    public final static Font FONT = new java.awt.Font("Century Gothic", Font.PLAIN, 12);
+    public final static Font FONT = new Font("Century Gothic", Font.PLAIN, 12);
     public final static Font SMALL_FONT = FONT.deriveFont(10,0);
     
     private static MapViewer map;
+    private final static DefaultComboBoxModel BOX_MODEL = 
+                            new DefaultComboBoxModel<>(Mobility.values());
     private static int tab;
     
     private static final String MENU_ITEM_EXIT = "Exit";
@@ -84,6 +88,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private final static String OPTIONS = "Options";
     
+    ////////////////////
     private final static String NAME = "Name";
     private final static String LEFTHANDED = "Lefthanded";
     private final static String REMOVE_GEOMETRY = "Remove geometry";
@@ -99,6 +104,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     //private final JLabel addRSU;
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
+    private final static String SEARCH_ICON_IMG = "resources/button/search.png";
     private static final String ICON_LOCATION = "resources/icon/icon.png";
     private static final String ICON_LOCATION_16 = "resources/icon/icon16.png";
     private static final String ICON_LOCATION_32 = "resources/icon/icon32.png";
@@ -111,6 +117,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private static final int DEFAULT_NUM_TABS = 1;
     private ImageIcon ADD_ICON = new ImageIcon(ADD_ICON_IMG);
+    private ImageIcon SEARCH_ICON = new ImageIcon(SEARCH_ICON_IMG);
     
     private final ViewListener listenerUI;
     private boolean avalibleMap;
@@ -217,8 +224,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         optionsMapButton = new javax.swing.JLabel();
         searchMapButton = new javax.swing.JLabel();
         newMapButton = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        mapOptionsPanel = new javax.swing.JPanel();
+        randomOptionsPanel = new javax.swing.JPanel();
+        flowOptionsPanel = new javax.swing.JPanel();
+        matrixOptionsPanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
+        errorLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuFileNew = new javax.swing.JMenuItem();
@@ -487,7 +498,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
         simulationPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        mobilityComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        mobilityComboBox.setFont(FONT);
+        mobilityComboBox.setModel(BOX_MODEL);
+        mobilityComboBox.setEnabled(false);
+        mobilityComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mobilityComboBoxActionPerformed(evt);
+            }
+        });
 
         mapPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -502,7 +520,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         });
 
-        searchMapButton.setIcon(EDIT_ICON);
+        searchMapButton.setIcon(SEARCH_ICON);
         searchMapButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 searchMapButtonMouseClicked(evt);
@@ -543,20 +561,51 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap())
         );
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        mapOptionsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        mapOptionsPanel.setLayout(new java.awt.CardLayout());
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout randomOptionsPanelLayout = new javax.swing.GroupLayout(randomOptionsPanel);
+        randomOptionsPanel.setLayout(randomOptionsPanelLayout);
+        randomOptionsPanelLayout.setHorizontalGroup(
+            randomOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 373, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        randomOptionsPanelLayout.setVerticalGroup(
+            randomOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 631, Short.MAX_VALUE)
         );
+
+        mapOptionsPanel.add(randomOptionsPanel, "card2");
+
+        javax.swing.GroupLayout flowOptionsPanelLayout = new javax.swing.GroupLayout(flowOptionsPanel);
+        flowOptionsPanel.setLayout(flowOptionsPanelLayout);
+        flowOptionsPanelLayout.setHorizontalGroup(
+            flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 373, Short.MAX_VALUE)
+        );
+        flowOptionsPanelLayout.setVerticalGroup(
+            flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 631, Short.MAX_VALUE)
+        );
+
+        mapOptionsPanel.add(flowOptionsPanel, "card3");
+
+        javax.swing.GroupLayout matrixOptionsPanelLayout = new javax.swing.GroupLayout(matrixOptionsPanel);
+        matrixOptionsPanel.setLayout(matrixOptionsPanelLayout);
+        matrixOptionsPanelLayout.setHorizontalGroup(
+            matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 373, Short.MAX_VALUE)
+        );
+        matrixOptionsPanelLayout.setVerticalGroup(
+            matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 631, Short.MAX_VALUE)
+        );
+
+        mapOptionsPanel.add(matrixOptionsPanel, "card4");
 
         jButton1.setText("jButton1");
+
+        errorLabel.setText("jLabel1");
 
         javax.swing.GroupLayout simulationPanelLayout = new javax.swing.GroupLayout(simulationPanel);
         simulationPanel.setLayout(simulationPanelLayout);
@@ -567,10 +616,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addGroup(simulationPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(mapOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(simulationPanelLayout.createSequentialGroup()
                                 .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(jButton1))))
@@ -582,9 +632,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(simulationPanelLayout.createSequentialGroup()
                 .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(mobilityComboBox)
+                    .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(mapOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addContainerGap())
@@ -659,7 +711,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE))
+                    .addComponent(panelOptions))
                 .addContainerGap())
         );
 
@@ -719,7 +771,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void optionsMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsMapButtonMouseClicked
         // TODO add your handling code here:
+        MapOptions options = new MapOptions(this);
+        options.setLocationRelativeTo(this);
         
+        options.setAlwaysOnTop(true);
+        options.setVisible(true);
     }//GEN-LAST:event_optionsMapButtonMouseClicked
 
     private void newMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newMapButtonMouseClicked
@@ -740,6 +796,24 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         chooser.getSelectedFile().getAbsolutePath());
         }
     }//GEN-LAST:event_searchMapButtonMouseClicked
+
+    private void mobilityComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mobilityComboBoxActionPerformed
+        // TODO add your handling code here:
+        switch((Mobility)mobilityComboBox.getSelectedItem()){
+            case Random:
+                System.out.println("random");
+                break;
+            case Flow:
+                System.out.println("flow");
+                break;
+            case ODMatrix:
+                System.out.println("atrix");
+                break;
+            default:
+                System.out.println("ooooooooooooooooooooooooooooooo");
+                break;
+        }
+    }//GEN-LAST:event_mobilityComboBoxActionPerformed
    
     
     @Override
@@ -767,9 +841,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             updateSimulation((String)arg);
             
         } else if (arg instanceof Boolean){
-            mapInfoLabel.setText(MAP_AVALIBLE + mapInfo);
+            //mapInfoLabel.setText(MAP_AVALIBLE + mapInfo);
             mapInfoField.setText(mapInfo);
-            mapInfoLabel.setForeground(Color.BLACK);
+            mobilityComboBox.setEnabled(true);
+            //mapInfoLabel.setForeground(Color.BLACK);
             avalibleMap = true;
         }
     }
@@ -779,17 +854,20 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JLabel acceptLabel;
     private javax.swing.JPanel addTab;
     private javax.swing.JScrollPane downtownScroll;
+    private javax.swing.JLabel errorLabel;
+    private javax.swing.JPanel flowOptionsPanel;
     private javax.swing.JCheckBox geometryBox;
     private javax.swing.JLabel geometryLabel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JCheckBox lefthandedBox;
     private javax.swing.JLabel lefthandedLabel;
     private javax.swing.JLabel lefthandedLabel1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField mapInfoField;
     private javax.swing.JLabel mapInfoLabel;
+    private javax.swing.JPanel mapOptionsPanel;
     private javax.swing.JPanel mapPanel;
+    private javax.swing.JPanel matrixOptionsPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenuItem menuEditExport;
@@ -807,6 +885,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JLabel overtakeLanesLabel;
     private javax.swing.JTabbedPane panelMaps;
     private javax.swing.JTabbedPane panelOptions;
+    private javax.swing.JPanel randomOptionsPanel;
     private javax.swing.JPanel roadFilterType;
     private javax.swing.JCheckBox roundaboutBox;
     private javax.swing.JLabel roundaboutsLabel;
@@ -951,6 +1030,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         panelMaps.remove(simulation);
         tab--;
     }
+
     
     
 }

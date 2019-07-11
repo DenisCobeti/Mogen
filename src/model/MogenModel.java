@@ -15,6 +15,7 @@ import view.MogenView;
 public class MogenModel extends Observable{
     
     public static enum ElementType {FLOW, VEHICLE, ROUTE, VTYPE};
+    public static enum Mobility {Random, Flow, ODMatrix};
     
     private final MogenControl control;
     private final MogenView view;
