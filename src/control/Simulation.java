@@ -62,6 +62,7 @@ public class Simulation {
                      default: 
                         
                 }*/
+                
                 tag = reader.getLocalName();
                 
                 if(tag.equals(Lane.TAG)){

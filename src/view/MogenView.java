@@ -1,7 +1,7 @@
 package view;
 
 import control.ViewListener;
-import java.awt.Color;
+import java.awt.CardLayout;
 
 import java.awt.Font;
 import java.awt.Image;
@@ -24,7 +24,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
@@ -37,13 +36,10 @@ import model.MogenModel.Mobility;
 import model.map.MapSelection;
 import model.Tuple;
 import model.routes.VType;
-import model.constants.Errors;
 import model.mobility.MobilityModel;
 
-import view.export.MobilityModelFrame;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
-import view.simulation.TabElement;
 import view.mapelements.VehicleTypePanel;
 
 /**
@@ -57,13 +53,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     public final static Font FONT = new Font("Century Gothic", Font.PLAIN, 12);
     public final static Font SMALL_FONT = FONT.deriveFont(10,0);
     
-    private static MapViewer map;
     private final static DefaultComboBoxModel BOX_MODEL = 
                             new DefaultComboBoxModel<>(Mobility.values());
-    private static int tab;
     
     private static final String MENU_ITEM_EXIT = "Exit";
-    private static final String MENU_ITEM_EDIT = "Edit";
     private static final String MENU_ITEM_FILE = "Exit program";
     private static final String MENU_ITEM_NEW_MAP = "New map";
     private static final String MENU_ITEM_OPEN_MAP = "Open map";
@@ -72,60 +65,41 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private static final String VEHICLE_TYPES = "Vehicle types";
     private static final String RSU = "RSU";
     private static final String DOWNTOWNS = "Downtowns";
-    private static final String ADD_SIMULATION_TOOLTIP = "New simulation";
     
-    public static final String ADD_SIMULATION = " +  ";
-    private static final String WELCOME = "Welcome!";
-    private static final String  TITLE = "New simulation";
     
     private static final String PROGRAM = "Mogen";
-    private static final String DEFAULT_SIM_NAME = "New ";
     private static final String MAP_ERROR = "Map has to be imported first";
-    private final Font  TITLE_FONT;
-    
-    private final static String VEHICLE_FILTERS = "Vehicle filters";
-    private final static String ROAD_FILTERS = "Road filters";
-    
-    private final static String OPTIONS = "Options";
-    
-    ////////////////////
-    private final static String NAME = "Name";
-    private final static String LEFTHANDED = "Lefthanded";
-    private final static String REMOVE_GEOMETRY = "Remove geometry";
-    private final static String ROUNDABOUTS = "Guess roundabouts";
-    private final static String STREET_NAMES = "Street names";
-    private final static String OVERTAKE_LANES = "Overtake lanes";
-    private static final String ACCEPT = "Accept";
+    private static final String EXPORT = "Export";
     
     private final JLabel addVTypeButton;
+    private boolean avalibleMap = false;
     ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
     private final static String EDIT_ICON_IMG = "resources/button/editFollowingModel.png";
     //private final JLabel addDowntown;
     //private final JLabel addRSU;
     
+    private final static String RANDOM_TIME = "Time: ";
+    private final static String RANDOM_TIME_DFLT = "60";
+    private final static String RANDOM_REPETITION = "Repetition rate: ";
+    private final static String RANDOM_REPETITION_DFLT = "3";
+    
     private final static String ADD_ICON_IMG = "resources/button/add.png";
     private final static String SEARCH_ICON_IMG = "resources/button/search.png";
-    private static final String ICON_LOCATION = "resources/icon/icon.png";
     private static final String ICON_LOCATION_16 = "resources/icon/icon16.png";
     private static final String ICON_LOCATION_32 = "resources/icon/icon32.png";
     private static final String ICON_LOCATION_64 = "resources/icon/icon64.png";
     private static final String ICON_LOCATION_128 = "resources/icon/icon128.png";
     
-    private static final String MAP_UNAVALIBLE = "No map currently opened. File "
-                                                    + "-> Open map/New map";
-    private static final String MAP_AVALIBLE = "Current map opened: ";
+    private static final String MAP_UNAVALIBLE = "No map currently opened";
     
-    private static final int DEFAULT_NUM_TABS = 1;
     private ImageIcon ADD_ICON = new ImageIcon(ADD_ICON_IMG);
     private ImageIcon SEARCH_ICON = new ImageIcon(SEARCH_ICON_IMG);
     
     private final ViewListener listenerUI;
-    private boolean avalibleMap;
     
     private List<VehicleTypePanel> VehicleTypes;
-    private HashSet<String> command;
+    private HashSet<String> options;
     
-    private String name;
     private String mapInfo;
     /**
      * Creates new form NewJFrame
@@ -135,7 +109,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     public MogenView(ViewListener listenerUI) {
         this.listenerUI = listenerUI;
         VehicleTypes = new LinkedList();
-        TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
+        //TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         Locale.setDefault(Locale.Category.FORMAT,new Locale("en", "UK"));
         
@@ -145,7 +119,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         icons.add(new ImageIcon(ICON_LOCATION_64).getImage());
         icons.add(new ImageIcon(ICON_LOCATION_128).getImage());
         
-        command = new HashSet<>();
+        options = new HashSet<>();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException | IllegalAccessException |  
@@ -154,8 +128,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         initComponents();
         
         //menuFileExit.addActionListener(this);
-        tab = DEFAULT_NUM_TABS;
-        panelMaps.setFont(FONT);
         panelOptions.setFont(FONT);
         
         vehicleTypesPanel.setLayout(new BoxLayout(vehicleTypesPanel, BoxLayout.Y_AXIS));
@@ -168,10 +140,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         });
         vehicleTypesPanel.add(addVTypeButton);
-        avalibleMap = false;
-        mapInfoLabel.setText(MAP_UNAVALIBLE);
-        mapInfoLabel.setForeground(Color.red);
-        
         this.setTitle(PROGRAM);
         this.setIconImages(icons);
         this.setLocationRelativeTo(null);
@@ -187,31 +155,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelMaps = new javax.swing.JTabbedPane();
-        addTab = new javax.swing.JPanel();
-        mainPanel = new javax.swing.JPanel();
-        titlePanel = new javax.swing.JPanel();
-        titleLabel = new javax.swing.JLabel();
-        tabPanel = new javax.swing.JTabbedPane();
-        optionsTab = new javax.swing.JPanel();
-        nameLabel = new javax.swing.JLabel();
-        nameField = new javax.swing.JTextField();
-        togglePanel = new javax.swing.JPanel();
-        lefthandedLabel = new javax.swing.JLabel();
-        geometryLabel = new javax.swing.JLabel();
-        roundaboutsLabel = new javax.swing.JLabel();
-        streetNamesLabel = new javax.swing.JLabel();
-        overtakeLanesLabel = new javax.swing.JLabel();
-        lefthandedBox = new javax.swing.JCheckBox();
-        geometryBox = new javax.swing.JCheckBox();
-        roundaboutBox = new javax.swing.JCheckBox();
-        streetNamesBox = new javax.swing.JCheckBox();
-        overtakeBox = new javax.swing.JCheckBox();
-        lefthandedLabel1 = new javax.swing.JLabel();
-        mapInfoLabel = new javax.swing.JLabel();
-        vehicleFilterTab = new javax.swing.JPanel();
-        roadFilterType = new javax.swing.JPanel();
-        acceptLabel = new javax.swing.JLabel();
         panelOptions = new javax.swing.JTabbedPane();
         vehicleTypesScroll = new javax.swing.JScrollPane();
         vehicleTypesPanel = new javax.swing.JPanel();
@@ -224,11 +167,16 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         optionsMapButton = new javax.swing.JLabel();
         searchMapButton = new javax.swing.JLabel();
         newMapButton = new javax.swing.JLabel();
-        mapOptionsPanel = new javax.swing.JPanel();
+        mobilityOptionsPanel = new javax.swing.JPanel();
         randomOptionsPanel = new javax.swing.JPanel();
+        randomPanel = new javax.swing.JPanel();
+        repetitionLabel = new javax.swing.JLabel();
+        repetitionField = new javax.swing.JFormattedTextField();
+        timeLabel = new javax.swing.JLabel();
+        timeField = new javax.swing.JFormattedTextField();
         flowOptionsPanel = new javax.swing.JPanel();
         matrixOptionsPanel = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        exportButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
@@ -237,238 +185,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         menuFileExit = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
         menuEditExport = new javax.swing.JMenuItem();
-
-        addTab.setBackground(new java.awt.Color(255, 255, 255));
-
-        titleLabel.setFont(TITLE_FONT);
-        titleLabel.setForeground(new java.awt.Color(204, 0, 102));
-        titleLabel.setText(TITLE);
-
-        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
-        titlePanel.setLayout(titlePanelLayout);
-        titlePanelLayout.setHorizontalGroup(
-            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        titlePanelLayout.setVerticalGroup(
-            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-
-        tabPanel.setBackground(new java.awt.Color(255, 255, 255));
-        tabPanel.setFont(FONT);
-
-        optionsTab.setBackground(new java.awt.Color(255, 255, 255));
-
-        nameLabel.setFont(FONT);
-        nameLabel.setText(NAME);
-
-        nameField.setText(name);
-
-        togglePanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        lefthandedLabel.setFont(FONT);
-        lefthandedLabel.setText(LEFTHANDED);
-
-        geometryLabel.setFont(FONT);
-        geometryLabel.setText(REMOVE_GEOMETRY);
-
-        roundaboutsLabel.setFont(FONT);
-        roundaboutsLabel.setText(ROUNDABOUTS);
-
-        streetNamesLabel.setFont(FONT);
-        streetNamesLabel.setText(STREET_NAMES);
-
-        overtakeLanesLabel.setFont(FONT);
-        overtakeLanesLabel.setText(OVERTAKE_LANES);
-
-        lefthandedBox.setBackground(new java.awt.Color(255, 255, 255));
-
-        geometryBox.setBackground(new java.awt.Color(255, 255, 255));
-
-        roundaboutBox.setBackground(new java.awt.Color(255, 255, 255));
-
-        streetNamesBox.setBackground(new java.awt.Color(255, 255, 255));
-
-        overtakeBox.setBackground(new java.awt.Color(255, 255, 255));
-
-        lefthandedLabel1.setFont(FONT);
-        lefthandedLabel1.setText(LEFTHANDED);
-
-        javax.swing.GroupLayout togglePanelLayout = new javax.swing.GroupLayout(togglePanel);
-        togglePanel.setLayout(togglePanelLayout);
-        togglePanelLayout.setHorizontalGroup(
-            togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(togglePanelLayout.createSequentialGroup()
-                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lefthandedLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                    .addComponent(geometryLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(roundaboutsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(streetNamesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(overtakeLanesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(togglePanelLayout.createSequentialGroup()
-                        .addComponent(lefthandedBox)
-                        .addGap(18, 18, 18)
-                        .addComponent(lefthandedLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE))
-                    .addComponent(geometryBox)
-                    .addComponent(roundaboutBox)
-                    .addComponent(streetNamesBox)
-                    .addComponent(overtakeBox))
-                .addGap(90, 90, 90))
-        );
-        togglePanelLayout.setVerticalGroup(
-            togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(togglePanelLayout.createSequentialGroup()
-                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(togglePanelLayout.createSequentialGroup()
-                        .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(togglePanelLayout.createSequentialGroup()
-                                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(togglePanelLayout.createSequentialGroup()
-                                        .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lefthandedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lefthandedBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lefthandedLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(geometryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(geometryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(roundaboutsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(roundaboutBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(streetNamesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(streetNamesBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(overtakeLanesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(overtakeBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 139, Short.MAX_VALUE))
-        );
-
-        mapInfoLabel.setFont(FONT);
-        mapInfoLabel.setText("jLabel1");
-
-        javax.swing.GroupLayout optionsTabLayout = new javax.swing.GroupLayout(optionsTab);
-        optionsTab.setLayout(optionsTabLayout);
-        optionsTabLayout.setHorizontalGroup(
-            optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(mapInfoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(togglePanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, optionsTabLayout.createSequentialGroup()
-                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        optionsTabLayout.setVerticalGroup(
-            optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(optionsTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(togglePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mapInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(188, Short.MAX_VALUE))
-        );
-
-        tabPanel.addTab(OPTIONS, optionsTab);
-
-        vehicleFilterTab.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout vehicleFilterTabLayout = new javax.swing.GroupLayout(vehicleFilterTab);
-        vehicleFilterTab.setLayout(vehicleFilterTabLayout);
-        vehicleFilterTabLayout.setHorizontalGroup(
-            vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 623, Short.MAX_VALUE)
-        );
-        vehicleFilterTabLayout.setVerticalGroup(
-            vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
-        );
-
-        tabPanel.addTab(VEHICLE_FILTERS, vehicleFilterTab);
-
-        roadFilterType.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout roadFilterTypeLayout = new javax.swing.GroupLayout(roadFilterType);
-        roadFilterType.setLayout(roadFilterTypeLayout);
-        roadFilterTypeLayout.setHorizontalGroup(
-            roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 623, Short.MAX_VALUE)
-        );
-        roadFilterTypeLayout.setVerticalGroup(
-            roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 594, Short.MAX_VALUE)
-        );
-
-        tabPanel.addTab(ROAD_FILTERS, roadFilterType);
-
-        acceptLabel.setBackground(new java.awt.Color(255, 255, 255));
-        acceptLabel.setFont(FONT);
-        acceptLabel.setText(ACCEPT);
-        acceptLabel.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                acceptLabelMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
-        mainPanel.setLayout(mainPanelLayout);
-        mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tabPanel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
-        );
-        mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabPanel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        javax.swing.GroupLayout addTabLayout = new javax.swing.GroupLayout(addTab);
-        addTab.setLayout(addTabLayout);
-        addTabLayout.setHorizontalGroup(
-            addTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        addTabLayout.setVerticalGroup(
-            addTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(addTabLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        panelMaps.addTab(WELCOME, addTab);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -500,7 +216,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
         mobilityComboBox.setFont(FONT);
         mobilityComboBox.setModel(BOX_MODEL);
-        mobilityComboBox.setEnabled(false);
         mobilityComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 mobilityComboBoxActionPerformed(evt);
@@ -561,69 +276,134 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap())
         );
 
-        mapOptionsPanel.setBackground(new java.awt.Color(255, 255, 255));
-        mapOptionsPanel.setLayout(new java.awt.CardLayout());
+        mobilityOptionsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        mobilityOptionsPanel.setLayout(new java.awt.CardLayout());
+
+        randomOptionsPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        randomPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        repetitionLabel.setFont(FONT);
+        repetitionLabel.setText(RANDOM_REPETITION);
+
+        repetitionField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        repetitionField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        repetitionField.setText(RANDOM_REPETITION_DFLT);
+        repetitionField.setFont(FONT);
+
+        timeLabel.setFont(FONT);
+        timeLabel.setText(RANDOM_TIME);
+
+        timeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        timeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        timeField.setText(RANDOM_TIME_DFLT);
+        timeField.setFont(FONT);
+
+        javax.swing.GroupLayout randomPanelLayout = new javax.swing.GroupLayout(randomPanel);
+        randomPanel.setLayout(randomPanelLayout);
+        randomPanelLayout.setHorizontalGroup(
+            randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(timeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                    .addComponent(repetitionLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(randomPanelLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(repetitionField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(randomPanelLayout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(151, Short.MAX_VALUE))
+        );
+        randomPanelLayout.setVerticalGroup(
+            randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(randomPanelLayout.createSequentialGroup()
+                .addGap(11, 11, 11)
+                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(repetitionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(repetitionField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout randomOptionsPanelLayout = new javax.swing.GroupLayout(randomOptionsPanel);
         randomOptionsPanel.setLayout(randomOptionsPanelLayout);
         randomOptionsPanelLayout.setHorizontalGroup(
             randomOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 373, Short.MAX_VALUE)
+            .addGroup(randomOptionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(randomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         randomOptionsPanelLayout.setVerticalGroup(
             randomOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGroup(randomOptionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(randomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(304, Short.MAX_VALUE))
         );
 
-        mapOptionsPanel.add(randomOptionsPanel, "card2");
+        mobilityOptionsPanel.add(randomOptionsPanel, "random");
 
         javax.swing.GroupLayout flowOptionsPanelLayout = new javax.swing.GroupLayout(flowOptionsPanel);
         flowOptionsPanel.setLayout(flowOptionsPanelLayout);
         flowOptionsPanelLayout.setHorizontalGroup(
             flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 373, Short.MAX_VALUE)
+            .addGap(0, 383, Short.MAX_VALUE)
         );
         flowOptionsPanelLayout.setVerticalGroup(
             flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGap(0, 388, Short.MAX_VALUE)
         );
 
-        mapOptionsPanel.add(flowOptionsPanel, "card3");
+        mobilityOptionsPanel.add(flowOptionsPanel, "flow");
 
         javax.swing.GroupLayout matrixOptionsPanelLayout = new javax.swing.GroupLayout(matrixOptionsPanel);
         matrixOptionsPanel.setLayout(matrixOptionsPanelLayout);
         matrixOptionsPanelLayout.setHorizontalGroup(
             matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 373, Short.MAX_VALUE)
+            .addGap(0, 383, Short.MAX_VALUE)
         );
         matrixOptionsPanelLayout.setVerticalGroup(
             matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 631, Short.MAX_VALUE)
+            .addGap(0, 388, Short.MAX_VALUE)
         );
 
-        mapOptionsPanel.add(matrixOptionsPanel, "card4");
+        mobilityOptionsPanel.add(matrixOptionsPanel, "matrix");
 
-        jButton1.setText("jButton1");
+        exportButton.setFont(FONT);
+        exportButton.setText(EXPORT);
+        exportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exportButtonActionPerformed(evt);
+            }
+        });
 
-        errorLabel.setText("jLabel1");
+        errorLabel.setFont(FONT);
+        errorLabel.setForeground(new java.awt.Color(255, 0, 0));
+        errorLabel.setText(MAP_UNAVALIBLE);
 
         javax.swing.GroupLayout simulationPanelLayout = new javax.swing.GroupLayout(simulationPanel);
         simulationPanel.setLayout(simulationPanelLayout);
         simulationPanelLayout.setHorizontalGroup(
             simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(simulationPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(simulationPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(mapOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(simulationPanelLayout.createSequentialGroup()
-                                .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jButton1))))
+                        .addGap(10, 10, 10)
+                        .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(exportButton))
                     .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -632,13 +412,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(simulationPanelLayout.createSequentialGroup()
                 .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(mobilityComboBox)
+                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mapOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(exportButton)
                 .addContainerGap())
         );
 
@@ -702,7 +482,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addComponent(simulationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+                .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -723,25 +503,25 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }//GEN-LAST:event_menuFileExitMousePressed
 
     private void menuFileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileNewActionPerformed
-        map = new MapViewer(this);
+        MapViewer map = new MapViewer(this);
     }//GEN-LAST:event_menuFileNewActionPerformed
 
     private void menuEditExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditExportActionPerformed
-
-        if(panelMaps.getTabCount() < 2){
-            JOptionPane.showMessageDialog(this,Errors.FIRST_SIM);
-            return;
+        switch((Mobility)mobilityComboBox.getSelectedItem()){
+            case Random:
+                System.out.println("random");
+                break;
+            case Flow:
+                System.out.println("flow");
+                break;
+            case ODMatrix:
+                System.out.println("atrix");
+                break;
+            default:
+                System.out.println("ooooooooooooooooooooooooooooooo");
+                break;
         }
-        if(panelMaps.getSelectedIndex() < 1) {
-            JOptionPane.showMessageDialog(this,Errors.NO_SELECTED_SIM);
-            return;
-        }
-        System.out.println(((TabElement)panelMaps.getTabComponentAt
-                                    (panelMaps.getSelectedIndex())).getName());
-        JFrame export = new MobilityModelFrame(this, ((TabElement)panelMaps
-                .getTabComponentAt(panelMaps.getSelectedIndex())).getName(),
-                VehicleTypes);
-        export.setVisible(true);
+        
     }//GEN-LAST:event_menuEditExportActionPerformed
 
     private void menuFileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileOpenActionPerformed
@@ -758,17 +538,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         }
     }//GEN-LAST:event_menuFileOpenActionPerformed
 
-    private void acceptLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptLabelMouseClicked
-        if (avalibleMap){
-            name = nameField.getText();
-            String[] commands = new String[command.size()];
-            commands = command.toArray(commands);
-            newSimulation(name, commands);
-        }else{
-            error(MAP_ERROR);
-        }
-    }//GEN-LAST:event_acceptLabelMouseClicked
-
     private void optionsMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsMapButtonMouseClicked
         // TODO add your handling code here:
         MapOptions options = new MapOptions(this);
@@ -780,7 +549,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void newMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newMapButtonMouseClicked
         // TODO add your handling code here:
-        map = new MapViewer(this);
+        MapViewer map = new MapViewer(this);
     }//GEN-LAST:event_newMapButtonMouseClicked
 
     private void searchMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMapButtonMouseClicked
@@ -799,21 +568,28 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void mobilityComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mobilityComboBoxActionPerformed
         // TODO add your handling code here:
+        CardLayout layout = (CardLayout)mobilityOptionsPanel.getLayout();
+        
         switch((Mobility)mobilityComboBox.getSelectedItem()){
             case Random:
-                System.out.println("random");
+                layout.show(mobilityOptionsPanel, "random");
                 break;
             case Flow:
-                System.out.println("flow");
+                layout.show(mobilityOptionsPanel, "flow");
                 break;
             case ODMatrix:
-                System.out.println("atrix");
+                layout.show(mobilityOptionsPanel, "matrix");
                 break;
             default:
-                System.out.println("ooooooooooooooooooooooooooooooo");
+                layout.show(mobilityOptionsPanel, "random");
                 break;
         }
     }//GEN-LAST:event_mobilityComboBoxActionPerformed
+
+    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
+        // TODO add your handling code here:
+        export();
+    }//GEN-LAST:event_exportButtonActionPerformed
    
     
     @Override
@@ -822,7 +598,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             case MENU_ITEM_EXIT:
                 listenerUI.producedEvent(ViewListener.Event.SALIR, null);
             case MENU_ITEM_NEW_MAP:
-                map = new MapViewer(this);
+                MapViewer map = new MapViewer(this);
         }
     }
 
@@ -837,35 +613,21 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         } else if (arg instanceof Exception){
             error(((Exception) arg).getMessage());
             
-        } else if (arg instanceof String){
-            updateSimulation((String)arg);
+        } else if (arg instanceof InputStream){
+            updateSimulation((InputStream)arg);
             
         } else if (arg instanceof Boolean){
-            //mapInfoLabel.setText(MAP_AVALIBLE + mapInfo);
-            mapInfoField.setText(mapInfo);
-            mobilityComboBox.setEnabled(true);
-            //mapInfoLabel.setForeground(Color.BLACK);
-            avalibleMap = true;
+            avalibleMap();
         }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane RSUScroll;
-    private javax.swing.JLabel acceptLabel;
-    private javax.swing.JPanel addTab;
     private javax.swing.JScrollPane downtownScroll;
     private javax.swing.JLabel errorLabel;
+    private javax.swing.JButton exportButton;
     private javax.swing.JPanel flowOptionsPanel;
-    private javax.swing.JCheckBox geometryBox;
-    private javax.swing.JLabel geometryLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox lefthandedBox;
-    private javax.swing.JLabel lefthandedLabel;
-    private javax.swing.JLabel lefthandedLabel1;
-    private javax.swing.JPanel mainPanel;
     private javax.swing.JTextField mapInfoField;
-    private javax.swing.JLabel mapInfoLabel;
-    private javax.swing.JPanel mapOptionsPanel;
     private javax.swing.JPanel mapPanel;
     private javax.swing.JPanel matrixOptionsPanel;
     private javax.swing.JMenuBar menuBar;
@@ -876,28 +638,18 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JMenuItem menuFileNew;
     private javax.swing.JMenuItem menuFileOpen;
     private javax.swing.JComboBox<String> mobilityComboBox;
-    private javax.swing.JTextField nameField;
-    private javax.swing.JLabel nameLabel;
+    private javax.swing.JPanel mobilityOptionsPanel;
     private javax.swing.JLabel newMapButton;
     private javax.swing.JLabel optionsMapButton;
-    private javax.swing.JPanel optionsTab;
-    private javax.swing.JCheckBox overtakeBox;
-    private javax.swing.JLabel overtakeLanesLabel;
-    private javax.swing.JTabbedPane panelMaps;
     private javax.swing.JTabbedPane panelOptions;
     private javax.swing.JPanel randomOptionsPanel;
-    private javax.swing.JPanel roadFilterType;
-    private javax.swing.JCheckBox roundaboutBox;
-    private javax.swing.JLabel roundaboutsLabel;
+    private javax.swing.JPanel randomPanel;
+    private javax.swing.JFormattedTextField repetitionField;
+    private javax.swing.JLabel repetitionLabel;
     private javax.swing.JLabel searchMapButton;
     private javax.swing.JPanel simulationPanel;
-    private javax.swing.JCheckBox streetNamesBox;
-    private javax.swing.JLabel streetNamesLabel;
-    private javax.swing.JTabbedPane tabPanel;
-    private javax.swing.JLabel titleLabel;
-    private javax.swing.JPanel titlePanel;
-    private javax.swing.JPanel togglePanel;
-    private javax.swing.JPanel vehicleFilterTab;
+    private javax.swing.JFormattedTextField timeField;
+    private javax.swing.JLabel timeLabel;
     private javax.swing.JPanel vehicleTypesPanel;
     private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
@@ -906,22 +658,44 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         JFrame simulation = new AddSimulation(this, DEFAULT_SIM_NAME + tab);
         simulation.setVisible(true);
     }*/
-    
+    private void export(){
+        if(avalibleMap){
+            switch((Mobility)mobilityComboBox.getSelectedItem()){
+                case Random:
+                    System.out.println("random");
+                    break;
+                case Flow:
+                    System.out.println("flow");
+                    break;
+                case ODMatrix:
+                    System.out.println("atrix");
+                    break;
+                default:
+                    System.out.println("ooooooooooooooooooooooooooooooo");
+                    break;
+            }
+        } else{
+            error(MAP_UNAVALIBLE);
+        }
+    }
+    private void avalibleMap(){
+        //mapInfoLabel.setText(MAP_AVALIBLE + mapInfo);
+        mapInfoField.setText(mapInfo);
+        avalibleMap = true;
+        errorLabel.setText("");
+        //mapInfoLabel.setForeground(Color.BLACK);
+    }
     public void newSimulation(String name, String[] commands){
         listenerUI.producedEvent(ViewListener.Event.NEW_SIMULATION, 
                                                 new Tuple<>(name, commands));
     }
-    
-    public void updateSimulation(String name){
-        JPanel panel = new JPanel();
-        JPanel tabTitle = new TabElement(this, tab, name, panel);
-        
-        panelMaps.add(panel);
-        panelMaps.setTabComponentAt(tab, tabTitle);
-        panelMaps.setSelectedIndex(tab);
-        tab++;
+    public void newSimulation(String[] commands){
+        listenerUI.producedEvent(ViewListener.Event.NEW_SIMULATION_CMD, commands);
     }
     
+    public void updateSimulation(InputStream stream){
+        // Donde mostrar los warnings
+    }
     public void exportSimulation(MobilityModel model, String name){
         Tuple tuple = new Tuple(model, name);
         listenerUI.producedEvent(ViewListener.Event.EXPORT, tuple);
@@ -943,8 +717,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             
         } else if (tuple.obj2 instanceof InputStream){
             
-            JPanel panel = new JPanel();
-            JPanel tabTitle = new TabElement(this, tab, (String)tuple.obj1, panel);
             JScrollPane textScroll = new JScrollPane();
             JTextArea text = new JTextArea();
             
@@ -953,11 +725,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             BufferedReader in = new BufferedReader  
                     (new InputStreamReader((InputStream)tuple.obj2));  
             
-            panelMaps.add(panel);
-            panelMaps.setTabComponentAt(tab, tabTitle);
-            panelMaps.setComponentAt(tab, textScroll);
-            panelMaps.setSelectedIndex(tab);
-            tab++;
             
             String line;
             try {
@@ -1007,9 +774,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         System.out.println("boom");
     }
     
-    public void noAvalibleMap(){
-        avalibleMap = false;
-    }
     
     public void editVType(String name, VType type){
         listenerUI.producedEvent(ViewListener.Event.EDIT_VTYPE, new Tuple(name, type));
@@ -1025,12 +789,5 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         loading.setVisible(false);
         loading = null;
     }
-
-    public void closeSimulation(JPanel simulation) {
-        panelMaps.remove(simulation);
-        tab--;
-    }
-
-    
-    
+ 
 }

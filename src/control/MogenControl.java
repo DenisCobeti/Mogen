@@ -25,6 +25,8 @@ import view.MogenView;
  * @author Denis C
  */
 public class MogenControl {
+    private final static String DEFAULT_MAP_NAME = "mapNetconvert";
+    
     private MogenModel model;
     private MogenView view;
     
@@ -92,6 +94,7 @@ public class MogenControl {
         copyInputStreamToFile(in, osmFile);
         // Modify second parameter to change the imported map type
         converter = new MapConverter(map, APIS.OSM);
+        converter.executeConvert(DEFAULT_MAP_NAME);
         hasMap = true;
     }
     
@@ -99,15 +102,24 @@ public class MogenControl {
                                                             IOException{
         // Modify second parameter to change the imported map type
         converter = new MapConverter(location, APIS.OSM);
+        converter.executeConvert(DEFAULT_MAP_NAME);
         hasMap = true;
     }
     
     public InputStream createSimulation(String name, String[] commands) 
-                                    throws IOException{
+                                    throws IOException {
         Simulation sim = new Simulation(commands);
         converter.addOptions(cleanOptions(commands));
         InputStream output = converter.executeConvert(name);
         model.addElement(name, sim);
+        return output;
+    }
+    
+    public InputStream createSimulation(String[] commands) throws IOException {
+        Simulation sim = new Simulation(commands);
+        converter.addOptions(cleanOptions(commands));
+        InputStream output = converter.executeConvert(DEFAULT_MAP_NAME);
+        model.addElement(DEFAULT_MAP_NAME, sim);
         return output;
     }
     

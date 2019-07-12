@@ -89,7 +89,7 @@ public class Mogen implements ViewListener{
                                             (Errors.DUPLICATED_VTYPE));
                 }
                 break;
-                
+            /*
             case NEW_SIMULATION:
                 tuple = (Tuple)obj;
                 try {
@@ -99,8 +99,16 @@ public class Mogen implements ViewListener{
                 } catch (IOException ex) {
                     handleError(ex, Errors.NETCONVERT_CMD);
                 } 
-                break;
+                break;*/
                 
+            case NEW_SIMULATION_CMD:
+                try {
+                    InputStream output = control.createSimulation((String[])obj);
+                    view.update(model, output);
+                } catch (IOException ex) {
+                    handleError(ex, Errors.NETCONVERT_CMD);
+                } 
+                break;
             case EXPORT:
                 tuple = (Tuple)obj;
                 try{
@@ -110,6 +118,7 @@ public class Mogen implements ViewListener{
                     handleError(ex, Errors.ROUTE);
                 }
                 break;
+                
             case EDIT_VTYPE:
                 tuple = (Tuple)obj;
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);

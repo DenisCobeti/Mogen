@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Font;
+import java.util.HashSet;
 
 /**
  *
@@ -28,11 +29,12 @@ public class MapOptions extends javax.swing.JFrame {
     private final static String ROAD_FILTERS = "Road filters";
     private final static String OPTIONS = "Options";
     
+    private HashSet<String> options;
     private MogenView view;
     
     public MapOptions(MogenView view) {
         this.view = view;
-        
+        options = new HashSet<>();
         FONT = view.FONT;
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
@@ -290,7 +292,12 @@ public class MapOptions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void acceptLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptLabelMouseClicked
-        
+       
+        String[] commands = new String[options.size()];
+        commands = options.toArray(commands);
+        view.newSimulation(commands);
+        view.enableEvents(true);
+        this.dispose();
     }//GEN-LAST:event_acceptLabelMouseClicked
 
 
