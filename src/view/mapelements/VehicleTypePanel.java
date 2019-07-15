@@ -113,6 +113,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         editLabel = new javax.swing.JLabel();
         removeLabel = new javax.swing.JLabel();
+        enabledBox = new javax.swing.JCheckBox();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
@@ -226,6 +227,14 @@ public class VehicleTypePanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        enabledBox.setBackground(new java.awt.Color(255, 255, 255));
+        enabledBox.setSelected(true);
+        enabledBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enabledBoxActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
         optionsPanelLayout.setHorizontalGroup(
@@ -236,7 +245,10 @@ public class VehicleTypePanel extends javax.swing.JPanel {
                         .addComponent(speedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(speedField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(enabledBox)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(accelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,7 +278,8 @@ public class VehicleTypePanel extends javax.swing.JPanel {
                     .addComponent(accelLabel)
                     .addComponent(sigmaLabel)
                     .addComponent(tauField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(accelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(accelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(enabledBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(speedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -353,6 +366,12 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         view.editVType(name, type);
     }//GEN-LAST:event_lengthFieldActionPerformed
 
+    private void enabledBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enabledBoxActionPerformed
+        // TODO add your handling code here:
+        type.setEnabled(enabledBox.isSelected());
+        view.editVType(name, type);
+    }//GEN-LAST:event_enabledBoxActionPerformed
+
     public JLabel getIconLabel() {
         return icon;
     }
@@ -367,6 +386,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField decelField;
     private javax.swing.JLabel decelLabel;
     private javax.swing.JLabel editLabel;
+    private javax.swing.JCheckBox enabledBox;
     private javax.swing.JLabel icon;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JFormattedTextField lengthField;

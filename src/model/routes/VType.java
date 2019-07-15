@@ -17,6 +17,8 @@ public class VType {
             + " decel=\"%.2f\" tau=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" %s "
             + "probability=\"%.2f\" />";
     
+    private boolean enabled = true;
+    
     private double accel;
     private double decel;
     private double tau;
@@ -62,12 +64,14 @@ public class VType {
         this.maxSpeed = maxSpeed;
         this.model = model;
     }
+    
     public void setAccel(double accel) { this.accel = accel; }
     public void setDecel(double decel) { this.decel = decel; }
     public void setTau(double tau) { this.tau = tau; }
     public void setLength(int length) { this.length = length; }
     public void setMaxSpeed(int maxSpeed) { this.maxSpeed = maxSpeed; }
     public void setModel(FollowingModel model) { this.model = model; }
+    public void setEnabled(boolean enabled) { this.enabled = enabled; }
 
     public double getAccel() { return accel; }
     public double getDecel() { return decel; }
@@ -75,6 +79,8 @@ public class VType {
     public int getLength() { return length; }
     public int getMaxSpeed() { return maxSpeed; }
     public FollowingModel getModel() { return model; }
+    public boolean isEnabled() { return enabled; }
+    
     
     public String toFile(String id) {
         return String.format(FILE_FORMAT, id, accel, decel, tau, length, 

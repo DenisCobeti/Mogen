@@ -71,8 +71,10 @@ public class Random extends MobilityModel{
         writer.println("<vTypeDistribution id=\"dist1\">");
         for (Map.Entry<String, VType> entry : vTypes.entrySet()) {
             //writer.println(entry.getValue().toFile(entry.getKey()));
-            writer.println(entry.getValue().toFile(entry.getKey(), 
-                    vTypesProbability.get(entry.getKey())));
+            if(entry.getValue().isEnabled()){
+                writer.println(entry.getValue().toFile(entry.getKey(), 
+                        vTypesProbability.get(entry.getKey())));
+            }
         }
         writer.println("</vTypeDistribution>");
         writer.println("</additional>");

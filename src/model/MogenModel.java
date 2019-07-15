@@ -5,6 +5,7 @@ import control.Simulation;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
+import javafx.scene.shape.Polyline;
 import model.routes.VType;
 import view.MogenView;
 

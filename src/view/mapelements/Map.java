@@ -1,49 +1,60 @@
-package control;
+package view.mapelements;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import javafx.application.Application;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import model.sumo.Connection;
 import model.sumo.Edge;
 import model.sumo.Junction;
 import model.sumo.Lane;
-import model.sumo.RoadType;
 
 /**
  *
  * @author Neblis
  */
-public class Simulation {
+public class Map extends Application {
+
+    private final HashMap<String, Lane> lanes = new HashMap<>();
     
     private final static String ID = "id";
-    private final static int MAX_LANES = 4;
     
-    private final HashMap<String, Lane> lanes = new HashMap<>();
-    private final HashMap<String, Connection> connections = new HashMap<>();
-    private final HashMap<String, String> junctions = new HashMap<>();
-    private final HashMap<String, RoadType> roadTypes = new HashMap<>();
+    public String name;
+    private final Group group = new Group();
     
-    private final String[]  commands;
+    public Map() throws FileNotFoundException, XMLStreamException {
+        super();
+        this.name = "mapNetconvert.net.xml";
+        parseNetwork(name);
+    }
 
-    public Simulation(String[] commands) {
-        this.commands = commands;
+    
+    @Override
+    public void start(Stage stage) throws Exception {
+        stage.setTitle(name);
+        
+        Scene scene = new Scene (group, 800, 800);
+        stage.setScene(scene);
+        stage.show();
     }
     
-    public void parseNetwork(String location) throws FileNotFoundException, 
+    private void parseNetwork(String location) throws FileNotFoundException, 
                                                             XMLStreamException{
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         InputStream in = new FileInputStream(location);
         XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
         reader.nextTag(); // pass the net tag
+        
         int event;
         String tag;
+        
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
         while (reader.hasNext()){
             event = reader.next();
@@ -71,27 +82,23 @@ public class Simulation {
                                  ,reader.getAttributeValue(null, Lane.SHAPE)));
                     //System.out.println(reader.getAttributeValue(null, Lane.SHAPE));
                 }else if(tag.equals(Junction.TAG)){
-                    junctions.put(reader.getAttributeValue(null, ID), 
-                                  reader.getAttributeValue(null, Lane.SHAPE));
+                    /*junctions.put(reader.getAttributeValue(null, ID), 
+                                  reader.getAttributeValue(null, Lane.SHAPE));*/
                 }      
             }  
             
         }
-        printMap(lanes);
+        //printMap(lanes);
+        
+        for (Lane lane : lanes.values()){
+            group.getChildren().add(lane.getPolyline());
+            System.out.println(lane.getPolyline());
+        }
         //printMap(junctions);
        
     }
-
-    public static void printMap(Map mp) {
-        Iterator it = mp.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry)it.next();
-            System.out.println(pair.getKey() + " = " + pair.getValue());
-            it.remove(); // avoids a ConcurrentModificationException
-        }
-    }
-
-    public HashMap<String, Lane> getLanes() {
-        return lanes;
+    public void show(String name){
+        this.name = name;
+        launch();
     }
 }

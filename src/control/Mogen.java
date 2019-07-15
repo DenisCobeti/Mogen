@@ -1,7 +1,13 @@
 package control;
 
+import java.awt.Color;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.swing.JFrame;
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
+import javax.swing.JPanel;
+import javax.xml.stream.XMLStreamException;
 import model.MogenModel;
 import model.Tuple;
 import model.map.MapSelection;
@@ -11,6 +17,8 @@ import model.exceptions.DuplicatedKeyException;
 import model.mobility.MobilityModel;
 import model.routes.VType;
 import view.MogenView;
+import view.mapelements.Map;
+import view.mapelements.MapSystem;
 
 /**
  *
@@ -24,28 +32,30 @@ public class Mogen implements ViewListener{
     private MogenModel model;
     private MogenView view;
     
+    static Map map;
+    
    
     public Mogen(String[] args) {
         
         view = new MogenView(this);
         model = new MogenModel(control, view);
         control = new MogenControl(model, view);  
-        
-        /*Simulation sim = new Simulation(new String[] {"boom"});
+        /*
+        Simulation sim = new Simulation(new String[] {"boom"});
         try {
-            sim.parseNetwork("dede.net.xml");
+            sim.parseNetwork("mapNetconvert.net.xml");
         } catch (FileNotFoundException | XMLStreamException ex) {
             System.out.println("Error");
-        }
+        }*/
+        /*
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        JPanel panel = new JPanel();
-        panel.setSize(960, 960);
-        frame.setVisible(true);
+        
+        frame.add(new MapSystem());
         frame.setSize(960, 960);
-        frame.getGraphics().drawPolyline(new int[]{100,240, 300}, new int[]{100,200,300}, 3);
-
+        frame.setVisible(true);
         frame.repaint();*/
+        
     }
 
     @Override
@@ -140,8 +150,10 @@ public class Mogen implements ViewListener{
         }
     }
     
-    public static void main(String[] args) {
-        new control.Mogen(args);
+    public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
+        //new control.Mogen(args);
+        Map s = new Map();
+        s.show("mapNetconvert.net.xml");
     } 
 
     

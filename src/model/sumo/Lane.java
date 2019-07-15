@@ -1,12 +1,14 @@
 package model.sumo;
 
+import javafx.scene.shape.Polyline;
+
 /**
  *
  * @author Neblis
  */
 public class Lane {
     private final double length;
-    private final int[] shape;
+    private final Polyline polyline;
     
     public final static String TAG = "lane";
     public final static String LENGTH = "length";
@@ -14,14 +16,17 @@ public class Lane {
 
     public Lane(String length, String shape) {
         this.length = Double.valueOf(length);
-        this.shape = parseShape(shape.replace(".", "").split("[\\s,]+"));
+        
+        //int[] shapeInt = parseShape(shape.replace(".", "").split("[\\s,]+"));
+        double[] shapePoints = parseShape(shape.split("[\\s,]+"));
+        polyline = new Polyline(shapePoints);
     }
 
     @Override
     public String toString() {
-        return "Lane{ " + length + ", " + shape + '}';
+        return "Lane{ " + length + ", " + polyline + '}';
     }
-    
+    /*
     private static int[] parseShape(String[] shapes){
         int[] shapeNum = new int[shapes.length];
          
@@ -29,5 +34,19 @@ public class Lane {
             shapeNum[i] = Integer.parseInt(shapes[i]);
         }
         return shapeNum;
+    }*/
+    private static double[] parseShape(String[] shapes){
+        double[] shapeNum = new double[shapes.length];
+         
+        for (int i = 0; i < shapeNum.length; i++){
+            shapeNum[i] = Double.parseDouble(shapes[i]);
+            
+        }
+        return shapeNum;
     }
+
+    public Polyline getPolyline() {
+        return polyline;
+    }
+    
 }

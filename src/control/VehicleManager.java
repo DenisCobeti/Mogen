@@ -5,7 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import model.MogenModel.ElementType;
-import model.exceptions.DuplicatedKeyException;
 
 import model.routes.Flow;
 import model.routes.Route;
