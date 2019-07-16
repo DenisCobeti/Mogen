@@ -67,7 +67,8 @@ public class Simulation {
                 
                 if(tag.equals(Lane.TAG)){
                     lanes.put(reader.getAttributeValue(null, ID),
-                        new Lane( reader.getAttributeValue(null, Lane.LENGTH)
+                        new Lane( reader.getAttributeValue(null, ID),
+                                reader.getAttributeValue(null, Lane.LENGTH)
                                  ,reader.getAttributeValue(null, Lane.SHAPE)));
                     //System.out.println(reader.getAttributeValue(null, Lane.SHAPE));
                 }else if(tag.equals(Junction.TAG)){

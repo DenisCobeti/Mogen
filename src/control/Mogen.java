@@ -1,12 +1,8 @@
 package control;
 
-import java.awt.Color;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.swing.JFrame;
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
-import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 import model.MogenModel;
 import model.Tuple;
@@ -18,7 +14,6 @@ import model.mobility.MobilityModel;
 import model.routes.VType;
 import view.MogenView;
 import view.mapelements.Map;
-import view.mapelements.MapSystem;
 
 /**
  *
@@ -151,9 +146,9 @@ public class Mogen implements ViewListener{
     }
     
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
-        //new control.Mogen(args);
-        Map s = new Map();
-        s.show("mapNetconvert.net.xml");
+        new control.Mogen(args);
+        //Map s = new Map();
+        //s.show("mapNetconvert.net.xml", null);
     } 
 
     

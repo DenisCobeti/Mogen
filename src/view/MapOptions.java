@@ -2,6 +2,8 @@ package view;
 
 import java.awt.Font;
 import java.util.HashSet;
+import javax.swing.table.DefaultTableModel;
+import model.constants.RoadTypes;
 
 /**
  *
@@ -14,10 +16,10 @@ public class MapOptions extends javax.swing.JFrame {
      */
     public static Font FONT;
     private final Font  TITLE_FONT;
+    private HashSet filteredRoads;
     
     private static final String  TITLE = "New simulation";
     
-    private final static String NAME = "Name";
     private final static String LEFTHANDED = "Lefthanded";
     private final static String REMOVE_GEOMETRY = "Remove geometry";
     private final static String ROUNDABOUTS = "Guess roundabouts";
@@ -34,11 +36,21 @@ public class MapOptions extends javax.swing.JFrame {
     
     public MapOptions(MogenView view) {
         this.view = view;
+        
         options = new HashSet<>();
+        filteredRoads = new HashSet<>();
+        
         FONT = view.FONT;
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         initComponents();
+        
+        for (RoadTypes road : RoadTypes.values())
+            ((DefaultTableModel)roadsTable.getModel()).addRow(new String[] { 
+                road.toString()
+            });
+        roadsTable.setAutoCreateRowSorter(true);
+        filteredRoadsTable.setAutoCreateRowSorter(true);
     }
 
     /**
@@ -69,6 +81,12 @@ public class MapOptions extends javax.swing.JFrame {
         lefthandedLabel1 = new javax.swing.JLabel();
         mapInfoLabel = new javax.swing.JLabel();
         vehicleFilterTab = new javax.swing.JPanel();
+        roadsPane = new javax.swing.JScrollPane();
+        roadsTable = new javax.swing.JTable();
+        filterButton = new javax.swing.JButton();
+        unfilterButton = new javax.swing.JButton();
+        filteredRoadsPane = new javax.swing.JScrollPane();
+        filteredRoadsTable = new javax.swing.JTable();
         roadFilterType = new javax.swing.JPanel();
         acceptLabel = new javax.swing.JLabel();
 
@@ -145,7 +163,7 @@ public class MapOptions extends javax.swing.JFrame {
                     .addGroup(togglePanelLayout.createSequentialGroup()
                         .addComponent(lefthandedBox)
                         .addGap(45, 45, 45)
-                        .addComponent(lefthandedLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
+                        .addComponent(lefthandedLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
                     .addComponent(geometryBox)
                     .addComponent(roundaboutBox)
                     .addComponent(streetNamesBox)
@@ -191,7 +209,7 @@ public class MapOptions extends javax.swing.JFrame {
             .addGroup(optionsTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapInfoLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(mapInfoLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                     .addComponent(togglePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -209,15 +227,107 @@ public class MapOptions extends javax.swing.JFrame {
 
         vehicleFilterTab.setBackground(new java.awt.Color(255, 255, 255));
 
+        roadsPane.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+
+        roadsTable.setFont(FONT);
+        roadsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Road type"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        roadsTable.getTableHeader().setReorderingAllowed(false);
+        roadsPane.setViewportView(roadsTable);
+
+        filterButton.setText(">>");
+        filterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filterButtonActionPerformed(evt);
+            }
+        });
+
+        unfilterButton.setText("<<");
+        unfilterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unfilterButtonActionPerformed(evt);
+            }
+        });
+
+        filteredRoadsPane.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+
+        filteredRoadsTable.setFont(FONT);
+        filteredRoadsTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Filtered roads"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        filteredRoadsTable.getTableHeader().setReorderingAllowed(false);
+        filteredRoadsPane.setViewportView(filteredRoadsTable);
+
         javax.swing.GroupLayout vehicleFilterTabLayout = new javax.swing.GroupLayout(vehicleFilterTab);
         vehicleFilterTab.setLayout(vehicleFilterTabLayout);
         vehicleFilterTabLayout.setHorizontalGroup(
             vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 332, Short.MAX_VALUE)
+            .addGroup(vehicleFilterTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(roadsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(unfilterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(filteredRoadsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addContainerGap())
         );
         vehicleFilterTabLayout.setVerticalGroup(
             vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+            .addGroup(vehicleFilterTabLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(filterButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(unfilterButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(vehicleFilterTabLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(filteredRoadsPane)
+                    .addComponent(roadsPane))
+                .addContainerGap())
         );
 
         tabPanel.addTab(VEHICLE_FILTERS, vehicleFilterTab);
@@ -228,11 +338,11 @@ public class MapOptions extends javax.swing.JFrame {
         roadFilterType.setLayout(roadFilterTypeLayout);
         roadFilterTypeLayout.setHorizontalGroup(
             roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 332, Short.MAX_VALUE)
+            .addGap(0, 369, Short.MAX_VALUE)
         );
         roadFilterTypeLayout.setVerticalGroup(
             roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 417, Short.MAX_VALUE)
+            .addGap(0, 449, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(ROAD_FILTERS, roadFilterType);
@@ -300,9 +410,46 @@ public class MapOptions extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_acceptLabelMouseClicked
 
+    private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
+        // TODO add your handling code here:
+        for (int i : roadsTable.getSelectedRows()){
+            String road = (String)roadsTable.getValueAt(i, 0);
+            
+            filteredRoads.add(road);
+            ((DefaultTableModel)filteredRoadsTable.getModel()).addRow(new String[] { 
+                road
+            });
+            
+        }
+        for (int i : roadsTable.getSelectedRows()){
+            ((DefaultTableModel)roadsTable.getModel()).removeRow(roadsTable.getSelectedRow());
+        }
+        roadsTable.clearSelection();
+    }//GEN-LAST:event_filterButtonActionPerformed
+
+    private void unfilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfilterButtonActionPerformed
+        // TODO add your handling code here:
+        for (int i : filteredRoadsTable.getSelectedRows()){
+            String road = (String)filteredRoadsTable.getValueAt(i, 0);
+            
+            filteredRoads.remove(road);
+            ((DefaultTableModel)roadsTable.getModel()).addRow(new String[] { 
+                road
+            });
+            
+        }
+        for (int i : filteredRoadsTable.getSelectedRows()){
+            ((DefaultTableModel)filteredRoadsTable.getModel()).removeRow(filteredRoadsTable.getSelectedRow());
+        }
+        filteredRoadsTable.clearSelection();
+    }//GEN-LAST:event_unfilterButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel acceptLabel;
+    private javax.swing.JButton filterButton;
+    private javax.swing.JScrollPane filteredRoadsPane;
+    private javax.swing.JTable filteredRoadsTable;
     private javax.swing.JCheckBox geometryBox;
     private javax.swing.JLabel geometryLabel;
     private javax.swing.JCheckBox lefthandedBox;
@@ -314,6 +461,8 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JCheckBox overtakeBox;
     private javax.swing.JLabel overtakeLanesLabel;
     private javax.swing.JPanel roadFilterType;
+    private javax.swing.JScrollPane roadsPane;
+    private javax.swing.JTable roadsTable;
     private javax.swing.JCheckBox roundaboutBox;
     private javax.swing.JLabel roundaboutsLabel;
     private javax.swing.JCheckBox streetNamesBox;
@@ -322,6 +471,7 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel titlePanel;
     private javax.swing.JPanel togglePanel;
+    private javax.swing.JButton unfilterButton;
     private javax.swing.JPanel vehicleFilterTab;
     // End of variables declaration//GEN-END:variables
 }

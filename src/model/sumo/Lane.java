@@ -6,25 +6,27 @@ import javafx.scene.shape.Polyline;
  *
  * @author Neblis
  */
-public class Lane {
+public class Lane  {
     private final double length;
+    private final String name;
     private final Polyline polyline;
     
     public final static String TAG = "lane";
     public final static String LENGTH = "length";
     public final static String SHAPE = "shape";
 
-    public Lane(String length, String shape) {
+    public Lane(String name, String length, String shape) {
         this.length = Double.valueOf(length);
-        
+        this.name = name;
         //int[] shapeInt = parseShape(shape.replace(".", "").split("[\\s,]+"));
         double[] shapePoints = parseShape(shape.split("[\\s,]+"));
         polyline = new Polyline(shapePoints);
+        
     }
 
     @Override
     public String toString() {
-        return "Lane{ " + length + ", " + polyline + '}';
+        return "Lane " + name + " { " + length + ", " + polyline + '}';
     }
     /*
     private static int[] parseShape(String[] shapes){
