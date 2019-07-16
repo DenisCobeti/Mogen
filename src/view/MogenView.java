@@ -85,6 +85,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
     private final static String SEARCH_ICON_IMG = "resources/button/search.png";
+    private final static String MAP_ICON_IMG = "resources/button/map.png";
+    private final static String SETTINGS_ICON_IMG = "resources/button/settings.png";
     private static final String ICON_LOCATION_16 = "resources/icon/icon16.png";
     private static final String ICON_LOCATION_32 = "resources/icon/icon32.png";
     private static final String ICON_LOCATION_64 = "resources/icon/icon64.png";
@@ -94,6 +96,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private ImageIcon ADD_ICON = new ImageIcon(ADD_ICON_IMG);
     private ImageIcon SEARCH_ICON = new ImageIcon(SEARCH_ICON_IMG);
+    private ImageIcon MAP_ICON = new ImageIcon(MAP_ICON_IMG);
+    private ImageIcon SETTINGS_ICON = new ImageIcon(SETTINGS_ICON_IMG);
     
     private final ViewListener listenerUI;
     
@@ -164,9 +168,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         mobilityComboBox = new javax.swing.JComboBox<>();
         mapPanel = new javax.swing.JPanel();
         mapInfoField = new javax.swing.JTextField();
-        optionsMapButton = new javax.swing.JLabel();
         searchMapButton = new javax.swing.JLabel();
         newMapButton = new javax.swing.JLabel();
+        optionsMapButton = new javax.swing.JLabel();
         mobilityOptionsPanel = new javax.swing.JPanel();
         randomOptionsPanel = new javax.swing.JPanel();
         randomPanel = new javax.swing.JPanel();
@@ -228,13 +232,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         mapInfoField.setFont(FONT);
         mapInfoField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
 
-        optionsMapButton.setIcon(EDIT_ICON);
-        optionsMapButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                optionsMapButtonMouseClicked(evt);
-            }
-        });
-
         searchMapButton.setIcon(SEARCH_ICON);
         searchMapButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -242,10 +239,17 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         });
 
-        newMapButton.setIcon(EDIT_ICON);
+        newMapButton.setIcon(MAP_ICON);
         newMapButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 newMapButtonMouseClicked(evt);
+            }
+        });
+
+        optionsMapButton.setIcon(SETTINGS_ICON);
+        optionsMapButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                optionsMapButtonMouseClicked(evt);
             }
         });
 
@@ -257,22 +261,23 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addComponent(mapInfoField, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(searchMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(newMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(newMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(optionsMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(optionsMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         mapPanelLayout.setVerticalGroup(
             mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(mapInfoField, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(newMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(optionsMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(searchMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addGroup(mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(newMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                        .addComponent(optionsMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(mapInfoField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -315,7 +320,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addGroup(randomPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(151, Short.MAX_VALUE))
+                .addContainerGap(189, Short.MAX_VALUE))
         );
         randomPanelLayout.setVerticalGroup(
             randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -345,7 +350,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(randomOptionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(randomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(304, Short.MAX_VALUE))
+                .addContainerGap(297, Short.MAX_VALUE))
         );
 
         mobilityOptionsPanel.add(randomOptionsPanel, "random");
@@ -354,11 +359,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         flowOptionsPanel.setLayout(flowOptionsPanelLayout);
         flowOptionsPanelLayout.setHorizontalGroup(
             flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
+            .addGap(0, 421, Short.MAX_VALUE)
         );
         flowOptionsPanelLayout.setVerticalGroup(
             flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGap(0, 381, Short.MAX_VALUE)
         );
 
         mobilityOptionsPanel.add(flowOptionsPanel, "flow");
@@ -367,11 +372,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         matrixOptionsPanel.setLayout(matrixOptionsPanelLayout);
         matrixOptionsPanelLayout.setHorizontalGroup(
             matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 383, Short.MAX_VALUE)
+            .addGap(0, 421, Short.MAX_VALUE)
         );
         matrixOptionsPanelLayout.setVerticalGroup(
             matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 388, Short.MAX_VALUE)
+            .addGap(0, 381, Short.MAX_VALUE)
         );
 
         mobilityOptionsPanel.add(matrixOptionsPanel, "matrix");
@@ -401,22 +406,22 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(exportButton))
-                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(exportButton)
                 .addContainerGap())
         );
         simulationPanelLayout.setVerticalGroup(
             simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(simulationPanelLayout.createSequentialGroup()
                 .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(exportButton)
                 .addContainerGap())
@@ -482,7 +487,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addComponent(simulationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 486, Short.MAX_VALUE)
+                .addComponent(panelOptions, javax.swing.GroupLayout.DEFAULT_SIZE, 544, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(

@@ -84,7 +84,7 @@
               <Connection code="TITLE_FONT" type="code"/>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="66" green="0" red="cc" type="rgb"/>
+              <Color blue="74" green="36" red="8d" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="TITLE" type="code"/>

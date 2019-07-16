@@ -97,7 +97,7 @@ public class FollowingModelFrame extends javax.swing.JFrame {
 
         titleLabel.setBackground(new java.awt.Color(255, 255, 255));
         titleLabel.setFont(TITLE_FONT);
-        titleLabel.setForeground(new java.awt.Color(204, 0, 102));
+        titleLabel.setForeground(new java.awt.Color(141, 54, 116));
         titleLabel.setText(TITLE);
 
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
