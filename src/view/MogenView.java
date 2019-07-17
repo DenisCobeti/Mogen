@@ -40,6 +40,7 @@ import model.mobility.MobilityModel;
 
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
+import view.mapelements.FlowFrame;
 import view.mapelements.VehicleTypePanel;
 
 /**
@@ -82,6 +83,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private final static String RANDOM_TIME_DFLT = "60";
     private final static String RANDOM_REPETITION = "Repetition rate: ";
     private final static String RANDOM_REPETITION_DFLT = "3";
+    
+    private final static String FLOW_ADD = "Add vehicle flow";
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
     private final static String SEARCH_ICON_IMG = "resources/button/search.png";
@@ -179,6 +182,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         timeLabel = new javax.swing.JLabel();
         timeField = new javax.swing.JFormattedTextField();
         flowOptionsPanel = new javax.swing.JPanel();
+        flowScrollPane = new javax.swing.JScrollPane();
+        flowTable = new javax.swing.JTable();
+        addFlowButton = new javax.swing.JButton();
         matrixOptionsPanel = new javax.swing.JPanel();
         exportButton = new javax.swing.JButton();
         errorLabel = new javax.swing.JLabel();
@@ -274,10 +280,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(searchMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addGroup(mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(newMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                        .addComponent(optionsMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(mapInfoField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(newMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+                    .addComponent(optionsMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mapInfoField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -355,15 +360,66 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
         mobilityOptionsPanel.add(randomOptionsPanel, "random");
 
+        flowOptionsPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        flowScrollPane.setBorder(null);
+        flowScrollPane.setPreferredSize(new java.awt.Dimension(200, 200));
+
+        flowTable.setFont(FONT);
+        flowTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Origin", "Destination", "Begin", "End", "Number", "VType"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        flowScrollPane.setViewportView(flowTable);
+
+        addFlowButton.setFont(FONT);
+        addFlowButton.setText(FLOW_ADD);
+        addFlowButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addFlowButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout flowOptionsPanelLayout = new javax.swing.GroupLayout(flowOptionsPanel);
         flowOptionsPanel.setLayout(flowOptionsPanelLayout);
         flowOptionsPanelLayout.setHorizontalGroup(
             flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 421, Short.MAX_VALUE)
+            .addGroup(flowOptionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(flowScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                    .addGroup(flowOptionsPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(addFlowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         flowOptionsPanelLayout.setVerticalGroup(
             flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 381, Short.MAX_VALUE)
+            .addGroup(flowOptionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(flowScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(addFlowButton)
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
         mobilityOptionsPanel.add(flowOptionsPanel, "flow");
@@ -402,11 +458,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(simulationPanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(simulationPanelLayout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(errorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(exportButton)
@@ -416,12 +475,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(simulationPanelLayout.createSequentialGroup()
                 .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addGap(13, 13, 13)
                 .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(errorLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(errorLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(exportButton)
                 .addContainerGap())
@@ -595,6 +654,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         // TODO add your handling code here:
         export();
     }//GEN-LAST:event_exportButtonActionPerformed
+
+    private void addFlowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFlowButtonActionPerformed
+        // TODO add your handling code here:
+        FlowFrame flowFrame = new FlowFrame(this);
+        flowFrame.setVisible(true);
+    }//GEN-LAST:event_addFlowButtonActionPerformed
    
     
     @Override
@@ -628,10 +693,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane RSUScroll;
+    private javax.swing.JButton addFlowButton;
     private javax.swing.JScrollPane downtownScroll;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JButton exportButton;
     private javax.swing.JPanel flowOptionsPanel;
+    private javax.swing.JScrollPane flowScrollPane;
+    private javax.swing.JTable flowTable;
     private javax.swing.JTextField mapInfoField;
     private javax.swing.JPanel mapPanel;
     private javax.swing.JPanel matrixOptionsPanel;

@@ -18,7 +18,7 @@ import model.routes.VType;
  *
  * @author Neblis
  */
-public class Random extends MobilityModel{
+public class RandomModel extends MobilityModel{
 
     private final static String PYTHON_SCRIPT_NAME = "\\tools\\randomTrips.py";
     private final static String PYTHON = "python2";
@@ -42,7 +42,7 @@ public class Random extends MobilityModel{
     HashMap<String, Double> vTypesProbability;
     
     
-    public Random(int repetition, int time, HashMap<String, Double> vTypesProbability) {
+    public RandomModel(int repetition, int time, HashMap<String, Double> vTypesProbability) {
         this.repetition = repetition;
         this.time = time;
         this.vTypesProbability = vTypesProbability;

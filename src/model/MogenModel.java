@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
 import javafx.scene.shape.Polyline;
+import model.routes.Flow;
 import model.routes.VType;
 import view.MogenView;
 
@@ -23,6 +24,7 @@ public class MogenModel extends Observable{
     
     private Map<String,VType> vTypes;
     private Map<String,Simulation> simulations;
+    private Map<String,Flow> flows;
     
     
     public MogenModel(MogenControl control, MogenView view) {
@@ -40,12 +42,22 @@ public class MogenModel extends Observable{
             if  (vTypes.containsKey(id)) return false;
             vTypes.put(id, (VType)element);
             return true;
+            
         } else if (element instanceof Simulation){
             if  (simulations.containsKey(id)) return false;
             simulations.put(id, (Simulation)element);
             return true;
+            
+        } else if (element instanceof Flow){
+            if  (flows.containsKey(id)) return false;
+            flows.put(id, (Flow)element);
+            return true;
         }
         return false;
+    }
+    
+    public void addFlow(Flow flow){
+        flows.put(String.valueOf(flows.size()), flow);
     }
     
     public void removeSim(String id){

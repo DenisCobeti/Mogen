@@ -4,6 +4,6 @@ package model.mobility;
  *
  * @author Neblis
  */
-public class Flow {
+public class FlowModel {
     
 }

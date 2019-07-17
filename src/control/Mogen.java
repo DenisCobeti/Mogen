@@ -3,7 +3,9 @@ package control;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import javax.swing.JFrame;
 import javax.xml.stream.XMLStreamException;
+
 import model.MogenModel;
 import model.Tuple;
 import model.map.MapSelection;
@@ -11,9 +13,12 @@ import model.constants.Errors;
 import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
 import model.mobility.MobilityModel;
+import model.routes.Flow;
 import model.routes.VType;
+
 import view.MogenView;
 import view.mapelements.Map;
+import view.mapelements.MapPanel;
 
 /**
  *
@@ -114,6 +119,7 @@ public class Mogen implements ViewListener{
                     handleError(ex, Errors.NETCONVERT_CMD);
                 } 
                 break;
+                
             case EXPORT:
                 tuple = (Tuple)obj;
                 try{
@@ -127,6 +133,10 @@ public class Mogen implements ViewListener{
             case EDIT_VTYPE:
                 tuple = (Tuple)obj;
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);
+                break;
+                
+            case NEW_FLOW:
+                model.addFlow((Flow)obj);
                 break;
         } 
     }
@@ -147,9 +157,13 @@ public class Mogen implements ViewListener{
     
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
         new control.Mogen(args);
-        //Map s = new Map();
+        /*
+        MapPanel s = new MapPanel("mapNetconvert.net.xml");
+        JFrame frame = new JFrame("Swing and JavaFX");
+        frame.add(s);
+        frame.setSize(800, 800);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
         //s.show("mapNetconvert.net.xml", null);
-    } 
-
-    
+    }   
 }

@@ -6,7 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import javax.swing.BoxLayout;
-import model.mobility.Random;
+import model.mobility.RandomModel;
 import view.MogenView;
 import view.mapelements.VehicleTypePanel;
 
@@ -235,7 +235,7 @@ public class MobilityModelFrame extends javax.swing.JFrame {
 
     private void exportLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportLabelMouseClicked
         // TODO add your handling code here:
-        view.exportSimulation(new Random(Integer.valueOf(repetitionField.getText()),
+        view.exportSimulation(new RandomModel(Integer.valueOf(repetitionField.getText()),
                 Integer.valueOf(timeField.getText()), vTypesProbability), simulation);
     }//GEN-LAST:event_exportLabelMouseClicked
 
