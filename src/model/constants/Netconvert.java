@@ -17,7 +17,7 @@ public enum Netconvert {
     REMOVE_GEOMETRY ("--geometry.remove"), //Simplyfies the irrelevant geometry
     GUESS_ROUNDABOUTS("--roundabouts.guess"), //Decides direction of roundabouts
     JOIN_JUNCTIONS ("--junctions.join"), // Joins duplicated junctions, may fail
-    FLATTEN("--flatten TRUE"),	//Remove all z-data; default: false
+    FLATTEN("--flatten"),	//Remove all z-data; default: false
     LEFTHANDED ("--lefthand"),
     STREET_NAMES ("--output.street-names"), // Keep street names if avalible
     

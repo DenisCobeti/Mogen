@@ -24,6 +24,10 @@ public class MapConverter {
     
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
     private static  List<String> convertCommand;
+    
+    private final static String[] DEFAULT_OSM_OPTIONS = new String[] {
+                    Netconvert.JOIN_JUNCTIONS.getCommand(),
+                    Netconvert.GUESS_ROUNDABOUTS.getCommand() };
     /*
     public MapConverter(MapAPI api) throws IOException {
         
@@ -43,7 +47,7 @@ public class MapConverter {
         }catch(IOException e){
             C4R.handleError(e, Errors.NETCONVERT_CMD);
         }
-    }*/
+    }/*
     /*
     public MapConverter(MapAPI api, String map) throws IOException {
         
@@ -70,6 +74,7 @@ public class MapConverter {
                 // add recommended options when an OSM file is converted
                 convertCommand.add(Netconvert.OSM_MAP.toString());
                 convertCommand.add(map);
+                convertCommand.addAll(Arrays.asList(DEFAULT_OSM_OPTIONS));
         }
     }
     
@@ -84,9 +89,11 @@ public class MapConverter {
         System.out.println(convertCommand);
         return netconvert.start().getInputStream();
     }
+    
     public void addOptions(String... options){
         convertCommand.addAll(Arrays.asList(options));
     }
+    
     public void addOptions(List<String> options){
         for (String option : options)
             convertCommand.add(option);

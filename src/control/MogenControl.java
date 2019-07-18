@@ -10,6 +10,8 @@ import java.net.ProtocolException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.MogenModel;
 import model.Config;
 import model.Tuple;
@@ -25,7 +27,7 @@ import view.MogenView;
  * @author Denis C
  */
 public class MogenControl {
-    private final static String DEFAULT_MAP_NAME = "mapNetconvert";
+    public static final String DEFAULT_MAP_NAME = "mapNetconvert";
     
     private MogenModel model;
     private MogenView view;
@@ -93,9 +95,7 @@ public class MogenControl {
         osmFile.createNewFile();
         copyInputStreamToFile(in, osmFile);
         // Modify second parameter to change the imported map type
-        converter = new MapConverter(map, APIS.OSM);
-        converter.executeConvert(DEFAULT_MAP_NAME);
-        hasMap = true;
+        openMap(map);
     }
     
     public void openMap(String location) throws ProtocolException, 
@@ -103,6 +103,7 @@ public class MogenControl {
         // Modify second parameter to change the imported map type
         converter = new MapConverter(location, APIS.OSM);
         converter.executeConvert(DEFAULT_MAP_NAME);
+        model.setMap(DEFAULT_MAP_NAME);
         hasMap = true;
     }
     

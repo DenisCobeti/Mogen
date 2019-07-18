@@ -17,8 +17,8 @@ import model.routes.Flow;
 import model.routes.VType;
 
 import view.MogenView;
-import view.mapelements.Map;
-import view.mapelements.MapPanel;
+import view.mapsimulation.Map;
+import view.mapsimulation.MapPanel;
 
 /**
  *
@@ -73,18 +73,18 @@ public class Mogen implements ViewListener{
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
                 }finally{
-                    view.update(model, null);
-                    view.update(model, true);
+                    view.update(model, model.getMap());
                 }
                 break;
                 
             case OPEN_MAP:
                 try {
                     control.openMap((String)obj);
-                    view.update(model, true);
                 } catch (IOException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
+                } finally {
+                    view.update(model, model.getMap());
                 }
                 break;
                 
@@ -110,15 +110,16 @@ public class Mogen implements ViewListener{
                     handleError(ex, Errors.NETCONVERT_CMD);
                 } 
                 break;*/
-                
+            /* 
             case NEW_SIMULATION_CMD:
                 try {
                     InputStream output = control.createSimulation((String[])obj);
                     view.update(model, output);
+                    view.update(model, control.DEFAULT_MAP_NAME);
                 } catch (IOException ex) {
                     handleError(ex, Errors.NETCONVERT_CMD);
                 } 
-                break;
+                break;*/
                 
             case EXPORT:
                 tuple = (Tuple)obj;

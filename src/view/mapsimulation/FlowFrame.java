@@ -1,5 +1,9 @@
-package view.mapelements;
+package view.mapsimulation;
 
+import java.awt.BorderLayout;
+import java.io.FileNotFoundException;
+import javax.swing.GroupLayout;
+import javax.xml.stream.XMLStreamException;
 import view.MogenView;
 
 /**
@@ -16,12 +20,18 @@ public class FlowFrame extends javax.swing.JFrame {
     private final static String DESTINATION = "Destination";
     private final static String ORIGIN = "Origin";
     
+    private final MapPanel map;
+    
     private final MogenView view;
     
-    public FlowFrame(MogenView view) {
+    public FlowFrame(MogenView view, String map) throws FileNotFoundException, 
+                                     XMLStreamException {
         this.view = view;
+        this.map = new MapPanel(map);
         
         initComponents();
+        this.setLocationRelativeTo(view);
+        mapPanel.add(this.map);
     }
 
     /**
@@ -47,17 +57,7 @@ public class FlowFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(255, 255, 255));
 
         mapPanel.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
-        mapPanel.setLayout(mapPanelLayout);
-        mapPanelLayout.setHorizontalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 524, Short.MAX_VALUE)
-        );
-        mapPanelLayout.setVerticalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        mapPanel.setLayout(new java.awt.BorderLayout());
 
         ODInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
 

@@ -8,6 +8,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -31,16 +34,18 @@ import javax.swing.JTextArea;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.xml.stream.XMLStreamException;
 import model.MogenModel.Mobility;
 
 import model.map.MapSelection;
 import model.Tuple;
+import model.constants.FilesExtension;
 import model.routes.VType;
 import model.mobility.MobilityModel;
 
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
-import view.mapelements.FlowFrame;
+import view.mapsimulation.FlowFrame;
 import view.mapelements.VehicleTypePanel;
 
 /**
@@ -49,6 +54,7 @@ import view.mapelements.VehicleTypePanel;
  */
 
 public class MogenView extends javax.swing.JFrame  implements ActionListener, Observer{
+    
     private LoadingMap loading;
     
     public final static Font FONT = new Font("Century Gothic", Font.PLAIN, 12);
@@ -74,8 +80,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private final JLabel addVTypeButton;
     private boolean avalibleMap = false;
-    ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
-    private final static String EDIT_ICON_IMG = "resources/button/editFollowingModel.png";
+    private String currentMap;
     //private final JLabel addDowntown;
     //private final JLabel addRSU;
     
@@ -90,6 +95,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private final static String SEARCH_ICON_IMG = "resources/button/search.png";
     private final static String MAP_ICON_IMG = "resources/button/map.png";
     private final static String SETTINGS_ICON_IMG = "resources/button/settings.png";
+    private final static String EDIT_ICON_IMG = "resources/button/editFollowingModel.png";
     private static final String ICON_LOCATION_16 = "resources/icon/icon16.png";
     private static final String ICON_LOCATION_32 = "resources/icon/icon32.png";
     private static final String ICON_LOCATION_64 = "resources/icon/icon64.png";
@@ -101,6 +107,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private ImageIcon SEARCH_ICON = new ImageIcon(SEARCH_ICON_IMG);
     private ImageIcon MAP_ICON = new ImageIcon(MAP_ICON_IMG);
     private ImageIcon SETTINGS_ICON = new ImageIcon(SETTINGS_ICON_IMG);
+    private ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
     
     private final ViewListener listenerUI;
     
@@ -657,8 +664,16 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void addFlowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFlowButtonActionPerformed
         // TODO add your handling code here:
-        FlowFrame flowFrame = new FlowFrame(this);
-        flowFrame.setVisible(true);
+        FlowFrame flowFrame;
+        try {
+            flowFrame = new FlowFrame(this, currentMap);
+            flowFrame.setVisible(true);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(MogenView.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(MogenView.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }//GEN-LAST:event_addFlowButtonActionPerformed
    
     
@@ -686,7 +701,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         } else if (arg instanceof InputStream){
             updateSimulation((InputStream)arg);
             
-        } else if (arg instanceof Boolean){
+        } else if (arg instanceof String){
+            currentMap = (String)arg + FilesExtension.NETCONVERT;
             avalibleMap();
         }
     }
@@ -837,16 +853,18 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 + selection.maxLon + ", " + selection.minLon;
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
     }
+    
     public void addVehicleType(java.awt.event.MouseEvent evt){
         DialogAddType addDialog = new DialogAddType(this);
     }
+    
     public void addVehicleType(String id){
         listenerUI.producedEvent(ViewListener.Event.NEW_VEHICLE_TYPE, id);
     }
+    
     public void selectIcon(){
         System.out.println("boom");
     }
-    
     
     public void editVType(String name, VType type){
         listenerUI.producedEvent(ViewListener.Event.EDIT_VTYPE, new Tuple(name, type));

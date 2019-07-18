@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Font;
+import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.table.DefaultTableModel;
 import model.constants.RoadTypes;
@@ -16,7 +17,7 @@ public class MapOptions extends javax.swing.JFrame {
      */
     public static Font FONT;
     private final Font  TITLE_FONT;
-    private HashSet filteredRoads;
+    private final HashSet filteredRoads;
     
     private static final String  TITLE = "New simulation";
     
@@ -31,8 +32,8 @@ public class MapOptions extends javax.swing.JFrame {
     private final static String ROAD_FILTERS = "Road filters";
     private final static String OPTIONS = "Options";
     
-    private HashSet<String> options;
-    private MogenView view;
+    private final HashSet<String> options;
+    private final MogenView view;
     
     public MapOptions(MogenView view) {
         this.view = view;
@@ -474,4 +475,10 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JButton unfilterButton;
     private javax.swing.JPanel vehicleFilterTab;
     // End of variables declaration//GEN-END:variables
+    
+    public void addOptions(String... options){
+        this.options.addAll(Arrays.asList(options));
+    }
+
 }
+

@@ -26,6 +26,7 @@ public class MogenModel extends Observable{
     private Map<String,Simulation> simulations;
     private Map<String,Flow> flows;
     
+    private String map;
     
     public MogenModel(MogenControl control, MogenView view) {
         this.control = control;
@@ -85,5 +86,14 @@ public class MogenModel extends Observable{
     public Map<String, VType> getvTypes() {
         return vTypes;
     }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    public String getMap() {
+        return map;
+    }
+    
     
 }
