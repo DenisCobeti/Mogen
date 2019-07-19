@@ -2,15 +2,17 @@ package view.mapsimulation;
 
 import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
+import javafx.scene.paint.Paint;
 import javax.swing.GroupLayout;
 import javax.xml.stream.XMLStreamException;
+import model.sumo.Lane;
 import view.MogenView;
 
 /**
  *
  * @author Neblis
  */
-public class FlowFrame extends javax.swing.JFrame {
+public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
 
     /**
      * Creates new form FlowFrame
@@ -20,6 +22,12 @@ public class FlowFrame extends javax.swing.JFrame {
     private final static String DESTINATION = "Destination";
     private final static String ORIGIN = "Origin";
     
+    private final static String SELECTED_LANE_COLOR = "RED";
+    private final static String SELECTED_LANE_COLOR2 = "BLUE";
+    
+    private final static String UNSELECTED_LANE_COLOR = "BLACK";
+    
+    private Lane selectedLane; 
     private final MapPanel map;
     
     private final MogenView view;
@@ -27,7 +35,7 @@ public class FlowFrame extends javax.swing.JFrame {
     public FlowFrame(MogenView view, String map) throws FileNotFoundException, 
                                      XMLStreamException {
         this.view = view;
-        this.map = new MapPanel(map);
+        this.map = new MapPanel(map, this);
         
         initComponents();
         this.setLocationRelativeTo(view);
@@ -119,7 +127,7 @@ public class FlowFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(separator)
@@ -156,4 +164,17 @@ public class FlowFrame extends javax.swing.JFrame {
     private javax.swing.JLabel originLabel;
     private javax.swing.JSeparator separator;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void addFunctionToLanes(Lane lane) {
+        if(this.selectedLane == null){
+            lane.getPolyline().setStroke(Paint.valueOf(SELECTED_LANE_COLOR));
+            this.selectedLane = lane;
+        }else {
+            this.selectedLane.getPolyline().setStroke(Paint.valueOf(UNSELECTED_LANE_COLOR));
+            lane.getPolyline().setStroke(Paint.valueOf(SELECTED_LANE_COLOR));
+            this.selectedLane = lane;
+        }
+        System.out.println(lane.toString()); 
+    }
 }

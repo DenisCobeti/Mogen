@@ -37,12 +37,12 @@ public class MapPanel extends JFXPanel {
     private final static String SELECTED_LANE_COLOR2 = "BLUE";
     private final static String UNSELECTED_LANE_COLOR = "BLACK";
     
-    public MapPanel(String name) throws FileNotFoundException, XMLStreamException {
+    public MapPanel(String name, MapMouseEvent handler) throws FileNotFoundException, XMLStreamException {
         super();
-        parseNetwork(name);
+        parseNetwork(name, handler);
     }
     
-    private void parseNetwork(String location) throws FileNotFoundException, 
+    private void parseNetwork(String location, MapMouseEvent handler) throws FileNotFoundException, 
                                                             XMLStreamException{
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         InputStream in = new FileInputStream(location);
@@ -71,7 +71,7 @@ public class MapPanel extends JFXPanel {
             }  
             
         }
-        
+        /*
         for (Lane lane : lanes){
             EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
                 if(selectedLane == null){
@@ -89,9 +89,19 @@ public class MapPanel extends JFXPanel {
             lane.getPolyline().addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
             group.getChildren().add(lane.getPolyline());
             System.out.println(lane.getPolyline());
+        }*/
+        for (Lane lane : lanes){
+            EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
+                handler.addFunctionToLanes(lane);
+            };   
+            
+            //Adding event Filter 
+            lane.getPolyline().addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+            group.getChildren().add(lane.getPolyline());
+            System.out.println(lane.getPolyline());
         }
-        
         Scene scene = new Scene (group);
         this.setScene(scene);
     }
+    
 }
