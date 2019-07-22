@@ -2,6 +2,7 @@ package view;
 
 import control.ViewListener;
 import java.awt.CardLayout;
+import java.awt.Cursor;
 
 import java.awt.Font;
 import java.awt.Image;
@@ -77,6 +78,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private static final String PROGRAM = "Mogen";
     private static final String MAP_ERROR = "Map has to be imported first";
     private static final String EXPORT = "Export";
+    
+    private static final String INFO_SELECTION = "Latitute: %.2f , %.2f ; "
+                                                + "Longitude: %.2f , %.2f";
     
     //private final JLabel addVTypeButton;
     private boolean avalibleMap = false;
@@ -739,6 +743,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             
         } else if (arg instanceof String){
             currentMap = (String)arg + FilesExtension.NETCONVERT;
+            doneLoading();
             avalibleMap();
         }
     }
@@ -883,13 +888,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     public void importMap(JFrame map, MapSelection selection) {
         map.dispose();
         
-        loading = new LoadingMap();
-        loading.setEnabled(true);
-        loading.setLocationRelativeTo(this);
-        loading.setVisible(true);
+        setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         
-        mapInfo = selection.maxLat + ", " + selection.minLat + "; " 
-                + selection.maxLon + ", " + selection.minLon;
+        mapInfo = String.format(INFO_SELECTION, selection.maxLat, 
+                  selection.minLat, selection.maxLon, selection.minLon);
         listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
     }
     
@@ -916,8 +918,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     public void doneLoading(){
-        loading.setVisible(false);
-        loading = null;
+        setCursor(Cursor.getDefaultCursor());
     }
  
 }

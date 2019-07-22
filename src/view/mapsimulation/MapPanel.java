@@ -30,12 +30,6 @@ public class MapPanel extends JFXPanel {
     
     private final static String ID = "id";
     
-    private MogenView view;
-    private Lane selectedLane; 
-    
-    private final static String SELECTED_LANE_COLOR = "RED";
-    private final static String SELECTED_LANE_COLOR2 = "BLUE";
-    private final static String UNSELECTED_LANE_COLOR = "BLACK";
     
     public MapPanel(String name, MapMouseEvent handler) throws FileNotFoundException, XMLStreamException {
         super();
@@ -92,7 +86,7 @@ public class MapPanel extends JFXPanel {
         }*/
         for (Lane lane : lanes){
             EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
-                handler.addFunctionToLanes(lane);
+                handler.addFunctionToLanes(lane, e);
             };   
             
             //Adding event Filter 

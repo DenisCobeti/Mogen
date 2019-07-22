@@ -47,6 +47,10 @@ public class Lane  {
         return shapeNum;
     }
 
+    public String getName() {
+        return name;
+    }
+    
     public Polyline getPolyline() {
         return polyline;
     }

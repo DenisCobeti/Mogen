@@ -1,5 +1,6 @@
 package view.mapsimulation;
 
+import javafx.scene.input.MouseEvent;
 import model.sumo.Lane;
 
 /**
@@ -8,5 +9,5 @@ import model.sumo.Lane;
  */
 public interface MapMouseEvent {
     
-    void addFunctionToLanes(Lane lane);
+    void addFunctionToLanes(Lane lane, MouseEvent e);
 }

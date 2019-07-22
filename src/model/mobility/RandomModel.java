@@ -1,7 +1,5 @@
 package model.mobility;
 
-import control.Simulation;
-import java.io.BufferedReader;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Map;
@@ -11,7 +9,6 @@ import java.util.HashMap;
 
 import model.Config;
 import model.constants.FilesExtension;
-import model.constants.Netconvert;
 import model.routes.VType;
 
 /**
