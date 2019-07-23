@@ -33,6 +33,7 @@ public class MogenModel extends Observable{
         this.view = view;
         
         this.vTypes = new HashMap<>();
+        this.flows = new HashMap<>();
         defaultVTypes();
         
         this.simulations = new HashMap<>();

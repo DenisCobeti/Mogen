@@ -5,11 +5,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import model.map.OsmAPI;
 import java.net.ProtocolException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.MogenModel;
@@ -20,6 +22,7 @@ import model.map.MapAPI.APIS;
 import model.map.MapSelection;
 import model.constants.FilesExtension;
 import model.mobility.MobilityModel;
+import model.routes.VType;
 import view.MogenView;
 
 /**
@@ -28,6 +31,7 @@ import view.MogenView;
  */
 public class MogenControl {
     public static final String DEFAULT_MAP_NAME = "mapNetconvert";
+    public static final String DEFAULT_VTYPE_LOCATION = "vehicles";
     
     private MogenModel model;
     private MogenView view;
@@ -126,7 +130,24 @@ public class MogenControl {
     
     public void exportSimulation(MobilityModel mobilityModel, String sim) 
                                                             throws IOException{
-        mobilityModel.export("pruebasses", sim, model.getvTypes());
+        File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
+                                        FilesExtension.NVEHICLES.getExtension());
+        vehicles.createNewFile();
+        
+        PrintWriter writer = new PrintWriter(vehicles.getAbsoluteFile(), "UTF-8");
+        writer.println("<additional>");
+        writer.println("<vTypeDistribution id=\"dist1\">");
+        for (Map.Entry<String, VType> entry : model.getvTypes().entrySet()) {
+            //writer.println(entry.getValue().toFile(entry.getKey()));
+            if(entry.getValue().isEnabled()){
+                writer.println(entry.getValue().toFile(entry.getKey()));
+            }
+        }
+        writer.println("</vTypeDistribution>");
+        writer.println("</additional>");
+        writer.close();
+        
+        //mobilityModel.export("pruebasses", sim, model.getvTypes());
     }
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 

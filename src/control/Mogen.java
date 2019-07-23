@@ -138,6 +138,7 @@ public class Mogen implements ViewListener{
                 
             case NEW_FLOW:
                 model.addFlow((Flow)obj);
+                view.update(model, obj);
                 break;
         } 
     }
@@ -166,5 +167,6 @@ public class Mogen implements ViewListener{
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
         //s.show("mapNetconvert.net.xml", null);
+        
     }   
 }

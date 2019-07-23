@@ -2,16 +2,20 @@ package view.mapsimulation;
 
 import java.awt.BorderLayout;
 import java.io.FileNotFoundException;
+import java.util.List;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.SwingUtilities;
 import javax.xml.stream.XMLStreamException;
+import model.MogenModel;
 import model.mobility.FlowModel;
 import model.routes.Flow;
 import model.sumo.Lane;
 import view.MogenView;
+import view.mapelements.VehicleTypePanel;
 
 /**
  *
@@ -37,17 +41,26 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     
     private final static String UNSELECTED_LANE_COLOR = "BLACK";
     
+    private final static String NOT_SELECTED_LANE_ERROR = "Mest select both a "
+                            + "destination and an origin for the vehicle flow";
+    private final static String VARIABLES_NOT_SET_ERROR = "All values must be set";
+    private final static String TIME_ERROR = "Ending time can´t be lower the "
+                            + "begining time";
+    
     private final static String INFO = "Left click: select origin lane \n"
-            + "Right click: select destination lane";
+                            + "Right click: select destination lane";
     
     private Lane selectedLaneOrigin, selectedLaneDestination;
     private final MapPanel map;
     private final MogenView view;
+    private static DefaultComboBoxModel boxModel;
+                            
     
-    public FlowFrame(MogenView view, String map) throws FileNotFoundException, 
-                                     XMLStreamException {
+    public FlowFrame(MogenView view, String map, List<VehicleTypePanel> VehicleTypes) 
+            throws FileNotFoundException, XMLStreamException {
         this.view = view;
         this.map = new MapPanel(map, this);
+        this.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
         
         initComponents();
         this.setLocationRelativeTo(view);
@@ -75,10 +88,10 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         endLabel = new javax.swing.JLabel();
         numberLabel = new javax.swing.JLabel();
         typeLabel = new javax.swing.JLabel();
-        jFormattedTextField1 = new javax.swing.JFormattedTextField();
-        jFormattedTextField2 = new javax.swing.JFormattedTextField();
-        jFormattedTextField3 = new javax.swing.JFormattedTextField();
-        jFormattedTextField4 = new javax.swing.JFormattedTextField();
+        beginTextField = new javax.swing.JFormattedTextField();
+        endTextField = new javax.swing.JFormattedTextField();
+        numberTextField = new javax.swing.JFormattedTextField();
+        typeBox = new javax.swing.JComboBox<>();
         infoTextArea = new javax.swing.JTextArea();
         mapScrollPane = new javax.swing.JScrollPane();
         mapPanel = new javax.swing.JPanel();
@@ -150,21 +163,21 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         typeLabel.setFont(view.getFont());
         typeLabel.setText(TYPE);
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField1.setFont(view.getFont());
+        beginTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        beginTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        beginTextField.setFont(view.getFont());
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField2.setFont(view.getFont());
+        endTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        endTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        endTextField.setFont(view.getFont());
 
-        jFormattedTextField3.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFormattedTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField3.setFont(view.getFont());
+        numberTextField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        numberTextField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        numberTextField.setFont(view.getFont());
 
-        jFormattedTextField4.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        jFormattedTextField4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField4.setFont(view.getFont());
+        typeBox.setFont(view.getFont());
+        typeBox.setModel(boxModel);
+        typeBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout optionsPanelLayout = new javax.swing.GroupLayout(optionsPanel);
         optionsPanel.setLayout(optionsPanelLayout);
@@ -174,21 +187,20 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
                 .addContainerGap()
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(0, 125, Short.MAX_VALUE)
                         .addComponent(adddButton))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
-                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(typeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(numberLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(endLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(optionsPanelLayout.createSequentialGroup()
+                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(endLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                            .addComponent(numberLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(typeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(beginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jFormattedTextField3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFormattedTextField4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(beginTextField)
+                            .addComponent(endTextField, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(numberTextField)
+                            .addComponent(typeBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         optionsPanelLayout.setVerticalGroup(
@@ -196,20 +208,20 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jFormattedTextField1)
+                    .addComponent(beginTextField)
                     .addComponent(beginLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jFormattedTextField2)
+                    .addComponent(endTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(endLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jFormattedTextField3)
+                    .addComponent(numberTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(numberLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(typeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField4))
+                    .addComponent(typeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(126, 126, 126)
                 .addComponent(adddButton)
                 .addContainerGap())
@@ -265,9 +277,21 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private void adddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_adddButtonActionPerformed
         // TODO add your handling code here:
         if (selectedLaneOrigin == null || selectedLaneDestination == null){
-            
+            view.error(NOT_SELECTED_LANE_ERROR);
+        }else if (beginTextField.getText().isEmpty() || endTextField.getText().isEmpty()
+                || numberTextField.getText().isEmpty()){
+            view.error(VARIABLES_NOT_SET_ERROR);
+        }else if (Integer.parseInt(beginTextField.getText()) > 
+                  Integer.parseInt(endTextField.getText())){
+            view.error(TIME_ERROR);
         }else{
+            Flow flow = new Flow(Integer.parseInt(beginTextField.getText()),
+                   Integer.parseInt(endTextField.getText()), 
+                   selectedLaneOrigin.getName(), selectedLaneDestination.getName(), 
+                   typeBox.getSelectedItem().toString(), 
+                   Integer.parseInt(numberTextField.getText()));
             
+            view.addFlow(flow);
         }
             
     }//GEN-LAST:event_adddButtonActionPerformed
@@ -277,21 +301,21 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private javax.swing.JPanel ODInfoPanel;
     private javax.swing.JButton adddButton;
     private javax.swing.JLabel beginLabel;
+    private javax.swing.JFormattedTextField beginTextField;
     private javax.swing.JLabel destinationInfoLabel;
     private javax.swing.JLabel destinationLabel;
     private javax.swing.JLabel endLabel;
+    private javax.swing.JFormattedTextField endTextField;
     private javax.swing.JTextArea infoTextArea;
-    private javax.swing.JFormattedTextField jFormattedTextField1;
-    private javax.swing.JFormattedTextField jFormattedTextField2;
-    private javax.swing.JFormattedTextField jFormattedTextField3;
-    private javax.swing.JFormattedTextField jFormattedTextField4;
     private javax.swing.JPanel mapPanel;
     private javax.swing.JScrollPane mapScrollPane;
     private javax.swing.JLabel numberLabel;
+    private javax.swing.JFormattedTextField numberTextField;
     private javax.swing.JPanel optionsPanel;
     private javax.swing.JLabel originInfoLabel;
     private javax.swing.JLabel originLabel;
     private javax.swing.JSeparator separator;
+    private javax.swing.JComboBox<String> typeBox;
     private javax.swing.JLabel typeLabel;
     // End of variables declaration//GEN-END:variables
 

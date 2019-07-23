@@ -9,6 +9,7 @@ public enum FilesExtension {
     OSM(".osm"),
     SUMO_CFG(".sumocfg"),
     NETCONVERT(".net.xml"),
+    NVEHICLES(".add.xml"),
     ROUTE(".rou.xml");
     
     private final String extension;

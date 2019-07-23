@@ -10,10 +10,10 @@ public class Flow {
     
     private int begin, end;
     private String origin, destination;
-    private VType type;
+    private String type;
     private int number;
 
-    public Flow(int begin, int end, String origin, String destination, VType type, 
+    public Flow(int begin, int end, String origin, String destination, String type, 
             int number) {
         this.begin = begin;
         this.end = end;
@@ -24,12 +24,28 @@ public class Flow {
     }
 
     
-    public VType getType() { return type; }
+    public String getType() { return type; }
     public int getNumber() { return number; }
+    public int getBegin() { return begin; }
+    public int getEnd() { return end; }
+    public String getOrigin() { return origin; }
+    public String getDestination() { return destination; }
+
+    public String originEdge(){
+        return origin.substring(0, origin.indexOf('_'));
+    }
+    public String destinationEdge(){
+        return destination.substring(0, destination.indexOf('_'));
+    }
+    
+    @Override
+    public String toString() {
+        return "Flow{" + "begin=" + begin + ", end=" + end + ", origin=" + origin + ", destination=" + destination + ", type=" + type + ", number=" + number + '}';
+    }
     
     public String toFile(String id) {
-        return String.format(FILE_FORMAT, id, begin, end, number, origin, 
-                            destination);
+        return String.format(FILE_FORMAT, id, begin, end, number, originEdge(), 
+                            destinationEdge());
     }
     
 }

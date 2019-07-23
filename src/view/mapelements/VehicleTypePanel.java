@@ -85,6 +85,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         lengthField.setText(Integer.toString(type.getLength()));
         tauField.setText(Double.toString(type.getTau()));
         speedField.setText(Integer.toString(type.getMaxSpeed()));
+        probabilityField.setText(Double.toString(type.getProbability()));
         this.updateUI();
     }
     /**
@@ -385,12 +386,19 @@ public class VehicleTypePanel extends javax.swing.JPanel {
 
     private void probabilityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_probabilityFieldActionPerformed
         // TODO add your handling code here:
+        type.setProbability(Double.valueOf(probabilityField.getText()));
+        view.editVType(name, type);
     }//GEN-LAST:event_probabilityFieldActionPerformed
 
     public JLabel getIconLabel() {
         return icon;
     }
 
+    @Override
+    public String toString() {
+        return  name;
+    }
+    
     @Override
     public String getName() {
         return name;
