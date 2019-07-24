@@ -22,6 +22,7 @@ public class Config {
     
     public static final String OSM_MAP_DEFAULT = "./maps/OSMap";
     public static final String SUMO_MAP_DEFFAULT = "./maps/SUMOMap";
+    public static final String PYTHON_DEFFAULT = "python2";
     
     public static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit()
                                                      .getScreenSize().width;

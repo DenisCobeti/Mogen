@@ -23,6 +23,14 @@ public class Flow {
         this.number = number;
     }
 
+    public Flow(int begin, int end, String origin, String destination, int number) {
+        this.begin = begin;
+        this.end = end;
+        this.origin = origin;
+        this.destination = destination;
+        this.number = number;
+        this.type = VType.DISTRIBUTION;
+    }
     
     public String getType() { return type; }
     public int getNumber() { return number; }

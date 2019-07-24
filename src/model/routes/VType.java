@@ -17,6 +17,8 @@ public class VType {
             + " decel=\"%.2f\" tau=\"%.1f\" length=\"%d\" maxSpeed=\"%d\" %s "
             + "probability=\"%.2f\" />";
     
+    public static final String DISTRIBUTION = "dist";
+    
     private boolean enabled = true;
     
     private double accel;

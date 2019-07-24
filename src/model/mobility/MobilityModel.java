@@ -18,7 +18,7 @@ public abstract class MobilityModel {
     private static final String[] SUMO_CMD = {"sumo", "-n", "", "-r", "", 
                                                 "--full-output", ""};
     
-    public abstract void export(String location, String sim, Map<String, VType> vTypes) throws IOException;
+    public abstract void export(String location, String sim, String vTypes) throws IOException;
     
     public String[] sumoCommand (String network, String routes, String output){
         SUMO_CMD[SUMO_NETWORK_OPT] = network;

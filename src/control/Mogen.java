@@ -122,10 +122,9 @@ public class Mogen implements ViewListener{
                 break;*/
                 
             case EXPORT:
-                tuple = (Tuple)obj;
                 try{
-                    control.exportSimulation((MobilityModel)tuple.obj1, 
-                                             (String)tuple.obj2);
+                    control.exportSimulation((MobilityModel)obj);
+                    System.out.println("boom");
                 } catch (IOException ex) {
                     handleError(ex, Errors.ROUTE);
                 }
@@ -158,7 +157,7 @@ public class Mogen implements ViewListener{
     }
     
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
-        new control.Mogen(args);
+        new Mogen(args);
         /*
         MapPanel s = new MapPanel("mapNetconvert.net.xml");
         JFrame frame = new JFrame("Swing and JavaFX");

@@ -44,6 +44,7 @@ import model.Tuple;
 import model.constants.FilesExtension;
 import model.routes.VType;
 import model.mobility.MobilityModel;
+import model.mobility.RandomModel;
 import model.routes.Flow;
 
 import view.mapelements.DialogAddType;
@@ -59,7 +60,7 @@ import view.mapelements.VehicleTypePanel;
 public class MogenView extends javax.swing.JFrame  implements ActionListener, Observer{
     
     private LoadingMap loading;
-    
+    private MapOptions options;
     public final static Font FONT = new Font("Century Gothic", Font.PLAIN, 12);
     public final static Font SMALL_FONT = FONT.deriveFont(10,0);
     
@@ -101,7 +102,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private final static String SEARCH_ICON_IMG = "resources/button/search.png";
     private final static String MAP_ICON_IMG = "resources/button/map.png";
     private final static String SETTINGS_ICON_IMG = "resources/button/settings.png";
+    private final static String EXPORT_ICON_IMG = "resources/button/export.png";
     private final static String EDIT_ICON_IMG = "resources/button/editFollowingModel.png";
+    
     private static final String ICON_LOCATION_16 = "resources/icon/icon16.png";
     private static final String ICON_LOCATION_32 = "resources/icon/icon32.png";
     private static final String ICON_LOCATION_64 = "resources/icon/icon64.png";
@@ -113,12 +116,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private ImageIcon SEARCH_ICON = new ImageIcon(SEARCH_ICON_IMG);
     private ImageIcon MAP_ICON = new ImageIcon(MAP_ICON_IMG);
     private ImageIcon SETTINGS_ICON = new ImageIcon(SETTINGS_ICON_IMG);
+    private ImageIcon EXPORT_ICON = new ImageIcon(EXPORT_ICON_IMG);
     private ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
     
     private final ViewListener listenerUI;
     
     private List<VehicleTypePanel> VehicleTypes;
-    private HashSet<String> options;
     
     private String mapInfo;
     /**
@@ -131,7 +134,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         VehicleTypes = new LinkedList();
         //TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
-        Locale.setDefault(Locale.Category.FORMAT,new Locale("en", "UK"));
+        Locale.setDefault(Locale.Category.FORMAT, new Locale("en", "UK"));
         
         List<Image> icons = new LinkedList();
         icons.add(new ImageIcon(ICON_LOCATION_16).getImage());
@@ -139,7 +142,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         icons.add(new ImageIcon(ICON_LOCATION_64).getImage());
         icons.add(new ImageIcon(ICON_LOCATION_128).getImage());
         
-        options = new HashSet<>();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (UnsupportedLookAndFeelException | IllegalAccessException |  
@@ -148,17 +150,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         initComponents();
         
         //menuFileExit.addActionListener(this);
-        panelElements.setFont(FONT);
-        
+        options = new MapOptions(this);
         vehicleTypesPanel.setLayout(new BoxLayout(vehicleTypesPanel, BoxLayout.Y_AXIS));
         
-        addVTypeButton.setIcon(ADD_ICON);
-        addVTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                addVehicleType(evt);
-            }
-        });
-        this.setTitle(PROGRAM);
         this.setIconImages(icons);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -194,7 +188,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         matrixOptionsPanel = new javax.swing.JPanel();
         errorLabel = new javax.swing.JLabel();
         optionsMapButton = new javax.swing.JLabel();
-        exportButton = new javax.swing.JButton();
+        exportButton = new javax.swing.JLabel();
         mainPanelElements = new javax.swing.JPanel();
         panelElements = new javax.swing.JTabbedPane();
         vehicleTypesScroll = new javax.swing.JScrollPane();
@@ -211,6 +205,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         menuEditExport = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle(PROGRAM);
 
         simulationPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -434,11 +429,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         });
 
-        exportButton.setFont(FONT);
-        exportButton.setText(EXPORT);
-        exportButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                exportButtonActionPerformed(evt);
+        exportButton.setIcon(EXPORT_ICON);
+        exportButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exportButtonMouseClicked(evt);
             }
         });
 
@@ -464,8 +458,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(exportButton)
-                .addContainerGap())
+                .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26))
         );
         simulationPanelLayout.setVerticalGroup(
             simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -481,12 +475,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addComponent(errorLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(exportButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         mainPanelElements.setBackground(new java.awt.Color(255, 255, 255));
+
+        panelElements.setFont(FONT);
 
         vehicleTypesScroll.setBorder(null);
         vehicleTypesScroll.setHorizontalScrollBar(null);
@@ -658,7 +654,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void optionsMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_optionsMapButtonMouseClicked
         // TODO add your handling code here:
-        MapOptions options = new MapOptions(this);
         options.setLocationRelativeTo(this);
         
         options.setAlwaysOnTop(true);
@@ -704,11 +699,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         }
     }//GEN-LAST:event_mobilityComboBoxActionPerformed
 
-    private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        // TODO add your handling code here:
-        export();
-    }//GEN-LAST:event_exportButtonActionPerformed
-
     private void addFlowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFlowButtonActionPerformed
         // TODO add your handling code here:
         FlowFrame flowFrame;
@@ -716,7 +706,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             flowFrame = new FlowFrame(this, currentMap, VehicleTypes);
             flowFrame.setVisible(true);
         } catch (FileNotFoundException | XMLStreamException ex) {
-            Logger.getLogger(MogenView.class.getName()).log(Level.SEVERE, null, ex);
+            error(MAP_ERROR);
         }
         
     }//GEN-LAST:event_addFlowButtonActionPerformed
@@ -725,6 +715,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         // TODO add your handling code here:
         DialogAddType dialog = new DialogAddType(this);
     }//GEN-LAST:event_addVTypeButtonMouseClicked
+
+    private void exportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportButtonMouseClicked
+        // TODO add your handling code here:
+        export();
+    }//GEN-LAST:event_exportButtonMouseClicked
    
     
     @Override
@@ -766,7 +761,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JLabel addVTypeButton;
     private javax.swing.JScrollPane downtownScroll;
     private javax.swing.JLabel errorLabel;
-    private javax.swing.JButton exportButton;
+    private javax.swing.JLabel exportButton;
     private javax.swing.JPanel flowOptionsPanel;
     private javax.swing.JScrollPane flowScrollPane;
     private javax.swing.JTable flowTable;
@@ -808,7 +803,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             switch((Mobility)mobilityComboBox.getSelectedItem()){
                 case Random:
                     System.out.println("random");
-                    listenerUI.producedEvent(ViewListener.Event.EXPORT, FONT);
+                    listenerUI.producedEvent(ViewListener.Event.EXPORT, 
+                         new RandomModel(Integer.parseInt(timeField.getText()), 
+                                    Integer.parseInt(repetitionField.getText())));
                     break;
                 case Flow:
                     System.out.println("flow");
@@ -842,9 +839,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     public void updateSimulation(InputStream stream){
         // Donde mostrar los warnings
     }
-    public void exportSimulation(MobilityModel model, String name){
-        Tuple tuple = new Tuple(model, name);
-        listenerUI.producedEvent(ViewListener.Event.EXPORT, tuple);
+    public void exportSimulation(MobilityModel model){
+        listenerUI.producedEvent(ViewListener.Event.EXPORT, model);
     }
     
     public void enableEvents(boolean events){
@@ -940,8 +936,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void newFlow(Flow flow) {
         DefaultTableModel model = (DefaultTableModel)flowTable.getModel();
-        model.addRow(new Object[]{flow.getOrigin(), flow.getDestination(), 
-            flow.getBegin(), flow.getEnd(), flow.getNumber(), flow.getType()});
+        
+        model.addRow(new Object[]{flow.getOrigin(), 
+                                flow.getDestination(), 
+                                flow.getBegin(), 
+                                flow.getEnd(), 
+                                flow.getNumber(), 
+                                flow.getType()});
     }
  
 }

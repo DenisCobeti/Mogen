@@ -128,15 +128,14 @@ public class MogenControl {
         return output;
     }
     
-    public void exportSimulation(MobilityModel mobilityModel, String sim) 
-                                                            throws IOException{
+    public void exportSimulation(MobilityModel mobilityModel) throws IOException{
         File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
                                         FilesExtension.NVEHICLES.getExtension());
         vehicles.createNewFile();
         
         PrintWriter writer = new PrintWriter(vehicles.getAbsoluteFile(), "UTF-8");
         writer.println("<additional>");
-        writer.println("<vTypeDistribution id=\"dist1\">");
+        writer.println("<vTypeDistribution id=\"" + VType.DISTRIBUTION + "\">");
         for (Map.Entry<String, VType> entry : model.getvTypes().entrySet()) {
             //writer.println(entry.getValue().toFile(entry.getKey()));
             if(entry.getValue().isEnabled()){
@@ -147,7 +146,7 @@ public class MogenControl {
         writer.println("</additional>");
         writer.close();
         
-        //mobilityModel.export("pruebasses", sim, model.getvTypes());
+        mobilityModel.export("pruebasses", model.getMap(), vehicles.getAbsolutePath());
     }
     //esto esta copiado, habra que cambiarlo
     public static void copyInputStreamToFile(InputStream inputStream, File file) 

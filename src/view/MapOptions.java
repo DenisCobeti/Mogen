@@ -17,9 +17,8 @@ public class MapOptions extends javax.swing.JFrame {
      */
     public static Font FONT;
     private final Font  TITLE_FONT;
-    private final HashSet filteredRoads;
     
-    private static final String  TITLE = "New simulation";
+    private static final String  TITLE = "Map options";
     
     private final static String LEFTHANDED = "Lefthanded";
     private final static String REMOVE_GEOMETRY = "Remove geometry";
@@ -33,6 +32,9 @@ public class MapOptions extends javax.swing.JFrame {
     private final static String OPTIONS = "Options";
     
     private final HashSet<String> options;
+    private final HashSet<String> roads;
+    private final HashSet<String> filteredRoads;
+    
     private final MogenView view;
     
     public MapOptions(MogenView view) {
@@ -40,16 +42,20 @@ public class MapOptions extends javax.swing.JFrame {
         
         options = new HashSet<>();
         filteredRoads = new HashSet<>();
+        roads = new HashSet<>();
         
         FONT = view.FONT;
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         initComponents();
         
-        for (RoadTypes road : RoadTypes.values())
+        for (RoadTypes road : RoadTypes.values()){
             ((DefaultTableModel)roadsTable.getModel()).addRow(new String[] { 
                 road.toString()
             });
+            roads.add(road.getName());
+        }
+        
         roadsTable.setAutoCreateRowSorter(true);
         filteredRoadsTable.setAutoCreateRowSorter(true);
     }
@@ -64,8 +70,6 @@ public class MapOptions extends javax.swing.JFrame {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        titlePanel = new javax.swing.JPanel();
-        titleLabel = new javax.swing.JLabel();
         tabPanel = new javax.swing.JTabbedPane();
         optionsTab = new javax.swing.JPanel();
         togglePanel = new javax.swing.JPanel();
@@ -90,28 +94,11 @@ public class MapOptions extends javax.swing.JFrame {
         filteredRoadsTable = new javax.swing.JTable();
         roadFilterType = new javax.swing.JPanel();
         acceptLabel = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle(TITLE);
 
-        titleLabel.setFont(TITLE_FONT);
-        titleLabel.setForeground(new java.awt.Color(204, 0, 102));
-        titleLabel.setText(TITLE);
-
-        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
-        titlePanel.setLayout(titlePanelLayout);
-        titlePanelLayout.setHorizontalGroup(
-            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        titlePanelLayout.setVerticalGroup(
-            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         tabPanel.setBackground(new java.awt.Color(255, 255, 255));
         tabPanel.setFont(FONT);
@@ -343,7 +330,7 @@ public class MapOptions extends javax.swing.JFrame {
         );
         roadFilterTypeLayout.setVerticalGroup(
             roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 449, Short.MAX_VALUE)
+            .addGap(0, 456, Short.MAX_VALUE)
         );
 
         tabPanel.addTab(ROAD_FILTERS, roadFilterType);
@@ -357,6 +344,10 @@ public class MapOptions extends javax.swing.JFrame {
             }
         });
 
+        titleLabel.setFont(TITLE_FONT);
+        titleLabel.setForeground(new java.awt.Color(204, 0, 102));
+        titleLabel.setText(TITLE);
+
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -365,19 +356,18 @@ public class MapOptions extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tabPanel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tabPanel)
+                .addComponent(tabPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(acceptLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -408,7 +398,7 @@ public class MapOptions extends javax.swing.JFrame {
         commands = options.toArray(commands);
         view.newSimulation(commands);
         view.enableEvents(true);
-        this.dispose();
+        this.setVisible(false);
     }//GEN-LAST:event_acceptLabelMouseClicked
 
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
@@ -417,6 +407,7 @@ public class MapOptions extends javax.swing.JFrame {
             String road = (String)roadsTable.getValueAt(i, 0);
             
             filteredRoads.add(road);
+            roads.remove(road);
             ((DefaultTableModel)filteredRoadsTable.getModel()).addRow(new String[] { 
                 road
             });
@@ -434,6 +425,7 @@ public class MapOptions extends javax.swing.JFrame {
             String road = (String)filteredRoadsTable.getValueAt(i, 0);
             
             filteredRoads.remove(road);
+            roads.add(road);
             ((DefaultTableModel)roadsTable.getModel()).addRow(new String[] { 
                 road
             });
@@ -470,7 +462,6 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JLabel streetNamesLabel;
     private javax.swing.JTabbedPane tabPanel;
     private javax.swing.JLabel titleLabel;
-    private javax.swing.JPanel titlePanel;
     private javax.swing.JPanel togglePanel;
     private javax.swing.JButton unfilterButton;
     private javax.swing.JPanel vehicleFilterTab;

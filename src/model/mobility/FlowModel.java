@@ -29,6 +29,7 @@ public class FlowModel extends MobilityModel {
         flows.put(String.valueOf(flows.size()), flow);
     }
 
+    /*
     @Override
     public void export(String location, String sim, Map<String, VType> vTypes) throws IOException {
         File output = new File(location + sim + FilesExtension.OSM);
@@ -46,5 +47,10 @@ public class FlowModel extends MobilityModel {
         }
         writer.println(FOOTER);
         writer.close();
+    }*/
+
+    @Override
+    public void export(String location, String sim, String vTypes) throws IOException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
