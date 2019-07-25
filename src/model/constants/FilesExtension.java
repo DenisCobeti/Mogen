@@ -9,7 +9,12 @@ public enum FilesExtension {
     OSM(".osm"),
     SUMO_CFG(".sumocfg"),
     NETCONVERT(".net.xml"),
-    NVEHICLES(".add.xml"),
+    FCD(".fcd"),
+    VEHICLES(".add.xml"),
+    NS2_MOBILITY(".mob.tcl"),
+    NS2_ACTIVITY(".act.tcl"),
+    NS2_TRACE(".trace.tcl"),
+    NS2_CONFIG(".conf.tcl"),
     ROUTE(".rou.xml");
     
     private final String extension;

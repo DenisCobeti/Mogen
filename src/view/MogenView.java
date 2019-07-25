@@ -718,7 +718,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void exportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportButtonMouseClicked
         // TODO add your handling code here:
-        export();
+        JFileChooser chooser = new JFileChooser();
+        
+        int returnVal = chooser.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            export(chooser.getSelectedFile().getAbsolutePath());
+        }
     }//GEN-LAST:event_exportButtonMouseClicked
    
     
@@ -798,14 +803,15 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         JFrame simulation = new AddSimulation(this, DEFAULT_SIM_NAME + tab);
         simulation.setVisible(true);
     }*/
-    private void export(){
+    private void export(String location){
         if(avalibleMap){
             switch((Mobility)mobilityComboBox.getSelectedItem()){
                 case Random:
                     System.out.println("random");
                     listenerUI.producedEvent(ViewListener.Event.EXPORT, 
-                         new RandomModel(Integer.parseInt(timeField.getText()), 
-                                    Integer.parseInt(repetitionField.getText())));
+                                    new Tuple<>(new RandomModel(
+                                    Integer.parseInt(timeField.getText()), 
+                                    Integer.parseInt(repetitionField.getText())), location));
                     break;
                 case Flow:
                     System.out.println("flow");
@@ -840,7 +846,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         // Donde mostrar los warnings
     }
     public void exportSimulation(MobilityModel model){
-        listenerUI.producedEvent(ViewListener.Event.EXPORT, model);
+        listenerUI.producedEvent(ViewListener.Event.EXPORT, new Tuple<>(model, ""));
     }
     
     public void enableEvents(boolean events){

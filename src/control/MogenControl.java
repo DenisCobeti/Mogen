@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import model.map.OsmAPI;
 import java.net.ProtocolException;
@@ -92,12 +93,12 @@ public class MogenControl {
         
         api = new OsmAPI(selection.minLon, selection.minLat, 
                             selection.maxLat, selection.maxLon);
-
+        
         InputStream in = api.getMap();
         File osmFile = new File(map);
 
         osmFile.createNewFile();
-        copyInputStreamToFile(in, osmFile);
+        inputStreamToFile(in, osmFile);
         // Modify second parameter to change the imported map type
         openMap(map);
     }
@@ -106,31 +107,16 @@ public class MogenControl {
                                                             IOException{
         // Modify second parameter to change the imported map type
         converter = new MapConverter(location, APIS.OSM);
-        converter.executeConvert(DEFAULT_MAP_NAME);
+        InputStream stream = converter.executeConvert(DEFAULT_MAP_NAME);
+        stream.close();
         model.setMap(DEFAULT_MAP_NAME);
         hasMap = true;
     }
     
-    public InputStream createSimulation(String name, String[] commands) 
-                                    throws IOException {
-        Simulation sim = new Simulation(commands);
-        converter.addOptions(cleanOptions(commands));
-        InputStream output = converter.executeConvert(name);
-        model.addElement(name, sim);
-        return output;
-    }
     
-    public InputStream createSimulation(String[] commands) throws IOException {
-        Simulation sim = new Simulation(commands);
-        converter.addOptions(cleanOptions(commands));
-        InputStream output = converter.executeConvert(DEFAULT_MAP_NAME);
-        model.addElement(DEFAULT_MAP_NAME, sim);
-        return output;
-    }
-    
-    public void exportSimulation(MobilityModel mobilityModel) throws IOException{
+    public void exportSimulation(MobilityModel mobilityModel, String location) throws IOException{
         File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
-                                        FilesExtension.NVEHICLES.getExtension());
+                                        FilesExtension.VEHICLES.getExtension());
         vehicles.createNewFile();
         
         PrintWriter writer = new PrintWriter(vehicles.getAbsoluteFile(), "UTF-8");
@@ -146,12 +132,11 @@ public class MogenControl {
         writer.println("</additional>");
         writer.close();
         
-        mobilityModel.export("pruebasses", model.getMap(), vehicles.getAbsolutePath());
+        mobilityModel.export(location, model.getMap(), vehicles.getAbsolutePath());
     }
-    //esto esta copiado, habra que cambiarlo
-    public static void copyInputStreamToFile(InputStream inputStream, File file) 
+    
+    public static void inputStreamToFile(InputStream inputStream, File file) 
 		throws IOException {
-        file.createNewFile();
         
         try (FileOutputStream outputStream = new FileOutputStream(file)) {
 
@@ -164,7 +149,7 @@ public class MogenControl {
         }
 
     }
-
+    
     private List cleanOptions(String[] commands) {
         LinkedList<String> newCommands = new LinkedList<>();
         

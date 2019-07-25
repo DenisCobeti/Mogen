@@ -1,8 +1,7 @@
 package model.mobility;
 
 import java.io.IOException;
-import java.util.Map;
-import model.routes.VType;
+import model.Config;
 
 /**
  *
@@ -15,8 +14,18 @@ public abstract class MobilityModel {
     protected final static int SUMO_ROUTES_OPT = 4;
     protected final static int SUMO_OUTPUT_OPT = 6;
     
-    private static final String[] SUMO_CMD = {"sumo", "-n", "", "-r", "", 
-                                                "--full-output", ""};
+    protected final static int TRACE_INPUT_OPT = 3;
+    protected final static int TRACE_OUTPUT_OPT = 5;
+    
+    private final static String PYTHON_SCRIPT_NAME = "\\tools\\traceExporter.py";
+    
+    private static final String[] SUMO_CMD = {Config.sumoLocation + Config.SUMO_PROGRAM, 
+                                            "-n", "", "-r", "", "--fcd-output", ""};
+    
+    private static final String[] TRACE_CMD = {Config.python2, 
+                                        Config.sumoLocation + PYTHON_SCRIPT_NAME, 
+                                        "--fcd-input", "", "--ns2mobility-output", 
+                                        ""};
     
     public abstract void export(String location, String sim, String vTypes) throws IOException;
     
@@ -26,5 +35,11 @@ public abstract class MobilityModel {
         SUMO_CMD[SUMO_OUTPUT_OPT] = output;
         
         return SUMO_CMD;
+    }
+    public String[] traceCommand (String fcd, String output){
+        TRACE_CMD[TRACE_INPUT_OPT] = fcd;
+        TRACE_CMD[TRACE_OUTPUT_OPT] = output;
+        
+        return TRACE_CMD;
     }
 }

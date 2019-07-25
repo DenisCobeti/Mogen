@@ -2,8 +2,6 @@ package control;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
-import javax.swing.JFrame;
 import javax.xml.stream.XMLStreamException;
 
 import model.MogenModel;
@@ -18,7 +16,6 @@ import model.routes.VType;
 
 import view.MogenView;
 import view.mapsimulation.Map;
-import view.mapsimulation.MapPanel;
 
 /**
  *
@@ -40,21 +37,6 @@ public class Mogen implements ViewListener{
         view = new MogenView(this);
         model = new MogenModel(control, view);
         control = new MogenControl(model, view);  
-        /*
-        Simulation sim = new Simulation(new String[] {"boom"});
-        try {
-            sim.parseNetwork("mapNetconvert.net.xml");
-        } catch (FileNotFoundException | XMLStreamException ex) {
-            System.out.println("Error");
-        }*/
-        /*
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        
-        frame.add(new MapSystem());
-        frame.setSize(960, 960);
-        frame.setVisible(true);
-        frame.repaint();*/
         
     }
 
@@ -99,31 +81,11 @@ public class Mogen implements ViewListener{
                                             (Errors.DUPLICATED_VTYPE));
                 }
                 break;
-            /*
-            case NEW_SIMULATION:
-                tuple = (Tuple)obj;
-                try {
-                    InputStream output = control.createSimulation((String)tuple.obj1, 
-                                                    (String[])tuple.obj2);
-                    view.update(model, new Tuple((String)tuple.obj1, output));
-                } catch (IOException ex) {
-                    handleError(ex, Errors.NETCONVERT_CMD);
-                } 
-                break;*/
-            /* 
-            case NEW_SIMULATION_CMD:
-                try {
-                    InputStream output = control.createSimulation((String[])obj);
-                    view.update(model, output);
-                    view.update(model, control.DEFAULT_MAP_NAME);
-                } catch (IOException ex) {
-                    handleError(ex, Errors.NETCONVERT_CMD);
-                } 
-                break;*/
-                
+           
             case EXPORT:
+                tuple = (Tuple)obj;
                 try{
-                    control.exportSimulation((MobilityModel)obj);
+                    control.exportSimulation((MobilityModel)tuple.obj1, (String)tuple.obj2);
                     System.out.println("boom");
                 } catch (IOException ex) {
                     handleError(ex, Errors.ROUTE);
@@ -158,14 +120,5 @@ public class Mogen implements ViewListener{
     
     public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
         new Mogen(args);
-        /*
-        MapPanel s = new MapPanel("mapNetconvert.net.xml");
-        JFrame frame = new JFrame("Swing and JavaFX");
-        frame.add(s);
-        frame.setSize(800, 800);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);*/
-        //s.show("mapNetconvert.net.xml", null);
-        
     }   
 }

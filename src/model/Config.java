@@ -23,13 +23,16 @@ public class Config {
     public static final String OSM_MAP_DEFAULT = "./maps/OSMap";
     public static final String SUMO_MAP_DEFFAULT = "./maps/SUMOMap";
     public static final String PYTHON_DEFFAULT = "python2";
+    public static final String SUMO_PROGRAM = "\\bin\\sumo";
     
     public static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit()
                                                      .getScreenSize().width;
     public static final int SCREEN_HEIGHT = Toolkit.getDefaultToolkit()
                                                      .getScreenSize().height;
+    
     public static final GeoPosition DEFAULT_POSITION = new GeoPosition(50.11, 8.68);
-    public static final String SUMO_LOCATION = "C:\\Program Files (x86)\\Eclipse\\Sumo";
+    public static String sumoLocation = "C:\\Program Files (x86)\\Eclipse\\Sumo";
+    public static String python2 = "python";
     
     public static void load()  {
         properties = new Properties();
@@ -41,6 +44,7 @@ public class Config {
             osmMap = (String)properties.get(osmMap);
             sumoMap = (String)properties.get(sumoMap);
             
+            python2 = PYTHON_DEFFAULT;
         }catch (IOException ex) {
         //If the config file isnt found, it uses the default values
             osmMap = OSM_MAP_DEFAULT;

@@ -23,6 +23,7 @@ public enum Netconvert {
     
     OVERTAKE_LANES("--opposites.guess TRUE"), // Guess the overtake lanes
     OSM_NO_DUPLICATES("--osm.skip-duplicates-check TRUE"), // 
+    EXTEND_EDGE("--plain.extend-edge-shape"), // 
     
     KEEP_ROADS("--keep-edges.by-type"), //keep only certain road types
     REMOVE_ROADS("--remove-edges.by-type"), //filter road types
@@ -30,7 +31,7 @@ public enum Netconvert {
     KEEP_TYPE("--keep-edges.by-vclass"),
     REMOVE_TYPE("--remove-edges.by-vclass"),
     
-    GUESS_TRAFIC_LIGHTS("--tls.guess TRUE"),
+    GUESS_TRAFIC_LIGHTS("--tls.guess"),
     
     TRUE("TRUE"); /* Needed after OSM_NO_DUPLICATES, OVERTAKE_LANES, 
                     STREET_NAMES, FLATTEN, GUESS_TRAFIC_LIGHTS.*/

@@ -22,6 +22,7 @@ public class OsmAPI implements MapAPI{
     public static final String API3 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
     public String API = "http://lz4.overpass-api.de/api/map?bbox=";
     private static final String API_FORMAT = "%s%s,%s,%s,%s";
+    
     private final HttpURLConnection connection;
     
     
@@ -50,6 +51,13 @@ public class OsmAPI implements MapAPI{
         return connection.getInputStream();
     }
     
+    @Override
+    public void closeConnection() throws IOException{
+        if (connection != null){
+            connection.getInputStream().close();
+            connection.disconnect();
+        }
+    }
     private HttpURLConnection creteConnection(String request) 
             throws MalformedURLException, IOException{
         

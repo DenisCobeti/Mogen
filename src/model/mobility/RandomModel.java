@@ -98,7 +98,7 @@ public class RandomModel extends MobilityModel{
     public void export(String location, String sim, String vTypes) throws IOException {
         LinkedList <String> command = new LinkedList(Arrays.asList(
                 Config.PYTHON_DEFFAULT,
-                Config.SUMO_LOCATION + PYTHON_SCRIPT_NAME,
+                Config.sumoLocation + PYTHON_SCRIPT_NAME,
                 NETWORK_OPT,
                 sim + FilesExtension.NETCONVERT,
                 VEHICLE_OPT,
@@ -116,16 +116,24 @@ public class RandomModel extends MobilityModel{
         ));
         
         File output = new File(FILE_LOCATION + sim + FilesExtension.OSM);
+        File ns2 = new File(location + FilesExtension.NS2_MOBILITY.getExtension());
         output.createNewFile();
+        ns2.createNewFile();
         
         System.out.println(command.toString());
         
         ProcessBuilder randomTrips = new ProcessBuilder(command);
         randomTrips.start();
+        
         ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
                 sim + FilesExtension.NETCONVERT, FILE_LOCATION + ROUTES_FILE, 
-                FILE_LOCATION + sim + FilesExtension.OSM));
+                output.getAbsolutePath()));
         sumo.start();
+        
+        ProcessBuilder trace = new ProcessBuilder(traceCommand(
+                output.getAbsolutePath(), ns2.getAbsolutePath()));
+        System.out.println(trace.command().toString());
+        trace.start();
     }
     
 }

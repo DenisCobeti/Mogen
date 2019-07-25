@@ -15,7 +15,7 @@ public interface MapAPI {
     
     public static enum APIS{OSM};
     public InputStream getMap() throws MalformedURLException, ProtocolException, IOException;
-    
+    public void closeConnection() throws IOException;
     public List<String> netconvertCommand(List<Netconvert> options, 
                                         String osmFile, String netconvertFile );
 
