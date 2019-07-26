@@ -1,4 +1,4 @@
-package model.sumo;
+package delete;
 
 /**
  *

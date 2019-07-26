@@ -1,17 +1,10 @@
 package view.mapsimulation;
 
-import java.awt.BorderLayout;
-import java.io.FileNotFoundException;
 import java.util.List;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.SwingUtilities;
-import javax.xml.stream.XMLStreamException;
-import model.MogenModel;
-import model.mobility.FlowModel;
 import model.routes.Flow;
 import model.sumo.Lane;
 import view.MogenView;
@@ -51,20 +44,17 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
                             + "Right click: select destination lane";
     
     private Lane selectedLaneOrigin, selectedLaneDestination;
-    private final MapPanel map;
     private final MogenView view;
     private static DefaultComboBoxModel boxModel;
                             
     
-    public FlowFrame(MogenView view, String map, List<VehicleTypePanel> VehicleTypes) 
-            throws FileNotFoundException, XMLStreamException {
+    public FlowFrame(MogenView view, MapPanel map, List<VehicleTypePanel> VehicleTypes) {
         this.view = view;
-        this.map = new MapPanel(map, this);
         this.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
         
         initComponents();
         this.setLocationRelativeTo(view);
-        mapPanel.add(this.map);
+        mapPanel.add(map);
     }
 
     /**
@@ -292,6 +282,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
                    Integer.parseInt(numberTextField.getText()));
             
             view.addFlow(flow);
+            this.dispose();
         }
             
     }//GEN-LAST:event_adddButtonActionPerformed

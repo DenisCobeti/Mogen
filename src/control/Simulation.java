@@ -10,11 +10,11 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import model.sumo.Connection;
+import delete.Connection;
 import model.sumo.Edge;
 import model.sumo.Junction;
 import model.sumo.Lane;
-import model.sumo.RoadType;
+import delete.RoadType;
 
 /**
  *

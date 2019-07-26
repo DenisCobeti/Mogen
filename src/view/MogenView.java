@@ -51,6 +51,7 @@ import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.mapsimulation.FlowFrame;
 import view.mapelements.VehicleTypePanel;
+import view.mapsimulation.MapPanel;
 
 /**
  *
@@ -60,7 +61,9 @@ import view.mapelements.VehicleTypePanel;
 public class MogenView extends javax.swing.JFrame  implements ActionListener, Observer{
     
     private LoadingMap loading;
-    private MapOptions options;
+    private final MapOptions options;
+    private MapPanel mapVisual;
+    
     public final static Font FONT = new Font("Century Gothic", Font.PLAIN, 12);
     public final static Font SMALL_FONT = FONT.deriveFont(10,0);
     
@@ -702,13 +705,17 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private void addFlowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addFlowButtonActionPerformed
         // TODO add your handling code here:
         FlowFrame flowFrame;
-        try {
-            flowFrame = new FlowFrame(this, currentMap, VehicleTypes);
-            flowFrame.setVisible(true);
-        } catch (FileNotFoundException | XMLStreamException ex) {
-            error(MAP_ERROR);
+        if (mapVisual == null){
+            try {
+                mapVisual = new MapPanel(currentMap);
+            } catch (XMLStreamException | IOException ex) {
+                error(MAP_ERROR);
+            }
         }
-        
+        flowFrame = new FlowFrame(this, mapVisual, VehicleTypes);
+        mapVisual.addMouseHandler(flowFrame);
+        flowFrame.setVisible(true);
+     
     }//GEN-LAST:event_addFlowButtonActionPerformed
 
     private void addVTypeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addVTypeButtonMouseClicked
@@ -798,16 +805,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JPanel vehicleTypesPanel;
     private javax.swing.JScrollPane vehicleTypesScroll;
     // End of variables declaration//GEN-END:variables
-    /*
-    public void addSimulationDialog(){
-        JFrame simulation = new AddSimulation(this, DEFAULT_SIM_NAME + tab);
-        simulation.setVisible(true);
-    }*/
+    
     private void export(String location){
         if(avalibleMap){
             switch((Mobility)mobilityComboBox.getSelectedItem()){
                 case Random:
-                    System.out.println("random");
                     listenerUI.producedEvent(ViewListener.Event.EXPORT, 
                                     new Tuple<>(new RandomModel(
                                     Integer.parseInt(timeField.getText()), 

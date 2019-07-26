@@ -38,7 +38,6 @@ public class MogenControl {
     private MogenView view;
     
     private MapConverter converter;
-    private final VehicleManager vehicleManager;
     //private HashMap<String, Simulation> simulations;
     private boolean hasMap = false;
 
@@ -46,7 +45,6 @@ public class MogenControl {
         this.model = model;
         this.view = view;
         
-        vehicleManager = new VehicleManager();
         //obtainMap(0,0,0,0);
         Config.load();
         System.out.println(Config.osmMap +" " +Config.sumoMap);

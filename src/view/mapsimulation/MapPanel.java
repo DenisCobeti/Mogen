@@ -2,6 +2,7 @@ package view.mapsimulation;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,13 +32,21 @@ public class MapPanel extends JFXPanel {
     private final static String ID = "id";
     
     
-    public MapPanel(String name, MapMouseEvent handler) throws FileNotFoundException, XMLStreamException {
+    public MapPanel(String name, MapMouseEvent handler) throws FileNotFoundException, 
+                                            XMLStreamException, IOException {
         super();
         parseNetwork(name, handler);
     }
     
+    public MapPanel(String name) throws FileNotFoundException, 
+                                        XMLStreamException, IOException {
+        super();
+        parseNetwork(name);
+    }
+    
     private void parseNetwork(String location, MapMouseEvent handler) throws FileNotFoundException, 
-                                                            XMLStreamException{
+                                                            XMLStreamException,
+                                                            IOException{
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         InputStream in = new FileInputStream(location);
         XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
@@ -45,8 +54,6 @@ public class MapPanel extends JFXPanel {
         
         int event;
         String tag;
-        Group group = new Group();
-        
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
         while (reader.hasNext()){
             event = reader.next();
@@ -65,37 +72,58 @@ public class MapPanel extends JFXPanel {
             }  
             
         }
-        /*
-        for (Lane lane : lanes){
-            EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
-                if(selectedLane == null){
-                    lane.getPolyline().setStroke(Paint.valueOf(SELECTED_LANE_COLOR));
-                    selectedLane = lane;
-                }else {
-                    selectedLane.getPolyline().setStroke(Paint.valueOf(UNSELECTED_LANE_COLOR));
-                    lane.getPolyline().setStroke(Paint.valueOf(SELECTED_LANE_COLOR));
-                    selectedLane = lane;
-                }
-                System.out.println(lane.toString()); 
-            };   
+        reader.close();
+        in.close();
+        addMouseHandler(handler);
+    }
+    
+    public void parseNetwork(String location) throws FileNotFoundException, 
+                                                            XMLStreamException,
+                                                            IOException{
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        InputStream in = new FileInputStream(location);
+        XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
+        reader.nextTag(); // pass the net tag
+        
+        int event;
+        String tag;
+        while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
+        while (reader.hasNext()){
+            event = reader.next();
+            if(event == XMLStreamConstants.START_ELEMENT){
+                tag = reader.getLocalName();
+                
+                if(tag.equals(Lane.TAG)){
+                    Lane lane = new Lane( reader.getAttributeValue(null, ID), 
+                                  reader.getAttributeValue(null, Lane.LENGTH)
+                                 ,reader.getAttributeValue(null, Lane.SHAPE));
+                    lanes.add(lane);
+                    System.out.println(lane.toString());
+                }else if(tag.equals(Junction.TAG)){
+                    /*junctions.put(reader.getAttributeValue(null, ID), 
+                                  reader.getAttributeValue(null, Lane.SHAPE));*/
+                }      
+            }  
             
-            //Adding event Filter 
-            lane.getPolyline().addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
-            group.getChildren().add(lane.getPolyline());
-            System.out.println(lane.getPolyline());
-        }*/
+        }
+        reader.close();
+        in.close();
+    }
+    
+    public void addMouseHandler(MapMouseEvent handler){
+        
+        Group group = new Group();
+        
         for (Lane lane : lanes){
             EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
                 handler.addFunctionToLanes(lane, e);
-            };   
+            };
             
             //Adding event Filter 
             lane.getPolyline().addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
             group.getChildren().add(lane.getPolyline());
-            System.out.println(lane.getPolyline());
         }
         Scene scene = new Scene (group);
         this.setScene(scene);
     }
-    
 }
