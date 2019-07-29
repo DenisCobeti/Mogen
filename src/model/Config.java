@@ -7,7 +7,7 @@ import java.util.Properties;
 import org.jxmapviewer.viewer.GeoPosition;
 
 /**
- * Class that will read the config.ini file for values. If these variables 
+ * Class that will read the config.ini file. If these variables 
  * arent found, it uses the default values.
  * @author Denis C
  */

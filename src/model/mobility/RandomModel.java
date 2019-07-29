@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import model.Config;
 import model.constants.FilesExtension;
@@ -32,7 +34,7 @@ public class RandomModel extends MobilityModel{
     private final static String ATT_OPT = "--trip-attributes";
     private final static String DIST_OPT = "type='" + VType.DISTRIBUTION + "'";
     
-    private final static String FILE_LOCATION = "./models/random/";
+    private final static String FILE_LOCATION = "models/random/";
     private final static String VEHICLE_FILE = "vehicles.add.xml";
     
     private final int repetition;
@@ -95,7 +97,8 @@ public class RandomModel extends MobilityModel{
     }*/
 
     @Override
-    public void export(String location, String sim, String vTypes) throws IOException {
+    public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
+        
         LinkedList <String> command = new LinkedList(Arrays.asList(
                 Config.PYTHON_DEFFAULT,
                 Config.sumoLocation + PYTHON_SCRIPT_NAME,
@@ -114,26 +117,31 @@ public class RandomModel extends MobilityModel{
                 ATT_OPT,
                 DIST_OPT
         ));
-        
+
         File output = new File(FILE_LOCATION + sim + FilesExtension.OSM);
         File ns2 = new File(location + FilesExtension.NS2_MOBILITY.getExtension());
         output.createNewFile();
         ns2.createNewFile();
-        
+
         System.out.println(command.toString());
-        
+
         ProcessBuilder randomTrips = new ProcessBuilder(command);
-        randomTrips.start();
         
+        executeProcess(randomTrips.start());
+        
+
         ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
-                sim + FilesExtension.NETCONVERT, FILE_LOCATION + ROUTES_FILE, 
+                sim + FilesExtension.NETCONVERT, FILE_LOCATION + ROUTES_FILE,
                 output.getAbsolutePath()));
-        sumo.start();
-        
+        System.out.println(sumo.command().toString());
+        executeProcess(sumo.start());
+
         ProcessBuilder trace = new ProcessBuilder(traceCommand(
                 output.getAbsolutePath(), ns2.getAbsolutePath()));
         System.out.println(trace.command().toString());
-        trace.start();
+
+        executeProcess(trace.start());
+        
     }
     
 }

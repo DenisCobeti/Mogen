@@ -1,8 +1,10 @@
 package control;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -72,16 +74,29 @@ public class MapConverter {
         }
     }
     
-    public InputStream executeConvert(String convertedMap) throws IOException{
+    public String executeConvert(String convertedMap) throws IOException, InterruptedException{
         String fileOutput = convertedMap + FilesExtension.NETCONVERT;
         File netconvertFile = new File(fileOutput);
+        String output = "";
+        
         addOptions(Netconvert.OUTPUT.getCommand(), fileOutput);
         ProcessBuilder netconvert = new ProcessBuilder(convertCommand);
         netconvert.redirectErrorStream(true);
         
         netconvertFile.createNewFile();
         System.out.println(convertCommand);
-        return netconvert.start().getInputStream();
+        
+        Process process = netconvert.start();
+        InputStream stdin = process.getInputStream();
+        InputStreamReader isr = new InputStreamReader(stdin);
+        BufferedReader br = new BufferedReader(isr);
+        
+        String line = null;
+        while ((line = br.readLine()) != null)
+            output += line;
+
+        process.waitFor();
+        return output;
     }
     
     public void addOptions(String... options){

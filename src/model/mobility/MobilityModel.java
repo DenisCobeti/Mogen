@@ -1,6 +1,11 @@
 package model.mobility;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import model.Config;
 
 /**
@@ -19,7 +24,7 @@ public abstract class MobilityModel {
     
     private final static String PYTHON_SCRIPT_NAME = "\\tools\\traceExporter.py";
     
-    private static final String[] SUMO_CMD = {Config.sumoLocation + Config.SUMO_PROGRAM, 
+    private static final String[] SUMO_CMD = {"sumo", 
                                             "-n", "", "-r", "", "--fcd-output", ""};
     
     private static final String[] TRACE_CMD = {Config.python2, 
@@ -27,7 +32,7 @@ public abstract class MobilityModel {
                                         "--fcd-input", "", "--ns2mobility-output", 
                                         ""};
     
-    public abstract void export(String location, String sim, String vTypes) throws IOException;
+    public abstract void export(String location, String sim, String vTypes) throws IOException, InterruptedException;
     
     public String[] sumoCommand (String network, String routes, String output){
         SUMO_CMD[SUMO_NETWORK_OPT] = network;
@@ -36,10 +41,24 @@ public abstract class MobilityModel {
         
         return SUMO_CMD;
     }
+    
     public String[] traceCommand (String fcd, String output){
         TRACE_CMD[TRACE_INPUT_OPT] = fcd;
         TRACE_CMD[TRACE_OUTPUT_OPT] = output;
         
         return TRACE_CMD;
+    }
+    
+    public static void executeProcess(Process process) throws IOException, InterruptedException{
+        
+        InputStream stdin = process.getInputStream();
+        InputStreamReader isr = new InputStreamReader(stdin);
+        BufferedReader br = new BufferedReader(isr);
+
+        String line = null;
+        while ((line = br.readLine()) != null);
+
+        process.waitFor();
+        
     }
 }

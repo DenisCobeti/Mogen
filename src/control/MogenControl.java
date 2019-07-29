@@ -84,7 +84,8 @@ public class MogenControl {
     
     
     public void saveMap(MapSelection selection) throws ProtocolException, 
-                                                            IOException{
+                                                            IOException,
+                                                            InterruptedException{
         
         MapAPI api = null;
         String map = Config.osmMap + FilesExtension.OSM;
@@ -102,17 +103,17 @@ public class MogenControl {
     }
     
     public void openMap(String location) throws ProtocolException, 
-                                                            IOException{
+                                                            IOException,
+                                                            InterruptedException{
         // Modify second parameter to change the imported map type
         converter = new MapConverter(location, APIS.OSM);
-        InputStream stream = converter.executeConvert(DEFAULT_MAP_NAME);
-        stream.close();
+        String stream = converter.executeConvert(DEFAULT_MAP_NAME);
         model.setMap(DEFAULT_MAP_NAME);
         hasMap = true;
     }
     
     
-    public void exportSimulation(MobilityModel mobilityModel, String location) throws IOException{
+    public void exportSimulation(MobilityModel mobilityModel, String location) throws IOException, InterruptedException{
         File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
                                         FilesExtension.VEHICLES.getExtension());
         vehicles.createNewFile();

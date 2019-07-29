@@ -51,7 +51,7 @@ public class Mogen implements ViewListener{
             case NEW_MAP:
                 try {
                     control.saveMap((MapSelection)obj);
-                } catch (IOException ex) {
+                } catch (IOException | InterruptedException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
                 }finally{
@@ -62,7 +62,7 @@ public class Mogen implements ViewListener{
             case OPEN_MAP:
                 try {
                     control.openMap((String)obj);
-                } catch (IOException ex) {
+                } catch (IOException | InterruptedException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
                 } finally {
@@ -87,7 +87,7 @@ public class Mogen implements ViewListener{
                 try{
                     control.exportSimulation((MobilityModel)tuple.obj1, (String)tuple.obj2);
                     System.out.println("boom");
-                } catch (IOException ex) {
+                } catch (IOException | InterruptedException ex) {
                     handleError(ex, Errors.ROUTE);
                 }
                 break;
