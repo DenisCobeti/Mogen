@@ -2,6 +2,7 @@ package control;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.List;
 import javax.xml.stream.XMLStreamException;
 
 import model.MogenModel;
@@ -26,8 +27,8 @@ public class Mogen implements ViewListener{
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
     
     private MogenControl control;
-    private MogenModel model;
-    private MogenView view;
+    private final MogenModel model;
+    private final MogenView view;
     
     static Map map;
     
@@ -82,16 +83,25 @@ public class Mogen implements ViewListener{
                 }
                 break;
            
-            case EXPORT:
+            case EXPORT_RANDOM:
                 tuple = (Tuple)obj;
                 try{
-                    control.exportSimulation((MobilityModel)tuple.obj1, (String)tuple.obj2);
-                    System.out.println("boom");
+                    control.exportSimulation((MobilityModel)tuple.obj1, 
+                            (String)tuple.obj2);
                 } catch (IOException | InterruptedException ex) {
                     handleError(ex, Errors.ROUTE);
                 }
                 break;
                 
+            case EXPORT_FLOW:
+                tuple = (Tuple)obj;
+                try{
+                    control.exportSimulation((MobilityModel)tuple.obj1, 
+                            (String)tuple.obj2);
+                } catch (IOException | InterruptedException ex) {
+                    handleError(ex, Errors.ROUTE);
+                }
+                break;   
             case EDIT_VTYPE:
                 tuple = (Tuple)obj;
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);

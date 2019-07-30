@@ -1,9 +1,11 @@
 package model.mobility;
 
+import static control.MogenControl.DEFAULT_VTYPE_LOCATION;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import model.constants.FilesExtension;
 import model.routes.Flow;
@@ -16,17 +18,18 @@ import model.routes.VType;
 public class FlowModel extends MobilityModel {
     private final static String HEADER = "<routes>";
     private final static String FOOTER = "</routes>";
+    private final static String ROUTES_FILE = "routes";
     
-    private final static String FILE_LOCATION = "./models/flow/";
+    private final static String FILE_LOCATION = "models/flow/";
     
-    HashMap<String, Flow> flows; 
+    List<Flow> flows; 
 
-    public FlowModel() {
-        flows = new HashMap();
+    public FlowModel(List flows) {
+        this.flows = flows;
     }
     
     public void addFlow(Flow flow){
-        flows.put(String.valueOf(flows.size()), flow);
+        flows.add(flow);
     }
 
     /*
@@ -51,6 +54,17 @@ public class FlowModel extends MobilityModel {
 
     @Override
     public void export(String location, String sim, String vTypes) throws IOException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
+        File routes = new File(FILE_LOCATION + ROUTES_FILE + FilesExtension.ROUTE);
+        output.createNewFile();
+        routes.createNewFile();
+        
+        PrintWriter writer = new PrintWriter(routes.getAbsoluteFile(), "UTF-8");
+        writer.println(HEADER);
+        for (Flow flow : flows) {
+            writer.println(flow.toFile(String.valueOf(flow.getNumber())));  
+        }
+        writer.println(FOOTER);
+        writer.close();
     }
 }

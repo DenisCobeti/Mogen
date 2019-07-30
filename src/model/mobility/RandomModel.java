@@ -39,9 +39,11 @@ public class RandomModel extends MobilityModel{
     
     private final int repetition;
     private final int time;
+    private final int files;
     
-    public RandomModel(int time, int repetition) {
+    public RandomModel(int time, int files, int repetition) {
         this.repetition = repetition;
+        this.files = files;
         this.time = time;
     }
     
@@ -99,6 +101,9 @@ public class RandomModel extends MobilityModel{
     @Override
     public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
         
+        File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
+        output.createNewFile();
+        
         LinkedList <String> command = new LinkedList(Arrays.asList(
                 Config.PYTHON_DEFFAULT,
                 Config.sumoLocation + PYTHON_SCRIPT_NAME,
@@ -117,30 +122,29 @@ public class RandomModel extends MobilityModel{
                 ATT_OPT,
                 DIST_OPT
         ));
-
-        File output = new File(FILE_LOCATION + sim + FilesExtension.OSM);
-        File ns2 = new File(location + FilesExtension.NS2_MOBILITY.getExtension());
-        output.createNewFile();
-        ns2.createNewFile();
-
+        
         System.out.println(command.toString());
 
         ProcessBuilder randomTrips = new ProcessBuilder(command);
-        
-        executeProcess(randomTrips.start());
-        
-
         ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
                 sim + FilesExtension.NETCONVERT, FILE_LOCATION + ROUTES_FILE,
                 output.getAbsolutePath()));
+        
         System.out.println(sumo.command().toString());
-        executeProcess(sumo.start());
+        
+        for (int i = 0; i < files; i++){
+            File ns2 = new File(location + i + FilesExtension.NS2_MOBILITY.getExtension());
+            ns2.createNewFile();
+        
+            executeProcess(randomTrips.start());
+            executeProcess(sumo.start());
+            
+            ProcessBuilder trace = new ProcessBuilder(traceCommand(
+            output.getAbsolutePath(), ns2.getAbsolutePath()));
+            System.out.println(trace.command().toString());
 
-        ProcessBuilder trace = new ProcessBuilder(traceCommand(
-                output.getAbsolutePath(), ns2.getAbsolutePath()));
-        System.out.println(trace.command().toString());
-
-        executeProcess(trace.start());
+            executeProcess(trace.start());
+        }
         
     }
     
