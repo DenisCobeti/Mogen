@@ -82,6 +82,11 @@ public class Mogen implements ViewListener{
                                             (Errors.DUPLICATED_VTYPE));
                 }
                 break;
+                
+           case NEW_FLOW:
+                Flow flow = (Flow)obj;
+                view.update(model, model.addFlow(flow));
+                break;
            
             case EXPORT_RANDOM:
                 tuple = (Tuple)obj;
@@ -94,10 +99,8 @@ public class Mogen implements ViewListener{
                 break;
                 
             case EXPORT_FLOW:
-                tuple = (Tuple)obj;
                 try{
-                    control.exportSimulation((MobilityModel)tuple.obj1, 
-                            (String)tuple.obj2);
+                    control.exportFlows((String)obj);
                 } catch (IOException | InterruptedException ex) {
                     handleError(ex, Errors.ROUTE);
                 }
@@ -107,10 +110,6 @@ public class Mogen implements ViewListener{
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);
                 break;
                 
-            case NEW_FLOW:
-                model.addFlow((Flow)obj);
-                view.update(model, obj);
-                break;
         } 
     }
     

@@ -6,7 +6,7 @@ package model.routes;
  */
 public class Flow {
     private static final String FILE_FORMAT = "<flow id=\"%s\" begin=\"%d\""
-            + " end=\"%d\" number=\"%d\" from=\"%s\" to=\"%s\" />";
+            + " end=\"%d\" number=\"%d\" from=\"%s\" to=\"%s\" type=\"%s\" />";
     
     private int begin, end;
     private String origin, destination;
@@ -53,7 +53,7 @@ public class Flow {
     
     public String toFile(String id) {
         return String.format(FILE_FORMAT, id, begin, end, number, originEdge(), 
-                            destinationEdge());
+                            destinationEdge(), type);
     }
     
 }

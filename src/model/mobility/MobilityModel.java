@@ -18,6 +18,7 @@ public abstract class MobilityModel {
     protected final static int SUMO_NETWORK_OPT = 2;
     protected final static int SUMO_ROUTES_OPT = 4;
     protected final static int SUMO_OUTPUT_OPT = 6;
+    protected final static int SUMO_ADD_OPT = 8;
     
     protected final static int TRACE_INPUT_OPT = 3;
     protected final static int TRACE_OUTPUT_OPT = 5;
@@ -26,6 +27,9 @@ public abstract class MobilityModel {
     
     private static final String[] SUMO_CMD = {"sumo", 
                                             "-n", "", "-r", "", "--fcd-output", ""};
+    private static final String[] SUMO_CMD_ADD = {"sumo", 
+                                            "-n", "", "-r", "", "--fcd-output", "", 
+                                            "--additional-files", "", "-l", "C:\\Users\\Neblis\\Desktop\\C4R\\log.txt"};
     
     private static final String[] TRACE_CMD = {Config.python2, 
                                         Config.sumoLocation + PYTHON_SCRIPT_NAME, 
@@ -40,6 +44,15 @@ public abstract class MobilityModel {
         SUMO_CMD[SUMO_OUTPUT_OPT] = output;
         
         return SUMO_CMD;
+    }
+    
+    public String[] sumoCommand (String network, String routes, String output, String add){
+        SUMO_CMD_ADD[SUMO_NETWORK_OPT] = network;
+        SUMO_CMD_ADD[SUMO_ROUTES_OPT] = routes;
+        SUMO_CMD_ADD[SUMO_OUTPUT_OPT] = output;
+        SUMO_CMD_ADD[SUMO_ADD_OPT] = add;
+        
+        return SUMO_CMD_ADD;
     }
     
     public String[] traceCommand (String fcd, String output){

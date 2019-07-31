@@ -2,6 +2,7 @@ package control;
 
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,6 +23,7 @@ import model.map.MapAPI;
 import model.map.MapAPI.APIS;
 import model.map.MapSelection;
 import model.constants.FilesExtension;
+import model.mobility.FlowModel;
 import model.mobility.MobilityModel;
 import model.routes.VType;
 import view.MogenView;
@@ -92,11 +94,13 @@ public class MogenControl {
         
         api = new OsmAPI(selection.minLon, selection.minLat, 
                             selection.maxLat, selection.maxLon);
-        
+        //lento
         InputStream in = api.getMap();
+        
         File osmFile = new File(map);
 
         osmFile.createNewFile();
+        //lento
         inputStreamToFile(in, osmFile);
         // Modify second parameter to change the imported map type
         openMap(map);
@@ -165,5 +169,27 @@ public class MogenControl {
 
     public boolean hasMap() {
         return hasMap;
+    }
+
+    public void exportFlows(String location) throws IOException, InterruptedException {
+        File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
+                                        FilesExtension.VEHICLES.getExtension());
+        vehicles.createNewFile();
+        
+        PrintWriter writer = new PrintWriter(vehicles.getAbsoluteFile(), "UTF-8");
+        writer.println("<additional>");
+        writer.println("<vTypeDistribution id=\"" + VType.DISTRIBUTION + "\">");
+        for (Map.Entry<String, VType> entry : model.getvTypes().entrySet()) {
+            //writer.println(entry.getValue().toFile(entry.getKey()));
+            if(entry.getValue().isEnabled()){
+                writer.println(entry.getValue().toFile(entry.getKey()));
+            }
+        }
+        writer.println("</vTypeDistribution>");
+        writer.println("</additional>");
+        writer.close();
+        
+        FlowModel flowModel = new FlowModel(model.getFlows());
+        flowModel.export(location, model.getMap(), vehicles.getAbsolutePath());
     }
 }

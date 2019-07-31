@@ -24,7 +24,7 @@ public class MogenModel extends Observable{
     
     private Map<String,VType> vTypes;
     private Map<String,Simulation> simulations;
-    private Map<String,Flow> flows;
+    private HashMap<String,Flow> flows;
     
     private String map;
     
@@ -58,8 +58,15 @@ public class MogenModel extends Observable{
         return false;
     }
     
-    public void addFlow(Flow flow){
-        flows.put(String.valueOf(flows.size()), flow);
+    public Tuple addFlow(Flow flow){
+        int id = flows.size();
+        flows.put(String.valueOf(id), flow);
+        
+        return new Tuple<>(id, flow);
+    }
+
+    public HashMap<String, Flow> getFlows() {
+        return flows;
     }
     
     public void removeSim(String id){

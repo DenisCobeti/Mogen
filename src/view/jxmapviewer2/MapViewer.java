@@ -43,8 +43,10 @@ public class MapViewer extends JFrame{
         JLabel label = initMenuButton(EXPORT_TEXT, new Dimension(100, 30));
         File cacheDir = new File(CACHE_FILE);
         JXMapViewer mapViewer = new JXMapViewer();
+        
         this.view = view;
         DefaultTileFactory tileFactory = new DefaultTileFactory(info);
+        
         tileFactory.setLocalCache(new FileBasedLocalCache(cacheDir, false));
         mapViewer.setTileFactory(tileFactory);
         // Set the focus
@@ -87,6 +89,7 @@ public class MapViewer extends JFrame{
             updateWindowTitle(this, mapViewer);
         });
         mapViewer.getCenterPosition();
+        
         label.setMinimumSize(new Dimension(500, 500));
         label.setVisible(true);
         label.addMouseListener(new MouseAdapter() {
@@ -106,6 +109,7 @@ public class MapViewer extends JFrame{
             }
         });
         label.addMouseListener(sa);
+        
         mapViewer.add(label);
         
         //mapViewer.getTileFactory().pixelToGeo(pd, 0);

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import model.constants.FilesExtension;
@@ -28,34 +29,27 @@ public class FlowModel extends MobilityModel {
         this.flows = flows;
     }
     
+    public FlowModel() {
+        this.flows = new LinkedList();
+    }
+    
+    public FlowModel(HashMap<String, Flow> flows) {
+        this.flows = new LinkedList();
+        
+        flows.values().forEach((flow) -> {
+            this.flows.add(flow);
+        });
+    }
     public void addFlow(Flow flow){
         flows.add(flow);
     }
 
-    /*
     @Override
-    public void export(String location, String sim, Map<String, VType> vTypes) throws IOException {
-        File output = new File(location + sim + FilesExtension.OSM);
-        File routes = new File(FILE_LOCATION + sim + FilesExtension.ROUTE);
-        
-        output.createNewFile();
-        routes.createNewFile();
-        
-        PrintWriter writer = new PrintWriter(routes.getAbsoluteFile());
-        
-        writer.println(HEADER);
-        for (Map.Entry<String, Flow> entry : flows.entrySet()) {
-            //writer.println(entry.getValue().toFile(entry.getKey()));
-            writer.println(entry.getValue().toFile(entry.getKey()));
-        }
-        writer.println(FOOTER);
-        writer.close();
-    }*/
-
-    @Override
-    public void export(String location, String sim, String vTypes) throws IOException {
+    public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File routes = new File(FILE_LOCATION + ROUTES_FILE + FilesExtension.ROUTE);
+        File ns2 = new File(location + FilesExtension.NS2_MOBILITY.getExtension());
+        ns2.createNewFile();
         output.createNewFile();
         routes.createNewFile();
         
@@ -66,5 +60,16 @@ public class FlowModel extends MobilityModel {
         }
         writer.println(FOOTER);
         writer.close();
+        
+        ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
+                sim + FilesExtension.NETCONVERT, routes.getAbsolutePath(),
+                output.getAbsolutePath(), vTypes));
+        
+        ProcessBuilder trace = new ProcessBuilder(traceCommand(
+            output.getAbsolutePath(), ns2.getAbsolutePath()));
+            
+        System.out.println(sumo.command().toString());
+        executeProcess(sumo.start());
+        executeProcess(trace.start());
     }
 }

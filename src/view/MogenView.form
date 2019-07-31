@@ -533,7 +533,8 @@
                           <Connection code="FONT" type="code"/>
                         </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                          <Table columnCount="6" rowCount="0">
+                          <Table columnCount="7" rowCount="0">
+                            <Column editable="false" title="Id" type="java.lang.Integer"/>
                             <Column editable="false" title="Origin" type="java.lang.String"/>
                             <Column editable="false" title="Destination" type="java.lang.String"/>
                             <Column editable="false" title="Begin" type="java.lang.Integer"/>

@@ -8,10 +8,8 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -25,9 +23,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +37,7 @@ import model.routes.VType;
 import model.mobility.MobilityModel;
 import model.mobility.RandomModel;
 import model.routes.Flow;
+import view.jxmapviewer2.MapSelect;
 
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
@@ -121,8 +117,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private final ViewListener listenerUI;
     
     private List<VehicleTypePanel> vehicleTypes;
-    private List<Flow> flows;
-    
+    private FlowModel flowModel;
     private String mapInfo;
     /**
      * Creates new form NewJFrame
@@ -133,7 +128,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         this.listenerUI = listenerUI;
         
         vehicleTypes = new LinkedList();
-        flows = new LinkedList();
+        
         //TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         Locale.setDefault(Locale.Category.FORMAT, new Locale("en", "UK"));
@@ -370,14 +365,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
             },
             new String [] {
-                "Origin", "Destination", "Begin", "End", "Number", "VType"
+                "Id", "Origin", "Destination", "Begin", "End", "Number", "VType"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -680,7 +675,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void newMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newMapButtonMouseClicked
         // TODO add your handling code here:
-        MapViewer map = new MapViewer(this);
+        MapSelect map = new MapSelect(this);
+        map.setVisible(true);
     }//GEN-LAST:event_newMapButtonMouseClicked
 
     private void searchMapButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMapButtonMouseClicked
@@ -777,9 +773,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             currentMap = (String)arg + FilesExtension.NETCONVERT;
             doneLoading();
             avalibleMap();
-        } else if (arg instanceof Flow){
-            newFlow((Flow)arg);
-        }
+        } 
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -835,8 +829,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                                     location));
                     break;
                 case Flow:
-                    listenerUI.producedEvent(ViewListener.Event.EXPORT_FLOW, 
-                                    new Tuple<> (new FlowModel(flows), location));
+                    listenerUI.producedEvent(ViewListener.Event.EXPORT_FLOW, location);
                     break;
                 case ODMatrix:
                     System.out.println("atrix");
@@ -886,35 +879,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             vehicleTypesPanel.add(vType);
             vehicleTypesPanel.updateUI();
             
-        } else if (tuple.obj2 instanceof InputStream){
+        } else if (tuple.obj2 instanceof Flow){ 
             
-            JScrollPane textScroll = new JScrollPane();
-            JTextArea text = new JTextArea();
+            newFlow((int)tuple.obj1, (Flow)tuple.obj2);
             
-            text.setFont(FONT);
-            //text.setPreferredSize(new Dimension(648, 705));
-            BufferedReader in = new BufferedReader  
-                    (new InputStreamReader((InputStream)tuple.obj2));  
-            
-            
-            String line;
-            try {
-                while ((line = in.readLine()) != null) {
-                   System.out.println(line);
-                    // You should set JtextArea
-                    text.append(line + "\n");
-                }
-                in.close();
-            } catch (IOException e) { // exception thrown
-                System.err.println("Command failed!");
-            }
-            textScroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-            textScroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-            textScroll.setBorder(null);
-            textScroll.setViewportView(text);
         }
     }
-    
     
     public void error(String msg){
         JOptionPane.showMessageDialog(this, msg);
@@ -938,8 +908,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     public void addFlow(Flow flow){
-        newFlow(flow);
-        flows.add(flow);
+        listenerUI.producedEvent(ViewListener.Event.NEW_FLOW, flow);
         //listenerUI.producedEvent(ViewListener.Event.NEW_FLOW, flow);
     }
     
@@ -961,14 +930,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         setCursor(Cursor.getDefaultCursor());
     }
 
-    private void newFlow(Flow flow) {
+    private void newFlow(int id, Flow flow) {
         DefaultTableModel model = (DefaultTableModel)flowTable.getModel();
         
-        model.addRow(new Object[]{flow.getOrigin(), 
-                                flow.getDestination(), 
-                                flow.getBegin(), 
-                                flow.getEnd(), 
-                                flow.getNumber(), 
+        model.addRow(new Object[]{id, flow.getOrigin(), flow.getDestination(), 
+                                flow.getBegin(), flow.getEnd(), flow.getNumber(), 
                                 flow.getType()});
     }
  
