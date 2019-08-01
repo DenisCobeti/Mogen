@@ -17,6 +17,7 @@ public class SelectionAdapter extends MouseAdapter {
     
     private boolean dragging;
     private JXMapViewer viewer;
+    private MapSelect selecter;
 
     private Point2D startPos = new Point2D.Double();
     private Point2D endPos = new Point2D.Double();
@@ -24,8 +25,9 @@ public class SelectionAdapter extends MouseAdapter {
     /**
      * @param viewer the jxmapviewer
      */
-    public SelectionAdapter(JXMapViewer viewer){
+    public SelectionAdapter(JXMapViewer viewer, MapSelect selecter){
         this.viewer = viewer;
+        this.selecter = selecter;
     }
 
     @Override
@@ -63,6 +65,10 @@ public class SelectionAdapter extends MouseAdapter {
 
         if (e.getButton() == MouseEvent.BUTTON3){
             dragging = false;
+            selecter.updateSelection(getGeoCoordinates(viewer).maxLon, 
+                                    getGeoCoordinates(viewer).minLon, 
+                                    getGeoCoordinates(viewer).maxLat, 
+                                    getGeoCoordinates(viewer).minLat);
             return;
         }
         viewer.repaint();
@@ -85,6 +91,7 @@ public class SelectionAdapter extends MouseAdapter {
 
         return null;
     }
+    
     public MapSelection getGeoCoordinates(JXMapViewer map){
         /*
         return new GeoPosition[]{

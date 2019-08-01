@@ -66,7 +66,7 @@ public class MapViewer extends JFrame{
         mapViewer.addKeyListener(new PanKeyListener(mapViewer));
 
         // Add a selection painter
-        SelectionAdapter sa = new SelectionAdapter(mapViewer);
+        SelectionAdapter sa = new SelectionAdapter(mapViewer, new MapSelect(view));
         SelectionPainter sp = new SelectionPainter(sa);
         mapViewer.addMouseListener(sa);
         mapViewer.addMouseMotionListener(sa);

@@ -1,5 +1,6 @@
 package view.jxmapviewer2;
 
+import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -36,8 +37,18 @@ public class MapSelect extends javax.swing.JFrame {
     private final static String CACHE_FILE = "cache.jxmapviewer2";
     private final static String EXPORT_TEXT = "Export selection";
     
+    private final static String MAX_LAT = "Max Lat. %.3f";
+    private final static String MIN_LAT = "Min Lat. %.3f";
+    private final static String MAX_LON = "Max Lon. %.3f";
+    private final static String MIN_LON = "Min Lon. %.3f";
+    private final static String AREA = "Area: %.3f km2";
+    private final static String HEIGHT = "Height: %.3f km";
+    private final static String WIDTH = "Width: %.3f km";
+    
     private final static String MAP_ICON_IMG = "resources/button/map.png";
     private final ImageIcon MAP_ICON = new ImageIcon(MAP_ICON_IMG);
+    
+    private final static double EARTH_RADIUS = 6371.0;
     
     private final MogenView view;
     
@@ -64,14 +75,14 @@ public class MapSelect extends javax.swing.JFrame {
         mapViewer.addKeyListener(new PanKeyListener(mapViewer));
         
         // Add a selection painter
-        SelectionAdapter sa = new SelectionAdapter(mapViewer);
+        SelectionAdapter sa = new SelectionAdapter(mapViewer, this);
         SelectionPainter sp = new SelectionPainter(sa);
         mapViewer.addMouseListener(sa);
         mapViewer.addMouseMotionListener(sa);
         mapViewer.setOverlayPainter(sp);
         
         initComponents();
-        mapPanel = mapViewer;
+        mapPanel.add(mapViewer, BorderLayout.CENTER);
         saveLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt){
@@ -107,36 +118,46 @@ public class MapSelect extends javax.swing.JFrame {
         mapPanel = new javax.swing.JPanel();
         saveLabel = new javax.swing.JLabel();
         infoPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        maxLonLabel = new javax.swing.JLabel();
+        minLonLabel = new javax.swing.JLabel();
+        maxLatLabel = new javax.swing.JLabel();
+        minLatLabel = new javax.swing.JLabel();
+        areaLabel = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jSeparator2 = new javax.swing.JSeparator();
+        heightLabel = new javax.swing.JLabel();
+        widthLabel = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        javax.swing.GroupLayout mapPanelLayout = new javax.swing.GroupLayout(mapPanel);
-        mapPanel.setLayout(mapPanelLayout);
-        mapPanelLayout.setHorizontalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 413, Short.MAX_VALUE)
-        );
-        mapPanelLayout.setVerticalGroup(
-            mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        mapPanel.setPreferredSize(new java.awt.Dimension(700, 700));
+        mapPanel.setLayout(new java.awt.BorderLayout());
 
         saveLabel.setIcon(MAP_ICON);
 
-        jLabel1.setText("jLabel1");
+        infoPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setText("jLabel2");
+        maxLonLabel.setFont(view.getFont());
+        maxLonLabel.setText(" ");
 
-        jLabel3.setText("jLabel3");
+        minLonLabel.setFont(view.getFont());
+        minLonLabel.setText(" ");
 
-        jLabel4.setText("jLabel4");
+        maxLatLabel.setFont(view.getFont());
+        maxLatLabel.setText(" ");
 
-        jLabel5.setText("jLabel5");
+        minLatLabel.setFont(view.getFont());
+        minLatLabel.setText(" ");
+
+        areaLabel.setFont(view.getFont());
+        areaLabel.setText(" ");
+
+        heightLabel.setFont(view.getFont());
+        heightLabel.setText(" ");
+
+        widthLabel.setFont(view.getFont());
+        widthLabel.setText(" ");
 
         javax.swing.GroupLayout infoPanelLayout = new javax.swing.GroupLayout(infoPanel);
         infoPanel.setLayout(infoPanelLayout);
@@ -145,27 +166,42 @@ public class MapSelect extends javax.swing.JFrame {
             .addGroup(infoPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(maxLonLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                    .addComponent(minLonLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(maxLatLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(minLatLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(areaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator1)
+                    .addComponent(jSeparator2)
+                    .addComponent(heightLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(widthLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator3))
                 .addContainerGap())
         );
         infoPanelLayout.setVerticalGroup(
             infoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(maxLonLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(minLonLabel)
+                .addGap(12, 12, 12)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel3)
+                .addComponent(maxLatLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(minLatLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(areaLabel)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 12, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(heightLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(widthLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -174,7 +210,7 @@ public class MapSelect extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 603, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(saveLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,7 +226,7 @@ public class MapSelect extends javax.swing.JFrame {
                         .addComponent(infoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(saveLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(mapPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -199,14 +235,19 @@ public class MapSelect extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel areaLabel;
+    private javax.swing.JLabel heightLabel;
     private javax.swing.JPanel infoPanel;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JPanel mapPanel;
+    private javax.swing.JLabel maxLatLabel;
+    private javax.swing.JLabel maxLonLabel;
+    private javax.swing.JLabel minLatLabel;
+    private javax.swing.JLabel minLonLabel;
     private javax.swing.JLabel saveLabel;
+    private javax.swing.JLabel widthLabel;
     // End of variables declaration//GEN-END:variables
     
     private void exportSelection(SelectionAdapter sa, JXMapViewer mapViewer){
@@ -221,5 +262,41 @@ public class MapSelect extends javax.swing.JFrame {
         int zoom = mapViewer.getZoom();
         
         frame.setTitle(String.format("JXMapviewer2 (%.2f / %.2f) - Zoom: %d", lat, lon, zoom));
+    }
+    
+    public void updateSelection(double maxLon, double minLon, double maxLat, double minLat){
+        double height = distance(maxLat,maxLon, minLat,maxLon);
+        double width = distance(maxLat,maxLon, maxLat,minLon);
+        
+        maxLonLabel.setText(String.format(MAX_LON, maxLon));
+        minLonLabel.setText(String.format(MIN_LON, minLon));
+        maxLatLabel.setText(String.format(MAX_LAT, maxLat));
+        minLatLabel.setText(String.format(MIN_LAT, minLat));
+        
+        heightLabel.setText(String.format(HEIGHT, height));
+        widthLabel.setText(String.format(WIDTH, width));
+        
+        areaLabel.setText(String.format(AREA, height * width));
+    }
+    
+    private static double distance(double maxLat, double maxLon, double minLat, double minLon){
+        
+        double maxLatRad = (maxLat * Math.PI) / 180.0;
+        double maxLonRad = (maxLon * Math.PI) / 180.0;
+        double minLatRad = (minLat * Math.PI) / 180.0;
+        double minLonRad = (minLon * Math.PI) / 180.0;
+        
+        double distance = EARTH_RADIUS * Math.acos((Math.cos(maxLatRad) * 
+                    Math.cos(minLatRad) * Math.cos(minLonRad - maxLonRad) + 
+                    (Math.sin(maxLatRad) * Math.sin(minLatRad))));
+        return distance;
+    }
+    
+    private static double area(double maxLat, double maxLon, double minLat, double minLon) {
+        
+        double height = distance(maxLat,maxLon, minLat,maxLon);
+        double width = distance(maxLat,maxLon, maxLat,minLon);
+        
+        return height * width;
     }
 }

@@ -7,8 +7,8 @@ package model.followingmodels;
 public class IDM implements FollowingModel{
     private final static String FORMAT = "carFollowModel=\"%s\" minGap=\"%d\" "
                                         + "stepping=\"%d\" delta=\"%.1f\"";
-    private final static String NAME = "PWagner2009";
-    private final static String EXPLANATION = "";
+    private final static String NAME = "IDM";
+    public static final String EXPLANATION = "";
     
     private int minGap;
     private int stepping;
