@@ -8,7 +8,10 @@ public class IDM implements FollowingModel{
     private final static String FORMAT = "carFollowModel=\"%s\" minGap=\"%d\" "
                                         + "stepping=\"%d\" delta=\"%.1f\"";
     private final static String NAME = "IDM";
-    public static final String EXPLANATION = "";
+    public static final String EXPLANATION = "IDM model\n"
+                                + "the intelligent driver model (IDM) is a "
+                                + "time-continuous car-following model for the "
+                                + "simulation of freeway and urban traffic.";
     
     private int minGap;
     private int stepping;

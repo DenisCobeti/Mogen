@@ -10,8 +10,8 @@ public class Krauss implements FollowingModel {
             + " minGap=\"%d\" ";
     private final static String NAME = "Krauss";
     public final static String EXPLANATION = "Krauss model\n" +
-                                "The model developed by Krauß is a microscopic,\n"
-                                + "space-continuous, car-following model based on\n"
+                                "The model developed by Krauß is a microscopic, "
+                                + "space-continuous, car-following model based on "
                                 + "the safe speed in 1997.";
     
     private double sigma;

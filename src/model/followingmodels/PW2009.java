@@ -7,7 +7,9 @@ package model.followingmodels;
 public class PW2009 implements FollowingModel{
     private final static String FORMAT = "carFollowModel=\"%s\" minGap=\"%d\" ";
     private final static String NAME = "PWagner2009";
-    private final static String EXPLANATION = "";
+    public final static String EXPLANATION = "PWagner model \n "
+                                        + "A model by Peter Wagner, using "
+                                        + "Todosiev's action points ";
     
     private int minGap;
 

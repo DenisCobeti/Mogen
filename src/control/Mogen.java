@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 import javax.xml.stream.XMLStreamException;
+import model.Config;
 
 import model.MogenModel;
 import model.Tuple;
@@ -108,6 +109,14 @@ public class Mogen implements ViewListener{
             case EDIT_VTYPE:
                 tuple = (Tuple)obj;
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);
+                break;
+                
+            case EDIT_PYTHON:
+                Config.setPython2((String)obj);
+                break;
+                
+            case EDIT_SUMO:
+                Config.setSumoLocation((String)obj);
                 break;
                 
         } 

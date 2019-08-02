@@ -7,8 +7,12 @@ package model.followingmodels;
 public class Kerner implements FollowingModel{
     private final static String FORMAT = "carFollowModel=\"%s\" minGap=\"%d\"  "
                                         + "phi=\"%d\" k=\"%d\"";
-    private final static String NAME = "PWagner2009";
-    public final static String EXPLANATION = "";
+    private final static String NAME = "BKerner";
+    public final static String EXPLANATION = "BKerner Model \n"
+                            + "In addition "
+                            + "to the free flow traffic phase (F), there are two traffic "
+                            + "phases in congested traffic: the synchronized flow traffic "
+                            + "phase (S) and the wide moving jam phase (J).";
     
     private int minGap;
     private int k;

@@ -23,6 +23,7 @@ public class Config {
     public static final String OSM_MAP_DEFAULT = "./maps/OSMap";
     public static final String SUMO_MAP_DEFFAULT = "./maps/SUMOMap";
     public static final String PYTHON_DEFFAULT = "python2";
+    
     public static final String SUMO_PROGRAM = "\\bin\\sumo";
     
     public static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit()
@@ -32,6 +33,7 @@ public class Config {
     
     public static final GeoPosition DEFAULT_POSITION = new GeoPosition(50.11, 8.68);
     public static String sumoLocation = "C:\\Program Files (x86)\\Eclipse\\Sumo";
+    
     public static String python2 = "python";
     
     public static void load()  {
@@ -51,6 +53,23 @@ public class Config {
             sumoMap = SUMO_MAP_DEFFAULT;
         }
     }
+
+    public static String getSumoLocation() {
+        return sumoLocation;
+    }
+
+    public static String getPython2() {
+        return python2;
+    }
+
+    public static void setSumoLocation(String sumoLocation) {
+        Config.sumoLocation = sumoLocation;
+    }
+
+    public static void setPython2(String python2) {
+        Config.python2 = python2;
+    }
         
+    
     private Config() {}
 }

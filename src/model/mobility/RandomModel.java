@@ -105,7 +105,7 @@ public class RandomModel extends MobilityModel{
         output.createNewFile();
         
         LinkedList <String> command = new LinkedList(Arrays.asList(
-                Config.PYTHON_DEFFAULT,
+                Config.python2,
                 Config.sumoLocation + PYTHON_SCRIPT_NAME,
                 NETWORK_OPT,
                 sim + FilesExtension.NETCONVERT,

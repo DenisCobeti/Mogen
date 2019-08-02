@@ -36,11 +36,17 @@ public class FollowingModelFrame extends javax.swing.JFrame {
     
     private static final String  KRAUSS = "Krauss";
     private static final String  KRAUSS_SIGMA = "Sigma";
-    private static final String  IDM_DELTA = "Delta";
+    
     
     private static final String  PWAGNER  = "PWagner2009";
+    
     private static final String  KERNER  = "BKerner";
+    private static final String  PHI  = "phi";
+    private static final String  K  = "k";
+    
     private static final String  Idm  = "IDM";
+    private static final String  IDM_DELTA = "Delta";
+    private static final String  STEPPING = "Stepping";
     
     private static final String  MIN_GAP_TXT  = "Minimum gap";
     
@@ -79,8 +85,6 @@ public class FollowingModelFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        titlePanel = new javax.swing.JPanel();
-        titleLabel = new javax.swing.JLabel();
         tabPanel = new javax.swing.JTabbedPane();
         kraussPanel = new javax.swing.JPanel();
         kraussMainPanel = new javax.swing.JPanel();
@@ -91,7 +95,21 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         kraussTextScroll = new javax.swing.JScrollPane();
         kraussText = new javax.swing.JTextArea();
         PWagnerPanel = new javax.swing.JPanel();
+        PWagnerTextScroll = new javax.swing.JScrollPane();
+        PWagnerText = new javax.swing.JTextArea();
+        kraussMainPanel2 = new javax.swing.JPanel();
+        minGapPWLabel = new javax.swing.JLabel();
+        minGapPWField = new javax.swing.JFormattedTextField();
         KernerPanel = new javax.swing.JPanel();
+        IDMTextScroll1 = new javax.swing.JScrollPane();
+        IDMText1 = new javax.swing.JTextArea();
+        kraussMainPanel3 = new javax.swing.JPanel();
+        phiLabel = new javax.swing.JLabel();
+        minGapKernerLabel = new javax.swing.JLabel();
+        phiField = new javax.swing.JFormattedTextField();
+        minGapKernerField = new javax.swing.JFormattedTextField();
+        kLabel = new javax.swing.JLabel();
+        kField = new javax.swing.JFormattedTextField();
         IDMPanel = new javax.swing.JPanel();
         IDMTextScroll = new javax.swing.JScrollPane();
         IDMText = new javax.swing.JTextArea();
@@ -100,31 +118,11 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         minGapIDMLabel = new javax.swing.JLabel();
         deltaField = new javax.swing.JFormattedTextField();
         minGapIDMField = new javax.swing.JFormattedTextField();
+        steppingLabel = new javax.swing.JLabel();
+        steppingField = new javax.swing.JFormattedTextField();
         acceptButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        titleLabel.setBackground(new java.awt.Color(255, 255, 255));
-        titleLabel.setFont(TITLE_FONT);
-        titleLabel.setForeground(new java.awt.Color(141, 54, 116));
-        titleLabel.setText(TITLE);
-
-        javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
-        titlePanel.setLayout(titlePanelLayout);
-        titlePanelLayout.setHorizontalGroup(
-            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        titlePanelLayout.setVerticalGroup(
-            titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(titleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
 
         tabPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -184,7 +182,7 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addGroup(kraussMainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(minGapLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(minGapField))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(58, Short.MAX_VALUE))
         );
 
         kraussTextScroll.setBorder(null);
@@ -192,8 +190,10 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         kraussText.setEditable(false);
         kraussText.setColumns(20);
         kraussText.setFont(view.getFont());
+        kraussText.setLineWrap(true);
         kraussText.setRows(5);
         kraussText.setText(Krauss.EXPLANATION);
+        kraussText.setWrapStyleWord(true);
         kraussText.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         kraussTextScroll.setViewportView(kraussText);
 
@@ -212,7 +212,7 @@ public class FollowingModelFrame extends javax.swing.JFrame {
             kraussPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kraussPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(kraussTextScroll, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(kraussTextScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(kraussMainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -220,39 +220,203 @@ public class FollowingModelFrame extends javax.swing.JFrame {
 
         tabPanel.addTab(KRAUSS, kraussPanel);
 
+        PWagnerPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        PWagnerTextScroll.setBorder(null);
+
+        PWagnerText.setEditable(false);
+        PWagnerText.setColumns(20);
+        PWagnerText.setFont(view.getFont());
+        PWagnerText.setLineWrap(true);
+        PWagnerText.setRows(5);
+        PWagnerText.setText(PW2009.EXPLANATION);
+        PWagnerText.setWrapStyleWord(true);
+        PWagnerText.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        PWagnerTextScroll.setViewportView(PWagnerText);
+
+        kraussMainPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
+        minGapPWLabel.setFont(view.getFont());
+        minGapPWLabel.setText(MIN_GAP_TXT);
+
+        minGapPWField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        minGapPWField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        minGapPWField.setText(String.valueOf(PW2009.getMinGap()));
+        minGapPWField.setFont(view.getFont());
+        minGapPWField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                minGapPWFieldFocusLost(evt);
+            }
+        });
+
+        javax.swing.GroupLayout kraussMainPanel2Layout = new javax.swing.GroupLayout(kraussMainPanel2);
+        kraussMainPanel2.setLayout(kraussMainPanel2Layout);
+        kraussMainPanel2Layout.setHorizontalGroup(
+            kraussMainPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kraussMainPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(minGapPWLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(minGapPWField, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                .addGap(96, 96, 96))
+        );
+        kraussMainPanel2Layout.setVerticalGroup(
+            kraussMainPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kraussMainPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(kraussMainPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(minGapPWLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(minGapPWField))
+                .addContainerGap(89, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout PWagnerPanelLayout = new javax.swing.GroupLayout(PWagnerPanel);
         PWagnerPanel.setLayout(PWagnerPanelLayout);
         PWagnerPanelLayout.setHorizontalGroup(
             PWagnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 399, Short.MAX_VALUE)
+            .addGroup(PWagnerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(PWagnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PWagnerTextScroll)
+                    .addComponent(kraussMainPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         PWagnerPanelLayout.setVerticalGroup(
             PWagnerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 239, Short.MAX_VALUE)
+            .addGroup(PWagnerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(PWagnerTextScroll, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(kraussMainPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabPanel.addTab(PWAGNER, PWagnerPanel);
+
+        KernerPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        IDMTextScroll1.setBorder(null);
+
+        IDMText1.setEditable(false);
+        IDMText1.setColumns(20);
+        IDMText1.setFont(view.getFont());
+        IDMText1.setLineWrap(true);
+        IDMText1.setRows(5);
+        IDMText1.setText(kerner.EXPLANATION);
+        IDMText1.setWrapStyleWord(true);
+        IDMText1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        IDMTextScroll1.setViewportView(IDMText1);
+
+        kraussMainPanel3.setBackground(new java.awt.Color(255, 255, 255));
+
+        phiLabel.setFont(view.getFont());
+        phiLabel.setText(PHI);
+
+        minGapKernerLabel.setFont(view.getFont());
+        minGapKernerLabel.setText(MIN_GAP_TXT);
+
+        phiField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        phiField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        phiField.setText(String.valueOf(kerner.getPhi()));
+        phiField.setFont(view.getFont());
+        phiField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                phiFieldFocusLost(evt);
+            }
+        });
+
+        minGapKernerField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        minGapKernerField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        minGapKernerField.setText(String.valueOf(kerner.getMinGap()));
+        minGapKernerField.setFont(view.getFont());
+        minGapKernerField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                minGapKernerFieldFocusLost(evt);
+            }
+        });
+
+        kLabel.setFont(view.getFont());
+        kLabel.setText(K);
+
+        kField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        kField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        kField.setText(String.valueOf(kerner.getK()));
+        kField.setFont(view.getFont());
+        kField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                kFieldFocusLost(evt);
+            }
+        });
+
+        javax.swing.GroupLayout kraussMainPanel3Layout = new javax.swing.GroupLayout(kraussMainPanel3);
+        kraussMainPanel3.setLayout(kraussMainPanel3Layout);
+        kraussMainPanel3Layout.setHorizontalGroup(
+            kraussMainPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kraussMainPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(kraussMainPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(kLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(minGapKernerLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(phiLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kraussMainPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(phiField)
+                    .addComponent(minGapKernerField, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                    .addComponent(kField, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+                .addGap(96, 96, 96))
+        );
+        kraussMainPanel3Layout.setVerticalGroup(
+            kraussMainPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(kraussMainPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(kraussMainPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(phiLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(phiField))
+                .addGap(11, 11, 11)
+                .addGroup(kraussMainPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(minGapKernerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(minGapKernerField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kraussMainPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(kLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(kField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout KernerPanelLayout = new javax.swing.GroupLayout(KernerPanel);
         KernerPanel.setLayout(KernerPanelLayout);
         KernerPanelLayout.setHorizontalGroup(
             KernerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 399, Short.MAX_VALUE)
+            .addGroup(KernerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(KernerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(IDMTextScroll1)
+                    .addComponent(kraussMainPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         KernerPanelLayout.setVerticalGroup(
             KernerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 239, Short.MAX_VALUE)
+            .addGroup(KernerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(IDMTextScroll1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(kraussMainPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         tabPanel.addTab(KERNER, KernerPanel);
+
+        IDMPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         IDMTextScroll.setBorder(null);
 
         IDMText.setEditable(false);
         IDMText.setColumns(20);
         IDMText.setFont(view.getFont());
+        IDMText.setLineWrap(true);
         IDMText.setRows(5);
         IDMText.setText(IDM.EXPLANATION);
+        IDMText.setWrapStyleWord(true);
         IDMText.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         IDMTextScroll.setViewportView(IDMText);
 
@@ -266,7 +430,7 @@ public class FollowingModelFrame extends javax.swing.JFrame {
 
         deltaField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         deltaField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        deltaField.setText(String.valueOf(krauss.getSigma()));
+        deltaField.setText(String.valueOf(IDMModel.getDelta()));
         deltaField.setFont(view.getFont());
         deltaField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -276,11 +440,24 @@ public class FollowingModelFrame extends javax.swing.JFrame {
 
         minGapIDMField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         minGapIDMField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        minGapIDMField.setText(String.valueOf(krauss.getMinGap()));
+        minGapIDMField.setText(String.valueOf(IDMModel.getMinGap()));
         minGapIDMField.setFont(view.getFont());
         minGapIDMField.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 minGapIDMFieldFocusLost(evt);
+            }
+        });
+
+        steppingLabel.setFont(view.getFont());
+        steppingLabel.setText(STEPPING);
+
+        steppingField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        steppingField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        steppingField.setText(String.valueOf(IDMModel.getStepping()));
+        steppingField.setFont(view.getFont());
+        steppingField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                steppingFieldFocusLost(evt);
             }
         });
 
@@ -290,13 +467,15 @@ public class FollowingModelFrame extends javax.swing.JFrame {
             kraussMainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(kraussMainPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(kraussMainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(minGapIDMLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(deltaLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
+                .addGroup(kraussMainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(steppingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(minGapIDMLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(deltaLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(kraussMainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(deltaField)
-                    .addComponent(minGapIDMField, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
+                    .addComponent(minGapIDMField, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE)
+                    .addComponent(steppingField, javax.swing.GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))
                 .addGap(96, 96, 96))
         );
         kraussMainPanel1Layout.setVerticalGroup(
@@ -310,7 +489,11 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addGroup(kraussMainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(minGapIDMLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(minGapIDMField))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(kraussMainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(steppingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(steppingField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout IDMPanelLayout = new javax.swing.GroupLayout(IDMPanel);
@@ -352,7 +535,6 @@ public class FollowingModelFrame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tabPanel, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(acceptButton, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -362,8 +544,6 @@ public class FollowingModelFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tabPanel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(acceptButton)
@@ -415,8 +595,9 @@ public class FollowingModelFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         int value = Integer.valueOf(minGapField.getText());
         
-        if (value > MIN_GAP){
+        if (value < MIN_GAP){
             minGapField.setText(String.valueOf(MIN_GAP));
+            value = MIN_GAP;
         }
         
         krauss.setMinGap(value);
@@ -424,36 +605,126 @@ public class FollowingModelFrame extends javax.swing.JFrame {
 
     private void deltaFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_deltaFieldFocusLost
         // TODO add your handling code here:
+        double value = Double.valueOf(deltaField.getText());
+        
+        if (value < 0){
+            minGapField.setText(String.valueOf(0.0));
+            value = MIN_GAP;
+        }
+        
+        IDMModel.setDelta(value);
     }//GEN-LAST:event_deltaFieldFocusLost
 
     private void minGapIDMFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_minGapIDMFieldFocusLost
         // TODO add your handling code here:
+        int value = Integer.valueOf(minGapIDMField.getText());
+        
+        if (value < MIN_GAP){
+            minGapIDMField.setText(String.valueOf(MIN_GAP));
+            value = MIN_GAP;
+        }
+        
+        IDMModel.setMinGap(value);
     }//GEN-LAST:event_minGapIDMFieldFocusLost
+
+    private void steppingFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_steppingFieldFocusLost
+        // TODO add your handling code here:
+        int value = Integer.valueOf(steppingField.getText());
+        
+        if (value < MIN_GAP){
+            minGapIDMField.setText(String.valueOf(MIN_GAP));
+            value = MIN_GAP;
+        }
+        
+        IDMModel.setStepping(value);
+    }//GEN-LAST:event_steppingFieldFocusLost
+
+    private void minGapPWFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_minGapPWFieldFocusLost
+        // TODO add your handling code here:
+        int value = Integer.valueOf(minGapPWField.getText());
+        
+        if (value < MIN_GAP){
+            minGapPWField.setText(String.valueOf(MIN_GAP));
+            value = MIN_GAP;
+        }
+        
+        PW2009.setMinGap(value);
+    }//GEN-LAST:event_minGapPWFieldFocusLost
+
+    private void phiFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_phiFieldFocusLost
+        // TODO add your handling code here:
+        int value = Integer.valueOf(phiField.getText());
+        
+        if (value < MIN_GAP){
+            phiField.setText(String.valueOf(MIN_GAP));
+            value = MIN_GAP;
+        }
+        
+        kerner.setPhi(value);
+    }//GEN-LAST:event_phiFieldFocusLost
+
+    private void minGapKernerFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_minGapKernerFieldFocusLost
+        // TODO add your handling code here:
+        int value = Integer.valueOf(minGapKernerField.getText());
+        
+        if (value < MIN_GAP){
+            minGapKernerField.setText(String.valueOf(MIN_GAP));
+            value = MIN_GAP;
+        }
+        
+        kerner.setMinGap(value);
+    }//GEN-LAST:event_minGapKernerFieldFocusLost
+
+    private void kFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_kFieldFocusLost
+        // TODO add your handling code here:
+        int value = Integer.valueOf(kField.getText());
+        
+        if (value < MIN_GAP){
+            kField.setText(String.valueOf(MIN_GAP));
+            value = MIN_GAP;
+        }
+        
+        kerner.setK(value);
+    }//GEN-LAST:event_kFieldFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel IDMPanel;
     private javax.swing.JTextArea IDMText;
+    private javax.swing.JTextArea IDMText1;
     private javax.swing.JScrollPane IDMTextScroll;
+    private javax.swing.JScrollPane IDMTextScroll1;
     private javax.swing.JPanel KernerPanel;
     private javax.swing.JPanel PWagnerPanel;
+    private javax.swing.JTextArea PWagnerText;
+    private javax.swing.JScrollPane PWagnerTextScroll;
     private javax.swing.JButton acceptButton;
     private javax.swing.JFormattedTextField deltaField;
     private javax.swing.JLabel deltaLabel;
+    private javax.swing.JFormattedTextField kField;
+    private javax.swing.JLabel kLabel;
     private javax.swing.JPanel kraussMainPanel;
     private javax.swing.JPanel kraussMainPanel1;
+    private javax.swing.JPanel kraussMainPanel2;
+    private javax.swing.JPanel kraussMainPanel3;
     private javax.swing.JPanel kraussPanel;
     private javax.swing.JTextArea kraussText;
     private javax.swing.JScrollPane kraussTextScroll;
     private javax.swing.JFormattedTextField minGapField;
     private javax.swing.JFormattedTextField minGapIDMField;
     private javax.swing.JLabel minGapIDMLabel;
+    private javax.swing.JFormattedTextField minGapKernerField;
+    private javax.swing.JLabel minGapKernerLabel;
     private javax.swing.JLabel minGapLabel;
+    private javax.swing.JFormattedTextField minGapPWField;
+    private javax.swing.JLabel minGapPWLabel;
+    private javax.swing.JFormattedTextField phiField;
+    private javax.swing.JLabel phiLabel;
     private javax.swing.JFormattedTextField sigmaField;
     private javax.swing.JLabel sigmaLabel;
+    private javax.swing.JFormattedTextField steppingField;
+    private javax.swing.JLabel steppingLabel;
     private javax.swing.JTabbedPane tabPanel;
-    private javax.swing.JLabel titleLabel;
-    private javax.swing.JPanel titlePanel;
     // End of variables declaration//GEN-END:variables
 
 }

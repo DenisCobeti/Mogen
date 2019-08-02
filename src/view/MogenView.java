@@ -27,6 +27,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.stream.XMLStreamException;
+import model.Config;
 import model.MogenModel.Mobility;
 
 import model.map.MapSelection;
@@ -65,6 +66,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private static final String MENU_ITEM_NEW_MAP = "New map";
     private static final String MENU_ITEM_OPEN_MAP = "Open map";
     private static final String MENU_ITEM_EXPORT = "Export simulation";
+    private static final String MENU_ITEM_SETTINGS = "Settings";
     
     private static final String VEHICLE_TYPES = "Vehicle types";
     private static final String RSU = "RSU";
@@ -203,6 +205,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         menuFileExit = new javax.swing.JMenuItem();
         menuEdit = new javax.swing.JMenu();
         menuEditExport = new javax.swing.JMenuItem();
+        menuEditSettings = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(PROGRAM);
@@ -598,6 +601,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         });
         menuEdit.add(menuEditExport);
 
+        menuEditSettings.setText(MENU_ITEM_SETTINGS);
+        menuEditSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuEditSettingsActionPerformed(evt);
+            }
+        });
+        menuEdit.add(menuEditSettings);
+
         menuBar.add(menuEdit);
 
         setJMenuBar(menuBar);
@@ -743,6 +754,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             export(chooser.getSelectedFile().getAbsolutePath());
         }
     }//GEN-LAST:event_exportButtonMouseClicked
+
+    private void menuEditSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditSettingsActionPerformed
+        // TODO add your handling code here:
+        Settings settings = new Settings (this, Config.getSumoLocation(), Config.getPython2());
+        settings.setVisible(true);
+    }//GEN-LAST:event_menuEditSettingsActionPerformed
    
     
     @Override
@@ -796,6 +813,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenuItem menuEditExport;
+    private javax.swing.JMenuItem menuEditSettings;
     private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem menuFileExit;
     private javax.swing.JMenuItem menuFileNew;
@@ -929,7 +947,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     public void doneLoading(){
         setCursor(Cursor.getDefaultCursor());
     }
-
+    
+    public void changeSettings(String python, String sumo){
+        listenerUI.producedEvent(ViewListener.Event.EDIT_PYTHON, python);
+        listenerUI.producedEvent(ViewListener.Event.EDIT_SUMO, sumo);
+    }
+    
     private void newFlow(int id, Flow flow) {
         DefaultTableModel model = (DefaultTableModel)flowTable.getModel();
         
