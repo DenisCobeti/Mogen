@@ -9,6 +9,7 @@ package model.constants;
 public enum Netconvert {
     
     PROGRAM ("netconvert"), //name of the conversion programm
+    VEHICLES ("vehicles"), //name of the conversion programm
     MAP_FILE("mapNetconvert.net.xml"),
     
     OSM_MAP ("--osm"), //OSM map to convert

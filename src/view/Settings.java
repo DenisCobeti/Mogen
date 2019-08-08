@@ -1,5 +1,7 @@
 package view;
 
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author darkm
@@ -73,6 +75,11 @@ public class Settings extends javax.swing.JFrame {
         });
 
         searchIcon.setText("jLabel1");
+        searchIcon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                searchIconMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -102,9 +109,9 @@ public class Settings extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(sumoLabel)
-                            .addComponent(sumoField))
+                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sumoField)
+                            .addComponent(sumoLabel))
                         .addContainerGap())
                     .addComponent(searchIcon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
@@ -160,6 +167,18 @@ public class Settings extends javax.swing.JFrame {
         changed = true;
         sumo = sumoField.getText();
     }//GEN-LAST:event_sumoFieldFocusLost
+
+    private void searchIconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchIconMouseClicked
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        
+        int returnVal = chooser.showSaveDialog(this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            sumo = chooser.getSelectedFile().getAbsolutePath();
+            sumoField.setText(sumo);
+        }
+    }//GEN-LAST:event_searchIconMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel mainPanel;

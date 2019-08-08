@@ -11,6 +11,7 @@ import java.util.List;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
+import model.constants.RoadTypes;
 
 /**
  * Map once already converted using netconvert
@@ -20,6 +21,9 @@ public class MapConverter {
     
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
     private static  List<String> convertCommand;
+    
+    private static  List<RoadTypes> filterRoads;
+    private static  List<Netconvert> options;
     
     private final static String[] DEFAULT_OSM_OPTIONS = new String[] {
                     Netconvert.JOIN_JUNCTIONS.getCommand(),

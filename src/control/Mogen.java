@@ -2,7 +2,6 @@ package control;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.List;
 import javax.xml.stream.XMLStreamException;
 import model.Config;
 
@@ -100,8 +99,9 @@ public class Mogen implements ViewListener{
                 break;
                 
             case EXPORT_FLOW:
+                tuple = (Tuple)obj;
                 try{
-                    control.exportFlows((String)obj);
+                    control.exportFlows((String)tuple.obj1, (int)tuple.obj2);
                 } catch (IOException | InterruptedException ex) {
                     handleError(ex, Errors.ROUTE);
                 }

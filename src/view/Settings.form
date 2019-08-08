@@ -84,9 +84,9 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="sumoLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="sumoField" alignment="0" max="32767" attributes="0"/>
+                              <Component id="sumoLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -147,6 +147,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="jLabel1"/>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="searchIconMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

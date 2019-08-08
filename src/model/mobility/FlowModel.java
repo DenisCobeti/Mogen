@@ -24,17 +24,11 @@ public class FlowModel extends MobilityModel {
     private final static String FILE_LOCATION = "models/flow/";
     
     List<Flow> flows; 
+    private int files; 
 
-    public FlowModel(List flows) {
-        this.flows = flows;
-    }
-    
-    public FlowModel() {
+    public FlowModel(int files, HashMap<String, Flow> flows) {
         this.flows = new LinkedList();
-    }
-    
-    public FlowModel(HashMap<String, Flow> flows) {
-        this.flows = new LinkedList();
+        this.files = files;
         
         flows.values().forEach((flow) -> {
             this.flows.add(flow);
@@ -48,8 +42,7 @@ public class FlowModel extends MobilityModel {
     public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File routes = new File(FILE_LOCATION + ROUTES_FILE + FilesExtension.ROUTE);
-        File ns2 = new File(location + FilesExtension.NS2_MOBILITY.getExtension());
-        ns2.createNewFile();
+        
         output.createNewFile();
         routes.createNewFile();
         
@@ -65,11 +58,16 @@ public class FlowModel extends MobilityModel {
                 sim + FilesExtension.NETCONVERT, routes.getAbsolutePath(),
                 output.getAbsolutePath(), vTypes));
         
-        ProcessBuilder trace = new ProcessBuilder(traceCommand(
-            output.getAbsolutePath(), ns2.getAbsolutePath()));
-            
-        System.out.println(sumo.command().toString());
-        executeProcess(sumo.start());
-        executeProcess(trace.start());
+        for (int i = 0; i < files; i++){
+            File ns2 = new File(location + i + FilesExtension.NS2_MOBILITY.getExtension());
+            ns2.createNewFile();
+        
+            ProcessBuilder trace = new ProcessBuilder(traceCommand(
+                output.getAbsolutePath(), ns2.getAbsolutePath()));
+
+            System.out.println(sumo.command().toString());
+            executeProcess(sumo.start());
+            executeProcess(trace.start());
+        }
     }
 }

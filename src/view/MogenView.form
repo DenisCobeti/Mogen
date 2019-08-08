@@ -337,7 +337,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="randomPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="316" max="32767" attributes="0"/>
+                          <EmptySpace pref="317" max="32767" attributes="0"/>
                           <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -357,7 +357,7 @@
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="filesLabel" max="32767" attributes="0"/>
+                                  <Component id="filesRandomLabel" max="32767" attributes="0"/>
                                   <Component id="timeLabel" alignment="0" pref="110" max="32767" attributes="0"/>
                                   <Component id="repetitionLabel" alignment="0" max="32767" attributes="0"/>
                               </Group>
@@ -369,7 +369,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="filesField" min="-2" pref="82" max="-2" attributes="0"/>
+                                          <Component id="filesRandomField" min="-2" pref="82" max="-2" attributes="0"/>
                                           <Component id="timeField" min="-2" pref="82" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
@@ -393,8 +393,8 @@
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="filesLabel" alignment="3" pref="25" max="32767" attributes="0"/>
-                                  <Component id="filesField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="filesRandomLabel" alignment="3" pref="25" max="32767" attributes="0"/>
+                                  <Component id="filesRandomField" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -449,14 +449,14 @@
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="filesLabel">
+                    <Component class="javax.swing.JLabel" name="filesRandomLabel">
                       <Properties>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="RANDOM_FILES" type="code"/>
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JFormattedTextField" name="filesField">
+                    <Component class="javax.swing.JFormattedTextField" name="filesRandomField">
                       <Properties>
                         <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
                           <Format format="#0" subtype="-1" type="0"/>
@@ -501,7 +501,10 @@
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="flowScrollPane" pref="458" max="32767" attributes="0"/>
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="filesFlowLabel" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="filesFlowField" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <EmptySpace max="32767" attributes="0"/>
                                   <Component id="addFlowButton" min="-2" pref="143" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -515,7 +518,16 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="flowScrollPane" min="-2" pref="324" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="addFlowButton" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="addFlowButton" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="filesFlowLabel" alignment="3" max="32767" attributes="0"/>
+                                      <Component id="filesFlowField" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
                           <EmptySpace pref="61" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -570,6 +582,27 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addFlowButtonActionPerformed"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JLabel" name="filesFlowLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="RANDOM_FILES" type="code"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JFormattedTextField" name="filesFlowField">
+                  <Properties>
+                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                      <Format format="#0" subtype="-1" type="0"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="RANDOM_FILES_DFLT" type="code"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="FONT" type="code"/>
+                    </Property>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
             <Container class="javax.swing.JPanel" name="matrixOptionsPanel">
@@ -587,7 +620,7 @@
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <EmptySpace min="0" pref="430" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="431" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
               </Layout>
