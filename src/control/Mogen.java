@@ -105,10 +105,15 @@ public class Mogen implements ViewListener{
                 } catch (IOException | InterruptedException ex) {
                     handleError(ex, Errors.ROUTE);
                 }
-                break;   
+                break; 
+                
             case EDIT_VTYPE:
                 tuple = (Tuple)obj;
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);
+                break;
+                
+            case REMOVE_VTYPE:
+                model.removeVType((String)obj);
                 break;
                 
             case EDIT_PYTHON:

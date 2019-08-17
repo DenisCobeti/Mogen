@@ -3,7 +3,10 @@ package model;
 import java.awt.Toolkit;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
+
 import org.jxmapviewer.viewer.GeoPosition;
 
 /**
@@ -25,6 +28,7 @@ public class Config {
     public static final String PYTHON_DEFFAULT = "python2";
     
     public static final String SUMO_PROGRAM = "\\bin\\sumo";
+    public static Path SUMO_EXE;
     
     public static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit()
                                                      .getScreenSize().width;
@@ -32,7 +36,7 @@ public class Config {
                                                      .getScreenSize().height;
     
     public static final GeoPosition DEFAULT_POSITION = new GeoPosition(50.11, 8.68);
-    public static String sumoLocation = "C:\\Program Files (x86)\\Eclipse\\Sumo";
+    public static String sumoLocation = "lib\\Sumo";
     
     public static String python2 = "python";
     
@@ -52,6 +56,7 @@ public class Config {
             osmMap = OSM_MAP_DEFAULT;
             sumoMap = SUMO_MAP_DEFFAULT;
         }
+        SUMO_EXE = Paths.get(sumoLocation, SUMO_PROGRAM);
     }
 
     public static String getSumoLocation() {
@@ -64,12 +69,11 @@ public class Config {
 
     public static void setSumoLocation(String sumoLocation) {
         Config.sumoLocation = sumoLocation;
+        SUMO_EXE = Paths.get(sumoLocation, SUMO_PROGRAM);
     }
 
     public static void setPython2(String python2) {
         Config.python2 = python2;
     }
-        
     
-    private Config() {}
 }

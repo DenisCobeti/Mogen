@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 08/09/19 00:33:40 by Eclipse SUMO netconvert Version 1.2.0
+<!-- generated on 08/17/19 15:02:59 by Eclipse SUMO netconvert Version 1.2.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/netconvertConfiguration.xsd">
 
     <input>
-        <osm-files value="C:\Users\darkm\Desktop\pen\trabajo\OSMap.osm"/>
+        <osm-files value="C:\Users\darkm\Desktop\OSMap.osm"/>
     </input>
 
     <output>

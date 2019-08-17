@@ -197,8 +197,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         panelElements = new javax.swing.JTabbedPane();
         vehicleTypesScroll = new javax.swing.JScrollPane();
         vehicleTypesPanel = new javax.swing.JPanel();
-        RSUScroll = new javax.swing.JScrollPane();
-        downtownScroll = new javax.swing.JScrollPane();
         addVTypeButton = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
@@ -539,8 +537,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         vehicleTypesScroll.setViewportView(vehicleTypesPanel);
 
         panelElements.addTab(VEHICLE_TYPES, vehicleTypesScroll);
-        panelElements.addTab(RSU, RSUScroll);
-        panelElements.addTab(DOWNTOWNS, downtownScroll);
 
         addVTypeButton.setIcon(ADD_ICON);
         addVTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -812,10 +808,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane RSUScroll;
     private javax.swing.JButton addFlowButton;
     private javax.swing.JLabel addVTypeButton;
-    private javax.swing.JScrollPane downtownScroll;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel exportButton;
     private javax.swing.JFormattedTextField filesFlowField;
@@ -965,6 +959,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         vehicleTypesPanel.remove(type);
         vehicleTypes.remove(type);
         vehicleTypesPanel.updateUI();
+        listenerUI.producedEvent(ViewListener.Event.REMOVE_VTYPE, type.getName());
     }
     
     public void doneLoading(){

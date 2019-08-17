@@ -85,14 +85,14 @@ public class MapOptions extends javax.swing.JFrame {
         overtakeBox = new javax.swing.JCheckBox();
         lefthandedLabel1 = new javax.swing.JLabel();
         mapInfoLabel = new javax.swing.JLabel();
-        vehicleFilterTab = new javax.swing.JPanel();
+        roadFilterTab = new javax.swing.JPanel();
         roadsPane = new javax.swing.JScrollPane();
         roadsTable = new javax.swing.JTable();
         filterButton = new javax.swing.JButton();
         unfilterButton = new javax.swing.JButton();
         filteredRoadsPane = new javax.swing.JScrollPane();
         filteredRoadsTable = new javax.swing.JTable();
-        roadFilterType = new javax.swing.JPanel();
+        road2FilterType = new javax.swing.JPanel();
         acceptLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
 
@@ -213,7 +213,7 @@ public class MapOptions extends javax.swing.JFrame {
 
         tabPanel.addTab(OPTIONS, optionsTab);
 
-        vehicleFilterTab.setBackground(new java.awt.Color(255, 255, 255));
+        roadFilterTab.setBackground(new java.awt.Color(255, 255, 255));
 
         roadsPane.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
 
@@ -287,53 +287,53 @@ public class MapOptions extends javax.swing.JFrame {
         filteredRoadsTable.getTableHeader().setReorderingAllowed(false);
         filteredRoadsPane.setViewportView(filteredRoadsTable);
 
-        javax.swing.GroupLayout vehicleFilterTabLayout = new javax.swing.GroupLayout(vehicleFilterTab);
-        vehicleFilterTab.setLayout(vehicleFilterTabLayout);
-        vehicleFilterTabLayout.setHorizontalGroup(
-            vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(vehicleFilterTabLayout.createSequentialGroup()
+        javax.swing.GroupLayout roadFilterTabLayout = new javax.swing.GroupLayout(roadFilterTab);
+        roadFilterTab.setLayout(roadFilterTabLayout);
+        roadFilterTabLayout.setHorizontalGroup(
+            roadFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roadFilterTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(roadsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(roadFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(unfilterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(filteredRoadsPane, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        vehicleFilterTabLayout.setVerticalGroup(
-            vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(vehicleFilterTabLayout.createSequentialGroup()
+        roadFilterTabLayout.setVerticalGroup(
+            roadFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(roadFilterTabLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(filterButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(unfilterButton)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(vehicleFilterTabLayout.createSequentialGroup()
+            .addGroup(roadFilterTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(vehicleFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(roadFilterTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(filteredRoadsPane)
                     .addComponent(roadsPane))
                 .addContainerGap())
         );
 
-        tabPanel.addTab(VEHICLE_FILTERS, vehicleFilterTab);
+        tabPanel.addTab(ROAD_FILTERS, roadFilterTab);
 
-        roadFilterType.setBackground(new java.awt.Color(255, 255, 255));
+        road2FilterType.setBackground(new java.awt.Color(255, 255, 255));
 
-        javax.swing.GroupLayout roadFilterTypeLayout = new javax.swing.GroupLayout(roadFilterType);
-        roadFilterType.setLayout(roadFilterTypeLayout);
-        roadFilterTypeLayout.setHorizontalGroup(
-            roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout road2FilterTypeLayout = new javax.swing.GroupLayout(road2FilterType);
+        road2FilterType.setLayout(road2FilterTypeLayout);
+        road2FilterTypeLayout.setHorizontalGroup(
+            road2FilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 369, Short.MAX_VALUE)
         );
-        roadFilterTypeLayout.setVerticalGroup(
-            roadFilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        road2FilterTypeLayout.setVerticalGroup(
+            road2FilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 456, Short.MAX_VALUE)
         );
 
-        tabPanel.addTab(ROAD_FILTERS, roadFilterType);
+        tabPanel.addTab(ROAD_FILTERS, road2FilterType);
 
         acceptLabel.setBackground(new java.awt.Color(255, 255, 255));
         acceptLabel.setFont(FONT);
@@ -453,7 +453,8 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JPanel optionsTab;
     private javax.swing.JCheckBox overtakeBox;
     private javax.swing.JLabel overtakeLanesLabel;
-    private javax.swing.JPanel roadFilterType;
+    private javax.swing.JPanel road2FilterType;
+    private javax.swing.JPanel roadFilterTab;
     private javax.swing.JScrollPane roadsPane;
     private javax.swing.JTable roadsTable;
     private javax.swing.JCheckBox roundaboutBox;
@@ -464,7 +465,6 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel togglePanel;
     private javax.swing.JButton unfilterButton;
-    private javax.swing.JPanel vehicleFilterTab;
     // End of variables declaration//GEN-END:variables
     
     public void addOptions(String... options){

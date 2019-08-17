@@ -1,16 +1,17 @@
 package model.mobility;
 
-import static control.MogenControl.DEFAULT_VTYPE_LOCATION;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import model.constants.FilesExtension;
+import model.constants.Netconvert;
 import model.routes.Flow;
-import model.routes.VType;
 
 /**
  *
@@ -42,9 +43,11 @@ public class FlowModel extends MobilityModel {
     public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File routes = new File(FILE_LOCATION + ROUTES_FILE + FilesExtension.ROUTE);
+        File project = new File(location);
         
         output.createNewFile();
         routes.createNewFile();
+        project.mkdirs();
         
         PrintWriter writer = new PrintWriter(routes.getAbsoluteFile(), "UTF-8");
         writer.println(HEADER);
@@ -69,5 +72,18 @@ public class FlowModel extends MobilityModel {
             executeProcess(sumo.start());
             executeProcess(trace.start());
         }
+        
+        Files.copy(Paths.get(routes.toURI()), Paths.get(project.toString(), 
+                                            ROUTES_FILE + FilesExtension.ROUTE), 
+                                            StandardCopyOption.REPLACE_EXISTING);
+        
+        Files.copy(Paths.get(vTypes), Paths.get(project.toString(), 
+                                            Netconvert.VEHICLES.getCommand() + 
+                                            FilesExtension.VEHICLES.getExtension()), 
+                                            StandardCopyOption.REPLACE_EXISTING);
+        
+        Files.copy(Paths.get(sim + FilesExtension.NETCONVERT), Paths.get(project.toString(), 
+                                            sim + FilesExtension.NETCONVERT), 
+                                            StandardCopyOption.REPLACE_EXISTING);
     }
 }

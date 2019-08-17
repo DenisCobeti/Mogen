@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.Config;
 
 /**
@@ -13,7 +11,6 @@ import model.Config;
  * @author Neblis
  */
 public abstract class MobilityModel {
-    public enum Models {RANDOM}
     
     protected final static int SUMO_NETWORK_OPT = 2;
     protected final static int SUMO_ROUTES_OPT = 4;
@@ -25,11 +22,11 @@ public abstract class MobilityModel {
     
     private final static String PYTHON_SCRIPT_NAME = "\\tools\\traceExporter.py";
     
-    private static final String[] SUMO_CMD = {"sumo", 
+    private static final String[] SUMO_CMD = {Config.SUMO_EXE.toString(), 
                                             "-n", "", "-r", "", "--fcd-output", ""};
-    private static final String[] SUMO_CMD_ADD = {"sumo", 
+    private static final String[] SUMO_CMD_ADD = {Config.SUMO_EXE.toString(), 
                                             "-n", "", "-r", "", "--fcd-output", "", 
-                                            "--additional-files", "", "-l", "C:\\Users\\Neblis\\Desktop\\C4R\\log.txt"};
+                                            "--additional-files", ""};
     
     private static final String[] TRACE_CMD = {Config.python2, 
                                         Config.sumoLocation + PYTHON_SCRIPT_NAME, 
