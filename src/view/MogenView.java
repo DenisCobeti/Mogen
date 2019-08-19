@@ -182,13 +182,15 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         repetitionField = new javax.swing.JFormattedTextField();
         timeLabel = new javax.swing.JLabel();
         timeField = new javax.swing.JFormattedTextField();
-        filesLabel = new javax.swing.JLabel();
-        filesField = new javax.swing.JFormattedTextField();
+        filesRandomLabel = new javax.swing.JLabel();
+        filesRandomField = new javax.swing.JFormattedTextField();
         jSeparator1 = new javax.swing.JSeparator();
         flowOptionsPanel = new javax.swing.JPanel();
         flowScrollPane = new javax.swing.JScrollPane();
         flowTable = new javax.swing.JTable();
         addFlowButton = new javax.swing.JButton();
+        filesFlowLabel = new javax.swing.JLabel();
+        filesFlowField = new javax.swing.JFormattedTextField();
         matrixOptionsPanel = new javax.swing.JPanel();
         errorLabel = new javax.swing.JLabel();
         optionsMapButton = new javax.swing.JLabel();
@@ -197,8 +199,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         panelElements = new javax.swing.JTabbedPane();
         vehicleTypesScroll = new javax.swing.JScrollPane();
         vehicleTypesPanel = new javax.swing.JPanel();
-        RSUScroll = new javax.swing.JScrollPane();
-        downtownScroll = new javax.swing.JScrollPane();
         addVTypeButton = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
@@ -289,12 +289,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         timeField.setText(RANDOM_TIME_DFLT);
         timeField.setFont(FONT);
 
-        filesLabel.setText(RANDOM_FILES);
+        filesRandomLabel.setText(RANDOM_FILES);
 
-        filesField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        filesField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        filesField.setText(RANDOM_FILES_DFLT);
-        filesField.setFont(FONT);
+        filesRandomField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        filesRandomField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        filesRandomField.setText(RANDOM_FILES_DFLT);
+        filesRandomField.setFont(FONT);
 
         javax.swing.GroupLayout randomPanelLayout = new javax.swing.GroupLayout(randomPanel);
         randomPanel.setLayout(randomPanelLayout);
@@ -303,7 +303,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(randomPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(filesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(filesRandomLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(timeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
                     .addComponent(repetitionLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +313,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addGroup(randomPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(filesField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(filesRandomField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(246, Short.MAX_VALUE))
         );
@@ -330,8 +330,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(filesLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-                    .addComponent(filesField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(filesRandomLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+                    .addComponent(filesRandomField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         jSeparator1.setForeground(new java.awt.Color(204, 204, 204));
@@ -353,7 +353,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(randomOptionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(randomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 316, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -398,6 +398,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         });
 
+        filesFlowLabel.setText(RANDOM_FILES);
+
+        filesFlowField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        filesFlowField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        filesFlowField.setText(RANDOM_FILES_DFLT);
+        filesFlowField.setFont(FONT);
+
         javax.swing.GroupLayout flowOptionsPanelLayout = new javax.swing.GroupLayout(flowOptionsPanel);
         flowOptionsPanel.setLayout(flowOptionsPanelLayout);
         flowOptionsPanelLayout.setHorizontalGroup(
@@ -407,7 +414,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addGroup(flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(flowScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
                     .addGroup(flowOptionsPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(filesFlowLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(filesFlowField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addFlowButton, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -417,7 +427,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addComponent(flowScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(addFlowButton)
+                .addGroup(flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(addFlowButton)
+                    .addGroup(flowOptionsPanelLayout.createSequentialGroup()
+                        .addGroup(flowOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(filesFlowLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(filesFlowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -431,7 +447,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         );
         matrixOptionsPanelLayout.setVerticalGroup(
             matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 430, Short.MAX_VALUE)
+            .addGap(0, 431, Short.MAX_VALUE)
         );
 
         mobilityOptionsPanel.add(matrixOptionsPanel, "matrix");
@@ -523,8 +539,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         vehicleTypesScroll.setViewportView(vehicleTypesPanel);
 
         panelElements.addTab(VEHICLE_TYPES, vehicleTypesScroll);
-        panelElements.addTab(RSU, RSUScroll);
-        panelElements.addTab(DOWNTOWNS, downtownScroll);
 
         addVTypeButton.setIcon(ADD_ICON);
         addVTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -802,14 +816,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane RSUScroll;
     private javax.swing.JButton addFlowButton;
     private javax.swing.JLabel addVTypeButton;
-    private javax.swing.JScrollPane downtownScroll;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel exportButton;
-    private javax.swing.JFormattedTextField filesField;
-    private javax.swing.JLabel filesLabel;
+    private javax.swing.JFormattedTextField filesFlowField;
+    private javax.swing.JLabel filesFlowLabel;
+    private javax.swing.JFormattedTextField filesRandomField;
+    private javax.swing.JLabel filesRandomLabel;
     private javax.swing.JPanel flowOptionsPanel;
     private javax.swing.JScrollPane flowScrollPane;
     private javax.swing.JTable flowTable;
@@ -850,12 +864,15 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     listenerUI.producedEvent(ViewListener.Event.EXPORT_RANDOM, 
                                     new Tuple<>(new RandomModel(
                                     Integer.parseInt(timeField.getText()), 
-                                    Integer.parseInt(filesField.getText()), 
+                                    Integer.parseInt(filesRandomField.getText()), 
                                     Integer.parseInt(repetitionField.getText())), 
                                     location));
                     break;
                 case Flow:
-                    listenerUI.producedEvent(ViewListener.Event.EXPORT_FLOW, location);
+                    listenerUI.producedEvent(ViewListener.Event.EXPORT_FLOW, 
+                                       new Tuple<>(location, 
+                                                   Integer.parseInt(
+                                                    filesFlowField.getText())));
                     break;
                 case ODMatrix:
                     System.out.println("atrix");
@@ -950,6 +967,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         vehicleTypesPanel.remove(type);
         vehicleTypes.remove(type);
         vehicleTypesPanel.updateUI();
+        listenerUI.producedEvent(ViewListener.Event.REMOVE_VTYPE, type.getName());
     }
     
     public void doneLoading(){

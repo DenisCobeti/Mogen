@@ -5,6 +5,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -12,6 +16,7 @@ import java.util.logging.Logger;
 
 import model.Config;
 import model.constants.FilesExtension;
+import model.constants.Netconvert;
 import model.routes.VType;
 
 /**
@@ -102,6 +107,9 @@ public class RandomModel extends MobilityModel{
     public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
         
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
+        File project = new File(location);
+        
+        project.mkdirs();
         output.createNewFile();
         
         LinkedList <String> command = new LinkedList(Arrays.asList(
@@ -146,6 +154,17 @@ public class RandomModel extends MobilityModel{
             executeProcess(trace.start());
         }
         
+        Files.copy(Paths.get(vTypes), Paths.get(project.toString(), 
+                                            Netconvert.VEHICLES.getCommand() + 
+                                            FilesExtension.VEHICLES.getExtension()), 
+                                            StandardCopyOption.REPLACE_EXISTING);
+        
+        Files.copy(Paths.get(FILE_LOCATION + ROUTES_FILE), Paths.get(project.toString(), 
+                                            ROUTES_FILE), StandardCopyOption.REPLACE_EXISTING);
+        
+        Files.copy(Paths.get(sim + FilesExtension.NETCONVERT), Paths.get(project.toString(), 
+                                            sim + FilesExtension.NETCONVERT), 
+                                            StandardCopyOption.REPLACE_EXISTING);
     }
     
 }

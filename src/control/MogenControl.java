@@ -10,6 +10,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import model.map.OsmAPI;
 import java.net.ProtocolException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -174,7 +176,7 @@ public class MogenControl {
         return hasMap;
     }
 
-    public void exportFlows(String location) throws IOException, InterruptedException {
+    public void exportFlows(String location, int files) throws IOException, InterruptedException {
         File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
                                         FilesExtension.VEHICLES.getExtension());
         vehicles.createNewFile();
@@ -192,7 +194,7 @@ public class MogenControl {
         writer.println("</additional>");
         writer.close();
         
-        FlowModel flowModel = new FlowModel(model.getFlows());
+        FlowModel flowModel = new FlowModel(files, model.getFlows());
         flowModel.export(location, model.getMap(), vehicles.getAbsolutePath());
     }
 }

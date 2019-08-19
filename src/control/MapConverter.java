@@ -12,6 +12,7 @@ import java.util.List;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
+import model.constants.RoadTypes;
 
 /**
  * Map once already converted using netconvert
@@ -27,6 +28,10 @@ public class MapConverter {
                     Netconvert.GUESS_ROUNDABOUTS,
                     Netconvert.REMOVE_GEOMETRY};
     /*
+
+    private static  List<RoadTypes> filterRoads;
+    private static  List<Netconvert> options;
+    
     private final static String[] DEFAULT_OSM_OPTIONS = new String[] {
                     Netconvert.JOIN_JUNCTIONS.getCommand(),
                     Netconvert.GUESS_ROUNDABOUTS.getCommand(),
