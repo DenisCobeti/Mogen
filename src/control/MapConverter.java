@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import model.map.MapAPI.APIS;
@@ -21,9 +22,17 @@ public class MapConverter {
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
     private static  List<String> convertCommand;
     
+    public final static Netconvert[] DEFAULT_OPTIONS = new Netconvert[] {
+                    Netconvert.JOIN_JUNCTIONS,
+                    Netconvert.GUESS_ROUNDABOUTS,
+                    Netconvert.REMOVE_GEOMETRY};
+    /*
     private final static String[] DEFAULT_OSM_OPTIONS = new String[] {
                     Netconvert.JOIN_JUNCTIONS.getCommand(),
-                    Netconvert.GUESS_ROUNDABOUTS.getCommand() };
+                    Netconvert.GUESS_ROUNDABOUTS.getCommand(),
+                    Netconvert.REMOVE_GEOMETRY.getCommand()};*/
+    
+    private HashSet<String> options;
     /*
     public MapConverter(MapAPI api) throws IOException {
         
@@ -64,27 +73,33 @@ public class MapConverter {
     
     public MapConverter(String map, APIS api) throws IOException {
         convertCommand = new LinkedList();
+        options = new HashSet();
         convertCommand.add(Netconvert.PROGRAM.toString());
+        
+        for (Netconvert option: DEFAULT_OPTIONS) options.add(option.getCommand());
+        
         switch(api){
             case OSM:
                 // add recommended options when an OSM file is converted
                 convertCommand.add(Netconvert.OSM_MAP.toString());
                 convertCommand.add(map);
-                convertCommand.addAll(Arrays.asList(DEFAULT_OSM_OPTIONS));
+                //convertCommand.addAll(Arrays.asList(DEFAULT_OSM_OPTIONS));
         }
     }
     
     public String executeConvert(String convertedMap) throws IOException, InterruptedException{
         String fileOutput = convertedMap + FilesExtension.NETCONVERT;
         File netconvertFile = new File(fileOutput);
+        List<String> convertCommandFun =  this.convertCommand;
+        convertCommandFun.addAll(options);
         String output = "";
         
         addOptions(Netconvert.OUTPUT.getCommand(), fileOutput);
-        ProcessBuilder netconvert = new ProcessBuilder(convertCommand);
+        ProcessBuilder netconvert = new ProcessBuilder(convertCommandFun);
         netconvert.redirectErrorStream(true);
         
         netconvertFile.createNewFile();
-        System.out.println(convertCommand);
+        System.out.println(convertCommandFun);
         
         Process process = netconvert.start();
         InputStream stdin = process.getInputStream();

@@ -4,6 +4,7 @@ import java.awt.Font;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.table.DefaultTableModel;
+import model.constants.Netconvert;
 import model.constants.RoadTypes;
 
 /**
@@ -25,13 +26,14 @@ public class MapOptions extends javax.swing.JFrame {
     private final static String ROUNDABOUTS = "Guess roundabouts";
     private final static String STREET_NAMES = "Street names";
     private final static String OVERTAKE_LANES = "Overtake lanes";
+    private final static String JOIN_JUNCTIONS = "Overtake lanes";
     private static final String ACCEPT = "Accept";
     
     private final static String VEHICLE_FILTERS = "Vehicle filters";
     private final static String ROAD_FILTERS = "Road filters";
     private final static String OPTIONS = "Options";
     
-    private final HashSet<String> options;
+    private final HashSet<Netconvert> options;
     private final HashSet<String> roads;
     private final HashSet<String> filteredRoads;
     
@@ -83,7 +85,8 @@ public class MapOptions extends javax.swing.JFrame {
         roundaboutBox = new javax.swing.JCheckBox();
         streetNamesBox = new javax.swing.JCheckBox();
         overtakeBox = new javax.swing.JCheckBox();
-        lefthandedLabel1 = new javax.swing.JLabel();
+        junctionsLabel = new javax.swing.JLabel();
+        junctionsBox = new javax.swing.JCheckBox();
         mapInfoLabel = new javax.swing.JLabel();
         vehicleFilterTab = new javax.swing.JPanel();
         roadsPane = new javax.swing.JScrollPane();
@@ -132,8 +135,10 @@ public class MapOptions extends javax.swing.JFrame {
 
         overtakeBox.setBackground(new java.awt.Color(255, 255, 255));
 
-        lefthandedLabel1.setFont(FONT);
-        lefthandedLabel1.setText(LEFTHANDED);
+        junctionsLabel.setFont(FONT);
+        junctionsLabel.setText(JOIN_JUNCTIONS);
+
+        junctionsBox.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout togglePanelLayout = new javax.swing.GroupLayout(togglePanel);
         togglePanel.setLayout(togglePanelLayout);
@@ -151,12 +156,17 @@ public class MapOptions extends javax.swing.JFrame {
                     .addGroup(togglePanelLayout.createSequentialGroup()
                         .addComponent(lefthandedBox)
                         .addGap(45, 45, 45)
-                        .addComponent(lefthandedLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
-                    .addComponent(geometryBox)
-                    .addComponent(roundaboutBox)
-                    .addComponent(streetNamesBox)
-                    .addComponent(overtakeBox))
-                .addGap(63, 63, 63))
+                        .addComponent(junctionsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(junctionsBox)
+                        .addGap(57, 57, 57))
+                    .addGroup(togglePanelLayout.createSequentialGroup()
+                        .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(geometryBox)
+                            .addComponent(roundaboutBox)
+                            .addComponent(streetNamesBox)
+                            .addComponent(overtakeBox))
+                        .addGap(63, 63, 63))))
         );
         togglePanelLayout.setVerticalGroup(
             togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,14 +176,16 @@ public class MapOptions extends javax.swing.JFrame {
                         .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(togglePanelLayout.createSequentialGroup()
                                 .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(togglePanelLayout.createSequentialGroup()
-                                        .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(lefthandedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lefthandedBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lefthandedLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(geometryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(geometryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(geometryBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(junctionsBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(togglePanelLayout.createSequentialGroup()
+                                            .addGroup(togglePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(lefthandedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(lefthandedBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addComponent(junctionsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(geometryLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(roundaboutsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(roundaboutBox, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -403,18 +415,18 @@ public class MapOptions extends javax.swing.JFrame {
 
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
         // TODO add your handling code here:
-        for (int i : roadsTable.getSelectedRows()){
-            String road = (String)roadsTable.getValueAt(i, 0);
+        int row;
+        while(!roadsTable.getSelectionModel().isSelectionEmpty()){
+            row = roadsTable.getSelectedRow();
+            String road = (String)roadsTable.getValueAt(row, 0);
             
             filteredRoads.add(road);
             roads.remove(road);
+            
             ((DefaultTableModel)filteredRoadsTable.getModel()).addRow(new String[] { 
                 road
             });
-            
-        }
-        for (int i : roadsTable.getSelectedRows()){
-            ((DefaultTableModel)roadsTable.getModel()).removeRow(roadsTable.getSelectedRow());
+            ((DefaultTableModel)roadsTable.getModel()).removeRow(row);
         }
         roadsTable.clearSelection();
     }//GEN-LAST:event_filterButtonActionPerformed
@@ -445,9 +457,10 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JTable filteredRoadsTable;
     private javax.swing.JCheckBox geometryBox;
     private javax.swing.JLabel geometryLabel;
+    private javax.swing.JCheckBox junctionsBox;
+    private javax.swing.JLabel junctionsLabel;
     private javax.swing.JCheckBox lefthandedBox;
     private javax.swing.JLabel lefthandedLabel;
-    private javax.swing.JLabel lefthandedLabel1;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel mapInfoLabel;
     private javax.swing.JPanel optionsTab;
@@ -467,9 +480,40 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JPanel vehicleFilterTab;
     // End of variables declaration//GEN-END:variables
     
-    public void addOptions(String... options){
+    public void addOptions(HashSet<Netconvert> options){
+        options.forEach((option) -> {
+            checkBox(true, option);
+        });
+        this.options.addAll(options);
+    }
+    
+    public void addOptions(Netconvert... options){
+        for (Netconvert option : options) checkBox(true, option);
         this.options.addAll(Arrays.asList(options));
     }
-
+    
+    private void checkBox(boolean select, Netconvert option){
+        switch(option){
+            case GUESS_ROUNDABOUTS:
+                roundaboutBox.setSelected(select);
+                break;
+                
+            case REMOVE_GEOMETRY:
+                geometryBox.setSelected(select);
+                break;
+                
+            case LEFTHANDED:
+                lefthandedBox.setSelected(select);
+                break;
+                
+            case OVERTAKE_LANES:
+                overtakeBox.setSelected(select);
+                break;
+                
+            case JOIN_JUNCTIONS:
+                junctionsBox.setSelected(select);
+                break;
+        }
+    }
 }
 

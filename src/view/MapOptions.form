@@ -157,14 +157,21 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="lefthandedBox" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                                      <Component id="lefthandedLabel1" pref="114" max="32767" attributes="0"/>
+                                      <Component id="junctionsLabel" pref="93" max="32767" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="junctionsBox" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="geometryBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="roundaboutBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="streetNamesBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="overtakeBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="geometryBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="roundaboutBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="streetNamesBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="overtakeBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -176,16 +183,19 @@
                                       <Group type="103" groupAlignment="1" attributes="0">
                                           <Group type="102" alignment="1" attributes="0">
                                               <Group type="103" groupAlignment="1" attributes="0">
-                                                  <Group type="102" alignment="1" attributes="0">
-                                                      <Group type="103" groupAlignment="1" attributes="0">
-                                                          <Component id="lefthandedLabel" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
-                                                          <Component id="lefthandedBox" alignment="1" min="-2" pref="21" max="-2" attributes="0"/>
-                                                          <Component id="lefthandedLabel1" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
-                                                      </Group>
-                                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                                      <Component id="geometryLabel" min="-2" pref="22" max="-2" attributes="0"/>
-                                                  </Group>
                                                   <Component id="geometryBox" alignment="1" min="-2" pref="21" max="-2" attributes="0"/>
+                                                  <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                                                      <Component id="junctionsBox" min="-2" pref="21" max="-2" attributes="0"/>
+                                                      <Group type="102" attributes="0">
+                                                          <Group type="103" groupAlignment="1" attributes="0">
+                                                              <Component id="lefthandedLabel" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
+                                                              <Component id="lefthandedBox" alignment="1" min="-2" pref="21" max="-2" attributes="0"/>
+                                                              <Component id="junctionsLabel" alignment="1" min="-2" pref="22" max="-2" attributes="0"/>
+                                                          </Group>
+                                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                                          <Component id="geometryLabel" min="-2" pref="22" max="-2" attributes="0"/>
+                                                      </Group>
+                                                  </Group>
                                               </Group>
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                               <Component id="roundaboutsLabel" min="-2" pref="22" max="-2" attributes="0"/>
@@ -293,13 +303,20 @@
                         </Property>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JLabel" name="lefthandedLabel1">
+                    <Component class="javax.swing.JLabel" name="junctionsLabel">
                       <Properties>
                         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="FONT" type="code"/>
                         </Property>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                          <Connection code="LEFTHANDED" type="code"/>
+                          <Connection code="JOIN_JUNCTIONS" type="code"/>
+                        </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JCheckBox" name="junctionsBox">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
                         </Property>
                       </Properties>
                     </Component>

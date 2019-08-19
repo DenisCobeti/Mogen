@@ -49,6 +49,7 @@ public class MogenControl {
         
         //obtainMap(0,0,0,0);
         Config.load();
+        view.update(model, MapConverter.DEFAULT_OPTIONS);
         System.out.println(Config.osmMap +" " +Config.sumoMap);
         model.getvTypes().forEach((k, v) -> view.update(model, new Tuple(k, v)));
     }

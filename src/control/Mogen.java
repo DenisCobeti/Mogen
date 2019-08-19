@@ -106,6 +106,7 @@ public class Mogen implements ViewListener{
                     handleError(ex, Errors.ROUTE);
                 }
                 break;   
+                
             case EDIT_VTYPE:
                 tuple = (Tuple)obj;
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);

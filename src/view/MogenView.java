@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -33,6 +34,7 @@ import model.MogenModel.Mobility;
 import model.map.MapSelection;
 import model.Tuple;
 import model.constants.FilesExtension;
+import model.constants.Netconvert;
 import model.mobility.FlowModel;
 import model.routes.VType;
 import model.mobility.MobilityModel;
@@ -790,7 +792,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             currentMap = (String)arg + FilesExtension.NETCONVERT;
             doneLoading();
             avalibleMap();
-        } 
+            
+        } else if (arg instanceof HashSet){
+            options.addOptions((HashSet)arg);
+            
+        } else if (arg instanceof Netconvert[]){
+            options.addOptions((Netconvert[])arg);
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
