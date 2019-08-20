@@ -2,22 +2,17 @@ package control;
 
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import model.map.OsmAPI;
 import java.net.ProtocolException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.MogenModel;
 import model.Config;
 import model.Tuple;
@@ -25,6 +20,7 @@ import model.map.MapAPI;
 import model.map.MapAPI.APIS;
 import model.map.MapSelection;
 import model.constants.FilesExtension;
+import model.constants.RoadTypes;
 import model.mobility.FlowModel;
 import model.mobility.MobilityModel;
 import model.routes.VType;
@@ -42,6 +38,7 @@ public class MogenControl {
     private MogenView view;
     
     private MapConverter converter;
+    private HashSet<String> roads;
     //private HashMap<String, Simulation> simulations;
     private boolean hasMap = false;
 
@@ -49,6 +46,7 @@ public class MogenControl {
         this.model = model;
         this.view = view;
         
+        roads = new HashSet();
         //obtainMap(0,0,0,0);
         Config.load();
         view.update(model, MapConverter.DEFAULT_OPTIONS);
@@ -92,10 +90,8 @@ public class MogenControl {
                                                             IOException,
                                                             InterruptedException{
         
-        MapAPI api = null;
         String map = Config.osmMap + FilesExtension.OSM;
-        
-        api = new OsmAPI(selection.minLon, selection.minLat, 
+        MapAPI api = new OsmAPI(selection.minLon, selection.minLat, 
                             selection.maxLat, selection.maxLon);
         //lento
         InputStream in = api.getMap();
@@ -114,7 +110,7 @@ public class MogenControl {
                                                             InterruptedException{
         // Modify second parameter to change the imported map type
         converter = new MapConverter(location, APIS.OSM);
-        String stream = converter.executeConvert(DEFAULT_MAP_NAME);
+        String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
         
         model.setMap(DEFAULT_MAP_NAME);
         model.getFlows().clear();
@@ -196,5 +192,9 @@ public class MogenControl {
         
         FlowModel flowModel = new FlowModel(files, model.getFlows());
         flowModel.export(location, model.getMap(), vehicles.getAbsolutePath());
+    }
+    
+    public void setRoadsFiltered(HashSet<String> roads){
+        this.roads = roads;
     }
 }

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.StringJoiner;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
@@ -21,7 +22,7 @@ import model.constants.RoadTypes;
 public class MapConverter {
     
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
-    private static  List<String> convertCommand;
+    private  List<String> convertCommand;
     
     public final static Netconvert[] DEFAULT_OPTIONS = new Netconvert[] {
                     Netconvert.JOIN_JUNCTIONS,
@@ -99,7 +100,7 @@ public class MapConverter {
         convertCommandFun.addAll(options);
         String output = "";
         
-        addOptions(Netconvert.OUTPUT.getCommand(), fileOutput);
+        addOptions(convertCommandFun, Netconvert.OUTPUT.getCommand(), fileOutput);
         ProcessBuilder netconvert = new ProcessBuilder(convertCommandFun);
         netconvert.redirectErrorStream(true);
         
@@ -118,13 +119,52 @@ public class MapConverter {
         process.waitFor();
         return output;
     }
-    
-    public void addOptions(String... options){
-        convertCommand.addAll(Arrays.asList(options));
+    public String executeConvert(String convertedMap, HashSet<String> roads) 
+                                        throws IOException, InterruptedException{
+        String fileOutput = convertedMap + FilesExtension.NETCONVERT;
+        File netconvertFile = new File(fileOutput);
+        List<String> convertCommandFun =  this.convertCommand;
+        
+        convertCommandFun.addAll(options);
+        String output = "";
+        addOptions(convertCommandFun, Netconvert.OUTPUT.getCommand(), fileOutput);
+        if (!roads.isEmpty()) addRoads(convertCommandFun, roads);
+        
+        ProcessBuilder netconvert = new ProcessBuilder(convertCommandFun);
+        netconvert.redirectErrorStream(true);
+        
+        netconvertFile.createNewFile();
+        System.out.println(convertCommandFun);
+        
+        Process process = netconvert.start();
+        InputStream stdin = process.getInputStream();
+        InputStreamReader isr = new InputStreamReader(stdin);
+        BufferedReader br = new BufferedReader(isr);
+        
+        String line = null;
+        while ((line = br.readLine()) != null)
+            output += line;
+
+        process.waitFor();
+        return output;
+    }
+    public void addOptions( List<String> command, String... options){
+        command.addAll(Arrays.asList(options));
     }
     
-    public void addOptions(List<String> options){
-        for (String option : options)
+    public void addOptions(List<String> command, HashSet<String> options){
+        options.forEach((option) -> {
             convertCommand.add(option);
+        });
+    }
+    public void addRoads (List<String> command, HashSet<String> roads){
+        command.add(Netconvert.REMOVE_ROADS.getCommand());
+        StringJoiner joiner = new StringJoiner(",");
+        
+        roads.forEach((road) -> {
+            joiner.add(road);
+        });
+        
+        command.add(joiner.toString());
     }  
 }

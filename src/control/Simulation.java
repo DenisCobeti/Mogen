@@ -14,7 +14,6 @@ import delete.Connection;
 import model.sumo.Edge;
 import model.sumo.Junction;
 import model.sumo.Lane;
-import delete.RoadType;
 
 /**
  *
@@ -28,7 +27,6 @@ public class Simulation {
     private final HashMap<String, Lane> lanes = new HashMap<>();
     private final HashMap<String, Connection> connections = new HashMap<>();
     private final HashMap<String, String> junctions = new HashMap<>();
-    private final HashMap<String, RoadType> roadTypes = new HashMap<>();
     
     private final String[]  commands;
 

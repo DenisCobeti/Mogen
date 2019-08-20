@@ -37,6 +37,8 @@ public class MapOptions extends javax.swing.JFrame {
     private final HashSet<String> roads;
     private final HashSet<String> filteredRoads;
     
+    private boolean filteredRoadsChange = false;
+    
     private final MogenView view;
     
     public MapOptions(MogenView view) {
@@ -406,9 +408,7 @@ public class MapOptions extends javax.swing.JFrame {
 
     private void acceptLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptLabelMouseClicked
        
-        String[] commands = new String[options.size()];
-        commands = options.toArray(commands);
-        view.newSimulation(commands);
+        if (filteredRoadsChange) view.filterRoads(filteredRoads);
         view.enableEvents(true);
         this.setVisible(false);
     }//GEN-LAST:event_acceptLabelMouseClicked
@@ -429,6 +429,7 @@ public class MapOptions extends javax.swing.JFrame {
             ((DefaultTableModel)roadsTable.getModel()).removeRow(row);
         }
         roadsTable.clearSelection();
+        filteredRoadsChange = true;
     }//GEN-LAST:event_filterButtonActionPerformed
 
     private void unfilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfilterButtonActionPerformed
@@ -447,6 +448,7 @@ public class MapOptions extends javax.swing.JFrame {
             ((DefaultTableModel)filteredRoadsTable.getModel()).removeRow(filteredRoadsTable.getSelectedRow());
         }
         filteredRoadsTable.clearSelection();
+        filteredRoadsChange = true;
     }//GEN-LAST:event_unfilterButtonActionPerformed
 
 

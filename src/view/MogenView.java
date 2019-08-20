@@ -35,6 +35,7 @@ import model.map.MapSelection;
 import model.Tuple;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
+import model.constants.RoadTypes;
 import model.mobility.FlowModel;
 import model.routes.VType;
 import model.mobility.MobilityModel;
@@ -939,7 +940,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         
         mapInfo = String.format(INFO_SELECTION, selection.maxLat, 
                   selection.minLat, selection.maxLon, selection.minLon);
-        listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
+        
+        JFileChooser chooser = new JFileChooser();
+        
+        int returnVal = chooser.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            String path = chooser.getSelectedFile().getAbsolutePath();
+            listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
+        }
     }
     
     public void addVehicleType(java.awt.event.MouseEvent evt){
@@ -963,6 +971,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         listenerUI.producedEvent(ViewListener.Event.EDIT_VTYPE, new Tuple(name, type));
     }
     
+    public void filterRoads (HashSet<String> roads){
+        listenerUI.producedEvent(ViewListener.Event.FILTER_ROADS, roads);
+    }
     public void deleteVType(VehicleTypePanel type){
         vehicleTypesPanel.remove(type);
         vehicleTypes.remove(type);
