@@ -35,7 +35,6 @@ import model.map.MapSelection;
 import model.Tuple;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
-import model.constants.RoadTypes;
 import model.mobility.FlowModel;
 import model.routes.VType;
 import model.mobility.MobilityModel;
@@ -46,6 +45,7 @@ import view.jxmapviewer2.MapSelect;
 import view.mapelements.DialogAddType;
 import view.jxmapviewer2.MapViewer;
 import view.mapsimulation.FlowFrame;
+import view.mapsimulation.TAZFrame;
 import view.mapelements.VehicleTypePanel;
 import view.mapsimulation.MapPanel;
 
@@ -97,6 +97,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private final static String RANDOM_FILES_DFLT = "1";
     
     private final static String FLOW_ADD = "Add vehicle flow";
+    
+    private final static String OD_TAZ_ADD = "Add TAZ";
+    private final static String OD_TAZ = "TAZs";
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
     private final static String SEARCH_ICON_IMG = "resources/button/search.png";
@@ -192,7 +195,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         addFlowButton = new javax.swing.JButton();
         filesFlowLabel = new javax.swing.JLabel();
         filesFlowField = new javax.swing.JFormattedTextField();
-        matrixOptionsPanel = new javax.swing.JPanel();
+        ODOptionsPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        TAZInfoPanel = new javax.swing.JPanel();
+        TAZLabel = new javax.swing.JLabel();
+        TAZAddButton = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JSeparator();
         errorLabel = new javax.swing.JLabel();
         optionsMapButton = new javax.swing.JLabel();
         exportButton = new javax.swing.JLabel();
@@ -354,7 +363,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(randomOptionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(randomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 317, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 303, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -435,23 +444,87 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                             .addComponent(filesFlowLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(filesFlowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
 
         mobilityOptionsPanel.add(flowOptionsPanel, "flow");
 
-        javax.swing.GroupLayout matrixOptionsPanelLayout = new javax.swing.GroupLayout(matrixOptionsPanel);
-        matrixOptionsPanel.setLayout(matrixOptionsPanelLayout);
-        matrixOptionsPanelLayout.setHorizontalGroup(
-            matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 478, Short.MAX_VALUE)
+        ODOptionsPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        jTable1.setFont(FONT);
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Roads"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        TAZInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
+
+        TAZLabel.setFont(FONT);
+        TAZLabel.setText(OD_TAZ);
+
+        TAZAddButton.setFont(FONT);
+        TAZAddButton.setText(OD_TAZ_ADD);
+        TAZAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TAZAddButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout TAZInfoPanelLayout = new javax.swing.GroupLayout(TAZInfoPanel);
+        TAZInfoPanel.setLayout(TAZInfoPanelLayout);
+        TAZInfoPanelLayout.setHorizontalGroup(
+            TAZInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TAZInfoPanelLayout.createSequentialGroup()
+                .addComponent(TAZLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TAZAddButton)
+                .addContainerGap())
         );
-        matrixOptionsPanelLayout.setVerticalGroup(
-            matrixOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 431, Short.MAX_VALUE)
+        TAZInfoPanelLayout.setVerticalGroup(
+            TAZInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TAZInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(TAZLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TAZAddButton))
         );
 
-        mobilityOptionsPanel.add(matrixOptionsPanel, "matrix");
+        javax.swing.GroupLayout ODOptionsPanelLayout = new javax.swing.GroupLayout(ODOptionsPanel);
+        ODOptionsPanel.setLayout(ODOptionsPanelLayout);
+        ODOptionsPanelLayout.setHorizontalGroup(
+            ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ODOptionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(TAZInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jSeparator2))
+                .addGap(16, 16, 16))
+        );
+        ODOptionsPanelLayout.setVerticalGroup(
+            ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ODOptionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TAZInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(206, Short.MAX_VALUE))
+        );
+
+        mobilityOptionsPanel.add(ODOptionsPanel, "matrix");
 
         errorLabel.setFont(FONT);
         errorLabel.setForeground(new java.awt.Color(255, 0, 0));
@@ -509,10 +582,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         mainPanelElements.setBackground(new java.awt.Color(255, 255, 255));
@@ -567,7 +640,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addComponent(panelElements, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addVTypeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(addVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         menuBar.setFont(FONT);
@@ -647,7 +721,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(mainPanelElements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10))
         );
 
         pack();
@@ -777,6 +852,22 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         Settings settings = new Settings (this, Config.getSumoLocation(), Config.getPython2());
         settings.setVisible(true);
     }//GEN-LAST:event_menuEditSettingsActionPerformed
+
+    private void TAZAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TAZAddButtonActionPerformed
+        // TODO add your handling code here:
+        TAZFrame TazFrame;
+        if (mapVisual == null){
+            try {
+                mapVisual = new MapPanel(currentMap);
+            } catch (XMLStreamException | IOException ex) {
+                error(MAP_ERROR);
+            }
+        }
+        TazFrame = new TAZFrame(this, mapVisual);
+        mapVisual.addMouseHandler(TazFrame);
+        TazFrame.setVisible(true);
+     
+    }//GEN-LAST:event_TAZAddButtonActionPerformed
    
     
     @Override
@@ -817,6 +908,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel ODOptionsPanel;
+    private javax.swing.JButton TAZAddButton;
+    private javax.swing.JPanel TAZInfoPanel;
+    private javax.swing.JLabel TAZLabel;
     private javax.swing.JButton addFlowButton;
     private javax.swing.JLabel addVTypeButton;
     private javax.swing.JLabel errorLabel;
@@ -828,11 +923,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JPanel flowOptionsPanel;
     private javax.swing.JScrollPane flowScrollPane;
     private javax.swing.JTable flowTable;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTable jTable1;
     private javax.swing.JPanel mainPanelElements;
     private javax.swing.JTextField mapInfoField;
     private javax.swing.JPanel mapPanel;
-    private javax.swing.JPanel matrixOptionsPanel;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuEdit;
     private javax.swing.JMenuItem menuEditExport;
@@ -946,7 +1043,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         int returnVal = chooser.showSaveDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             String path = chooser.getSelectedFile().getAbsolutePath();
-            listenerUI.producedEvent(ViewListener.Event.NEW_MAP, selection);
+            listenerUI.producedEvent(ViewListener.Event.NEW_MAP, new Tuple(selection, path));
         }
     }
     

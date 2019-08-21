@@ -86,18 +86,17 @@ public class MogenControl {
     
     
     
-    public void saveMap(MapSelection selection) throws ProtocolException, 
+    public void saveMap(MapSelection selection, String location) throws ProtocolException, 
                                                             IOException,
                                                             InterruptedException{
         
-        String map = Config.osmMap + FilesExtension.OSM;
+        String map = location + FilesExtension.OSM;
         MapAPI api = new OsmAPI(selection.minLon, selection.minLat, 
                             selection.maxLat, selection.maxLon);
         //lento
         InputStream in = api.getMap();
         
         File osmFile = new File(map);
-
         osmFile.createNewFile();
         //lento
         inputStreamToFile(in, osmFile);

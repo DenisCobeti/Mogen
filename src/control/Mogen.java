@@ -51,8 +51,9 @@ public class Mogen implements ViewListener{
                 break;
                 
             case NEW_MAP:
+                tuple = (Tuple)obj;
                 try {
-                    control.saveMap((MapSelection)obj);
+                    control.saveMap((MapSelection)tuple.obj1, (String)tuple.obj2);
                 } catch (IOException | InterruptedException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
@@ -89,7 +90,7 @@ public class Mogen implements ViewListener{
                 view.update(model, model.addFlow(flow));
                 break;
            
-            case EXPORT_RANDOM:
+           case EXPORT_RANDOM:
                 tuple = (Tuple)obj;
                 try{
                     control.exportSimulation((MobilityModel)tuple.obj1, 
@@ -112,10 +113,12 @@ public class Mogen implements ViewListener{
                 tuple = (Tuple)obj;
                 model.getvTypes().put((String)tuple.obj1, (VType)tuple.obj2);
                 break;
+                
             case FILTER_ROADS:
                 HashSet roads = (HashSet)obj;
                 control.setRoadsFiltered(roads);
                 break;
+                
             case REMOVE_VTYPE:
                 model.removeVType((String)obj);
                 break;

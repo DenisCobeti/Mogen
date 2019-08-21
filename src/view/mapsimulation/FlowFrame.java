@@ -24,14 +24,14 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     
     private final static String DESTINATION = "Destination";
     private final static String ORIGIN = "Origin";
-    private final static String BEGIN = "Begin (time)";
-    private final static String END = "End (time)";
+    private final static String BEGIN = "Begin (s)";
+    private final static String END = "End (s)";
     private final static String TYPE = "Vehicle type";
     private final static String NUMBER = "Number";
     
     private final static String SELECTED_LANE_COLOR = "RED";
     private final static String SELECTED_LANE_COLOR2 = "BLUE";
-    
+
     private final static String UNSELECTED_LANE_COLOR = "BLACK";
     
     private final static String NOT_SELECTED_LANE_ERROR = "Mest select both a "
