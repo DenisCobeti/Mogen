@@ -21,9 +21,6 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     private final static String EDGES = "Roads";
     private final static String ADD = "Add";
     
-    private final static String SELECTED_LANE_COLOR = "RED";
-    private final static String UNSELECTED_LANE_COLOR = "BLACK";
-    
     private final static String EMPTY_EDGES_ERROR = "No roads selected for TAZ";
     
     private final MogenView view;
@@ -64,6 +61,11 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         optionsPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -189,11 +191,25 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         if (edges.isEmpty()){
             view.error(EMPTY_EDGES_ERROR);
         }else{
+            view.addTAZ(idField.getText(), new TAZ(edges));
+            unselectLanes();
             this.dispose();
         }
 
     }//GEN-LAST:event_addButtonActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        unselectLanes();
+    }//GEN-LAST:event_formWindowClosing
+    
+    @Override
+    public void unselectLanes(){
+        edges.forEach((edge)-> 
+                    edge.getPolyline().setStroke(Paint.valueOf
+                    (UNSELECTED_LANE_COLOR)));
+    }
+    
     @Override
     public void addFunctionToLanes(Lane lane, MouseEvent e) {
         MouseButton button = e.getButton();

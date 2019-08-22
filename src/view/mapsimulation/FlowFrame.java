@@ -29,10 +29,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private final static String TYPE = "Vehicle type";
     private final static String NUMBER = "Number";
     
-    private final static String SELECTED_LANE_COLOR = "RED";
     private final static String SELECTED_LANE_COLOR2 = "BLUE";
-
-    private final static String UNSELECTED_LANE_COLOR = "BLACK";
     
     private final static String NOT_SELECTED_LANE_ERROR = "Mest select both a "
                             + "destination and an origin for the vehicle flow";
@@ -89,6 +86,11 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
         setBackground(new java.awt.Color(255, 255, 255));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         ODInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -282,11 +284,24 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
                    Integer.parseInt(numberTextField.getText()));
             
             view.addFlow(flow);
+            unselectLanes();
             this.dispose();
         }
             
     }//GEN-LAST:event_adddButtonActionPerformed
 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        unselectLanes();
+    }//GEN-LAST:event_formWindowClosing
+    
+    @Override
+    public void unselectLanes(){
+        if (selectedLaneOrigin != null) selectedLaneOrigin.getPolyline().setStroke
+                                        (Paint.valueOf(UNSELECTED_LANE_COLOR));
+        if (selectedLaneDestination != null) selectedLaneDestination.getPolyline().setStroke
+                                        (Paint.valueOf(UNSELECTED_LANE_COLOR));
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ODInfoPanel;

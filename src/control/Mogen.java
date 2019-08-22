@@ -14,10 +14,10 @@ import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
 import model.mobility.MobilityModel;
 import model.routes.Flow;
+import model.routes.TAZ;
 import model.routes.VType;
 
 import view.MogenView;
-import view.mapsimulation.Map;
 
 /**
  *
@@ -29,10 +29,7 @@ public class Mogen implements ViewListener{
     
     private MogenControl control;
     private final MogenModel model;
-    private final MogenView view;
-    
-    static Map map;
-    
+    private final MogenView view;   
    
     public Mogen(String[] args) {
         
@@ -89,7 +86,12 @@ public class Mogen implements ViewListener{
                 Flow flow = (Flow)obj;
                 view.update(model, model.addFlow(flow));
                 break;
-           
+                
+           case NEW_TAZ:
+                tuple = (Tuple)obj;
+                view.update(model, model.addTAZ((String)tuple.obj1, (TAZ)tuple.obj2));
+                break;
+                
            case EXPORT_RANDOM:
                 tuple = (Tuple)obj;
                 try{

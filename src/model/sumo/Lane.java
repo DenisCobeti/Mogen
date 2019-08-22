@@ -15,17 +15,23 @@ public class Lane  {
     public final static String LENGTH = "length";
     public final static String SHAPE = "shape";
 
+    private final static double WIDTH = 2;
+    
     public Lane(String name, String length, String shape) {
         this.length = Double.valueOf(length);
         this.name = name;
         //int[] shapeInt = parseShape(shape.replace(".", "").split("[\\s,]+"));
         double[] shapePoints = parseShape(shape.split("[\\s,]+"));
         polyline = new Polyline(shapePoints);
-        
+        polyline.setStrokeWidth(Lane.WIDTH);
     }
 
     @Override
     public String toString() {
+        return name;
+    }
+    
+    public String description() {
         return "Lane " + name + " { " + length + ", " + polyline + '}';
     }
     /*

@@ -2,6 +2,7 @@ package model.routes;
 
 import java.util.LinkedList;
 import java.util.List;
+import model.sumo.Lane;
 
 /**
  *
@@ -11,25 +12,24 @@ public class TAZ {
     
     private static final String FILE_FORMAT = "<taz id=\"%s\" edges=\"%s\" />";
     
-    private List<String> edges;
+    private List<Lane> edges;
 
-    public TAZ(List<String> edges) {
+    public TAZ(List<Lane> edges) {
         this.edges = edges;
     }
-    
     public TAZ() {
         this.edges = new LinkedList();
     }
     
-    public void addEdge(String edge){
+    public void addEdge(Lane edge){
         edges.add(edge);
     }
 
-    public void setEdges(List<String> edges) {
+    public void setEdges(List<Lane> edges) {
         this.edges = edges;
     }
 
-    public List<String> getEdges() {
+    public List<Lane> getEdges() {
         return edges;
     }
     
