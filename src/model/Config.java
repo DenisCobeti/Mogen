@@ -38,7 +38,7 @@ public class Config {
     public static final GeoPosition DEFAULT_POSITION = new GeoPosition(50.11, 8.68);
     public static String sumoLocation = "lib\\Sumo";
     
-    public static String python2 = "python";
+    public static String python2 = "python2";
     
     public static void load()  {
         properties = new Properties();
@@ -55,6 +55,8 @@ public class Config {
         //If the config file isnt found, it uses the default values
             osmMap = OSM_MAP_DEFAULT;
             sumoMap = SUMO_MAP_DEFFAULT;
+            
+            python2 = PYTHON_DEFFAULT;
         }
         SUMO_EXE = Paths.get(sumoLocation, SUMO_PROGRAM);
     }
