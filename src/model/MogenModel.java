@@ -65,7 +65,7 @@ public class MogenModel extends Observable{
         int id = flows.size();
         flows.put(String.valueOf(id), flow);
         
-        return new Tuple<>(id, flows.get(id));
+        return new Tuple<>(id, flow);
     }
     
     public Tuple addTAZ(String id, TAZ taz) {
