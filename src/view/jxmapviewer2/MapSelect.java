@@ -32,6 +32,8 @@ public class MapSelect extends javax.swing.JFrame {
     /**
      * Creates new form MapSelect
      */
+    private final static String TITLE = "Map import";
+    
     private final static String USE_INSTRUCTIONS = "Use left mouse button to pan, "
                              + "mouse wheel to zoom and right mouse to select";
     private final static String CACHE_FILE = "cache.jxmapviewer2";
@@ -41,6 +43,7 @@ public class MapSelect extends javax.swing.JFrame {
     private final static String MIN_LAT = "Min Lat. %.3f";
     private final static String MAX_LON = "Max Lon. %.3f";
     private final static String MIN_LON = "Min Lon. %.3f";
+    
     private final static String AREA = "Area: %.3f km2";
     private final static String HEIGHT = "Height: %.3f km";
     private final static String WIDTH = "Width: %.3f km";
@@ -261,7 +264,7 @@ public class MapSelect extends javax.swing.JFrame {
         double lon = mapViewer.getCenterPosition().getLongitude();
         int zoom = mapViewer.getZoom();
         
-        frame.setTitle(String.format("JXMapviewer2 (%.2f / %.2f) - Zoom: %d", lat, lon, zoom));
+        frame.setTitle(String.format("Map import (%.2f / %.2f) - Zoom: %d", lat, lon, zoom));
     }
     
     public void updateSelection(double maxLon, double minLon, double maxLat, double minLat){

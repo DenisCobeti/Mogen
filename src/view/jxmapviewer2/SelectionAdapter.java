@@ -53,7 +53,10 @@ public class SelectionAdapter extends MouseAdapter {
             return;
         
         endPos.setLocation(e.getX(), e.getY());
-
+        selecter.updateSelection(getGeoCoordinates(viewer).maxLon, 
+                                    getGeoCoordinates(viewer).minLon, 
+                                    getGeoCoordinates(viewer).maxLat, 
+                                    getGeoCoordinates(viewer).minLat);
         viewer.repaint();
     }
 
@@ -65,10 +68,7 @@ public class SelectionAdapter extends MouseAdapter {
 
         if (e.getButton() == MouseEvent.BUTTON3){
             dragging = false;
-            selecter.updateSelection(getGeoCoordinates(viewer).maxLon, 
-                                    getGeoCoordinates(viewer).minLon, 
-                                    getGeoCoordinates(viewer).maxLat, 
-                                    getGeoCoordinates(viewer).minLat);
+            
             return;
         }
         viewer.repaint();

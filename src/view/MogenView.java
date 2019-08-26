@@ -44,7 +44,6 @@ import model.routes.TAZ;
 import view.jxmapviewer2.MapSelect;
 
 import view.mapelements.DialogAddType;
-import view.jxmapviewer2.MapViewer;
 import view.mapsimulation.FlowFrame;
 import view.mapsimulation.TAZFrame;
 import view.mapelements.VehicleTypePanel;
@@ -99,8 +98,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private final static String FLOW_ADD = "Add vehicle flow";
     
-    private final static String OD_TAZ_ADD = "Add TAZ";
-    private final static String OD_TAZ = "TAZs";
+    private final static String OD_TAZ_ADD = "Add district";
+    private final static String OD_OPT_ADD = "Add";
+    private final static String OD_TAZ = "Districts";
+    private final static String OD_IMPORT = "Import";
+    private final static String OD = "Origin Destination matrix";
     
     private final static String ADD_ICON_IMG = "resources/button/add.png";
     private final static String SEARCH_ICON_IMG = "resources/button/search.png";
@@ -204,8 +206,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         TAZAddButton = new javax.swing.JButton();
         TAZSeparator = new javax.swing.JSeparator();
         ODInfoPanel1 = new javax.swing.JPanel();
-        TAZLabel1 = new javax.swing.JLabel();
-        TAZAddButton1 = new javax.swing.JButton();
+        ODLabel = new javax.swing.JLabel();
+        ODAddButton = new javax.swing.JButton();
+        ODiImportButton = new javax.swing.JButton();
         ODSeparator = new javax.swing.JSeparator();
         ODScrollPane = new javax.swing.JScrollPane();
         ODTable = new javax.swing.JTable();
@@ -332,7 +335,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(filesRandomField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(timeField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(246, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         randomPanelLayout.setVerticalGroup(
             randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -362,7 +365,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addGroup(randomOptionsPanelLayout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(randomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jSeparator1))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 468, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         randomOptionsPanelLayout.setVerticalGroup(
@@ -509,14 +512,22 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
         ODInfoPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        TAZLabel1.setFont(FONT);
-        TAZLabel1.setText(OD_TAZ);
+        ODLabel.setFont(FONT);
+        ODLabel.setText(OD);
 
-        TAZAddButton1.setFont(FONT);
-        TAZAddButton1.setText(OD_TAZ_ADD);
-        TAZAddButton1.addActionListener(new java.awt.event.ActionListener() {
+        ODAddButton.setFont(FONT);
+        ODAddButton.setText(OD_OPT_ADD);
+        ODAddButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                TAZAddButton1ActionPerformed(evt);
+                ODAddButtonActionPerformed(evt);
+            }
+        });
+
+        ODiImportButton.setFont(FONT);
+        ODiImportButton.setText(OD_IMPORT);
+        ODiImportButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ODiImportButtonActionPerformed(evt);
             }
         });
 
@@ -525,16 +536,19 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         ODInfoPanel1Layout.setHorizontalGroup(
             ODInfoPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ODInfoPanel1Layout.createSequentialGroup()
-                .addComponent(TAZLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ODLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(TAZAddButton1)
+                .addComponent(ODAddButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ODiImportButton)
                 .addContainerGap())
         );
         ODInfoPanel1Layout.setVerticalGroup(
             ODInfoPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ODInfoPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                .addComponent(TAZLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(TAZAddButton1))
+                .addComponent(ODLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(ODAddButton)
+                .addComponent(ODiImportButton))
         );
 
         ODTable.setFont(FONT);
@@ -569,13 +583,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                             .addComponent(TAZSeparator)
                             .addComponent(ODInfoPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(16, 16, 16))
-                    .addGroup(ODOptionsPanelLayout.createSequentialGroup()
-                        .addComponent(ODSeparator)
-                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ODOptionsPanelLayout.createSequentialGroup()
                         .addComponent(TAZScrollPane)
                         .addContainerGap())
-                    .addComponent(ODScrollPane)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ODOptionsPanelLayout.createSequentialGroup()
+                        .addGroup(ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(ODScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(ODSeparator))
+                        .addContainerGap())))
         );
         ODOptionsPanelLayout.setVerticalGroup(
             ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -698,21 +713,21 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             mainPanelElementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelElementsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelElements, javax.swing.GroupLayout.PREFERRED_SIZE, 554, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelElementsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(addVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(mainPanelElementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(panelElements, javax.swing.GroupLayout.DEFAULT_SIZE, 554, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelElementsLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(addVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         mainPanelElementsLayout.setVerticalGroup(
             mainPanelElementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelElementsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(panelElements, javax.swing.GroupLayout.PREFERRED_SIZE, 484, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(panelElements)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(addVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         menuBar.setFont(FONT);
@@ -789,8 +804,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(mainPanelElements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(10, 10, 10))
@@ -804,7 +819,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }//GEN-LAST:event_menuFileExitMousePressed
 
     private void menuFileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuFileNewActionPerformed
-        MapViewer map = new MapViewer(this);
+        
     }//GEN-LAST:event_menuFileNewActionPerformed
 
     private void menuEditExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditExportActionPerformed
@@ -910,12 +925,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void exportButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportButtonMouseClicked
         // TODO add your handling code here:
-        JFileChooser chooser = new JFileChooser();
         
+        JFileChooser chooser = new JFileChooser();
+
         int returnVal = chooser.showSaveDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             export(chooser.getSelectedFile().getAbsolutePath());
         }
+        
     }//GEN-LAST:event_exportButtonMouseClicked
 
     private void menuEditSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditSettingsActionPerformed
@@ -940,9 +957,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
      
     }//GEN-LAST:event_TAZAddButtonActionPerformed
 
-    private void TAZAddButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TAZAddButton1ActionPerformed
+    private void ODAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ODAddButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_TAZAddButton1ActionPerformed
+    }//GEN-LAST:event_ODAddButtonActionPerformed
+
+    private void ODiImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ODiImportButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ODiImportButtonActionPerformed
    
     
     @Override
@@ -951,7 +972,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             case MENU_ITEM_EXIT:
                 listenerUI.producedEvent(ViewListener.Event.SALIR, null);
             case MENU_ITEM_NEW_MAP:
-                MapViewer map = new MapViewer(this);
         }
     }
 
@@ -983,16 +1003,17 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ODAddButton;
     private javax.swing.JPanel ODInfoPanel1;
+    private javax.swing.JLabel ODLabel;
     private javax.swing.JPanel ODOptionsPanel;
     private javax.swing.JScrollPane ODScrollPane;
     private javax.swing.JSeparator ODSeparator;
     private javax.swing.JTable ODTable;
+    private javax.swing.JButton ODiImportButton;
     private javax.swing.JButton TAZAddButton;
-    private javax.swing.JButton TAZAddButton1;
     private javax.swing.JPanel TAZInfoPanel;
     private javax.swing.JLabel TAZLabel;
-    private javax.swing.JLabel TAZLabel1;
     private javax.swing.JScrollPane TAZScrollPane;
     private javax.swing.JSeparator TAZSeparator;
     private javax.swing.JTable TAZTable;
@@ -1117,16 +1138,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         
         setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
         
-        mapInfo = String.format(INFO_SELECTION, selection.maxLat, 
-                  selection.minLat, selection.maxLon, selection.minLon);
-        
         JFileChooser chooser = new JFileChooser();
         
         int returnVal = chooser.showSaveDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
-            String path = chooser.getSelectedFile().getAbsolutePath();
-            listenerUI.producedEvent(ViewListener.Event.NEW_MAP, new Tuple(selection, path));
+            mapInfo = chooser.getSelectedFile().getAbsolutePath();
+            listenerUI.producedEvent(ViewListener.Event.NEW_MAP, new Tuple(selection, mapInfo));
         }
+    
     }
     
     public void addVehicleType(java.awt.event.MouseEvent evt){

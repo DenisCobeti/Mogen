@@ -89,7 +89,6 @@ public class MapOptions extends javax.swing.JFrame {
         overtakeBox = new javax.swing.JCheckBox();
         junctionsLabel = new javax.swing.JLabel();
         junctionsBox = new javax.swing.JCheckBox();
-        mapInfoLabel = new javax.swing.JLabel();
         roadFilterTab = new javax.swing.JPanel();
         roadsPane = new javax.swing.JScrollPane();
         roadsTable = new javax.swing.JTable();
@@ -201,18 +200,13 @@ public class MapOptions extends javax.swing.JFrame {
                 .addGap(0, 139, Short.MAX_VALUE))
         );
 
-        mapInfoLabel.setFont(FONT);
-        mapInfoLabel.setText("jLabel1");
-
         javax.swing.GroupLayout optionsTabLayout = new javax.swing.GroupLayout(optionsTab);
         optionsTab.setLayout(optionsTabLayout);
         optionsTabLayout.setHorizontalGroup(
             optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(optionsTabLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(optionsTabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapInfoLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
-                    .addComponent(togglePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(togglePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         optionsTabLayout.setVerticalGroup(
@@ -220,9 +214,7 @@ public class MapOptions extends javax.swing.JFrame {
             .addGroup(optionsTabLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(togglePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40)
-                .addComponent(mapInfoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(152, Short.MAX_VALUE))
         );
 
         tabPanel.addTab(OPTIONS, optionsTab);
@@ -464,7 +456,6 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JCheckBox lefthandedBox;
     private javax.swing.JLabel lefthandedLabel;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JLabel mapInfoLabel;
     private javax.swing.JPanel optionsTab;
     private javax.swing.JCheckBox overtakeBox;
     private javax.swing.JLabel overtakeLanesLabel;

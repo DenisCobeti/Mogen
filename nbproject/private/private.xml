@@ -3,10 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/darkm/Documents/Mogen2/src/model/mobility/MobilityModel.java</file>
-            <file>file:/C:/Users/darkm/Documents/Mogen2/src/model/mobility/ODModel.java</file>
-            <file>file:/C:/Users/darkm/Documents/Mogen2/src/model/mobility/FlowModel.java</file>
-            <file>file:/C:/Users/darkm/Documents/Mogen2/src/model/Config.java</file>
+            <file>file:/C:/Users/darkm/Documents/Mogen/src/control/Mogen.java</file>
+            <file>file:/C:/Users/darkm/Documents/Mogen/src/model/MogenModel.java</file>
+            <file>file:/C:/Users/darkm/Documents/Mogen/src/view/MogenView.java</file>
         </group>
     </open-files>
 </project-private>
