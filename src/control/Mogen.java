@@ -3,6 +3,8 @@ package control;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.stream.XMLStreamException;
 import model.Config;
 
@@ -119,7 +121,13 @@ public class Mogen implements ViewListener{
                 
             case FILTER_ROADS:
                 HashSet roads = (HashSet)obj;
-                control.setRoadsFiltered(roads);
+        
+                try {
+                    control.setRoadsFiltered(roads);
+                } catch (IOException | InterruptedException ex) {
+                    view.update(model, new DownloadMapException
+                                           (Errors.OSM_DOWNLOAD.toString()));
+                }
                 break;
                 
             case REMOVE_VTYPE:

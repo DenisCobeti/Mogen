@@ -1,23 +1,19 @@
 package model.mobility;
 
+import control.MogenControl;
 import java.io.File;
 import java.util.LinkedList;
-import java.util.Map;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import model.Config;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
 import model.routes.VType;
+import view.MogenView;
 
 /**
  *
@@ -38,16 +34,18 @@ public class RandomModel extends MobilityModel{
     
     private final static String ATT_OPT = "--trip-attributes";
     private final static String DIST_OPT = "type='" + VType.DISTRIBUTION + "'";
+    private final static String START_OPT = "depart='0'";
     
     private final static String FILE_LOCATION = "models/random/";
     private final static String VEHICLE_FILE = "vehicles.add.xml";
+    private final static int DEFAULT_TIME = 1;
     
-    private final int repetition;
+    private final int vehicles;
     private final int time;
     private final int files;
     
-    public RandomModel(int time, int files, int repetition) {
-        this.repetition = repetition;
+    public RandomModel(int time, int files, int vehicles) {
+        this.vehicles = vehicles;
         this.files = files;
         this.time = time;
     }
@@ -102,15 +100,16 @@ public class RandomModel extends MobilityModel{
                 FILE_LOCATION + sim + FilesExtension.OSM));
         sumo.start();
     }*/
-
     @Override
-    public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
+    public void export(String location, String sim, String vTypes, MogenControl control) throws IOException, InterruptedException {
         
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File project = new File(location);
+        double repetition = DEFAULT_TIME / vehicles;
         
         project.mkdirs();
         output.createNewFile();
+        control.startExport(files);
         
         LinkedList <String> command = new LinkedList(Arrays.asList(
                 Config.python2,
@@ -120,7 +119,7 @@ public class RandomModel extends MobilityModel{
                 VEHICLE_OPT,
                 vTypes,
                 TIME_OPT,
-                String.valueOf(time),
+                String.valueOf(DEFAULT_TIME),
                 REPETITION_OPT,
                 String.valueOf(repetition),
                 OUTPUT_OPT,
@@ -128,7 +127,7 @@ public class RandomModel extends MobilityModel{
                 ROUTES_OPT,
                 FILE_LOCATION + ROUTES_FILE,
                 ATT_OPT,
-                DIST_OPT
+                DIST_OPT 
         ));
         
         System.out.println(command.toString());
@@ -143,7 +142,8 @@ public class RandomModel extends MobilityModel{
         for (int i = 0; i < files; i++){
             File ns2 = new File(location + i + FilesExtension.NS2_MOBILITY.getExtension());
             ns2.createNewFile();
-        
+            control.progressExport(files);
+            
             executeProcess(randomTrips.start());
             executeProcess(sumo.start());
             
@@ -165,6 +165,10 @@ public class RandomModel extends MobilityModel{
         Files.copy(Paths.get(sim + FilesExtension.NETCONVERT), Paths.get(project.toString(), 
                                             sim + FilesExtension.NETCONVERT), 
                                             StandardCopyOption.REPLACE_EXISTING);
+        
     }
     
+    private static double vehiclesToRepetition (int startTime, int endTime, int numVehicles){
+        return ((endTime - startTime) / numVehicles);
+    }
 }

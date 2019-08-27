@@ -1,5 +1,7 @@
 <additional>
 <vTypeDistribution id="dist">
+<vType id="Sport" accel="3.00" decel="5.00" tau="7.0" length="1" maxSpeed="80" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.50" />
 <vType id="Car" accel="3.00" decel="5.00" tau="7.0" length="1" maxSpeed="50" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.50" />
+<vType id="Truck" accel="1.40" decel="5.00" tau="7.0" length="3" maxSpeed="40" carFollowModel="Krauss" sigma="0.5" minGap="1"  probability="0.50" />
 </vTypeDistribution>
 </additional>

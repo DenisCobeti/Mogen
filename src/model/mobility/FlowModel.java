@@ -1,5 +1,6 @@
 package model.mobility;
 
+import control.MogenControl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,6 +13,7 @@ import java.util.List;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
 import model.routes.Flow;
+import view.MogenView;
 
 /**
  *
@@ -40,7 +42,7 @@ public class FlowModel extends MobilityModel {
     }
 
     @Override
-    public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
+    public void export(String location, String sim, String vTypes, MogenControl control) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File routes = new File(FILE_LOCATION + ROUTES_FILE + FilesExtension.ROUTE);
         File project = new File(location);

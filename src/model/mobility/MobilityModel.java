@@ -1,10 +1,12 @@
 package model.mobility;
 
+import control.MogenControl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import model.Config;
+import view.MogenView;
 
 /**
  *
@@ -33,7 +35,8 @@ public abstract class MobilityModel {
                                         "--fcd-input", "", "--ns2mobility-output", 
                                         ""};
     
-    public abstract void export(String location, String sim, String vTypes) throws IOException, InterruptedException;
+    public abstract void export(String location, String sim, String vTypes, MogenControl control) 
+                                    throws IOException, InterruptedException;
     
     public String[] sumoCommand (String network, String routes, String output){
         SUMO_CMD[SUMO_NETWORK_OPT] = network;

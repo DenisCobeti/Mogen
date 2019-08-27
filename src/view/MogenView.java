@@ -58,6 +58,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private final MapOptions options;
     private MapPanel mapVisual;
+    private ProgressFrame progressFrame;
     
     public final static Font FONT = new Font("Century Gothic", Font.PLAIN, 12);
     public final static Font SMALL_FONT = FONT.deriveFont(10,0);
@@ -80,6 +81,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private static final String MAP_ERROR = "Map has to be imported first";
     private static final String EXPORT = "Export";
     
+    private static final String LOADING_EXPORT = "Exporting file nº";
+    
     private static final String INFO_SELECTION = "Latitute: %.2f , %.2f ; "
                                                 + "Longitude: %.2f , %.2f";
     
@@ -91,7 +94,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     private final static String RANDOM_TIME = "Time: ";
     private final static String RANDOM_TIME_DFLT = "60";
-    private final static String RANDOM_REPETITION = "Repetition rate: ";
+    private final static String RANDOM_REPETITION = "Number of vehicles: ";
     private final static String RANDOM_REPETITION_DFLT = "3";
     private final static String RANDOM_FILES = "Files: ";
     private final static String RANDOM_FILES_DFLT = "1";
@@ -185,8 +188,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         mobilityOptionsPanel = new javax.swing.JPanel();
         randomOptionsPanel = new javax.swing.JPanel();
         randomPanel = new javax.swing.JPanel();
-        repetitionLabel = new javax.swing.JLabel();
-        repetitionField = new javax.swing.JFormattedTextField();
+        vehiclesLabel = new javax.swing.JLabel();
+        vehiclesField = new javax.swing.JFormattedTextField();
         timeLabel = new javax.swing.JLabel();
         timeField = new javax.swing.JFormattedTextField();
         filesRandomLabel = new javax.swing.JLabel();
@@ -293,13 +296,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
         randomPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        repetitionLabel.setFont(FONT);
-        repetitionLabel.setText(RANDOM_REPETITION);
+        vehiclesLabel.setFont(FONT);
+        vehiclesLabel.setText(RANDOM_REPETITION);
 
-        repetitionField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        repetitionField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        repetitionField.setText(RANDOM_REPETITION_DFLT);
-        repetitionField.setFont(FONT);
+        vehiclesField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        vehiclesField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        vehiclesField.setText(RANDOM_REPETITION_DFLT);
+        vehiclesField.setFont(FONT);
 
         timeLabel.setFont(FONT);
         timeLabel.setText(RANDOM_TIME);
@@ -325,11 +328,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(filesRandomLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(timeLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-                    .addComponent(repetitionLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(vehiclesLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(randomPanelLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(repetitionField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(vehiclesField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(randomPanelLayout.createSequentialGroup()
                         .addGap(10, 10, 10)
                         .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -342,8 +345,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(randomPanelLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(repetitionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(repetitionField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(vehiclesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vehiclesField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1047,14 +1050,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JTabbedPane panelElements;
     private javax.swing.JPanel randomOptionsPanel;
     private javax.swing.JPanel randomPanel;
-    private javax.swing.JFormattedTextField repetitionField;
-    private javax.swing.JLabel repetitionLabel;
     private javax.swing.JLabel searchMapButton;
     private javax.swing.JPanel simulationPanel;
     private javax.swing.JFormattedTextField timeField;
     private javax.swing.JLabel timeLabel;
     private javax.swing.JPanel vehicleTypesPanel;
     private javax.swing.JScrollPane vehicleTypesScroll;
+    private javax.swing.JFormattedTextField vehiclesField;
+    private javax.swing.JLabel vehiclesLabel;
     // End of variables declaration//GEN-END:variables
     
     private void export(String location){
@@ -1065,7 +1068,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                                     new Tuple<>(new RandomModel(
                                     Integer.parseInt(timeField.getText()), 
                                     Integer.parseInt(filesRandomField.getText()), 
-                                    Integer.parseInt(repetitionField.getText())), 
+                                    Integer.parseInt(vehiclesField.getText())), 
                                     location));
                     break;
                 case Flow:
@@ -1205,5 +1208,15 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         DefaultTableModel model = (DefaultTableModel)TAZTable.getModel();
         
         model.addRow(new Object[]{id, taz.getEdges()});
+    }
+    
+    public void startExport(int files){
+        progressFrame = new ProgressFrame(files, 0, this, ProgressFrame.Type.EXPORT);
+        progressFrame.setVisible(true);
+        System.out.println("vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    }
+    
+    public void progressExport(int file){
+        progressFrame.progressLoading(LOADING_EXPORT + file);
     }
 }

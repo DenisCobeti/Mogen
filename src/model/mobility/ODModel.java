@@ -1,8 +1,10 @@
 package model.mobility;
 
+import control.MogenControl;
 import java.io.IOException;
 import java.util.HashMap;
 import model.routes.TAZ;
+import view.MogenView;
 
 /**
  *
@@ -33,7 +35,7 @@ public class ODModel extends MobilityModel {
     }
     
     @Override
-    public void export(String location, String sim, String vTypes) throws IOException, InterruptedException {
+    public void export(String location, String sim, String vTypes, MogenControl control) throws IOException, InterruptedException {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

@@ -20,7 +20,6 @@ import model.map.MapAPI;
 import model.map.MapAPI.APIS;
 import model.map.MapSelection;
 import model.constants.FilesExtension;
-import model.constants.RoadTypes;
 import model.mobility.FlowModel;
 import model.mobility.MobilityModel;
 import model.routes.VType;
@@ -41,6 +40,7 @@ public class MogenControl {
     private HashSet<String> roads;
     //private HashMap<String, Simulation> simulations;
     private boolean hasMap = false;
+    private String map;
 
     public MogenControl(MogenModel model, MogenView view) {
         this.model = model;
@@ -113,6 +113,8 @@ public class MogenControl {
         
         model.setMap(DEFAULT_MAP_NAME);
         model.getFlows().clear();
+        
+        map = location;
         hasMap = true;
     }
     
@@ -135,7 +137,7 @@ public class MogenControl {
         writer.println("</additional>");
         writer.close();
         
-        mobilityModel.export(location, model.getMap(), vehicles.getAbsolutePath());
+        mobilityModel.export(location, model.getMap(), vehicles.getAbsolutePath(), this);
     }
     
     public static void inputStreamToFile(InputStream inputStream, File file) 
@@ -190,10 +192,25 @@ public class MogenControl {
         writer.close();
         
         FlowModel flowModel = new FlowModel(files, model.getFlows());
-        flowModel.export(location, model.getMap(), vehicles.getAbsolutePath());
+        flowModel.export(location, model.getMap(), vehicles.getAbsolutePath(), this);
     }
     
-    public void setRoadsFiltered(HashSet<String> roads){
+    public void setRoadsFiltered(HashSet<String> roads) throws IOException, 
+                                        ProtocolException, InterruptedException{
         this.roads = roads;
+        if (hasMap) openMap(map);
+        
+    }
+    
+    public void startExport(int num){
+        view.startExport(num);
+    }
+    
+    public void progressExport(int num){
+        view.progressExport(num);
+    }
+    
+    public void endExport(int num){
+        
     }
 }
