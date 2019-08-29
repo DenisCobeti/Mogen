@@ -9,32 +9,72 @@ package model;
  *
  * @author darkm
  */
-public class Progress {
-    private final int MAX;
-    private int current;
+public enum Progress {
+    EXPORT("Exporting trace..."),
+    MAP("Downloadig map...");
+    
+    private int max;
+    private int current  = 0;
+    private boolean starting = false;
     
     private String msg;
     
-    public enum Type {
-        EXPORT("Exporting trace..."),
-        MAP("Downloadig map...");
-        
-        String msg;
-        
-        Type (String message){
-            this.msg = message;
-        }
+    
+    Progress(String message) {
+        this.msg = message;
+    }
+
+    public void setCurrent(int current, int max) {
+        this.current = current;
+        this.max = max;
     }
     
-    public Progress(int MAX, Type type) {
-        this.MAX = MAX;
-        
+    public void initialize(int max){
         current = 0;
-        msg = type.msg;
+        starting = true;
+        this.max = max;
     }
     
     public void setCurrentProgress(int progress, String msg){
         this.current = progress;
+        this.msg = msg;
+    }
+    
+    public void progress(String msg){
+        starting = false;
+        current++;
+        this.msg = msg;
+    }
+    public void progress(){
+        starting = false;
+        current++;
+    }
+
+    public static Progress getEXPORT() {
+        return EXPORT;
+    }
+
+    public static Progress getMAP() {
+        return MAP;
+    }
+
+    public int getMax() {
+        return max;
+    }
+
+    public int getCurrent() {
+        return current;
+    }
+
+    public String getMsg() {
+        return msg;
+    }
+
+    public boolean isStarting() {
+        return starting;
+    }
+
+    public void setMsg(String msg) {
         this.msg = msg;
     }
     

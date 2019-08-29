@@ -5,6 +5,8 @@
  */
 package view;
 
+import model.Progress;
+
 /**
  *
  * @author darkm
@@ -12,45 +14,27 @@ package view;
 public class ProgressFrame extends javax.swing.JFrame {
 
     private final MogenView view;
-    private final int max;
-    private final int min;
-    private int progress;
-    private final Type currentType;
-    
-    public enum Type {
-        EXPORT("Exporting trace..."),
-        MAP("Downloadig map...");
-        
-        String msg;
-        
-        Type (String message){
-            this.msg = message;
-        }
-    }
-    /**
-     * Creates new form LoadingExport
-     */
-    public ProgressFrame(int max, int min, MogenView view, Type type) {
+    private final Progress progressType;
+
+    ProgressFrame(MogenView view, Progress progress) {
         this.view = view;
-        this.min = min;
-        this.progress = min;
-        this.max = max;
-        this.currentType = type;
+        progressType = progress;
         
-        initComponents();  
-        
-        setLocationRelativeTo(view);  // centra en ventana principal    
-        setVisible(true); 
+        initComponents();
     }
 
     public void progressLoading(String msg){
-        progressBar.setValue(progress++);
-        messageLabel.setText(msg);
         
-        if(progress >= max){
+        messageLabel.setText(msg);
+        progressBar.setValue(progressType.getCurrent());
+
+        if(progressType.getCurrent() >= progressType.getMax()){
             view.enableEvents(true);
-            this.dispose();
+            dispose();
         }
+             
+        this.update(this.getGraphics());
+        
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,11 +51,11 @@ public class ProgressFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         messageLabel.setFont(view.getFont());
-        messageLabel.setText(currentType.msg);
+        messageLabel.setText(progressType.getMsg());
 
         progressBar.setFont(view.getFont());
-        progressBar.setMaximum(max);
-        progressBar.setMinimum(min);
+        progressBar.setMaximum(progressType.getMax());
+        progressBar.setMinimum(0);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

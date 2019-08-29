@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import model.MogenModel;
 import model.Config;
+import model.Progress;
 import model.Tuple;
 import model.map.MapAPI;
 import model.map.MapAPI.APIS;
@@ -33,14 +34,17 @@ public class MogenControl {
     public static final String DEFAULT_MAP_NAME = "mapNetconvert";
     public static final String DEFAULT_VTYPE_LOCATION = "vehicles";
     
-    private MogenModel model;
-    private MogenView view;
+    private final MogenModel model;
+    private final MogenView view;
     
     private MapConverter converter;
     private HashSet<String> roads;
     //private HashMap<String, Simulation> simulations;
     private boolean hasMap = false;
     private String map;
+    
+    private Progress progress;
+    private final static int MAP_DOWNLOAD_STEPS = 3;
 
     public MogenControl(MogenModel model, MogenView view) {
         this.model = model;
@@ -89,18 +93,27 @@ public class MogenControl {
     public void saveMap(MapSelection selection, String location) throws ProtocolException, 
                                                             IOException,
                                                             InterruptedException{
+        progress = Progress.MAP;
+        progress.initialize(MAP_DOWNLOAD_STEPS);
+        view.update(model, progress);
         
         String map = location + FilesExtension.OSM;
         MapAPI api = new OsmAPI(selection.minLon, selection.minLat, 
                             selection.maxLat, selection.maxLon);
         //lento
+        progress.progress();
+        view.update(model, progress);
         InputStream in = api.getMap();
         
         File osmFile = new File(map);
         osmFile.createNewFile();
         //lento
+        progress.progress();
+        view.update(model, progress);
         inputStreamToFile(in, osmFile);
         // Modify second parameter to change the imported map type
+        progress.progress();
+        view.update(model, progress);
         openMap(map);
     }
     
@@ -203,11 +216,16 @@ public class MogenControl {
     }
     
     public void startExport(int num){
-        view.startExport(num);
+        progress = Progress.EXPORT;
+        progress.initialize(num);
+        view.update(model, progress);
     }
     
     public void progressExport(int num){
-        view.progressExport(num);
+        if (progress != null){
+            progress.progress();
+            view.update(model, progress);
+        }
     }
     
     public void endExport(int num){
