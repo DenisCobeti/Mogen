@@ -1,12 +1,16 @@
 package view.mapsimulation;
 
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
 import java.util.List;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JViewport;
 import model.routes.Flow;
-import model.sumo.Lane;
+import model.topology.Lane;
 import view.MogenView;
 import view.mapelements.VehicleTypePanel;
 
@@ -43,7 +47,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private Lane selectedLaneOrigin, selectedLaneDestination;
     private final MogenView view;
     private static DefaultComboBoxModel boxModel;
-                            
+           
     
     public FlowFrame(MogenView view, MapPanel map, List<VehicleTypePanel> VehicleTypes) {
         this.view = view;
@@ -52,6 +56,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         initComponents();
         this.setLocationRelativeTo(view);
         mapPanel.add(map);
+        map.addScrollListener(mapScrollPane);
     }
 
     /**
@@ -227,6 +232,20 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         infoTextArea.setAlignmentY(1.0F);
         infoTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        mapScrollPane.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                mapScrollPaneMouseDragged(evt);
+            }
+        });
+        mapScrollPane.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mapScrollPaneMouseClicked(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                mapScrollPaneMousePressed(evt);
+            }
+        });
+
         mapPanel.setBackground(new java.awt.Color(255, 255, 255));
         mapPanel.setLayout(new java.awt.BorderLayout());
         mapScrollPane.setViewportView(mapPanel);
@@ -294,6 +313,18 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         // TODO add your handling code here:
         unselectLanes();
     }//GEN-LAST:event_formWindowClosing
+
+    private void mapScrollPaneMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapScrollPaneMouseDragged
+        
+    }//GEN-LAST:event_mapScrollPaneMouseDragged
+
+    private void mapScrollPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapScrollPaneMouseClicked
+        
+    }//GEN-LAST:event_mapScrollPaneMouseClicked
+
+    private void mapScrollPaneMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapScrollPaneMousePressed
+        
+    }//GEN-LAST:event_mapScrollPaneMousePressed
     
     @Override
     public void unselectLanes(){

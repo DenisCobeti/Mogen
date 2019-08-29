@@ -21,19 +21,20 @@ public class OsmAPI implements MapAPI{
     public static final String API2 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
     public static final String API3 = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
     public String API = "http://lz4.overpass-api.de/api/map?bbox=";
+    public String APIX_FORMAT = "http://overpass-api.de/api/interpreter?data=way(%s,%s,%s,%s);(._;>;);\n" +
+                                "out body;";
     private static final String API_FORMAT = "%s%s,%s,%s,%s";
+    private static final String APIXX_FORMAT = "http://overpass-api.de/api/interpreter?data=node%2850%2E746%2C7%2E154%2C50%2E748%2C7%2E157%29%3B%28%2E%5F%3B%3E%3B%29%3Bout%3B%0A";
     
     private final HttpURLConnection connection;
-    
-    
     
     public OsmAPI(double minLon, double minLat, double maxLat, double maxLon) 
                   throws MalformedURLException, ProtocolException, IOException{
         
         //this.API = Config.API;
         String petition = String.format(API_FORMAT, API, minLon, minLat, maxLon, maxLat );
+        //String petition = String.format(API_FORMAT, API, minLon, minLat, maxLon, maxLat );
         System.out.println(petition);
-        
         URL url = new URL(petition);
         
         connection = (HttpURLConnection)url.openConnection();

@@ -1180,6 +1180,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     public void filterRoads (HashSet<String> roads){
         listenerUI.producedEvent(ViewListener.Event.FILTER_ROADS, roads);
     }
+    
     public void deleteVType(VehicleTypePanel type){
         vehicleTypesPanel.remove(type);
         vehicleTypes.remove(type);
@@ -1212,11 +1213,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     public void startExport(int files){
         progressFrame = new ProgressFrame(files, 0, this, ProgressFrame.Type.EXPORT);
-        progressFrame.setVisible(true);
-        System.out.println("vaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
     }
     
     public void progressExport(int file){
-        progressFrame.progressLoading(LOADING_EXPORT + file);
+        //progressFrame.progressLoading(LOADING_EXPORT + file);
+        
     }
 }

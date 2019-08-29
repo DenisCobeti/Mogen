@@ -5,7 +5,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import model.routes.TAZ;
-import model.sumo.Lane;
+import model.topology.Lane;
 import view.MogenView;
 
 /**

@@ -1,4 +1,4 @@
-package model.sumo;
+package model.topology;
 
 import javafx.scene.shape.Polyline;
 

@@ -13,7 +13,6 @@ import java.util.StringJoiner;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
-import model.constants.RoadTypes;
 
 /**
  * Map once already converted using netconvert
@@ -28,54 +27,8 @@ public class MapConverter {
                     Netconvert.JOIN_JUNCTIONS,
                     Netconvert.GUESS_ROUNDABOUTS,
                     Netconvert.REMOVE_GEOMETRY};
-    /*
-
-    private static  List<RoadTypes> filterRoads;
-    private static  List<Netconvert> options;
-    
-    private final static String[] DEFAULT_OSM_OPTIONS = new String[] {
-                    Netconvert.JOIN_JUNCTIONS.getCommand(),
-                    Netconvert.GUESS_ROUNDABOUTS.getCommand(),
-                    Netconvert.REMOVE_GEOMETRY.getCommand()};*/
-    
+   
     private HashSet<String> options;
-    /*
-    public MapConverter(MapAPI api) throws IOException {
-        
-        InputStream in = api.getMap();
-        File osmFile = new File(Config.osmMap + FilesExtension.OSM);
-        osmFile.createNewFile();
-        File netconvertFile = new File(Config.sumoMap + FilesExtension.NETCONVERT);
-        ProcessBuilder netconvert = new ProcessBuilder(api.netconvertCommand
-               (osmFile.getCanonicalPath(), netconvertFile.getCanonicalPath()));
-        copyInputStreamToFile(in, osmFile);
-        netconvertFile.createNewFile();
-        try{
-            
-            netconvert.start();
-            System.out.println(api.netconvertCommand
-               (osmFile.getCanonicalPath(), netconvertFile.getCanonicalPath()));
-        }catch(IOException e){
-            C4R.handleError(e, Errors.NETCONVERT_CMD);
-        }
-    }/*
-    /*
-    public MapConverter(MapAPI api, String map) throws IOException {
-        
-        File netconvertFile = new File(Config.sumoMap + FilesExtension.NETCONVERT);
-        ProcessBuilder netconvert = new ProcessBuilder(api.netconvertCommand
-               (map, netconvertFile.getCanonicalPath()));
-        netconvertFile.createNewFile();
-        
-        try{
-            
-            netconvert.start();
-            System.out.println(api.netconvertCommand
-               (map, netconvertFile.getCanonicalPath()));
-        }catch(IOException e){
-            C4R.handleError(e, Errors.NETCONVERT_CMD);
-        }
-    }*/
     
     public MapConverter(String map, APIS api) throws IOException {
         convertCommand = new LinkedList();
@@ -119,6 +72,7 @@ public class MapConverter {
         process.waitFor();
         return output;
     }
+    
     public String executeConvert(String convertedMap, HashSet<String> roads) 
                                         throws IOException, InterruptedException{
         String fileOutput = convertedMap + FilesExtension.NETCONVERT;
@@ -167,4 +121,8 @@ public class MapConverter {
         
         command.add(joiner.toString());
     }  
+
+    void pruneNodes(String mapName) {
+        
+    }
 }

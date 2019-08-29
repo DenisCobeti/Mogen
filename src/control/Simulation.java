@@ -11,9 +11,9 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import delete.Connection;
-import model.sumo.Edge;
-import model.sumo.Junction;
-import model.sumo.Lane;
+import model.topology.Edge;
+import model.topology.Junction;
+import model.topology.Lane;
 
 /**
  *

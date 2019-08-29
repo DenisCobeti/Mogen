@@ -110,7 +110,7 @@ public class MogenControl {
         // Modify second parameter to change the imported map type
         converter = new MapConverter(location, APIS.OSM);
         String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
-        
+        converter.pruneNodes(DEFAULT_MAP_NAME);
         model.setMap(DEFAULT_MAP_NAME);
         model.getFlows().clear();
         

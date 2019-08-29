@@ -1,7 +1,7 @@
 package view.mapsimulation;
 
 import javafx.scene.input.MouseEvent;
-import model.sumo.Lane;
+import model.topology.Lane;
 
 /**
  *
