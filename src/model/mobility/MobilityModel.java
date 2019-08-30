@@ -18,6 +18,7 @@ public abstract class MobilityModel {
     protected final static int SUMO_ROUTES_OPT = 4;
     protected final static int SUMO_OUTPUT_OPT = 6;
     protected final static int SUMO_ADD_OPT = 8;
+    protected final static int SUMO_END_OPT = 8;
     
     protected final static int TRACE_INPUT_OPT = 3;
     protected final static int TRACE_OUTPUT_OPT = 5;
@@ -26,6 +27,9 @@ public abstract class MobilityModel {
     
     private static final String[] SUMO_CMD = {Config.SUMO_EXE.toString(), 
                                             "-n", "", "-r", "", "--fcd-output", ""};
+    private static final String[] SUMO_CMD_END = {Config.SUMO_EXE.toString(), 
+                                            "-n", "", "-r", "", "--fcd-output", "",
+                                            "--end" , ""};
     private static final String[] SUMO_CMD_ADD = {Config.SUMO_EXE.toString(), 
                                             "-n", "", "-r", "", "--fcd-output", "", 
                                             "--additional-files", ""};
@@ -53,6 +57,15 @@ public abstract class MobilityModel {
         SUMO_CMD_ADD[SUMO_ADD_OPT] = add;
         
         return SUMO_CMD_ADD;
+    }
+    
+    public String[] sumoCommand (String network, String routes, String output, int end){
+        SUMO_CMD_END[SUMO_NETWORK_OPT] = network;
+        SUMO_CMD_END[SUMO_ROUTES_OPT] = routes;
+        SUMO_CMD_END[SUMO_OUTPUT_OPT] = output;
+        SUMO_CMD_END[SUMO_END_OPT] = String.valueOf(end);
+        
+        return SUMO_CMD_END;
     }
     
     public String[] traceCommand (String fcd, String output){

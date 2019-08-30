@@ -212,6 +212,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     
     @Override
     public void addFunctionToLanes(Lane lane, MouseEvent e) {
+        
         MouseButton button = e.getButton();
         if (button == MouseButton.PRIMARY){
             if(this.edges.contains(lane)){

@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import model.routes.Flow;
 import model.topology.Lane;
 import view.MogenView;
@@ -48,6 +49,8 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private final MogenView view;
     private static DefaultComboBoxModel boxModel;
            
+    private int mouseStartX;         
+    private int mouseStartY; 
     
     public FlowFrame(MogenView view, MapPanel map, List<VehicleTypePanel> VehicleTypes) {
         this.view = view;
@@ -55,8 +58,8 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         
         initComponents();
         this.setLocationRelativeTo(view);
-        mapPanel.add(map);
-        map.addScrollListener(mapScrollPane);
+        mapScrollPane.setViewportView(map);
+        map.addScrollListener();
     }
 
     /**
@@ -86,7 +89,6 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         typeBox = new javax.swing.JComboBox<>();
         infoTextArea = new javax.swing.JTextArea();
         mapScrollPane = new javax.swing.JScrollPane();
-        mapPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
@@ -246,10 +248,6 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
             }
         });
 
-        mapPanel.setBackground(new java.awt.Color(255, 255, 255));
-        mapPanel.setLayout(new java.awt.BorderLayout());
-        mapScrollPane.setViewportView(mapPanel);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -344,7 +342,6 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private javax.swing.JLabel endLabel;
     private javax.swing.JFormattedTextField endTextField;
     private javax.swing.JTextArea infoTextArea;
-    private javax.swing.JPanel mapPanel;
     private javax.swing.JScrollPane mapScrollPane;
     private javax.swing.JLabel numberLabel;
     private javax.swing.JFormattedTextField numberTextField;

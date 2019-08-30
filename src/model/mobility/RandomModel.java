@@ -135,7 +135,7 @@ public class RandomModel extends MobilityModel{
         ProcessBuilder randomTrips = new ProcessBuilder(command);
         ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
                 sim + FilesExtension.NETCONVERT, FILE_LOCATION + ROUTES_FILE,
-                output.getAbsolutePath()));
+                output.getAbsolutePath(), time));
         
         System.out.println(sumo.command().toString());
         
@@ -168,7 +168,4 @@ public class RandomModel extends MobilityModel{
         
     }
     
-    private static double vehiclesToRepetition (int startTime, int endTime, int numVehicles){
-        return ((endTime - startTime) / numVehicles);
-    }
 }

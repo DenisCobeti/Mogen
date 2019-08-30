@@ -15,8 +15,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -35,9 +37,10 @@ public class MapPanel extends JFXPanel {
     private final Scene scene;
     private final Group group = new Group();
     private final static String ID = "id";
+    private final static double ZOOM_AMOUNT = 0.25;
     
     private int mouseStartX;         
-    private int mouseStartY;  
+    private int mouseStartY; 
     
     public MapPanel(String name) throws FileNotFoundException, 
                                         XMLStreamException, IOException {
@@ -103,9 +106,8 @@ public class MapPanel extends JFXPanel {
             });
     }
     
-    public void addScrollListener(JScrollPane mapScrollPane){
+    public void addScrollListener(){
         this.setAutoscrolls(true);
-        
         MouseAdapter mouseAdapter = new MouseAdapter() {
             
             @Override
@@ -115,17 +117,49 @@ public class MapPanel extends JFXPanel {
             }
             
             @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {}
+            
+            @Override
             public void mouseDragged(java.awt.event.MouseEvent e){
                 
-                JViewport viewPort = mapScrollPane.getViewport();
+                JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass
+                                        (JViewport.class, MapPanel.this);
                 Point vpp = viewPort.getViewPosition();
                 vpp.translate(mouseStartX-e.getX(), mouseStartY-e.getY());
                 scrollRectToVisible(new Rectangle(vpp, viewPort.getSize()));
-                mouseStartX = e.getX();
-                mouseStartY = e.getY();
+                /*
+                if (origin != null) {
+                    JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
+                    
+                    int deltaX = origin.x - e.getX();
+                    int deltaY = origin.y - e.getY();
+
+                    Rectangle view = viewPort.getViewRect();
+                    view.x += deltaX;
+                    view.y += deltaY;
+
+                    scrollRectToVisible(view);
+                    
+                }*/
+            }
+            @Override
+            public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
+                
+                if (e.getWheelRotation() < 0){
+                    group.setScaleX(group.getScaleX() + ZOOM_AMOUNT);
+                    group.setScaleY(group.getScaleY() + ZOOM_AMOUNT);
+                    group.setScaleZ(group.getScaleZ() + ZOOM_AMOUNT);
+                }else {
+                    group.setScaleX(group.getScaleX() - ZOOM_AMOUNT);
+                    group.setScaleY(group.getScaleY() - ZOOM_AMOUNT);
+                    group.setScaleZ(group.getScaleZ() - ZOOM_AMOUNT);
+                }
+                
+                
             }
         };
         this.addMouseListener(mouseAdapter);
+        this.addMouseWheelListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
     }
 }
