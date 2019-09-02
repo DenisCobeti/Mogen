@@ -485,6 +485,11 @@ public class MapOptions extends javax.swing.JFrame {
         this.options.addAll(Arrays.asList(options));
     }
     
+    public void addRoads(RoadTypes... roads){
+        //for (RoadTypes road : roads) //checkBox(true, option);
+        //this.roads.addAll(Arrays.asList(roads));
+    }
+    
     private void checkBox(boolean select, Netconvert option){
         switch(option){
             case GUESS_ROUNDABOUTS:

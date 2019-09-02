@@ -13,7 +13,6 @@ import model.Config;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
 import model.routes.VType;
-import view.MogenView;
 
 /**
  *

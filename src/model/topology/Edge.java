@@ -12,6 +12,7 @@ public class Edge {
     public final static String LANE = "lane";
     public final static String LENGTH = "length";
     public final static String SHAPE = "shape";
+    public final static String FUNCTION = "function";
 
     public Edge(double length, String shape) {
         this.length = length;

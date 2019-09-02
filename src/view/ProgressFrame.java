@@ -23,12 +23,12 @@ public class ProgressFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void progressLoading(String msg){
+    public void progressLoading(Progress progress){
         
-        messageLabel.setText(msg);
-        progressBar.setValue(progressType.getCurrent());
+        messageLabel.setText(progress.getMsg());
+        progressBar.setValue(progress.getCurrent());
 
-        if(progressType.getCurrent() >= progressType.getMax()){
+        if(progress.getCurrent() >= progress.getMax()){
             view.enableEvents(true);
             dispose();
         }

@@ -14,6 +14,7 @@ import model.map.MapSelection;
 import model.constants.Errors;
 import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
+import model.exceptions.NoRouteConnectionException;
 import model.mobility.MobilityModel;
 import model.routes.Flow;
 import model.routes.TAZ;
@@ -87,7 +88,14 @@ public class Mogen implements ViewListener{
                 
            case NEW_FLOW:
                 Flow flow = (Flow)obj;
-                view.update(model, model.addFlow(flow));
+                try {
+                    view.update(model, control.addFlow(flow));
+                } catch (NoRouteConnectionException ex) {
+                    view.update(model, ex);
+                } catch (IOException | InterruptedException ex2){
+                    
+                }
+        
                 break;
                 
            case NEW_TAZ:

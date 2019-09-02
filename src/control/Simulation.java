@@ -43,6 +43,9 @@ public class Simulation {
         int event;
         String tag;
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
+        while(reader.getLocalName().equals(Edge.TAG) && 
+                (reader.getAttributeValue(null, Edge.FUNCTION).equals("internal"))) 
+                    reader.nextTag(); // go to edges
         while (reader.hasNext()){
             event = reader.next();
             if(event == XMLStreamConstants.START_ELEMENT){
@@ -72,11 +75,11 @@ public class Simulation {
                 }else if(tag.equals(Junction.TAG)){
                     junctions.put(reader.getAttributeValue(null, ID), 
                                   reader.getAttributeValue(null, Lane.SHAPE));
-                }      
+                }   
             }  
             
         }
-        printMap(lanes);
+        //printMap(lanes);
         //printMap(junctions);
        
     }

@@ -36,6 +36,7 @@ import model.map.MapSelection;
 import model.Tuple;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
+import model.constants.RoadTypes;
 import model.mobility.FlowModel;
 import model.routes.VType;
 import model.mobility.MobilityModel;
@@ -82,10 +83,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private static final String MAP_ERROR = "Map has to be imported first";
     private static final String EXPORT = "Export";
     
-    private static final String LOADING_EXPORT = "Exporting file nº";
-    private static final String[] LOADING_MAP = {"Connecting to server..." ,
-                                                 "Saving file...", 
-                                                 "Opening map..."};
+    
     
     private static final String INFO_SELECTION = "Latitute: %.2f , %.2f ; "
                                                 + "Longitude: %.2f , %.2f";
@@ -1009,6 +1007,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             
         } else if (arg instanceof Progress){
             loadProgress((Progress)arg);
+            
+        } else if (arg instanceof RoadTypes[]){
+            options.addRoads((RoadTypes[])arg);
         }
     }
     
@@ -1221,20 +1222,20 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private void loadProgress(Progress progress) {
         switch (progress){
             case EXPORT:
-                if (progress.isStarting()){
+                if (progress.getCurrent() == 0){
                     progressFrame = new ProgressFrame(this, progress);
                     progressFrame.setVisible(true);
                     progressFrame.setLocationRelativeTo(this);
                 }
-                progressFrame.progressLoading(LOADING_EXPORT + progress.getCurrent());
+                progressFrame.progressLoading(progress);
                 break;
             case MAP:
-                if (progress.isStarting()){
+                if (progress.getCurrent() == 0){
                     progressFrame = new ProgressFrame(this, progress);
                     progressFrame.setVisible(true);
                     progressFrame.setLocationRelativeTo(this);
                 }else{
-                    progressFrame.progressLoading(LOADING_MAP[progress.getCurrent() - 1] );
+                    progressFrame.progressLoading(progress);
                 }
                 
                 break;

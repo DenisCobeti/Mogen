@@ -1,29 +1,36 @@
 package control;
 
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import model.map.OsmAPI;
 import java.net.ProtocolException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import model.map.OsmAPI;
 import model.MogenModel;
 import model.Config;
 import model.Progress;
 import model.Tuple;
+import model.constants.Errors;
 import model.map.MapAPI;
 import model.map.MapAPI.APIS;
 import model.map.MapSelection;
 import model.constants.FilesExtension;
+import model.exceptions.NoRouteConnectionException;
 import model.mobility.FlowModel;
 import model.mobility.MobilityModel;
+import model.routes.Flow;
 import model.routes.VType;
+
 import view.MogenView;
 
 /**
@@ -33,7 +40,12 @@ import view.MogenView;
 public class MogenControl {
     public static final String DEFAULT_MAP_NAME = "mapNetconvert";
     public static final String DEFAULT_VTYPE_LOCATION = "vehicles";
+    private final static String PYTHON_CHECK = "\\tools\\net\\netcheck.py";
     
+    private static final String LOADING_EXPORT = "Exporting file nº";
+    private static final String[] LOADING_MAP = {"Connecting to server..." ,
+                                                 "Saving file...", 
+                                                 "Opening map..."};
     private final MogenModel model;
     private final MogenView view;
     
@@ -54,6 +66,7 @@ public class MogenControl {
         //obtainMap(0,0,0,0);
         Config.load();
         view.update(model, MapConverter.DEFAULT_OPTIONS);
+        view.update(model, MapConverter.DEFAULT_ROADS);
         System.out.println(Config.osmMap +" " +Config.sumoMap);
         model.getvTypes().forEach((k, v) -> view.update(model, new Tuple(k, v)));
     }
@@ -131,8 +144,44 @@ public class MogenControl {
         hasMap = true;
     }
     
+    public Tuple addFlow(Flow flow) throws NoRouteConnectionException, IOException, 
+                                                        InterruptedException{
+        
+        LinkedList <String> command = new LinkedList(Arrays.asList(
+                Config.python2,
+                Config.sumoLocation + PYTHON_CHECK,
+                model.getMap() + FilesExtension.NETCONVERT,
+                "--source",
+                flow.originEdge()
+        ));
+        LinkedList <String> reachableEdges = new LinkedList();
+        
+        System.out.println(command);
+        ProcessBuilder checkEdges = new ProcessBuilder(command);
+        
+        Process process = checkEdges.start();
+        
+        InputStream stdin = process.getInputStream();
+        InputStreamReader isr = new InputStreamReader(stdin);
+        BufferedReader br = new BufferedReader(isr);
+
+        String output = "";
+        String line = null;
+        while ((line = br.readLine()) != null)output += line;
+
+        System.out.println(output);
+        output = output.substring(output.indexOf("["));
+        if (!output.contains( "'"+ flow.destinationEdge() + "'"))
+                                throw new NoRouteConnectionException
+                                          (Errors.NO_CONNECTION.getErrorMsg());
+        System.out.println(output);
+        process.waitFor();
+        
+        return model.addFlow(flow);
+    }
     
-    public void exportSimulation(MobilityModel mobilityModel, String location) throws IOException, InterruptedException{
+    public void exportSimulation(MobilityModel mobilityModel, String location) 
+                                       throws IOException, InterruptedException{
         File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
                                         FilesExtension.VEHICLES.getExtension());
         vehicles.createNewFile();
@@ -223,12 +272,8 @@ public class MogenControl {
     
     public void progressExport(int num){
         if (progress != null){
-            progress.progress();
+            progress.progress(LOADING_EXPORT + progress.getCurrent());
             view.update(model, progress);
         }
-    }
-    
-    public void endExport(int num){
-        
     }
 }

@@ -11,6 +11,7 @@ public enum Errors {
     NETCONVERT_CMD("Error: "),
     DUPLICATED_VTYPE("Error: can´t have 2 vehicle types with the same name"),
     FIRST_SIM("Error: a simulation must be created first"),
+    NO_CONNECTION("No connection between lanes "),
     NO_SELECTED_SIM("Error: a simulation must be selected"),
     ROUTE(".rou.xml");
     

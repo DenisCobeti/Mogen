@@ -13,6 +13,7 @@ import java.util.StringJoiner;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
+import model.constants.RoadTypes;
 
 /**
  * Map once already converted using netconvert
@@ -27,6 +28,9 @@ public class MapConverter {
                     Netconvert.JOIN_JUNCTIONS,
                     Netconvert.GUESS_ROUNDABOUTS,
                     Netconvert.REMOVE_GEOMETRY};
+    
+    public final static RoadTypes[] DEFAULT_ROADS = new RoadTypes[] {
+                    RoadTypes.RAIL};
    
     private HashSet<String> options;
     
@@ -35,6 +39,7 @@ public class MapConverter {
         options = new HashSet();
         convertCommand.add(Netconvert.PROGRAM.toString());
         
+        for (Netconvert option: DEFAULT_OPTIONS) options.add(option.getCommand());
         for (Netconvert option: DEFAULT_OPTIONS) options.add(option.getCommand());
         
         switch(api){

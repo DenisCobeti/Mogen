@@ -15,7 +15,6 @@ public enum Progress {
     
     private int max;
     private int current  = 0;
-    private boolean starting = false;
     
     private String msg;
     
@@ -31,7 +30,6 @@ public enum Progress {
     
     public void initialize(int max){
         current = 0;
-        starting = true;
         this.max = max;
     }
     
@@ -41,12 +39,10 @@ public enum Progress {
     }
     
     public void progress(String msg){
-        starting = false;
         current++;
         this.msg = msg;
     }
     public void progress(){
-        starting = false;
         current++;
     }
 
@@ -68,10 +64,6 @@ public enum Progress {
 
     public String getMsg() {
         return msg;
-    }
-
-    public boolean isStarting() {
-        return starting;
     }
 
     public void setMsg(String msg) {

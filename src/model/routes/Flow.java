@@ -4,7 +4,7 @@ package model.routes;
  *
  * @author Denis C
  */
-public class Flow {
+    public class Flow {
     private static final String FILE_FORMAT = "<flow id=\"%s\" begin=\"%d\""
             + " end=\"%d\" number=\"%d\" from=\"%s\" to=\"%s\" type=\"%s\" />";
     
