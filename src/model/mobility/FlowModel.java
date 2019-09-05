@@ -45,11 +45,13 @@ public class FlowModel extends MobilityModel {
     public void export(String location, String sim, String vTypes, MogenControl control) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File routes = new File(FILE_LOCATION + ROUTES_FILE + FilesExtension.ROUTE);
-        File project = new File(location);
+        File project = new File(location + FilesExtension.SUMO_CFG);
+        File projectFolder = new File(location);
         
+        projectFolder.mkdirs();
+        project.createNewFile();
         output.createNewFile();
         routes.createNewFile();
-        project.mkdirs();
         
         PrintWriter writer = new PrintWriter(routes.getAbsoluteFile(), "UTF-8");
         writer.println(HEADER);
@@ -75,17 +77,29 @@ public class FlowModel extends MobilityModel {
             executeProcess(trace.start());
         }
         
-        Files.copy(Paths.get(routes.toURI()), Paths.get(project.toString(), 
-                                            ROUTES_FILE + FilesExtension.ROUTE), 
-                                            StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(FILE_LOCATION + ROUTES_FILE + FilesExtension.ROUTE), Paths.get(projectFolder.toString(), 
+                                            ROUTES_FILE), StandardCopyOption.REPLACE_EXISTING);
         
-        Files.copy(Paths.get(vTypes), Paths.get(project.toString(), 
+        Files.copy(Paths.get(sim + FilesExtension.NETCONVERT), Paths.get(projectFolder.toString(), 
+                                            sim + FilesExtension.NETCONVERT), 
+                                            StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(vTypes), Paths.get(projectFolder.toString(), 
                                             Netconvert.VEHICLES.getCommand() + 
                                             FilesExtension.VEHICLES.getExtension()), 
                                             StandardCopyOption.REPLACE_EXISTING);
+
         
-        Files.copy(Paths.get(sim + FilesExtension.NETCONVERT), Paths.get(project.toString(), 
-                                            sim + FilesExtension.NETCONVERT), 
-                                            StandardCopyOption.REPLACE_EXISTING);
+        PrintWriter writer2 = new PrintWriter(project.getAbsoluteFile(), "UTF-8");
+        writer2.println("<configuration>");
+        writer2.println("<input>");
+        writer2.println("<net-file value=\"" +Paths.get(projectFolder.toString(),sim + FilesExtension.NETCONVERT)+"\"/>");
+        writer2.println("<route-files value=\"" + Paths.get(projectFolder.toString(),ROUTES_FILE)+"\"/>");
+        writer2.println("<additional-files value=\"" + Paths.get(projectFolder.toString(), 
+                                            Netconvert.VEHICLES.getCommand() + 
+                                            FilesExtension.VEHICLES.getExtension())+"\"/>");
+        
+        writer2.println("</input>");
+        writer2.println("</configuration>");
+        writer2.close();
     }
 }

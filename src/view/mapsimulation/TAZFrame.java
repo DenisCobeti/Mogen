@@ -1,5 +1,6 @@
 package view.mapsimulation;
 
+import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -37,6 +38,8 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         initComponents();
         this.setLocationRelativeTo(view);
         mapPanel.add(map);
+        map.addScrollListener();
+       
     }
 
     /**
@@ -212,7 +215,6 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     
     @Override
     public void addFunctionToLanes(Lane lane, MouseEvent e) {
-        
         MouseButton button = e.getButton();
         if (button == MouseButton.PRIMARY){
             if(this.edges.contains(lane)){

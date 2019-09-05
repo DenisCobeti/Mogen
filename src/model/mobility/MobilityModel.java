@@ -2,10 +2,16 @@ package model.mobility;
 
 import control.MogenControl;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import model.Config;
+import model.constants.FilesExtension;
 import view.MogenView;
 
 /**
@@ -87,4 +93,6 @@ public abstract class MobilityModel {
         process.waitFor();
         
     }
+    
+    
 }

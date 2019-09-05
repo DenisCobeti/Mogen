@@ -12,9 +12,12 @@ import java.util.List;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Polyline;
+import javafx.scene.shape.Shape;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
@@ -38,6 +41,7 @@ public class MapPanel extends JFXPanel {
     private final Group group = new Group();
     private final static String ID = "id";
     private final static double ZOOM_AMOUNT = 0.25;
+    private Rectangle rectangle;
     
     private int mouseStartX;         
     private int mouseStartY; 
@@ -51,7 +55,7 @@ public class MapPanel extends JFXPanel {
         Platform.setImplicitExit(false);
         this.setAutoscrolls(true);
         this.setScene(scene);
-        
+        rectangle = new Rectangle();
     }
     
     public void parseNetwork(String location) throws FileNotFoundException, 
@@ -87,7 +91,7 @@ public class MapPanel extends JFXPanel {
         in.close();
     }
     
-    public void addMouseHandler(MapMouseEvent handler){
+    public void addMouseHandler(MapMouseEvent handler, EventType event){
         
         Platform.runLater(() -> {
                 group.getChildren().clear();
@@ -99,13 +103,14 @@ public class MapPanel extends JFXPanel {
                     };
 
                     //Adding event Filter 
-                    lane.getPolyline().addEventFilter(MouseEvent.MOUSE_CLICKED, eventHandler);
+                    lane.getPolyline().addEventFilter(event, eventHandler);
                     group.getChildren().add(lane.getPolyline());
                 }
                 this.updateUI();
             });
     }
     
+
     public void addScrollListener(){
         this.setAutoscrolls(true);
         MouseAdapter mouseAdapter = new MouseAdapter() {
@@ -114,6 +119,7 @@ public class MapPanel extends JFXPanel {
             public void mousePressed(java.awt.event.MouseEvent e) {
                 mouseStartX = e.getX();
                 mouseStartY = e.getY();
+                
             }
             
             @Override
@@ -121,30 +127,33 @@ public class MapPanel extends JFXPanel {
             
             @Override
             public void mouseDragged(java.awt.event.MouseEvent e){
-                
-                JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass
-                                        (JViewport.class, MapPanel.this);
-                Point vpp = viewPort.getViewPosition();
-                vpp.translate(mouseStartX-e.getX(), mouseStartY-e.getY());
-                scrollRectToVisible(new Rectangle(vpp, viewPort.getSize()));
-                /*
-                if (origin != null) {
-                    JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
-                    
-                    int deltaX = origin.x - e.getX();
-                    int deltaY = origin.y - e.getY();
+                if (SwingUtilities.isLeftMouseButton(e)){
+                    JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass
+                                            (JViewport.class, MapPanel.this);
+                    Point vpp = viewPort.getViewPosition();
+                    vpp.translate(mouseStartX-e.getX(), mouseStartY-e.getY());
+                    scrollRectToVisible(new Rectangle(vpp, viewPort.getSize()));
+                    /*
+                    if (origin != null) {
+                        JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
 
-                    Rectangle view = viewPort.getViewRect();
-                    view.x += deltaX;
-                    view.y += deltaY;
+                        int deltaX = origin.x - e.getX();
+                        int deltaY = origin.y - e.getY();
 
-                    scrollRectToVisible(view);
+                        Rectangle view = viewPort.getViewRect();
+                        view.x += deltaX;
+                        view.y += deltaY;
+
+                        scrollRectToVisible(view);
+
+                    }*/
+                }else if(SwingUtilities.isRightMouseButton(e)){
                     
-                }*/
+                }
             }
             @Override
             public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
-                
+                /*
                 if (e.getWheelRotation() < 0){
                     group.setScaleX(group.getScaleX() + ZOOM_AMOUNT);
                     group.setScaleY(group.getScaleY() + ZOOM_AMOUNT);
@@ -153,7 +162,7 @@ public class MapPanel extends JFXPanel {
                     group.setScaleX(group.getScaleX() - ZOOM_AMOUNT);
                     group.setScaleY(group.getScaleY() - ZOOM_AMOUNT);
                     group.setScaleZ(group.getScaleZ() - ZOOM_AMOUNT);
-                }
+                }*/
                 
                 
             }

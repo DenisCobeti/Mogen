@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
+import javafx.scene.input.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -918,7 +919,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         }
         flowFrame = new FlowFrame(this, mapVisual, vehicleTypes);
-        mapVisual.addMouseHandler(flowFrame);
+        mapVisual.addMouseHandler(flowFrame, MouseEvent.MOUSE_CLICKED);
         flowFrame.setVisible(true);
      
     }//GEN-LAST:event_addFlowButtonActionPerformed
@@ -957,7 +958,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         }
         TazFrame = new TAZFrame(this, mapVisual);
-        mapVisual.addMouseHandler(TazFrame);
+        mapVisual.addMouseHandler(TazFrame, MouseEvent.MOUSE_CLICKED);
         TazFrame.setVisible(true);
      
     }//GEN-LAST:event_TAZAddButtonActionPerformed
