@@ -44,8 +44,11 @@ public class Simulation {
         String tag;
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
         while(reader.getLocalName().equals(Edge.TAG) && 
-                (reader.getAttributeValue(null, Edge.FUNCTION).equals("internal"))) 
-                    reader.nextTag(); // go to edges
+                (reader.getAttributeValue(null, Edge.FUNCTION).equals("internal"))){
+            while(!reader.getLocalName().equals(Edge.END_TAG)) reader.nextTag();
+            System.out.println("wooooooooooooooooo");
+        }
+        
         while (reader.hasNext()){
             event = reader.next();
             if(event == XMLStreamConstants.START_ELEMENT){

@@ -13,7 +13,6 @@ import java.util.List;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
 import model.routes.Flow;
-import view.MogenView;
 
 /**
  *
@@ -48,6 +47,8 @@ public class FlowModel extends MobilityModel {
         File project = new File(location + FilesExtension.SUMO_CFG);
         File projectFolder = new File(location);
         
+        control.startExport(files);
+        
         projectFolder.mkdirs();
         project.createNewFile();
         output.createNewFile();
@@ -66,6 +67,7 @@ public class FlowModel extends MobilityModel {
                 output.getAbsolutePath(), vTypes));
         
         for (int i = 0; i < files; i++){
+            control.progressExport(files);
             File ns2 = new File(location + i + FilesExtension.NS2_MOBILITY.getExtension());
             ns2.createNewFile();
         

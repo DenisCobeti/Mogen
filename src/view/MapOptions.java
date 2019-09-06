@@ -408,6 +408,7 @@ public class MapOptions extends javax.swing.JFrame {
     private void filterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filterButtonActionPerformed
         // TODO add your handling code here:
         int row;
+        
         while(!roadsTable.getSelectionModel().isSelectionEmpty()){
             row = roadsTable.getSelectedRow();
             String road = (String)roadsTable.getValueAt(row, 0);
@@ -426,18 +427,19 @@ public class MapOptions extends javax.swing.JFrame {
 
     private void unfilterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unfilterButtonActionPerformed
         // TODO add your handling code here:
-        for (int i : filteredRoadsTable.getSelectedRows()){
-            String road = (String)filteredRoadsTable.getValueAt(i, 0);
+        int row;
+        
+        while (!filteredRoadsTable.getSelectionModel().isSelectionEmpty()){
+            row = filteredRoadsTable.getSelectedRow();
+            String road = (String)filteredRoadsTable.getValueAt(row, 0);
             
             filteredRoads.remove(road);
             roads.add(road);
+            
             ((DefaultTableModel)roadsTable.getModel()).addRow(new String[] { 
                 road
             });
-            
-        }
-        for (int i : filteredRoadsTable.getSelectedRows()){
-            ((DefaultTableModel)filteredRoadsTable.getModel()).removeRow(filteredRoadsTable.getSelectedRow());
+            ((DefaultTableModel)filteredRoadsTable.getModel()).removeRow(row);
         }
         filteredRoadsTable.clearSelection();
         filteredRoadsChange = true;

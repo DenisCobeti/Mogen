@@ -109,11 +109,11 @@ public class RandomModel extends MobilityModel{
         File projectFolder = new File(location);
         double repetition = DEFAULT_TIME / vehicles;
         
+        control.startExport(files);
+        
         projectFolder.mkdirs();
         project.createNewFile();
-        
         output.createNewFile();
-        control.startExport(files);
         
         LinkedList <String> command = new LinkedList(Arrays.asList(
                 Config.python2,
@@ -144,9 +144,9 @@ public class RandomModel extends MobilityModel{
         System.out.println(sumo.command().toString());
         
         for (int i = 0; i < files; i++){
+            control.progressExport(files);
             File ns2 = new File(location + i + FilesExtension.NS2_MOBILITY.getExtension());
             ns2.createNewFile();
-            control.progressExport(files);
             
             executeProcess(randomTrips.start());
             executeProcess(sumo.start());

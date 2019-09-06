@@ -9,6 +9,7 @@ public class Edge {
     private final String shape;
     
     public final static String TAG = "edge";
+    public final static String END_TAG = "//edge";
     public final static String LANE = "lane";
     public final static String LENGTH = "length";
     public final static String SHAPE = "shape";

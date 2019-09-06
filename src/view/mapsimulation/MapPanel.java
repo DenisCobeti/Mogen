@@ -67,8 +67,26 @@ public class MapPanel extends JFXPanel {
         reader.nextTag(); // pass the net tag
         
         int event;
+        boolean found = false;
         String tag;
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
+        //HECER BIEN
+        
+        while (reader.hasNext() && !found){
+            event = reader.next();
+            if(event == XMLStreamConstants.START_ELEMENT){
+                tag = reader.getLocalName();
+                
+                if(tag.equals(Edge.TAG)){
+                    try {
+                        if (!reader.getAttributeValue(null, Edge.FUNCTION).equals("internal")) found = true;
+                      
+                    }catch (IllegalStateException ex){}
+                }
+            }  
+            
+        }
+        
         while (reader.hasNext()){
             event = reader.next();
             if(event == XMLStreamConstants.START_ELEMENT){
@@ -79,7 +97,7 @@ public class MapPanel extends JFXPanel {
                                   reader.getAttributeValue(null, Lane.LENGTH)
                                  ,reader.getAttributeValue(null, Lane.SHAPE));
                     lanes.add(lane);
-                    System.out.println(lane.toString());
+                    //System.out.println(lane.toString());
                 }else if(tag.equals(Junction.TAG)){
                     /*junctions.put(reader.getAttributeValue(null, ID), 
                                   reader.getAttributeValue(null, Lane.SHAPE));*/
