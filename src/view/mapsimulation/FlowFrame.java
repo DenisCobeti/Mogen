@@ -4,6 +4,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.util.List;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
@@ -49,6 +52,10 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private final MogenView view;
     private static DefaultComboBoxModel boxModel;
            
+    private final DoubleProperty zoomProperty = new SimpleDoubleProperty(1.0d);
+    private final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
+    private ScrollPane scrollPane = new ScrollPane();
+    
     private int mouseStartX;         
     private int mouseStartY; 
     
@@ -58,6 +65,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         
         initComponents();
         this.setLocationRelativeTo(view);
+        
         mapScrollPane.setViewportView(map);
         map.addScrollListener();
     }

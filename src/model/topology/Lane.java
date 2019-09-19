@@ -10,6 +10,7 @@ public class Lane  {
     private final double length;
     private final String name;
     private final Polyline polyline;
+    private final boolean internal;
     
     public final static String TAG = "lane";
     public final static String LENGTH = "length";
@@ -24,6 +25,17 @@ public class Lane  {
         double[] shapePoints = parseShape(shape.split("[\\s,]+"));
         polyline = new Polyline(shapePoints);
         polyline.setStrokeWidth(Lane.WIDTH);
+        internal = false;
+    }
+    
+    public Lane(String name, String length, String shape, boolean internal) {
+        this.length = Double.valueOf(length);
+        this.name = name;
+        this.internal = internal;
+        //int[] shapeInt = parseShape(shape.replace(".", "").split("[\\s,]+"));
+        double[] shapePoints = parseShape(shape.split("[\\s,]+"));
+        polyline = new Polyline(shapePoints);
+        polyline.setStrokeWidth(Lane.WIDTH);
     }
 
     @Override
@@ -34,6 +46,11 @@ public class Lane  {
     public String description() {
         return "Lane " + name + " { " + length + ", " + polyline + '}';
     }
+
+    public boolean isInternal() {
+        return internal;
+    }
+    
     /*
     private static int[] parseShape(String[] shapes){
         int[] shapeNum = new int[shapes.length];

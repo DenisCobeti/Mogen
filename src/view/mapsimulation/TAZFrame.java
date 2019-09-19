@@ -38,7 +38,6 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         initComponents();
         this.setLocationRelativeTo(view);
         mapPanel.add(map);
-        map.addScrollListener();
        
     }
 

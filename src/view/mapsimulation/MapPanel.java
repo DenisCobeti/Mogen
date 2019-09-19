@@ -1,8 +1,12 @@
 package view.mapsimulation;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
+import java.awt.geom.AffineTransform;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,12 +18,10 @@ import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Polyline;
-import javafx.scene.shape.Shape;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
+import javafx.scene.paint.Paint;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.xml.stream.XMLInputFactory;
@@ -34,10 +36,9 @@ import model.topology.Lane;
  *
  * @author Neblis
  */
-public class MapPanel extends JFXPanel {
+    public class MapPanel extends JFXPanel {
 
     private final List<Lane> lanes = new LinkedList<>();
-    private final Scene scene;
     private final Group group = new Group();
     private final static String ID = "id";
     private final static double ZOOM_AMOUNT = 0.25;
@@ -46,15 +47,19 @@ public class MapPanel extends JFXPanel {
     private int mouseStartX;         
     private int mouseStartY; 
     
+    private double zoomFactor = 1;
+    private double prevZoomFactor = 1;
+    private boolean zoomer;
+    private double xOffset = 0;
+    private double yOffset = 0;
+    
     public MapPanel(String name) throws FileNotFoundException, 
                                         XMLStreamException, IOException {
         super();
         parseNetwork(name);
         
-        scene = new Scene (group);
         Platform.setImplicitExit(false);
         this.setAutoscrolls(true);
-        this.setScene(scene);
         rectangle = new Rectangle();
     }
     
@@ -67,41 +72,38 @@ public class MapPanel extends JFXPanel {
         reader.nextTag(); // pass the net tag
         
         int event;
-        boolean found = false;
-        String tag;
+        boolean internal = true;
+        String tag, function;
+        
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
         //HECER BIEN
-        
-        while (reader.hasNext() && !found){
-            event = reader.next();
-            if(event == XMLStreamConstants.START_ELEMENT){
-                tag = reader.getLocalName();
-                
-                if(tag.equals(Edge.TAG)){
-                    try {
-                        if (!reader.getAttributeValue(null, Edge.FUNCTION).equals("internal")) found = true;
-                      
-                    }catch (IllegalStateException ex){}
-                }
-            }  
-            
-        }
-        
         while (reader.hasNext()){
             event = reader.next();
             if(event == XMLStreamConstants.START_ELEMENT){
                 tag = reader.getLocalName();
                 
                 if(tag.equals(Lane.TAG)){
+                    
                     Lane lane = new Lane( reader.getAttributeValue(null, ID), 
-                                  reader.getAttributeValue(null, Lane.LENGTH)
-                                 ,reader.getAttributeValue(null, Lane.SHAPE));
+                                  reader.getAttributeValue(null, Lane.LENGTH),
+                                  reader.getAttributeValue(null, Lane.SHAPE), 
+                                  internal);
+                    System.out.println(internal);
                     lanes.add(lane);
+                    
                     //System.out.println(lane.toString());
                 }else if(tag.equals(Junction.TAG)){
                     /*junctions.put(reader.getAttributeValue(null, ID), 
                                   reader.getAttributeValue(null, Lane.SHAPE));*/
-                }      
+                }else if(tag.equals(Edge.TAG)){
+                    function = reader.getAttributeValue(null, Edge.FUNCTION);
+                    
+                    if(function != null){
+                        if ("internal".equals(function)) internal = true;
+                    } else {
+                        internal = false;
+                    }
+                }
             }  
             
         }
@@ -114,17 +116,25 @@ public class MapPanel extends JFXPanel {
         Platform.runLater(() -> {
                 group.getChildren().clear();
         
-                for (Lane lane : lanes){
-                    lane.getPolyline().setOnMousePressed(null);
-                    EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
-                        handler.addFunctionToLanes(lane, e);
-                    };
-
-                    //Adding event Filter 
-                    lane.getPolyline().addEventFilter(event, eventHandler);
-                    group.getChildren().add(lane.getPolyline());
-                }
+                lanes.forEach((lane) -> {
+                    if (!lane.isInternal()){
+                        lane.getPolyline().setOnMousePressed(null);
+                        EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
+                            handler.addFunctionToLanes(lane, e);
+                        };
+                        
+                        //Adding event Filter 
+                        lane.getPolyline().addEventFilter(event, eventHandler);
+                        group.getChildren().add(lane.getPolyline());
+                    }else {
+                        lane.getPolyline().setStroke(Paint.valueOf(MapMouseEvent.INTERNAL_LANE_COLOR));
+                        group.getChildren().add(lane.getPolyline());
+                    }
+                });
+                ZoomableScrollPane pane = new ZoomableScrollPane(group);
+                this.setScene(new Scene(pane));
                 this.updateUI();
+                this.repaint();
             });
     }
     
@@ -166,7 +176,10 @@ public class MapPanel extends JFXPanel {
 
                     }*/
                 }else if(SwingUtilities.isRightMouseButton(e)){
-                    
+                    /*
+                    Platform.runLater(() -> {
+                        group.getChildren().add(new javafx.scene.shape.Rectangle(mouseStartX, mouseStartY));
+                    });*/
                 }
             }
             @Override
@@ -181,12 +194,46 @@ public class MapPanel extends JFXPanel {
                     group.setScaleY(group.getScaleY() - ZOOM_AMOUNT);
                     group.setScaleZ(group.getScaleZ() - ZOOM_AMOUNT);
                 }*/
-                
-                
+                zoomer = true;
+                //Zoom in
+                if (e.getWheelRotation() < 0) {
+                    zoomFactor *= 1.1;
+                    repaint();
+                }
+                //Zoom out
+                if (e.getWheelRotation() > 0) {
+                    zoomFactor /= 1.1;
+                    repaint();
+                }
             }
         };
+        
         this.addMouseListener(mouseAdapter);
         this.addMouseWheelListener(mouseAdapter);
         this.addMouseMotionListener(mouseAdapter);
     }
+    /*
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+        if (zoomer) {
+            AffineTransform at = new AffineTransform();
+
+            double xRel = MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX();
+            double yRel = MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY();
+
+            double zoomDiv = zoomFactor / prevZoomFactor;
+
+            xOffset = (zoomDiv) * (xOffset) + (1 - zoomDiv) * xRel;
+            yOffset = (zoomDiv) * (yOffset) + (1 - zoomDiv) * yRel;
+
+            at.translate(xOffset, yOffset);
+            at.scale(zoomFactor, zoomFactor);
+            prevZoomFactor = zoomFactor;
+            g2.transform(at);
+            zoomer = false;
+        }
+        // All drawings go here
+    }*/
 }

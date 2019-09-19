@@ -11,6 +11,7 @@ public interface MapMouseEvent {
     
     static final String SELECTED_LANE_COLOR = "RED";
     static final String UNSELECTED_LANE_COLOR = "BLACK";
+    static final String INTERNAL_LANE_COLOR = "GREY";
     
     void addFunctionToLanes(Lane lane, MouseEvent e);
     void unselectLanes();
