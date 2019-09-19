@@ -1,33 +1,33 @@
 package view.mapsimulation;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
-import java.awt.geom.AffineTransform;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+
 import model.topology.Edge;
 import model.topology.Junction;
 import model.topology.Lane;
@@ -88,7 +88,6 @@ import model.topology.Lane;
                                   reader.getAttributeValue(null, Lane.LENGTH),
                                   reader.getAttributeValue(null, Lane.SHAPE), 
                                   internal);
-                    System.out.println(internal);
                     lanes.add(lane);
                     
                     //System.out.println(lane.toString());

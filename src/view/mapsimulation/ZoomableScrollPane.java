@@ -1,76 +1,77 @@
 package view.mapsimulation;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
 
 public class ZoomableScrollPane extends ScrollPane {
-    private double scaleValue = 0.7;
-    private double zoomIntensity = 0.02;
-    private Node target;
-    private Node zoomNode;
+    private int deltaCount = 0;
+    private final double DEFAULT_ZOOM = 1.0;
+    
+    private DoubleProperty zoomMax = new SimpleDoubleProperty(10.0);
+    private DoubleProperty zoomMin = new SimpleDoubleProperty(0.1);
+    private DoubleProperty zoomDelta = new SimpleDoubleProperty(1.2);
+    private DoubleProperty zoom = new SimpleDoubleProperty(DEFAULT_ZOOM);
 
-    public ZoomableScrollPane(Node target) {
-        super();
-        this.target = target;
-        this.zoomNode = new Group(target);
-        setContent(outerNode(zoomNode));
+    public ZoomableScrollPane(Node content) {
+        super(new Group(content));
+        this.setPannable(true);
+        zoom.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> ov, Number t, Number newZoom) {
+                System.out.println("Zoom=" + newZoom.doubleValue());
+                content.setScaleX(newZoom.doubleValue());
+                content.setScaleY(newZoom.doubleValue());
+            }
 
-        setPannable(true);
-        setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        setFitToHeight(true); //center
-        setFitToWidth(true); //center
-        updateScale();
-    }
-
-    private Node outerNode(Node node) {
-        Node outerNode = centeredNode(node);
-        outerNode.setOnScroll(e -> {
-            e.consume();
-            onScroll(e.getTextDeltaY(), new Point2D(e.getX(), e.getY()));
         });
-        return outerNode;
+
+        content.setOnScroll(new EventHandler<ScrollEvent>() {
+            public void handle(ScrollEvent event) {
+                if (event.getDeltaY() > 0) {
+                    zoomIn();
+                } else {
+                    zoomOut();
+                }
+            }
+        });
+    }
+    public void zoomIn() {
+        double zoomValue = DEFAULT_ZOOM * Math.pow(zoomDelta.get(), deltaCount + 1);
+        System.out.println("Zoooom " + zoomValue);
+        if (zoomValue > zoomMax.get()) {
+            setZoom(zoomMax.get());
+            return;
+        }
+
+        deltaCount++;
+        setZoom(zoomValue);
+
     }
 
-    private Node centeredNode(Node node) {
-        VBox vBox = new VBox(node);
-        vBox.setAlignment(Pos.CENTER);
-        return vBox;
+    public void zoomOut() {
+        double zoomValue = DEFAULT_ZOOM * Math.pow(zoomDelta.get(), deltaCount - 1);
+        System.out.println("Zoooom " + zoomValue);
+        if (zoomValue < zoomMin.get()) {
+            setZoom(zoomMin.get());
+            return;
+        }
+
+        deltaCount--;
+        setZoom(zoomValue);
     }
 
-    private void updateScale() {
-        target.setScaleX(scaleValue);
-        target.setScaleY(scaleValue);
-    }
-
-    private void onScroll(double wheelDelta, Point2D mousePoint) {
-        double zoomFactor = Math.exp(wheelDelta * zoomIntensity);
-        Bounds innerBounds = zoomNode.getLayoutBounds();
-        Bounds viewportBounds = getViewportBounds();
-
-        // calculate pixel offsets from [0, 1] range
-        double valX = this.getHvalue() * (innerBounds.getWidth() - viewportBounds.getWidth());
-        double valY = this.getVvalue() * (innerBounds.getHeight() - viewportBounds.getHeight());
-
-        scaleValue = scaleValue * zoomFactor;
-        updateScale();
-        this.layout(); // refresh ScrollPane scroll positions & target bounds
-
-        // convert target coordinates to zoomTarget coordinates
-        Point2D posInZoomTarget = target.parentToLocal(zoomNode.parentToLocal(mousePoint));
-
-        // calculate adjustment of scroll position (pixels)
-        Point2D adjustment = target.getLocalToParentTransform().deltaTransform(posInZoomTarget.multiply(zoomFactor - 1));
-
-        // convert back to [0, 1] range
-        // (too large/small values are automatically corrected by ScrollPane)
-        Bounds updatedInnerBounds = zoomNode.getBoundsInLocal();
-        this.setHvalue((valX + adjustment.getX()) / (updatedInnerBounds.getWidth() - viewportBounds.getWidth()));
-        this.setVvalue((valY + adjustment.getY()) / (updatedInnerBounds.getHeight() - viewportBounds.getHeight()));
+    public void setZoom(double zoomValue) {
+        zoom.set(zoomValue);
     }
 }

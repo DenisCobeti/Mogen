@@ -1,5 +1,6 @@
 package view.mapsimulation;
 
+import java.awt.BorderLayout;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
@@ -66,8 +67,8 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         initComponents();
         this.setLocationRelativeTo(view);
         
-        mapScrollPane.setViewportView(map);
-        map.addScrollListener();
+        mapView.add(map);
+        //map.addScrollListener();
     }
 
     /**
@@ -96,7 +97,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         numberTextField = new javax.swing.JFormattedTextField();
         typeBox = new javax.swing.JComboBox<>();
         infoTextArea = new javax.swing.JTextArea();
-        mapScrollPane = new javax.swing.JScrollPane();
+        mapView = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
@@ -242,19 +243,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         infoTextArea.setAlignmentY(1.0F);
         infoTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
-        mapScrollPane.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                mapScrollPaneMouseDragged(evt);
-            }
-        });
-        mapScrollPane.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mapScrollPaneMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                mapScrollPaneMousePressed(evt);
-            }
-        });
+        mapView.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -262,7 +251,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mapScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
+                .addComponent(mapView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(separator)
@@ -276,7 +265,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapScrollPane)
+                    .addComponent(mapView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ODInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -319,18 +308,6 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         // TODO add your handling code here:
         unselectLanes();
     }//GEN-LAST:event_formWindowClosing
-
-    private void mapScrollPaneMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapScrollPaneMouseDragged
-        
-    }//GEN-LAST:event_mapScrollPaneMouseDragged
-
-    private void mapScrollPaneMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapScrollPaneMouseClicked
-        
-    }//GEN-LAST:event_mapScrollPaneMouseClicked
-
-    private void mapScrollPaneMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapScrollPaneMousePressed
-        
-    }//GEN-LAST:event_mapScrollPaneMousePressed
     
     @Override
     public void unselectLanes(){
@@ -350,7 +327,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private javax.swing.JLabel endLabel;
     private javax.swing.JFormattedTextField endTextField;
     private javax.swing.JTextArea infoTextArea;
-    private javax.swing.JScrollPane mapScrollPane;
+    private javax.swing.JPanel mapView;
     private javax.swing.JLabel numberLabel;
     private javax.swing.JFormattedTextField numberTextField;
     private javax.swing.JPanel optionsPanel;
