@@ -26,23 +26,18 @@ public class ZoomableScrollPane extends ScrollPane {
     public ZoomableScrollPane(Node content) {
         super(new Group(content));
         this.setPannable(true);
-        zoom.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> ov, Number t, Number newZoom) {
-                System.out.println("Zoom=" + newZoom.doubleValue());
-                content.setScaleX(newZoom.doubleValue());
-                content.setScaleY(newZoom.doubleValue());
-            }
-
+        
+        zoom.addListener((ObservableValue<? extends Number> ov, Number t, Number newZoom) -> {
+            System.out.println("Zoom=" + newZoom.doubleValue());
+            content.setScaleX(newZoom.doubleValue());
+            content.setScaleY(newZoom.doubleValue());
         });
 
-        content.setOnScroll(new EventHandler<ScrollEvent>() {
-            public void handle(ScrollEvent event) {
-                if (event.getDeltaY() > 0) {
-                    zoomIn();
-                } else {
-                    zoomOut();
-                }
+        content.setOnScroll((ScrollEvent event) -> {
+            if (event.getDeltaY() > 0) {
+                zoomIn();
+            } else {
+                zoomOut();
             }
         });
     }
