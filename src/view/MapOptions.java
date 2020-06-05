@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -52,6 +53,7 @@ public class MapOptions extends javax.swing.JFrame {
         TITLE_FONT = new Font("Century Gothic", Font.BOLD, 16);
         
         initComponents();
+        acceptLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         for (RoadTypes road : RoadTypes.values()){
             ((DefaultTableModel)roadsTable.getModel()).addRow(new String[] { 
@@ -96,11 +98,12 @@ public class MapOptions extends javax.swing.JFrame {
         unfilterButton = new javax.swing.JButton();
         filteredRoadsPane = new javax.swing.JScrollPane();
         filteredRoadsTable = new javax.swing.JTable();
-        road2FilterType = new javax.swing.JPanel();
         acceptLabel = new javax.swing.JLabel();
         titleLabel = new javax.swing.JLabel();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
+        setIconImage(view.getIconImage());
 
         mainPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -326,24 +329,12 @@ public class MapOptions extends javax.swing.JFrame {
 
         tabPanel.addTab(ROAD_FILTERS, roadFilterTab);
 
-        road2FilterType.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout road2FilterTypeLayout = new javax.swing.GroupLayout(road2FilterType);
-        road2FilterType.setLayout(road2FilterTypeLayout);
-        road2FilterTypeLayout.setHorizontalGroup(
-            road2FilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 369, Short.MAX_VALUE)
-        );
-        road2FilterTypeLayout.setVerticalGroup(
-            road2FilterTypeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 456, Short.MAX_VALUE)
-        );
-
-        tabPanel.addTab(ROAD_FILTERS, road2FilterType);
-
         acceptLabel.setBackground(new java.awt.Color(255, 255, 255));
         acceptLabel.setFont(FONT);
+        acceptLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         acceptLabel.setText(ACCEPT);
+        acceptLabel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(153, 153, 153), 1, true));
+        acceptLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         acceptLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 acceptLabelMouseClicked(evt);
@@ -351,7 +342,7 @@ public class MapOptions extends javax.swing.JFrame {
         });
 
         titleLabel.setFont(TITLE_FONT);
-        titleLabel.setForeground(new java.awt.Color(204, 0, 102));
+        titleLabel.setForeground(new java.awt.Color(0, 153, 51));
         titleLabel.setText(TITLE);
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -461,7 +452,6 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JPanel optionsTab;
     private javax.swing.JCheckBox overtakeBox;
     private javax.swing.JLabel overtakeLanesLabel;
-    private javax.swing.JPanel road2FilterType;
     private javax.swing.JPanel roadFilterTab;
     private javax.swing.JScrollPane roadsPane;
     private javax.swing.JTable roadsTable;

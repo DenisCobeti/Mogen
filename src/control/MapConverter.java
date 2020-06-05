@@ -2,18 +2,36 @@ package control;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLEventWriter;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.XMLEvent;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
 import model.constants.RoadTypes;
+import model.map.MapSelection;
+import model.topology.Edge;
+import model.topology.Junction;
+import model.topology.Lane;
 
 /**
  * Map once already converted using netconvert
@@ -21,6 +39,11 @@ import model.constants.RoadTypes;
  */
 public class MapConverter {
     
+    
+    private final static String OSM_FILE_BOUNDS = "bounds"; 
+    private final static String OSM_FILE_NODE = "node"; 
+    private final static String OSM_FILE_LAT = "lat"; 
+    private final static String OSM_FILE_LON = "lon"; 
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
     private  List<String> convertCommand;
     
@@ -128,7 +151,75 @@ public class MapConverter {
         command.add(joiner.toString());
     }  
 
-    void pruneNodes(String mapName) {
+    void pruneNodes(String mapName, MapSelection selection) throws FileNotFoundException, 
+                                                            XMLStreamException,
+                                                            IOException {
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
         
+        InputStream in = new FileInputStream(mapName);
+        //XMLEventReader reader = inputFactory.createXMLEventReader(in);
+        XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
+        
+        OutputStream out = new FileOutputStream(mapName +'0');
+        XMLEventWriter writer =  outputFactory.createXMLEventWriter(out);
+        
+        //XMLEvent event;
+        int event;
+        boolean internal = true;
+        String tag, function;
+        // conversion for faster comparison
+        
+        double lon = 0, lat = 0;
+        while (reader.hasNext()){
+            event = reader.next();
+            if(event == XMLStreamConstants.START_ELEMENT){
+                tag = reader.getLocalName();
+                
+                if(tag.equals(OSM_FILE_NODE)){
+                    lon = Double.valueOf(reader.getAttributeValue(null, OSM_FILE_LON));
+                    lat = Double.valueOf(reader.getAttributeValue(null, OSM_FILE_LAT));
+                    
+                    if ((lon > selection.maxLon) || (lon < selection.minLon) ||
+                     (lat > selection.maxLat) || (lat < selection.minLat)){
+                        System.out.println("found one");
+                    }
+                }
+        }
+        /*
+        while (reader.hasNext()){
+            event = reader.nextEvent();
+            writer.add(event);
+            if(event.getEventType() == XMLStreamConstants.START_ELEMENT){
+                tag = event.asStartElement().getName().toString();
+                
+                if(tag.equals(OSM_FILE_NODE)){
+                    Iterator<Attribute> attribute = event.asStartElement().getAttributes();
+                    
+                    while(attribute.hasNext()){
+                        Attribute myAttribute = attribute.next();
+                        if(myAttribute.getName().toString().equals(OSM_FILE_LON)){
+                            lon  = Double.valueOf(myAttribute.getValue());
+                        }else if (myAttribute.getName().toString().equals(OSM_FILE_LAT)){
+                            lat = Double.valueOf(myAttribute.getValue());
+                        }
+                    }
+                    if ((lon > selection.maxLon) || (lon < selection.minLon) ||
+                     (lat > selection.maxLat) || (lat < selection.minLat)){
+                        System.out.println("found one");
+                        continue;
+                    }
+                    
+                    writer.add(event);
+                }
+            }else if (event.getEventType() == XMLStreamConstants.ATTRIBUTE){
+                writer.add(event);
+            }  */
+            
+        }
+        reader.close();
+        //writer.close();
+        in.close();
+        //out.close();
     }
 }

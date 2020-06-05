@@ -15,6 +15,7 @@ import model.exceptions.DuplicatedKeyException;
 import model.exceptions.NoRouteConnectionException;
 import model.mobility.MobilityModel;
 import model.routes.Flow;
+import model.routes.ODElement;
 import model.routes.TAZ;
 import model.routes.VType;
 
@@ -45,7 +46,7 @@ public class Mogen implements ViewListener{
     public void producedEvent(Event event, Object obj) {
         Tuple tuple;
         switch (event) {
-            case SALIR:
+            case EXIT:
                 salir();
                 break;
                 
@@ -53,7 +54,7 @@ public class Mogen implements ViewListener{
                 tuple = (Tuple)obj;
                 try {
                     control.saveMap((MapSelection)tuple.obj1, (String)tuple.obj2);
-                } catch (IOException | InterruptedException ex) {
+                } catch (IOException | InterruptedException | XMLStreamException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
                 }finally{
@@ -92,8 +93,7 @@ public class Mogen implements ViewListener{
                     view.update(model, ex);
                 } catch (IOException | InterruptedException ex2){
                     
-                }
-        
+                } 
                 break;
                 
            case NEW_TAZ:
@@ -119,6 +119,19 @@ public class Mogen implements ViewListener{
                     handleError(ex, Errors.ROUTE);
                 }
                 break; 
+                
+            case EXPORT_ODMATRIX:
+                tuple = (Tuple)obj;
+                try{
+                    control.exportODMatrix((String)tuple.obj1);
+                } catch (IOException | InterruptedException ex) {
+                    handleError(ex, Errors.ROUTE);
+                }
+                break; 
+                
+            case NEW_ODELEMENT:
+                view.update(model, control.addODElemnt((ODElement)obj));
+                break;
                 
             case EDIT_VTYPE:
                 tuple = (Tuple)obj;

@@ -26,7 +26,7 @@ public class FlowModel extends MobilityModel {
     private final static String FILE_LOCATION = "models/flow/";
     
     List<Flow> flows; 
-    private int files; 
+    private final int files; 
 
     public FlowModel(int files, HashMap<String, Flow> flows) {
         this.flows = new LinkedList();
@@ -36,6 +36,7 @@ public class FlowModel extends MobilityModel {
             this.flows.add(flow);
         });
     }
+    
     public void addFlow(Flow flow){
         flows.add(flow);
     }

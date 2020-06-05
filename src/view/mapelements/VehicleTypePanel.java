@@ -1,5 +1,6 @@
 package view.mapelements;
 
+import java.awt.Cursor;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -23,6 +24,8 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private static final String LENGHT = "Length";
     private static final String PROBABILITY = "Prob.";
     
+    private static final String ENABLE_TOOL_TIP = "Enable";
+    
     public final static Font NAME_FONT = new Font("Century Gothic", Font.BOLD, 14);
     
     private final static String DELETE_ICON_IMG = "resources/button/delete.png";
@@ -35,15 +38,18 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     ImageIcon DELETE_ICON = new ImageIcon(DELETE_ICON_IMG);
     ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
     
-    private MogenView view;
-    private String name;
-    private VType type;
+    private final MogenView view;
+    private final String name;
+    private final VType type;
     
-    private static enum Icon {
+    protected static enum Icon {
         CAR("resources/icon/car.png"), 
         SPORT("resources/icon/sport.png"), 
         TRUCK("resources/icon/truck.png"), 
         HEAVY("resources/icon/heavy.png");
+        
+        protected final static int SIZE_X = 50;
+        protected final static int SIZE_Y = 50;
         
         private final String location; 
         
@@ -51,7 +57,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
             this.location = location;
         }
         
-        private String getLocation(){
+        protected String getLocation(){
             return location;
         }
     }
@@ -72,6 +78,9 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         }
         
         initComponents();
+        removeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        icon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         update();
         
         icon.setIcon(imageIcon);
@@ -196,6 +205,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
 
         enabledBox.setBackground(new java.awt.Color(255, 255, 255));
         enabledBox.setSelected(true);
+        enabledBox.setToolTipText(ENABLE_TOOL_TIP);
         enabledBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enabledBoxActionPerformed(evt);
@@ -326,7 +336,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
 
     private void iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconMouseClicked
         // TODO add your handling code here:
-        view.selectIcon();
+        view.selectIcon(this);
     }//GEN-LAST:event_iconMouseClicked
 
     private void accelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accelFieldActionPerformed
@@ -402,6 +412,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     @Override
     public String getName() {
         return name;
+    }
+    
+    public void changeIcon(Icon iconImage) {
+        ImageIcon imageIcon = new ImageIcon(iconImage.getLocation());
+        icon.setIcon(imageIcon);
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField accelField;

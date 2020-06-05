@@ -2,11 +2,12 @@ package model;
 
 import control.MogenControl;
 import control.Simulation;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
-import javafx.scene.shape.Polyline;
 import model.routes.Flow;
+import model.routes.ODElement;
 import model.routes.TAZ;
 import model.routes.VType;
 import view.MogenView;
@@ -27,6 +28,8 @@ public class MogenModel extends Observable{
     private Map<String, Simulation> simulations;
     private HashMap<String, Flow> flows;
     private HashMap <String, TAZ> tazs;
+    private ArrayList<ODElement> elements;
+    
     
     private String map;
     
@@ -37,6 +40,8 @@ public class MogenModel extends Observable{
         this.vTypes = new HashMap<>();
         this.flows = new HashMap<>();
         this.tazs =  new HashMap<>();
+        this.elements = new ArrayList<>();
+        
         defaultVTypes();
         
         this.simulations = new HashMap<>();
@@ -74,6 +79,12 @@ public class MogenModel extends Observable{
         return new Tuple<>(id, tazs.get(id));
     }
     
+    public Tuple addODElement(ODElement element) {
+        elements.add(element);
+        
+        return new Tuple<>(null, element);
+    }
+    
     public HashMap<String, Flow> getFlows() {
         return flows;
     }
@@ -102,6 +113,10 @@ public class MogenModel extends Observable{
     
     public Map<String, VType> getvTypes() {
         return vTypes;
+    }
+
+    public Map<String, TAZ> getTazs() {
+        return tazs;
     }
 
     public void setMap(String map) {

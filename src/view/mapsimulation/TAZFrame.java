@@ -25,7 +25,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     private final static String EMPTY_EDGES_ERROR = "No roads selected for TAZ";
     
     private final MogenView view;
-    private LinkedList<Lane> edges;
+    private final LinkedList<Lane> edges;
     /**
      * Creates new form TAZFrame
      * @param view
@@ -37,7 +37,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         
         initComponents();
         this.setLocationRelativeTo(view);
-        mapPanel.add(map);
+        mapView.add(map);
        
     }
 
@@ -58,8 +58,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         infoTextArea = new javax.swing.JTextArea();
         infoTextArea1 = new javax.swing.JTextArea();
         addButton = new javax.swing.JButton();
-        mapScrollPane = new javax.swing.JScrollPane();
-        mapPanel = new javax.swing.JPanel();
+        mapView = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITLE);
@@ -147,18 +146,17 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
             }
         });
 
-        mapPanel.setBackground(new java.awt.Color(255, 255, 255));
-        mapPanel.setLayout(new java.awt.BorderLayout());
-        mapScrollPane.setViewportView(mapPanel);
+        mapView.setBackground(new java.awt.Color(255, 255, 255));
+        mapView.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mapScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 576, Short.MAX_VALUE)
-                .addGap(4, 4, 4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mapView, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -172,7 +170,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapScrollPane)
+                    .addComponent(mapView, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(infoTextArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -180,9 +178,8 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(addButton)
-                        .addGap(0, 3, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(addButton)))
+                .addContainerGap(13, Short.MAX_VALUE))
         );
 
         pack();
@@ -237,8 +234,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     private javax.swing.JTextArea infoTextArea;
     private javax.swing.JTextArea infoTextArea1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel mapPanel;
-    private javax.swing.JScrollPane mapScrollPane;
+    private javax.swing.JPanel mapView;
     private javax.swing.JPanel optionsPanel;
     // End of variables declaration//GEN-END:variables
 }

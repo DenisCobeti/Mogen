@@ -39,7 +39,7 @@ public class RandomModel extends MobilityModel{
     
     private final static String FILE_LOCATION = "models/random/";
     private final static String VEHICLE_FILE = "vehicles.add.xml";
-    private final static int DEFAULT_TIME = 1;
+    private final static double DEFAULT_TIME = 1.0;
     
     private final int vehicles;
     private final int time;
@@ -108,7 +108,9 @@ public class RandomModel extends MobilityModel{
         File project = new File(location + FilesExtension.SUMO_CFG);
         File projectFolder = new File(location);
         double repetition = DEFAULT_TIME / vehicles;
-        
+        System.out.println(DEFAULT_TIME);
+        System.out.println(vehicles);
+        System.out.println(repetition);
         control.startExport(files);
         
         projectFolder.mkdirs();

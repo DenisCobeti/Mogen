@@ -17,6 +17,7 @@ import org.jxmapviewer.viewer.GeoPosition;
 public class Config {
     public static  final String API = "https://lz4.overpass-api.de/api/map?bbox=-1.10557,40.33810,-1.10013,40.34183";
     private static final String CONFIG_FILE = "config.properties";
+    private static final String VEHICLE_FILE = "vehicles.json";
     public static String OSM_API = "http://overpass-api.de/api/map?bbox=";
     private static Properties properties;
     

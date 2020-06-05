@@ -1,6 +1,7 @@
 package view.jxmapviewer2;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -8,6 +9,7 @@ import java.io.File;
 import javax.swing.ImageIcon;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputListener;
 
 import org.jxmapviewer.JXMapViewer;
@@ -36,27 +38,39 @@ public class MapSelect extends javax.swing.JFrame {
     
     private final static String USE_INSTRUCTIONS = "Use left mouse button to pan, "
                              + "mouse wheel to zoom and right mouse to select";
+    
+    private final static String AREA_WARNING = "This seleccion in very large and "
+                            + "may take a long time to download \n Do you want "
+                            + "to continue?";
+    private final static String AREA_WARNING_TITLE = "Warning: Big map size";
+    
     private final static String CACHE_FILE = "cache.jxmapviewer2";
     private final static String EXPORT_TEXT = "Export selection";
+    
     
     private final static String MAX_LAT = "Max Lat. %.3f";
     private final static String MIN_LAT = "Min Lat. %.3f";
     private final static String MAX_LON = "Max Lon. %.3f";
     private final static String MIN_LON = "Min Lon. %.3f";
     
-    private final static String AREA = "Area: %.3f km2";
-    private final static String HEIGHT = "Height: %.3f km";
-    private final static String WIDTH = "Width: %.3f km";
+    private final static String AREA_TEXT =  "Area: %.3f km2";
+    private final static String HEIGHT_TEXT = "Height: %.3f km";
+    private final static String WIDTH_TEXT = "Width: %.3f km";
     
     private final static String MAP_ICON_IMG = "resources/button/map.png";
     private final ImageIcon MAP_ICON = new ImageIcon(MAP_ICON_IMG);
     
     private final static double EARTH_RADIUS = 6371.0;
+    private final static double MAX_AREA = 70.0;
     
     private final MogenView view;
+    private double currentArea;
     
     public MapSelect(MogenView view) {
         this.view = view;
+        this.currentArea = 0;
+        
+        this.setIconImage(view.getIconImage());
         
         TileFactoryInfo info = new OSMTileFactoryInfo();
         File cacheDir = new File(CACHE_FILE);
@@ -93,6 +107,7 @@ public class MapSelect extends javax.swing.JFrame {
             }
         });
         saveLabel.addMouseListener(sa);
+        saveLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         this.setLocationRelativeTo(view);
         
@@ -254,7 +269,23 @@ public class MapSelect extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
     
     private void exportSelection(SelectionAdapter sa, JXMapViewer mapViewer){
-        System.out.println(sa.getGeoCoordinates(mapViewer).toString());
+        
+        if(currentArea > MAX_AREA){
+            String options[] = {"Yes", "No", "Cancel"};
+            
+            int answer = JOptionPane.showOptionDialog(this, 
+                                              AREA_WARNING,AREA_WARNING_TITLE, 
+                                              JOptionPane.YES_NO_CANCEL_OPTION,
+                                              JOptionPane.WARNING_MESSAGE, null, 
+                                              options, options[2]);
+            switch (answer){
+                case JOptionPane.NO_OPTION:
+                    this.dispose();
+                case JOptionPane.CANCEL_OPTION:
+                    return;
+            }
+        }         
+            
         view.importMap(this, sa.getGeoCoordinates(mapViewer));
     }
     
@@ -276,10 +307,11 @@ public class MapSelect extends javax.swing.JFrame {
         maxLatLabel.setText(String.format(MAX_LAT, maxLat));
         minLatLabel.setText(String.format(MIN_LAT, minLat));
         
-        heightLabel.setText(String.format(HEIGHT, height));
-        widthLabel.setText(String.format(WIDTH, width));
+        heightLabel.setText(String.format(HEIGHT_TEXT, height));
+        widthLabel.setText(String.format(WIDTH_TEXT, width));
         
-        areaLabel.setText(String.format(AREA, height * width));
+        currentArea = height * width;
+        areaLabel.setText(String.format(AREA_TEXT, currentArea));
     }
     
     private static double distance(double maxLat, double maxLon, double minLat, double minLon){
@@ -295,7 +327,7 @@ public class MapSelect extends javax.swing.JFrame {
         return distance;
     }
     
-    private static double area(double maxLat, double maxLon, double minLat, double minLon) {
+    private static double getArea(double maxLat, double maxLon, double minLat, double minLon) {
         
         double height = distance(maxLat,maxLon, minLat,maxLon);
         double width = distance(maxLat,maxLon, maxLat,minLon);

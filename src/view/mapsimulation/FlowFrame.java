@@ -1,9 +1,5 @@
 package view.mapsimulation;
 
-import java.awt.BorderLayout;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
 import java.util.List;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -12,8 +8,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
 import model.routes.Flow;
 import model.topology.Lane;
 import view.MogenView;
@@ -55,14 +49,14 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
            
     private final DoubleProperty zoomProperty = new SimpleDoubleProperty(1.0d);
     private final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
-    private ScrollPane scrollPane = new ScrollPane();
+    private final ScrollPane scrollPane = new ScrollPane();
     
     private int mouseStartX;         
     private int mouseStartY; 
     
     public FlowFrame(MogenView view, MapPanel map, List<VehicleTypePanel> VehicleTypes) {
         this.view = view;
-        this.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
+        FlowFrame.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
         
         initComponents();
         this.setLocationRelativeTo(view);
@@ -243,6 +237,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         infoTextArea.setAlignmentY(1.0F);
         infoTextArea.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
+        mapView.setPreferredSize(new java.awt.Dimension(576, 576));
         mapView.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -265,7 +260,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(mapView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mapView, javax.swing.GroupLayout.DEFAULT_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(ODInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -296,10 +291,11 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
                    selectedLaneOrigin.getName(), selectedLaneDestination.getName(), 
                    typeBox.getSelectedItem().toString(), 
                    Integer.parseInt(numberTextField.getText()));
-            
+           
             view.addFlow(flow);
+            
             unselectLanes();
-            this.dispose();
+            //this.dispose();
         }
             
     }//GEN-LAST:event_adddButtonActionPerformed
@@ -308,6 +304,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         // TODO add your handling code here:
         unselectLanes();
     }//GEN-LAST:event_formWindowClosing
+    
     
     @Override
     public void unselectLanes(){

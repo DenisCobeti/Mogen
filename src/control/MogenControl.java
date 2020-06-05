@@ -3,6 +3,7 @@ package control;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,6 +15,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import javax.xml.stream.XMLStreamException;
 
 import model.map.OsmAPI;
 import model.MogenModel;
@@ -28,7 +30,9 @@ import model.constants.FilesExtension;
 import model.exceptions.NoRouteConnectionException;
 import model.mobility.FlowModel;
 import model.mobility.MobilityModel;
+import model.mobility.ODModel;
 import model.routes.Flow;
+import model.routes.ODElement;
 import model.routes.VType;
 
 import view.MogenView;
@@ -105,7 +109,9 @@ public class MogenControl {
     
     public void saveMap(MapSelection selection, String location) throws ProtocolException, 
                                                             IOException,
-                                                            InterruptedException{
+                                                            InterruptedException,
+                                                            FileNotFoundException,
+                                                            XMLStreamException{
         progress = Progress.MAP;
         progress.initialize(MAP_DOWNLOAD_STEPS);
         view.update(model, progress);
@@ -127,16 +133,16 @@ public class MogenControl {
         // Modify second parameter to change the imported map type
         progress.progress();
         view.update(model, progress);
-        openMap(map);
+        openMapPruneNodes(map, selection);
     }
     
-    public void openMap(String location) throws ProtocolException, 
-                                                            IOException,
-                                                            InterruptedException{
-        // Modify second parameter to change the imported map type
+    public void openMapPruneNodes(String location, MapSelection selection) throws 
+                                    ProtocolException, IOException,
+                                    InterruptedException,FileNotFoundException,
+                                    XMLStreamException{
         converter = new MapConverter(location, APIS.OSM);
         String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
-        converter.pruneNodes(DEFAULT_MAP_NAME);
+        converter.pruneNodes(location, selection);
         model.setMap(DEFAULT_MAP_NAME);
         model.getFlows().clear();
         
@@ -144,6 +150,19 @@ public class MogenControl {
         hasMap = true;
     }
     
+    public void openMap(String location) throws ProtocolException, 
+                                                            IOException,
+                                                            InterruptedException,
+                                                            FileNotFoundException{
+        // Modify second parameter to change the imported map type
+        converter = new MapConverter(location, APIS.OSM);
+        String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
+        model.setMap(DEFAULT_MAP_NAME);
+        model.getFlows().clear();
+        
+        map = location;
+        hasMap = true;
+    }
     public Tuple addFlow(Flow flow) throws NoRouteConnectionException, IOException, 
                                                         InterruptedException{
         
@@ -171,6 +190,7 @@ public class MogenControl {
 
         System.out.println(output);
         output = output.substring(output.indexOf("["));
+        
         if (!output.contains( "'"+ flow.destinationEdge() + "'"))
                                 throw new NoRouteConnectionException
                                           (Errors.NO_CONNECTION.getErrorMsg());
@@ -182,6 +202,7 @@ public class MogenControl {
     
     public void exportSimulation(MobilityModel mobilityModel, String location) 
                                        throws IOException, InterruptedException{
+        /*
         File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
                                         FilesExtension.VEHICLES.getExtension());
         vehicles.createNewFile();
@@ -197,9 +218,10 @@ public class MogenControl {
         }
         writer.println("</vTypeDistribution>");
         writer.println("</additional>");
-        writer.close();
-        
-        mobilityModel.export(location, model.getMap(), vehicles.getAbsolutePath(), this);
+        writer.close();*/
+        String vehiclesPath = exportVehicles(DEFAULT_VTYPE_LOCATION 
+                                        + FilesExtension.VEHICLES.getExtension());
+        mobilityModel.export(location, model.getMap(), vehiclesPath ,this);
     }
     
     public static void inputStreamToFile(InputStream inputStream, File file) 
@@ -236,6 +258,7 @@ public class MogenControl {
     }
 
     public void exportFlows(String location, int files) throws IOException, InterruptedException {
+        /*
         File vehicles = new File(DEFAULT_VTYPE_LOCATION + 
                                         FilesExtension.VEHICLES.getExtension());
         vehicles.createNewFile();
@@ -252,9 +275,43 @@ public class MogenControl {
         writer.println("</vTypeDistribution>");
         writer.println("</additional>");
         writer.close();
-        
+        */
+        String vehiclesPath = exportVehicles(DEFAULT_VTYPE_LOCATION 
+                                        + FilesExtension.VEHICLES.getExtension());
         FlowModel flowModel = new FlowModel(files, model.getFlows());
-        flowModel.export(location, model.getMap(), vehicles.getAbsolutePath(), this);
+        
+        flowModel.export(location, model.getMap(), vehiclesPath, this);
+    }
+    
+    public void exportODMatrix(String location) throws IOException, InterruptedException {
+        
+        String vehiclesPath = exportVehicles(DEFAULT_VTYPE_LOCATION 
+                                        + FilesExtension.VEHICLES.getExtension());
+        ODModel ODmodel = new ODModel(10.0, model.getTazs());
+        
+        ODmodel.export(location, model.getMap(), vehiclesPath, this);
+    }
+    
+    public String exportVehicles(String file) throws FileNotFoundException, IOException{
+        File vehicles = new File(file);
+        vehicles.createNewFile();
+        
+        PrintWriter writer = new PrintWriter(vehicles.getAbsoluteFile(), "UTF-8");
+        
+        writer.println("<additional>");
+        writer.println("<vTypeDistribution id=\"" + VType.DISTRIBUTION + "\">");
+        for (Map.Entry<String, VType> entry : model.getvTypes().entrySet()) {
+            //writer.println(entry.getValue().toFile(entry.getKey()));
+            if(entry.getValue().isEnabled()){
+                writer.println(entry.getValue().toFile(entry.getKey()));
+            }
+        }
+        writer.println("</vTypeDistribution>");
+        writer.println("</additional>");
+        
+        writer.close();
+        
+        return vehicles.getAbsolutePath();
     }
     
     public void setRoadsFiltered(HashSet<String> roads) throws IOException, 
@@ -262,6 +319,10 @@ public class MogenControl {
         this.roads = roads;
         if (hasMap) openMap(map);
         
+    }
+    
+    public Tuple addODElemnt(ODElement element){
+        return model.addODElement(element);
     }
     
     public void startExport(int num){

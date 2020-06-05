@@ -1,8 +1,6 @@
 package view.mapsimulation;
 
-import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.MouseAdapter;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,8 +19,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 
-import javax.swing.JViewport;
-import javax.swing.SwingUtilities;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -42,14 +38,13 @@ import model.topology.Lane;
     private final Group group = new Group();
     private final static String ID = "id";
     private final static double ZOOM_AMOUNT = 0.25;
-    private Rectangle rectangle;
+    private final Rectangle rectangle;
     
     private int mouseStartX;         
     private int mouseStartY; 
     
     private double zoomFactor = 1;
     private double prevZoomFactor = 1;
-    private boolean zoomer;
     private double xOffset = 0;
     private double yOffset = 0;
     
@@ -69,7 +64,7 @@ import model.topology.Lane;
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         InputStream in = new FileInputStream(location);
         XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
-        reader.nextTag(); // pass the net tag
+        reader.nextTag(); // pass the next tag
         
         int event;
         boolean internal = true;
@@ -138,79 +133,6 @@ import model.topology.Lane;
     }
     
 
-    public void addScrollListener(){
-        this.setAutoscrolls(true);
-        MouseAdapter mouseAdapter = new MouseAdapter() {
-            
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent e) {
-                mouseStartX = e.getX();
-                mouseStartY = e.getY();
-                
-            }
-            
-            @Override
-            public void mouseReleased(java.awt.event.MouseEvent e) {}
-            
-            @Override
-            public void mouseDragged(java.awt.event.MouseEvent e){
-                if (SwingUtilities.isLeftMouseButton(e)){
-                    JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass
-                                            (JViewport.class, MapPanel.this);
-                    Point vpp = viewPort.getViewPosition();
-                    vpp.translate(mouseStartX-e.getX(), mouseStartY-e.getY());
-                    scrollRectToVisible(new Rectangle(vpp, viewPort.getSize()));
-                    /*
-                    if (origin != null) {
-                        JViewport viewPort = (JViewport) SwingUtilities.getAncestorOfClass(JViewport.class, panel);
-
-                        int deltaX = origin.x - e.getX();
-                        int deltaY = origin.y - e.getY();
-
-                        Rectangle view = viewPort.getViewRect();
-                        view.x += deltaX;
-                        view.y += deltaY;
-
-                        scrollRectToVisible(view);
-
-                    }*/
-                }else if(SwingUtilities.isRightMouseButton(e)){
-                    /*
-                    Platform.runLater(() -> {
-                        group.getChildren().add(new javafx.scene.shape.Rectangle(mouseStartX, mouseStartY));
-                    });*/
-                }
-            }
-            @Override
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent e) {
-                /*
-                if (e.getWheelRotation() < 0){
-                    group.setScaleX(group.getScaleX() + ZOOM_AMOUNT);
-                    group.setScaleY(group.getScaleY() + ZOOM_AMOUNT);
-                    group.setScaleZ(group.getScaleZ() + ZOOM_AMOUNT);
-                }else {
-                    group.setScaleX(group.getScaleX() - ZOOM_AMOUNT);
-                    group.setScaleY(group.getScaleY() - ZOOM_AMOUNT);
-                    group.setScaleZ(group.getScaleZ() - ZOOM_AMOUNT);
-                }*/
-                zoomer = true;
-                //Zoom in
-                if (e.getWheelRotation() < 0) {
-                    zoomFactor *= 1.1;
-                    repaint();
-                }
-                //Zoom out
-                if (e.getWheelRotation() > 0) {
-                    zoomFactor /= 1.1;
-                    repaint();
-                }
-            }
-        };
-        
-        this.addMouseListener(mouseAdapter);
-        this.addMouseWheelListener(mouseAdapter);
-        this.addMouseMotionListener(mouseAdapter);
-    }
     /*
     @Override
     public void paintComponent(Graphics g) {

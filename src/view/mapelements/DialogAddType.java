@@ -4,9 +4,11 @@ import view.Dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -25,9 +27,9 @@ public class DialogAddType extends Dialog{
     
     public DialogAddType(MogenView view) {
         this.view = view;
+        this.setIconImage(view.getIconImage());
         
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(1, 2));
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         panel.setBackground(Color.WHITE);
         panel.add(newLabel(TEXT_ID), BorderLayout.WEST);
         panel.add(id = newTextField(),BorderLayout.EAST);
@@ -46,7 +48,7 @@ public class DialogAddType extends Dialog{
                 dispose();
             } 
         });
-        add(panel,BorderLayout.NORTH);
+        add(panel, BorderLayout.NORTH);
         add(acceptButton, BorderLayout.SOUTH);
         
         pack();
