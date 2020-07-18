@@ -199,7 +199,7 @@
                       <Component id="errorLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="mobilityOptionsPanel" min="-2" pref="417" max="-2" attributes="0"/>
+                  <Component id="mobilityOptionsPanel" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="exportButton" min="-2" pref="35" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
@@ -338,7 +338,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="randomPanel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="303" max="32767" attributes="0"/>
+                          <EmptySpace pref="334" max="32767" attributes="0"/>
                           <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -383,9 +383,9 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="vehiclesLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
-                                  <Component id="vehiclesField" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="vehiclesField" min="-2" pref="20" max="-2" attributes="0"/>
+                                  <Component id="vehiclesLabel" min="-2" pref="22" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -432,7 +432,7 @@
                           <Connection code="FONT" type="code"/>
                         </Property>
                         <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                          <Connection code="RANDOM_TIME" type="code"/>
+                          <Connection code="TIME" type="code"/>
                         </Property>
                       </Properties>
                     </Component>
@@ -532,7 +532,7 @@
                                   <EmptySpace min="4" pref="4" max="-2" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="47" max="32767" attributes="0"/>
+                          <EmptySpace pref="78" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -631,7 +631,7 @@
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="TAZInfoPanel" max="32767" attributes="0"/>
                                       <Component id="TAZSeparator" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="ODInfoPanel1" alignment="1" max="32767" attributes="0"/>
+                                      <Component id="ODInfoPanel" alignment="1" max="32767" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                               </Group>
@@ -640,11 +640,15 @@
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="TAZScrollPane" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="ODSeparator" max="32767" attributes="0"/>
-                                  </Group>
+                                  <Component id="TAZScrollPane" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                              <Component id="ODSeparator" alignment="0" max="32767" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Component id="ODTimeLabel" min="-2" pref="102" max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="ODTimeField" min="-2" pref="82" max="-2" attributes="0"/>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -658,14 +662,19 @@
                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                           <Component id="TAZSeparator" min="-2" pref="5" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="TAZScrollPane" min="-2" pref="151" max="-2" attributes="0"/>
+                          <Component id="TAZScrollPane" min="-2" pref="125" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="ODInfoPanel1" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="ODSeparator" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="ODMScrollPane" min="-2" pref="158" max="-2" attributes="0"/>
-                          <EmptySpace pref="12" max="32767" attributes="0"/>
+                          <Component id="ODInfoPanel" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="ODSeparator" min="-2" pref="2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="ODMScrollPane" min="-2" pref="110" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="ODTimeLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
+                              <Component id="ODTimeField" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="67" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -771,7 +780,7 @@
                 </Container>
                 <Component class="javax.swing.JSeparator" name="TAZSeparator">
                 </Component>
-                <Container class="javax.swing.JPanel" name="ODInfoPanel1">
+                <Container class="javax.swing.JPanel" name="ODInfoPanel">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
@@ -783,7 +792,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="ODLabel" min="-2" pref="202" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="32" max="32767" attributes="0"/>
                               <Component id="ODAddButton" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="ODiImportButton" min="-2" max="-2" attributes="0"/>
@@ -881,6 +890,30 @@
                     </Component>
                   </SubComponents>
                 </Container>
+                <Component class="javax.swing.JLabel" name="ODTimeLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="FONT" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="TIME" type="code"/>
+                    </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JFormattedTextField" name="ODTimeField">
+                  <Properties>
+                    <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+                      <Format format="#0" subtype="-1" type="0"/>
+                    </Property>
+                    <Property name="horizontalAlignment" type="int" value="4"/>
+                    <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="OD_TIME_DFLT" type="code"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="FONT" type="code"/>
+                    </Property>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>

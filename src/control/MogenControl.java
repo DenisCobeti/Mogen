@@ -283,11 +283,11 @@ public class MogenControl {
         flowModel.export(location, model.getMap(), vehiclesPath, this);
     }
     
-    public void exportODMatrix(String location) throws IOException, InterruptedException {
+    public void exportODMatrix(String location, int time) throws IOException, InterruptedException {
         
         String vehiclesPath = exportVehicles(DEFAULT_VTYPE_LOCATION 
                                         + FilesExtension.VEHICLES.getExtension());
-        ODModel ODmodel = new ODModel(10.0, model.getTazs());
+        ODModel ODmodel = new ODModel(time, model.getTazs());
         
         ODmodel.export(location, model.getMap(), vehiclesPath, this);
     }

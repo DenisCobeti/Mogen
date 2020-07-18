@@ -22,15 +22,21 @@ public class ODModel extends MobilityModel {
     private final static String FOOTER_TAZ = "</tazs>";
     private final static String FILE_LOCATION = "models/od/";
     
+    private final static String O_FORMAT_TYPE = "$OR;D2";
+    private final static String V_FORMAT_TYPE = "$VMR";
+    
+    private final static String OD_ELEMENT_FACTOR = "1.00";
+    
     private final static String TAZ_FILE = "tazs.taz.xml";
+    private final static String OD_FILE = "od.taz.or";
     
     
     private Map<String, TAZ> tazs;
     private ArrayList<ODElement> elements;
     
-    private double begin;
+    private int begin;
     
-    public ODModel(double time, Map<String, TAZ> tazs) {
+    public ODModel(int time, Map<String, TAZ> tazs) {
         tazs = new HashMap();
         
         this.begin = time;
@@ -41,7 +47,7 @@ public class ODModel extends MobilityModel {
         this.tazs = tazs;
     }
 
-    public void setBegin(double begin) {
+    public void setBegin(int begin) {
         this.begin = begin;
     }
     
@@ -72,6 +78,7 @@ public class ODModel extends MobilityModel {
                 MogenControl control) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File tazsFile = new File(FILE_LOCATION + TAZ_FILE + FilesExtension.TAZ);
+        File odFile = new File(FILE_LOCATION + OD_FILE + FilesExtension.TAZ);
         File project = new File(location + FilesExtension.SUMO_CFG);
         File projectFolder = new File(location);
         
@@ -81,6 +88,7 @@ public class ODModel extends MobilityModel {
         project.createNewFile();
         output.createNewFile();
         tazsFile.createNewFile();
+        odFile.createNewFile();
         
         PrintWriter writer = new PrintWriter(tazsFile.getAbsoluteFile(), "UTF-8");
         
@@ -92,6 +100,21 @@ public class ODModel extends MobilityModel {
         writer.println(FOOTER_TAZ);
         
         writer.close();
+        
+        PrintWriter writerOD = new PrintWriter(odFile.getAbsoluteFile(), "UTF-8");
+        
+        
+        writerOD.println(O_FORMAT_TYPE);
+        ////pasar a horas antes de exportar (por hacer)
+        writerOD.println(begin);
+        writerOD.println(OD_ELEMENT_FACTOR);
+        
+        elements.forEach((ODElement) -> {
+            writerOD.println(ODElement.toFile());
+        });
+        
+        writerOD.close();
+        
     }
     
 }

@@ -100,12 +100,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     //private final JLabel addDowntown;
     //private final JLabel addRSU;
     
-    private final static String RANDOM_TIME = "Time: ";
+    private final static String TIME = "Time(s): ";
     private final static String RANDOM_TIME_DFLT = "60";
     private final static String RANDOM_REPETITION = "Number of vehicles: ";
     private final static String RANDOM_REPETITION_DFLT = "3";
     private final static String RANDOM_FILES = "Files: ";
     private final static String RANDOM_FILES_DFLT = "1";
+    private final static String OD_TIME_DFLT = "3600";
     
     private final static String FLOW_ADD = "Add vehicle flow";
     
@@ -141,7 +142,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private final ViewListener listenerUI;
     
     private List<VehicleTypePanel> vehicleTypes;
-    private FlowModel flowModel;
     private String mapInfo;
     /**
      * Creates new form NewJFrame
@@ -225,13 +225,15 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         TAZLabel = new javax.swing.JLabel();
         TAZAddButton = new javax.swing.JButton();
         TAZSeparator = new javax.swing.JSeparator();
-        ODInfoPanel1 = new javax.swing.JPanel();
+        ODInfoPanel = new javax.swing.JPanel();
         ODLabel = new javax.swing.JLabel();
         ODAddButton = new javax.swing.JButton();
         ODiImportButton = new javax.swing.JButton();
         ODSeparator = new javax.swing.JSeparator();
         TAZScrollPane = new javax.swing.JScrollPane();
         TAZTable = new javax.swing.JTable();
+        ODTimeLabel = new javax.swing.JLabel();
+        ODTimeField = new javax.swing.JFormattedTextField();
         errorLabel = new javax.swing.JLabel();
         optionsMapButton = new javax.swing.JLabel();
         exportButton = new javax.swing.JLabel();
@@ -322,7 +324,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         vehiclesField.setFont(FONT);
 
         timeLabel.setFont(FONT);
-        timeLabel.setText(RANDOM_TIME);
+        timeLabel.setText(TIME);
 
         timeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         timeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -366,9 +368,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(randomPanelLayout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(vehiclesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(vehiclesField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(vehiclesField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(vehiclesLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(randomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(timeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -398,7 +400,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(randomOptionsPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(randomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 303, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 334, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -479,7 +481,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                             .addComponent(filesFlowLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(filesFlowField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)))
-                .addContainerGap(47, Short.MAX_VALUE))
+                .addContainerGap(78, Short.MAX_VALUE))
         );
 
         mobilityOptionsPanel.add(flowOptionsPanel, "flow");
@@ -535,7 +537,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addComponent(TAZAddButton))
         );
 
-        ODInfoPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        ODInfoPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         ODLabel.setFont(FONT);
         ODLabel.setText(OD);
@@ -556,21 +558,21 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         });
 
-        javax.swing.GroupLayout ODInfoPanel1Layout = new javax.swing.GroupLayout(ODInfoPanel1);
-        ODInfoPanel1.setLayout(ODInfoPanel1Layout);
-        ODInfoPanel1Layout.setHorizontalGroup(
-            ODInfoPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ODInfoPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout ODInfoPanelLayout = new javax.swing.GroupLayout(ODInfoPanel);
+        ODInfoPanel.setLayout(ODInfoPanelLayout);
+        ODInfoPanelLayout.setHorizontalGroup(
+            ODInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(ODInfoPanelLayout.createSequentialGroup()
                 .addComponent(ODLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addComponent(ODAddButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(ODiImportButton)
                 .addContainerGap())
         );
-        ODInfoPanel1Layout.setVerticalGroup(
-            ODInfoPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ODInfoPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        ODInfoPanelLayout.setVerticalGroup(
+            ODInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ODInfoPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                 .addComponent(ODLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ODAddButton)
                 .addComponent(ODiImportButton))
@@ -596,6 +598,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         TAZTable.getTableHeader().setReorderingAllowed(false);
         TAZScrollPane.setViewportView(TAZTable);
 
+        ODTimeLabel.setFont(FONT);
+        ODTimeLabel.setText(TIME);
+
+        ODTimeField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        ODTimeField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        ODTimeField.setText(OD_TIME_DFLT);
+        ODTimeField.setFont(FONT);
+
         javax.swing.GroupLayout ODOptionsPanelLayout = new javax.swing.GroupLayout(ODOptionsPanel);
         ODOptionsPanel.setLayout(ODOptionsPanelLayout);
         ODOptionsPanelLayout.setHorizontalGroup(
@@ -607,16 +617,20 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         .addGroup(ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(TAZInfoPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(TAZSeparator)
-                            .addComponent(ODInfoPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(ODInfoPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ODOptionsPanelLayout.createSequentialGroup()
                         .addComponent(ODMScrollPane)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ODOptionsPanelLayout.createSequentialGroup()
-                        .addGroup(ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(TAZScrollPane, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(ODSeparator))
-                        .addContainerGap())))
+                        .addComponent(TAZScrollPane)
+                        .addContainerGap())
+                    .addComponent(ODSeparator)
+                    .addGroup(ODOptionsPanelLayout.createSequentialGroup()
+                        .addComponent(ODTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(ODTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         ODOptionsPanelLayout.setVerticalGroup(
             ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -626,14 +640,18 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addGap(3, 3, 3)
                 .addComponent(TAZSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 5, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TAZScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TAZScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(ODInfoPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ODSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ODMScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addComponent(ODInfoPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ODSeparator, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(ODMScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(ODOptionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ODTimeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ODTimeField, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         mobilityOptionsPanel.add(ODOptionsPanel, "matrix");
@@ -694,7 +712,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mobilityOptionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(exportButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -1056,12 +1074,14 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ODAddButton;
-    private javax.swing.JPanel ODInfoPanel1;
+    private javax.swing.JPanel ODInfoPanel;
     private javax.swing.JLabel ODLabel;
     private javax.swing.JScrollPane ODMScrollPane;
     private javax.swing.JTable ODMTable;
     private javax.swing.JPanel ODOptionsPanel;
     private javax.swing.JSeparator ODSeparator;
+    private javax.swing.JFormattedTextField ODTimeField;
+    private javax.swing.JLabel ODTimeLabel;
     private javax.swing.JButton ODiImportButton;
     private javax.swing.JButton TAZAddButton;
     private javax.swing.JPanel TAZInfoPanel;
@@ -1127,7 +1147,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                                                     filesFlowField.getText())));
                     break;
                 case ODMatrix:
-                    System.out.println("atrix");
+                    listenerUI.producedEvent(ViewListener.Event.EXPORT_FLOW, 
+                                       new Tuple<>(location, 
+                                                   Integer.parseInt(
+                                                    ODTimeField.getText())));
                     break;
                 default:
                     System.out.println("ooooooooooooooooooooooooooooooo");

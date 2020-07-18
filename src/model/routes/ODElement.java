@@ -60,6 +60,10 @@ public class ODElement {
         }
         return true;
     }
+    
+    public String toFile(){
+        return (origin + "/t" + destination + "/t" + vehiclesNum );
+    }
 
     public String getOrigin() {
         return origin;

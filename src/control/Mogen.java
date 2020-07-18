@@ -123,7 +123,7 @@ public class Mogen implements ViewListener{
             case EXPORT_ODMATRIX:
                 tuple = (Tuple)obj;
                 try{
-                    control.exportODMatrix((String)tuple.obj1);
+                    control.exportODMatrix((String)tuple.obj1, (int)tuple.obj2);
                 } catch (IOException | InterruptedException ex) {
                     handleError(ex, Errors.ROUTE);
                 }
