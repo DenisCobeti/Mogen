@@ -49,14 +49,14 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
            
     private final DoubleProperty zoomProperty = new SimpleDoubleProperty(1.0d);
     private final DoubleProperty deltaY = new SimpleDoubleProperty(0.0d);
-    private ScrollPane scrollPane = new ScrollPane();
+    private final ScrollPane scrollPane = new ScrollPane();
     
     private int mouseStartX;         
     private int mouseStartY; 
     
     public FlowFrame(MogenView view, MapPanel map, List<VehicleTypePanel> VehicleTypes) {
         this.view = view;
-        this.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
+        FlowFrame.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
         
         initComponents();
         this.setLocationRelativeTo(view);
