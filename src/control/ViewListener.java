@@ -11,6 +11,8 @@ public interface ViewListener {
                         EDIT_SUMO, REMOVE_VTYPE, FILTER_ROADS, NEW_TAZ, 
                         SAVE_VEHICLES, NEW_ODELEMENT, EXPORT_ODMATRIX}
     
+    public enum TableTypes{TAZType}
+    
     public void producedEvent(Event event, Object obj);
     
 }

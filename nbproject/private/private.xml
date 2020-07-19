@@ -5,10 +5,16 @@
         <group>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/control/Mogen.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/mobility/RandomModel.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/routes/ODElement.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/mobility/MobilityModel.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/view/MogenView.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/mobility/ODModel.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/MogenModel.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/control/Simulation.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/control/MogenControl.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/control/MapConverter.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/delete/Connection.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/view/ProgressFrame.java</file>
         </group>
     </open-files>
 </project-private>

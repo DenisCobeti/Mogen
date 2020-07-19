@@ -27,10 +27,13 @@ public class FlowModel extends MobilityModel {
     
     List<Flow> flows; 
     private final int files; 
+    private final File inputFiles = new File(FILE_LOCATION);
 
     public FlowModel(int files, HashMap<String, Flow> flows) {
         this.flows = new LinkedList();
         this.files = files;
+        
+        if (!inputFiles.exists()) inputFiles.mkdirs();
         
         flows.values().forEach((flow) -> {
             this.flows.add(flow);

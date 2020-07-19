@@ -1,5 +1,6 @@
 package control;
 
+import static control.ViewListener.TableTypes;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashSet;
@@ -32,7 +33,7 @@ public class Mogen implements ViewListener{
     
     private MogenControl control;
     private final MogenModel model;
-    private final MogenView view;   
+    private final MogenView view;
    
     public Mogen(String[] args) {
         
@@ -98,7 +99,9 @@ public class Mogen implements ViewListener{
                 
            case NEW_TAZ:
                 tuple = (Tuple)obj;
-                view.update(model, model.addTAZ((String)tuple.obj1, (TAZ)tuple.obj2));
+                
+                view.update(model, new Tuple<>(TableTypes.TAZType, 
+                          control.addTAZ((String)tuple.obj1, (TAZ)tuple.obj2)));
                 break;
                 
            case EXPORT_RANDOM:

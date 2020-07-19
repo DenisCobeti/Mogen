@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ProtocolException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,6 +34,7 @@ import model.mobility.MobilityModel;
 import model.mobility.ODModel;
 import model.routes.Flow;
 import model.routes.ODElement;
+import model.routes.TAZ;
 import model.routes.VType;
 
 import view.MogenView;
@@ -60,7 +62,6 @@ public class MogenControl {
     private String map;
     
     private Progress progress;
-    private final static int MAP_DOWNLOAD_STEPS = 3;
 
     public MogenControl(MogenModel model, MogenView view) {
         this.model = model;
@@ -112,28 +113,31 @@ public class MogenControl {
                                                             InterruptedException,
                                                             FileNotFoundException,
                                                             XMLStreamException{
-        progress = Progress.MAP;
-        progress.initialize(MAP_DOWNLOAD_STEPS);
+        progress = Progress.DOWNLOAD_MAP;
+        progress.initialize(LOADING_MAP.length);
         view.update(model, progress);
         
         String map = location + FilesExtension.OSM;
         MapAPI api = new OsmAPI(selection.minLon, selection.minLat, 
                             selection.maxLat, selection.maxLon);
         //lento
-        progress.progress();
+        progress.progress(LOADING_MAP);
         view.update(model, progress);
         InputStream in = api.getMap();
         
         File osmFile = new File(map);
         osmFile.createNewFile();
         //lento
-        progress.progress();
+        progress.progress(LOADING_MAP);
         view.update(model, progress);
         inputStreamToFile(in, osmFile);
+        
         // Modify second parameter to change the imported map type
-        progress.progress();
+        progress.progress(LOADING_MAP);
         view.update(model, progress);
         openMapPruneNodes(map, selection);
+        progress.end();
+        view.update(model, progress);
     }
     
     public void openMapPruneNodes(String location, MapSelection selection) throws 
@@ -336,5 +340,9 @@ public class MogenControl {
             progress.progress(LOADING_EXPORT + progress.getCurrent());
             view.update(model, progress);
         }
+    }
+
+    public HashMap addTAZ(String string, TAZ taz) {
+        return model.addTAZ(string, taz);
     }
 }

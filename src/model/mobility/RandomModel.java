@@ -44,8 +44,11 @@ public class RandomModel extends MobilityModel{
     private final int vehicles;
     private final int time;
     private final int files;
+    private final File inputFiles = new File(FILE_LOCATION);
     
     public RandomModel(int time, int files, int vehicles) {
+        if (!inputFiles.exists()) inputFiles.mkdirs();
+        
         this.vehicles = vehicles;
         this.files = files;
         this.time = time;

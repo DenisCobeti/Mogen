@@ -11,7 +11,8 @@ package model;
  */
 public enum Progress {
     EXPORT("Exporting trace..."),
-    MAP("Downloadig map...");
+    DOWNLOAD_MAP("Downloading map..."),
+    OPEN_MAP("Opening map...");
     
     private int max;
     private int current  = 0;
@@ -33,16 +34,30 @@ public enum Progress {
         this.max = max;
     }
     
+    public void end(){
+        current = -1;
+    }
+    
     public void setCurrentProgress(int progress, String msg){
         this.current = progress;
         this.msg = msg;
     }
     
     public void progress(String msg){
-        current++;
+        progress();
         this.msg = msg;
     }
+    
+    public void progress(String[] msg){
+        progress();
+        this.msg = msg[current - 1];
+    }
+    
     public void progress(){
+        if (current > max){
+            end();
+            return;
+        }
         current++;
     }
 
@@ -51,7 +66,7 @@ public enum Progress {
     }
 
     public static Progress getMAP() {
-        return MAP;
+        return DOWNLOAD_MAP;
     }
 
     public int getMax() {
@@ -68,6 +83,10 @@ public enum Progress {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public boolean isFinalized() {
+        return (current == -1);
     }
     
 }

@@ -24,15 +24,15 @@ public class ProgressFrame extends javax.swing.JFrame {
     }
 
     public void progressLoading(Progress progress){
-        
-        messageLabel.setText(progress.getMsg());
-        progressBar.setValue(progress.getCurrent());
-
-        if(progress.getCurrent() >= progress.getMax()){
+        System.out.println(progress.getCurrent());
+        if(progress.isFinalized()){
             view.enableEvents(true);
             dispose();
         }
-             
+        
+        messageLabel.setText(progress.getMsg());
+        progressBar.setValue(progress.getCurrent());
+        
         this.update(this.getGraphics());
         
     }
@@ -49,6 +49,8 @@ public class ProgressFrame extends javax.swing.JFrame {
         progressBar = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setIconImage(view.getIconImage());
+        setResizable(false);
 
         messageLabel.setFont(view.getFont());
         messageLabel.setText(progressType.getMsg());

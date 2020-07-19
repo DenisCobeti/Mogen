@@ -73,10 +73,9 @@ public class MogenModel extends Observable{
         return new Tuple<>(id, flow);
     }
     
-    public Tuple addTAZ(String id, TAZ taz) {
+    public HashMap<String, TAZ> addTAZ(String id, TAZ taz) {
         tazs.put(id, taz);
-        
-        return new Tuple<>(id, tazs.get(id));
+        return tazs;
     }
     
     public Tuple addODElement(ODElement element) {

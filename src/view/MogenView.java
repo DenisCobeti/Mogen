@@ -1,6 +1,7 @@
 package view;
 
 import control.ViewListener;
+import control.ViewListener.TableTypes;
 import java.awt.CardLayout;
 import java.awt.Cursor;
 
@@ -10,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -1147,7 +1149,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                                                     filesFlowField.getText())));
                     break;
                 case ODMatrix:
-                    listenerUI.producedEvent(ViewListener.Event.EXPORT_FLOW, 
+                    listenerUI.producedEvent(ViewListener.Event.EXPORT_ODMATRIX, 
                                        new Tuple<>(location, 
                                                    Integer.parseInt(
                                                     ODTimeField.getText())));
@@ -1205,6 +1207,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             
         } else if (tuple.obj2 instanceof ODElement){
             newElement((ODElement)tuple.obj2);
+            
+        } else if (tuple.obj2 instanceof HashMap){
+            updateTables(tuple);
         }
     }
     
@@ -1302,7 +1307,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 }
                 progressFrame.progressLoading(progress);
                 break;
-            case MAP:
+            case DOWNLOAD_MAP:
                 if (progress.getCurrent() == 0){
                     progressFrame = new ProgressFrame(this, progress);
                     progressFrame.setVisible(true);
@@ -1326,5 +1331,26 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         model.addRow(new Object[]{
             odElement.getDestination(), odElement.getOrigin(), odElement.getVehiclesNum()
         });
+    }
+
+    private void updateTables(Tuple tuple) {
+        if (tuple.obj1 instanceof TableTypes){
+            TableTypes type = (TableTypes) tuple.obj1;
+            
+            switch (type){
+                case TAZType:
+                    if (tuple.obj2 instanceof HashMap){
+                        HashMap TAZMap = (HashMap)tuple.obj2;
+                        
+                        DefaultTableModel model = (DefaultTableModel)TAZTable.getModel();
+                        model.setRowCount(0);
+                        
+                        TAZMap.forEach((id,TAZ) -> {
+                            newTAZ((String)id, (TAZ)TAZ);
+                        });
+                    }
+            }
+            
+        }
     }
 }

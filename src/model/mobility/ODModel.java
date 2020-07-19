@@ -4,10 +4,10 @@ import control.MogenControl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import model.constants.FilesExtension;
 import model.routes.ODElement;
 import model.routes.TAZ;
@@ -22,6 +22,7 @@ public class ODModel extends MobilityModel {
     private final static String FOOTER_TAZ = "</tazs>";
     private final static String FILE_LOCATION = "models/od/";
     
+    
     private final static String O_FORMAT_TYPE = "$OR;D2";
     private final static String V_FORMAT_TYPE = "$VMR";
     
@@ -32,12 +33,15 @@ public class ODModel extends MobilityModel {
     
     
     private Map<String, TAZ> tazs;
-    private ArrayList<ODElement> elements;
+    private final ArrayList<ODElement> elements;
+    private final File inputFiles = new File(FILE_LOCATION); 
     
     private int begin;
     
     public ODModel(int time, Map<String, TAZ> tazs) {
-        tazs = new HashMap();
+        this.elements = new ArrayList();
+        
+        if (!inputFiles.exists()) inputFiles.mkdirs();
         
         this.begin = time;
         this.tazs = tazs;
@@ -58,8 +62,7 @@ public class ODModel extends MobilityModel {
     }
     
     public boolean removeTazs(String id){
-        if (tazs.containsKey(id)) return false;
-        return true;
+        return !tazs.containsKey(id);
     }
     
     public boolean addElement(String origin, String destination, int vehicleNum){
@@ -84,6 +87,7 @@ public class ODModel extends MobilityModel {
         
         control.startExport(0);
         
+      
         projectFolder.mkdirs();
         project.createNewFile();
         output.createNewFile();
@@ -93,6 +97,7 @@ public class ODModel extends MobilityModel {
         PrintWriter writer = new PrintWriter(tazsFile.getAbsoluteFile(), "UTF-8");
         
         writer.println(HEADER_TAZ);
+        System.out.println(tazs.toString());
         tazs.entrySet().forEach((entry) -> {
             //writer.println(entry.getValue().toFile(entry.getKey()));
             writer.println(entry.getValue().toFile(entry.getKey()));
