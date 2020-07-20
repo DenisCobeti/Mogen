@@ -169,7 +169,7 @@ public class MogenControl {
     }
     public Tuple addFlow(Flow flow) throws NoRouteConnectionException, IOException, 
                                                         InterruptedException{
-        
+        // Fist we check if the edges are reachable
         LinkedList <String> command = new LinkedList(Arrays.asList(
                 Config.python2,
                 Config.sumoLocation + PYTHON_CHECK,

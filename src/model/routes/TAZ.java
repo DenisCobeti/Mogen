@@ -34,7 +34,12 @@ public class TAZ {
     }
     
     public String toFile(String id) {
-        return String.format(FILE_FORMAT, id, edges);
+        String edgesString = "";
+        
+        for(Lane lane : edges){
+            edgesString += lane.toString() + " ";
+        }
+        return String.format(FILE_FORMAT, id, edgesString);
     }
     
 }

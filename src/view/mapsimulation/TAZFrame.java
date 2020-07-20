@@ -1,6 +1,5 @@
 package view.mapsimulation;
 
-import java.awt.event.MouseListener;
 import java.util.LinkedList;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -37,8 +36,9 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         
         initComponents();
         this.setLocationRelativeTo(view);
+        map.addRectangleSelection();
         mapView.add(map);
-       
+        
     }
 
     /**
@@ -208,6 +208,14 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
                     edge.getPolyline().setStroke(Paint.valueOf
                     (UNSELECTED_LANE_COLOR)));
     }
+    /*
+    public void updateSelection(double maxLon, double minLon, double maxLat, double minLat){
+        double height = distance(maxLat,maxLon, minLat,maxLon);
+        double width = distance(maxLat,maxLon, maxLat,minLon);
+        
+        selectionArea = height * width;
+        areaLabel.setText(String.format(AREA_TEXT, currentArea));
+    }*/
     
     @Override
     public void addFunctionToLanes(Lane lane, MouseEvent e) {

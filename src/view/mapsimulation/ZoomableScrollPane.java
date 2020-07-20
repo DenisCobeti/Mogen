@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.ScrollEvent;
 
 public class ZoomableScrollPane extends ScrollPane {
@@ -19,7 +20,6 @@ public class ZoomableScrollPane extends ScrollPane {
     public ZoomableScrollPane(Node content) {
         super(content);
         
-        setPannable(true);
         setFitToHeight(true); //center
         setFitToWidth(true); //center
         
@@ -45,6 +45,15 @@ public class ZoomableScrollPane extends ScrollPane {
             } else {
                 zoomOut();
             }
+        });
+        // Moving the map view with middle mouse button
+        setOnMousePressed(e -> {
+            if ((e.getButton() == MouseButton.MIDDLE) || 
+                (e.getButton() == MouseButton.SECONDARY)) setPannable(true);
+        });
+        setOnMouseReleased(e -> {
+            if ((e.getButton() == MouseButton.MIDDLE) || 
+                (e.getButton() == MouseButton.SECONDARY)) setPannable(false);
         });
     }
     
