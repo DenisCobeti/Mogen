@@ -167,7 +167,7 @@ public class MogenControl {
         map = location;
         hasMap = true;
     }
-    public Tuple addFlow(Flow flow) throws NoRouteConnectionException, IOException, 
+    public HashMap addFlow(Flow flow) throws NoRouteConnectionException, IOException, 
                                                         InterruptedException{
         // Fist we check if the edges are reachable
         LinkedList <String> command = new LinkedList(Arrays.asList(
@@ -344,5 +344,12 @@ public class MogenControl {
 
     public HashMap addTAZ(String string, TAZ taz) {
         return model.addTAZ(string, taz);
+    }
+
+    public HashMap removeTAZ(String[] tazId) {
+        for(String id : tazId){
+            model.removeTAZ(id);
+        }
+        return model.getTazs();
     }
 }

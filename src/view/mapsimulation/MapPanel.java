@@ -1,6 +1,8 @@
 package view.mapsimulation;
 
 import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
 import java.io.FileInputStream;
@@ -17,7 +19,6 @@ import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -43,10 +44,10 @@ import model.topology.Lane;
     private final Group group = new Group();
     private final static String ID = "id";
     private final static double ZOOM_AMOUNT = 0.25;
-    private final Rectangle selectionRectangle;
+    public final Rectangle selectionRectangle;
     
-    private double mouseStartX;         
-    private double mouseStartY; 
+    public int mouseStartX;         
+    public int mouseStartY; 
     
     private double zoomFactor = 1;
     private double prevZoomFactor = 1;
@@ -119,35 +120,8 @@ import model.topology.Lane;
         
         //group.getChildren().add(selectionRectangle);
         
-        this.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent e) {
-                if (e.getButton() == java.awt.event.MouseEvent.BUTTON1){
-                    mouseStartX = (MouseInfo.getPointerInfo().getLocation().getX() - getLocationOnScreen().getX());
-                    mouseStartY = (MouseInfo.getPointerInfo().getLocation().getY() - getLocationOnScreen().getY());
-                    selectionRectangle.setX(mouseStartX);
-                    selectionRectangle.setY(mouseStartY);
-                    selectionRectangle.setWidth(0);
-                    selectionRectangle.setHeight(0);
-                    System.out.println("dale");
-                }
-            }
-            
-            @Override
-            public void mouseReleased(java.awt.event.MouseEvent e) {
-                if (e.getButton() == java.awt.event.MouseEvent.BUTTON1){
-                    /*
-                    mouseStartX = e.getX();
-                    mouseStartY = e.getY();
-                    selectionRectangle.setX(mouseStartX);
-                    selectionRectangle.setY(mouseStartY);
-                    selectionRectangle.setWidth(0);
-                    selectionRectangle.setHeight(0);*/
-                    System.out.println("daliendo");
-                }
-            }
-            
-        });
+        
+        this.addMouseListener(new RectangularSelection(this));
         
         this.addMouseMotionListener(new MouseMotionAdapter() {
             @Override

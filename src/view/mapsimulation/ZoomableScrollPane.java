@@ -2,7 +2,6 @@ package view.mapsimulation;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -10,9 +9,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class ZoomableScrollPane extends ScrollPane {
@@ -20,9 +16,9 @@ public class ZoomableScrollPane extends ScrollPane {
     private final double DEFAULT_ZOOM = 1.0;
     
     private double scaleValue = 0.7;
-    private double zoomIntensity = 0.02;
-    private Node target;
-    private Node zoomNode;
+    private final double zoomIntensity = 0.02;
+    private final Node target;
+    private final Node zoomNode;
     
     private final DoubleProperty zoomMax = new SimpleDoubleProperty(10.0);
     private final DoubleProperty zoomMin = new SimpleDoubleProperty(0.1);
@@ -34,14 +30,22 @@ public class ZoomableScrollPane extends ScrollPane {
         this.target = target;
         this.zoomNode = new Group(target);
         setContent(outerNode(zoomNode));
-
-        setPannable(true);
+        
         setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         setFitToHeight(true); //center
         setFitToWidth(true); //center
         
         updateScale();
+        
+        setOnMousePressed(e -> {
+            if ((e.getButton() == MouseButton.MIDDLE) || 
+                (e.getButton() == MouseButton.SECONDARY)) setPannable(true);
+        });
+        setOnMouseReleased(e -> {
+            if ((e.getButton() == MouseButton.MIDDLE) || 
+                (e.getButton() == MouseButton.SECONDARY)) setPannable(false);
+        });
         /*
         StackPane pane = new StackPane(content);
         
@@ -156,6 +160,7 @@ public class ZoomableScrollPane extends ScrollPane {
         target.setScaleX(scaleValue);
         target.setScaleY(scaleValue);
     }
+    
     private void onScroll(double wheelDelta, Point2D mousePoint) {
         double zoomFactor = Math.exp(wheelDelta * zoomIntensity);
 
@@ -209,5 +214,6 @@ public class ZoomableScrollPane extends ScrollPane {
     public void setZoom(double zoomValue) {
         zoom.set(zoomValue);
     }
+    
     
 }

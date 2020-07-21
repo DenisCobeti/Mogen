@@ -66,11 +66,11 @@ public class MogenModel extends Observable{
         return false;
     }
     
-    public Tuple addFlow(Flow flow){
+    public HashMap addFlow(Flow flow){
         int id = flows.size();
         flows.put(String.valueOf(id), flow);
         
-        return new Tuple<>(id, flow);
+        return flows;
     }
     
     public HashMap<String, TAZ> addTAZ(String id, TAZ taz) {
@@ -96,6 +96,10 @@ public class MogenModel extends Observable{
         vTypes.remove(id);
     }
     
+    public void removeTAZ(String id){
+        tazs.remove(id);
+    }
+    
     private void defaultVTypes(){
         vTypes.put("Car", new VType());
         
@@ -114,7 +118,7 @@ public class MogenModel extends Observable{
         return vTypes;
     }
 
-    public Map<String, TAZ> getTazs() {
+    public HashMap<String, TAZ> getTazs() {
         return tazs;
     }
 

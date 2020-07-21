@@ -1,6 +1,7 @@
 package view;
 
 import control.ViewListener;
+import control.ViewListener.Event;
 import control.ViewListener.TableTypes;
 import java.awt.CardLayout;
 import java.awt.Cursor;
@@ -27,28 +28,30 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import javax.xml.stream.XMLStreamException;
-import model.Config;
-import model.MogenModel.Mobility;
-import model.Progress;
 
 import model.map.MapSelection;
 import model.Tuple;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
 import model.constants.RoadTypes;
-import model.mobility.FlowModel;
 import model.routes.VType;
 import model.mobility.MobilityModel;
 import model.mobility.RandomModel;
 import model.routes.Flow;
 import model.routes.ODElement;
 import model.routes.TAZ;
-import view.jxmapviewer2.MapSelect;
+import model.Config;
+import model.MogenModel.Mobility;
+import model.Progress;
 
+import view.jxmapviewer2.MapSelect;
 import view.mapelements.DialogAddType;
 import view.mapelements.VTypeIconSelectFrame;
 import view.mapsimulation.FlowFrame;
@@ -84,11 +87,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private static final String RSU = "RSU";
     private static final String DOWNTOWNS = "Downtowns";
     
-    
     private static final String PROGRAM = "Mogen";
     private static final String MAP_ERROR = "Map has to be imported first";
     private static final String NO_MAP = "No map currently selected";
+    private static final String NO_SELECTION_TABLE = "No rows selected";
     private static final String EXPORT = "Export";
+    
+    private static final String CONTEXTUAL_MENU_DELETE = "Delete";
     
     private static FlowFrame flowFrame;
     
@@ -180,10 +185,33 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         optionsMapButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         exportButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addVTypeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
         //menuFileExit.addActionListener(this);
         options = new MapOptions(this);
         vehicleTypesPanel.setLayout(new BoxLayout(vehicleTypesPanel, BoxLayout.Y_AXIS));
         
+        //Contextual menu to all the tables
+        
+        JPopupMenu popupMenuTAZ = new JPopupMenu();
+        JPopupMenu popupMenuFlow = new JPopupMenu();
+        
+        JMenuItem deleteTAZ = new JMenuItem(CONTEXTUAL_MENU_DELETE);
+        JMenuItem deleteFlow = new JMenuItem(CONTEXTUAL_MENU_DELETE);
+        
+        deleteTAZ.addActionListener((ActionEvent e) -> {
+            deleteElement(TableTypes.TAZType);
+        });
+        
+        deleteFlow.addActionListener((ActionEvent e) -> {
+            deleteElement(TableTypes.FlowType);
+        });
+        
+        popupMenuTAZ.add(deleteTAZ);
+        popupMenuFlow.add(deleteFlow);
+        
+        TAZTable.setComponentPopupMenu(popupMenuTAZ);
+        flowTable.setComponentPopupMenu(popupMenuFlow);
+      
         this.setIconImages(icons);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -1135,7 +1163,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         if(avalibleMap){
             switch((Mobility)mobilityComboBox.getSelectedItem()){
                 case Random:
-                    listenerUI.producedEvent(ViewListener.Event.EXPORT_RANDOM, 
+                    listenerUI.producedEvent(Event.EXPORT_RANDOM, 
                                     new Tuple<>(new RandomModel(
                                     Integer.parseInt(timeField.getText()), 
                                     Integer.parseInt(filesRandomField.getText()), 
@@ -1143,13 +1171,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                                     location));
                     break;
                 case Flow:
-                    listenerUI.producedEvent(ViewListener.Event.EXPORT_FLOW, 
+                    listenerUI.producedEvent(Event.EXPORT_FLOW, 
                                        new Tuple<>(location, 
                                                    Integer.parseInt(
                                                     filesFlowField.getText())));
                     break;
                 case ODMatrix:
-                    listenerUI.producedEvent(ViewListener.Event.EXPORT_ODMATRIX, 
+                    listenerUI.producedEvent(Event.EXPORT_ODMATRIX, 
                                        new Tuple<>(location, 
                                                    Integer.parseInt(
                                                     ODTimeField.getText())));
@@ -1171,18 +1199,18 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         //mapInfoLabel.setForeground(Color.BLACK);
     }
     public void newSimulation(String name, String[] commands){
-        listenerUI.producedEvent(ViewListener.Event.NEW_SIMULATION, 
+        listenerUI.producedEvent(Event.NEW_SIMULATION, 
                                                 new Tuple<>(name, commands));
     }
     public void newSimulation(String[] commands){
-        listenerUI.producedEvent(ViewListener.Event.NEW_SIMULATION_CMD, commands);
+        listenerUI.producedEvent(Event.NEW_SIMULATION_CMD, commands);
     }
     
     public void updateSimulation(InputStream stream){
         // Donde mostrar los warnings
     }
     public void exportSimulation(MobilityModel model){
-        listenerUI.producedEvent(ViewListener.Event.EXPORT_RANDOM, new Tuple<>(model, ""));
+        listenerUI.producedEvent(Event.EXPORT_RANDOM, new Tuple<>(model, ""));
     }
     
     public void enableEvents(boolean events){
@@ -1198,9 +1226,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             
             vehicleTypesPanel.add(vType);
             vehicleTypesPanel.updateUI();
-            
-        } else if (tuple.obj2 instanceof Flow){
-            newFlow((int)tuple.obj1, (Flow)tuple.obj2);
             
         } else if (tuple.obj2 instanceof TAZ){
             newTAZ((String)tuple.obj1, (TAZ)tuple.obj2);
@@ -1227,7 +1252,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         int returnVal = chooser.showSaveDialog(this);
         if(returnVal == JFileChooser.APPROVE_OPTION) {
             mapInfo = chooser.getSelectedFile().getAbsolutePath();
-            listenerUI.producedEvent(ViewListener.Event.NEW_MAP, new Tuple(selection, mapInfo));
+            listenerUI.producedEvent(Event.NEW_MAP, new Tuple(selection, mapInfo));
         }
     
     }
@@ -1237,16 +1262,16 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     public void addVehicleType(String id){
-        listenerUI.producedEvent(ViewListener.Event.NEW_VEHICLE_TYPE, id);
+        listenerUI.producedEvent(Event.NEW_VEHICLE_TYPE, id);
     }
     
     public void addFlow(Flow flow){
-        listenerUI.producedEvent(ViewListener.Event.NEW_FLOW, flow);
+        listenerUI.producedEvent(Event.NEW_FLOW, flow);
         //listenerUI.producedEvent(ViewListener.Event.NEW_FLOW, flow);
     }
     
     public void addTAZ(String id, TAZ taz){
-        listenerUI.producedEvent(ViewListener.Event.NEW_TAZ, new Tuple(id,taz));
+        listenerUI.producedEvent(Event.NEW_TAZ, new Tuple(id,taz));
         //listenerUI.producedEvent(ViewListener.Event.NEW_FLOW, flow);
     }
     
@@ -1255,18 +1280,18 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     public void editVType(String name, VType type){
-        listenerUI.producedEvent(ViewListener.Event.EDIT_VTYPE, new Tuple(name, type));
+        listenerUI.producedEvent(Event.EDIT_VTYPE, new Tuple(name, type));
     }
     
     public void filterRoads (HashSet<String> roads){
-        listenerUI.producedEvent(ViewListener.Event.FILTER_ROADS, roads);
+        listenerUI.producedEvent(Event.FILTER_ROADS, roads);
     }
     
     public void deleteVType(VehicleTypePanel type){
         vehicleTypesPanel.remove(type);
         vehicleTypes.remove(type);
         vehicleTypesPanel.updateUI();
-        listenerUI.producedEvent(ViewListener.Event.REMOVE_VTYPE, type.getName());
+        listenerUI.producedEvent(Event.REMOVE_VTYPE, type.getName());
     }
     
     public void doneLoading(){
@@ -1274,11 +1299,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     public void changeSettings(String python, String sumo){
-        listenerUI.producedEvent(ViewListener.Event.EDIT_PYTHON, python);
-        listenerUI.producedEvent(ViewListener.Event.EDIT_SUMO, sumo);
+        listenerUI.producedEvent(Event.EDIT_PYTHON, python);
+        listenerUI.producedEvent(Event.EDIT_SUMO, sumo);
     }
     
-    private void newFlow(int id, Flow flow) {
+    private void newFlow(String id, Flow flow) {
         DefaultTableModel model = (DefaultTableModel)flowTable.getModel();
         
         model.addRow(new Object[]{
@@ -1321,7 +1346,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
 
     public void addODElement(String origin, String destination, String vehiclesNum) {
-        listenerUI.producedEvent(ViewListener.Event.NEW_ODELEMENT, 
+        listenerUI.producedEvent(Event.NEW_ODELEMENT, 
                                 new ODElement(origin, destination, vehiclesNum));
     }
 
@@ -1349,8 +1374,64 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                             newTAZ((String)id, (TAZ)TAZ);
                         });
                     }
+                case FlowType:
+                    if(tuple.obj2 instanceof HashMap){
+                        HashMap FlowMap = (HashMap) tuple.obj2;
+                        
+                        DefaultTableModel model = (DefaultTableModel)flowTable.getModel();
+                        model.setRowCount(0);
+                        
+                        FlowMap.forEach((id, flow) -> {
+                            newFlow((String)id, (Flow)flow);
+                        });
+                        
+                    }
             }
             
+        }
+    }
+    
+    private void deleteElementTAZ(){
+        
+        int[] selectedRows = TAZTable.getSelectedRows();
+        String[] removedTAZ = new String[selectedRows.length];
+        
+        if (selectedRows.length == 0){
+            error(NO_SELECTION_TABLE);
+        }else{
+            for(int row : selectedRows){
+                removedTAZ[row] = TAZTable.getValueAt(row, 0).toString();
+            }
+            listenerUI.producedEvent(Event.REMOVE_TAZ, removedTAZ);
+            
+        }
+        
+    }
+    
+    private void deleteElement(TableTypes type){
+        
+        switch (type){
+                case TAZType:
+                    removeTableElement(type, Event.REMOVE_TAZ, TAZTable, 0);
+                case FlowType:
+                    removeTableElement(type, Event.REMOVE_FLOW, flowTable, 0);
+        }
+        
+    }
+    
+    private void removeTableElement(TableTypes type, Event event, JTable table,
+                                                        int idColumn ){
+        int[] selectedRows = table.getSelectedRows();
+        String[] removedElement = new String[selectedRows.length];
+        
+        if (selectedRows.length == 0){
+            error(NO_SELECTION_TABLE);
+        }else{
+            for(int row : selectedRows){
+                removedElement[row] = table.getValueAt(row, idColumn).toString();
+            }
+            listenerUI.producedEvent(event, removedElement);
+
         }
     }
 }

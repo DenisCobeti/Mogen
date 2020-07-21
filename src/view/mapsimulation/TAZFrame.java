@@ -35,6 +35,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         this.edges = new LinkedList();
         
         initComponents();
+        
         this.setLocationRelativeTo(view);
         map.addRectangleSelection();
         mapView.add(map);

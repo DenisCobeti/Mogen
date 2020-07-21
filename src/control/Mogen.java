@@ -89,7 +89,9 @@ public class Mogen implements ViewListener{
            case NEW_FLOW:
                 Flow flow = (Flow)obj;
                 try {
-                    view.update(model, control.addFlow(flow));
+                    
+                    view.update(model, new Tuple<>(TableTypes.FlowType, 
+                                control.addFlow(flow)));
                 } catch (NoRouteConnectionException ex) {
                     view.update(model, ex);
                 } catch (IOException | InterruptedException ex2){
@@ -154,6 +156,10 @@ public class Mogen implements ViewListener{
                 
             case REMOVE_VTYPE:
                 model.removeVType((String)obj);
+                break;
+                
+            case REMOVE_TAZ:
+                view.update(model, new Tuple<>(TableTypes.TAZType, control.removeTAZ((String[])obj)));
                 break;
                 
             case EDIT_PYTHON:

@@ -9,9 +9,10 @@ public interface ViewListener {
                         OPEN_MAP, EXPORT_RANDOM, EXPORT_FLOW, UPDATE_VEHICLES, 
                         EDIT_VTYPE, NEW_SIMULATION_CMD, NEW_FLOW, EDIT_PYTHON, 
                         EDIT_SUMO, REMOVE_VTYPE, FILTER_ROADS, NEW_TAZ, 
-                        SAVE_VEHICLES, NEW_ODELEMENT, EXPORT_ODMATRIX}
+                        SAVE_VEHICLES, NEW_ODELEMENT, EXPORT_ODMATRIX,
+                        REMOVE_TAZ, REMOVE_OD_ELEMENT, REMOVE_FLOW}
     
-    public enum TableTypes{TAZType}
+    public enum TableTypes{TAZType, FlowType, ODElementType, }
     
     public void producedEvent(Event event, Object obj);
     
