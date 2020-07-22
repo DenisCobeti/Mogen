@@ -52,7 +52,9 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private final ScrollPane scrollPane = new ScrollPane();
     
     private int mouseStartX;         
-    private int mouseStartY; 
+    private int mouseStartY;
+    
+    private String id; 
     
     public FlowFrame(MogenView view, MapPanel map, List<VehicleTypePanel> VehicleTypes) {
         this.view = view;
@@ -64,7 +66,28 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         mapView.add(map);
         //map.addScrollListener();
     }
-
+    
+    public FlowFrame(String id, int begin, int end, String origin, 
+            String destination, String type, int number, MogenView view, 
+            MapPanel map, List<VehicleTypePanel> VehicleTypes) {
+        this.view = view;
+        this.id = id;
+        
+        FlowFrame.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
+        
+        initComponents();
+        
+        endTextField.setText(String.valueOf(end));
+        beginTextField.setText(String.valueOf(begin));
+        numberTextField.setText(String.valueOf(number));
+        destinationInfoLabel.setText(destination);
+        originInfoLabel.setText(origin);
+        this.setLocationRelativeTo(view);
+        map.selectRoad(new String[]{origin, destination});
+        mapView.add(map);
+        //map.addScrollListener();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -291,9 +314,11 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
                    selectedLaneOrigin.getName(), selectedLaneDestination.getName(), 
                    typeBox.getSelectedItem().toString(), 
                    Integer.parseInt(numberTextField.getText()));
-           
-            view.addFlow(flow);
-            
+            if(id == null){
+                view.addFlow(flow);
+            }else{
+                view.editFlow(id, flow);
+            }
             unselectLanes();
             //this.dispose();
         }

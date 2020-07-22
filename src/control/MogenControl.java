@@ -145,8 +145,9 @@ public class MogenControl {
                                     InterruptedException,FileNotFoundException,
                                     XMLStreamException{
         converter = new MapConverter(location, APIS.OSM);
-        String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
         converter.pruneNodes(location, selection);
+        String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
+        System.out.println("---" + location);
         model.setMap(DEFAULT_MAP_NAME);
         model.getFlows().clear();
         
@@ -170,12 +171,25 @@ public class MogenControl {
     public HashMap addFlow(Flow flow) throws NoRouteConnectionException, IOException, 
                                                         InterruptedException{
         // Fist we check if the edges are reachable
+        checkConnection(flow.originEdge(), flow.destinationEdge());
+        return model.addFlow(flow);
+    }
+    
+    public HashMap editFlow(String id, Flow flow) throws NoRouteConnectionException, IOException, 
+                                                        InterruptedException{
+        // Fist we check if the edges are reachable
+        checkConnection(flow.originEdge(), flow.destinationEdge());
+        return model.addFlow(id, flow);
+    }
+    
+    public void checkConnection(String origin, String destination)throws 
+            NoRouteConnectionException, IOException, InterruptedException{
         LinkedList <String> command = new LinkedList(Arrays.asList(
                 Config.python2,
                 Config.sumoLocation + PYTHON_CHECK,
                 model.getMap() + FilesExtension.NETCONVERT,
                 "--source",
-                flow.originEdge()
+                origin
         ));
         LinkedList <String> reachableEdges = new LinkedList();
         
@@ -195,13 +209,11 @@ public class MogenControl {
         System.out.println(output);
         output = output.substring(output.indexOf("["));
         
-        if (!output.contains( "'"+ flow.destinationEdge() + "'"))
+        if (!output.contains( "'"+ destination + "'"))
                                 throw new NoRouteConnectionException
                                           (Errors.NO_CONNECTION.getErrorMsg());
         System.out.println(output);
         process.waitFor();
-        
-        return model.addFlow(flow);
     }
     
     public void exportSimulation(MobilityModel mobilityModel, String location) 

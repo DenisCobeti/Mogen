@@ -91,9 +91,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private static final String MAP_ERROR = "Map has to be imported first";
     private static final String NO_MAP = "No map currently selected";
     private static final String NO_SELECTION_TABLE = "No rows selected";
+    private static final String EDIT_ELEMENT = "Only one element must be selected";
     private static final String EXPORT = "Export";
     
     private static final String CONTEXTUAL_MENU_DELETE = "Delete";
+    private static final String CONTEXTUAL_MENU_EDIT = "Edit";
     
     private static FlowFrame flowFrame;
     
@@ -197,6 +199,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         
         JMenuItem deleteTAZ = new JMenuItem(CONTEXTUAL_MENU_DELETE);
         JMenuItem deleteFlow = new JMenuItem(CONTEXTUAL_MENU_DELETE);
+        JMenuItem editFlow = new JMenuItem(CONTEXTUAL_MENU_EDIT);
         
         deleteTAZ.addActionListener((ActionEvent e) -> {
             deleteElement(TableTypes.TAZType);
@@ -206,8 +209,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             deleteElement(TableTypes.FlowType);
         });
         
+        editFlow.addActionListener((ActionEvent e) -> {
+            editElement(TableTypes.FlowType);
+        });
         popupMenuTAZ.add(deleteTAZ);
         popupMenuFlow.add(deleteFlow);
+        popupMenuFlow.add(editFlow);
         
         TAZTable.setComponentPopupMenu(popupMenuTAZ);
         flowTable.setComponentPopupMenu(popupMenuFlow);
@@ -1391,23 +1398,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         }
     }
     
-    private void deleteElementTAZ(){
-        
-        int[] selectedRows = TAZTable.getSelectedRows();
-        String[] removedTAZ = new String[selectedRows.length];
-        
-        if (selectedRows.length == 0){
-            error(NO_SELECTION_TABLE);
-        }else{
-            for(int row : selectedRows){
-                removedTAZ[row] = TAZTable.getValueAt(row, 0).toString();
-            }
-            listenerUI.producedEvent(Event.REMOVE_TAZ, removedTAZ);
-            
-        }
-        
-    }
-    
     private void deleteElement(TableTypes type){
         
         switch (type){
@@ -1433,5 +1423,41 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             listenerUI.producedEvent(event, removedElement);
 
         }
+    }
+    
+    public void editElement(TableTypes type){
+        switch (type){
+                case FlowType:
+                    int selectedRow = flowTable.getSelectedRow();
+                    
+                    if (mapVisual == null){
+                        try {
+                            mapVisual = new MapPanel(currentMap);
+                        } catch (XMLStreamException | IOException ex) {
+                            error(MAP_ERROR);
+                            return;
+                        } catch (NullPointerException ex){
+                            error(NO_MAP);
+                            return;
+                        }
+                    }
+                    
+                    flowFrame = new FlowFrame(
+                        flowTable.getValueAt(selectedRow, 0).toString(),
+                        Integer.valueOf(flowTable.getValueAt(selectedRow, 3).toString()),
+                        Integer.valueOf(flowTable.getValueAt(selectedRow, 4).toString()),
+                        flowTable.getValueAt(selectedRow, 1).toString(),    
+                        flowTable.getValueAt(selectedRow, 2).toString(),
+                        flowTable.getValueAt(selectedRow, 6).toString(),
+                        Integer.valueOf(flowTable.getValueAt(selectedRow, 5).toString()),
+                        this, mapVisual, vehicleTypes);
+                    
+                    mapVisual.addMouseHandler(flowFrame, MouseEvent.MOUSE_CLICKED);
+                    flowFrame.setVisible(true);
+                    
+        }
+    }
+    public void editFlow(String id, Flow flow) {
+        listenerUI.producedEvent(Event.EDIT_FLOW, new Tuple(id, flow));
     }
 }

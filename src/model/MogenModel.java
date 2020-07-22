@@ -73,6 +73,12 @@ public class MogenModel extends Observable{
         return flows;
     }
     
+    public HashMap addFlow(String id, Flow flow){
+        flows.put(id, flow);
+        
+        return flows;
+    }
+    
     public HashMap<String, TAZ> addTAZ(String id, TAZ taz) {
         tazs.put(id, taz);
         return tazs;

@@ -1,9 +1,5 @@
 package view.mapsimulation;
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseMotionAdapter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -67,6 +63,16 @@ import model.topology.Lane;
         selectionRectangle.setFill(Color.TRANSPARENT);
         selectionRectangle.getStrokeDashArray().addAll(5.0, 5.0);
         
+    }
+    
+    public void selectRoad(String[] roads){
+        lanes.forEach(lane -> {
+            for (String road : roads){
+                if(lane.getName().equals(road)) 
+                    lane.getPolyline().setStroke
+                            (Paint.valueOf(MapMouseEvent.SELECTED_LANE_COLOR));
+            }
+        });
     }
     
     public void parseNetwork(String location) throws FileNotFoundException, 

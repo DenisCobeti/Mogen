@@ -98,7 +98,18 @@ public class Mogen implements ViewListener{
                     
                 } 
                 break;
-                
+           case EDIT_FLOW:
+                tuple = (Tuple)obj;
+                try {
+                    
+                    view.update(model, new Tuple<>(TableTypes.FlowType, 
+                                control.editFlow((String)tuple.obj1, (Flow)tuple.obj2)));
+                } catch (NoRouteConnectionException ex) {
+                    view.update(model, ex);
+                } catch (IOException | InterruptedException ex2){
+                    
+                } 
+                break;
            case NEW_TAZ:
                 tuple = (Tuple)obj;
                 
