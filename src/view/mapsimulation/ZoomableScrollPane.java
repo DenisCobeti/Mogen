@@ -1,7 +1,13 @@
 package view.mapsimulation;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import java.awt.event.MouseMotionAdapter;
+import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.geometry.Pos;
@@ -9,7 +15,11 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javax.swing.SwingUtilities;
 
 public class ZoomableScrollPane extends ScrollPane {
     private int deltaCount = 0;
@@ -25,9 +35,22 @@ public class ZoomableScrollPane extends ScrollPane {
     private final DoubleProperty zoomDelta = new SimpleDoubleProperty(1.2);
     private final DoubleProperty zoom = new SimpleDoubleProperty(DEFAULT_ZOOM);
 
+    public final Rectangle selectionRectangle;
+    
+    public double mouseStartX;         
+    public double mouseStartY;
+    
     public ZoomableScrollPane(Group target) {
         super();
         this.target = target;
+        
+        selectionRectangle = new Rectangle();
+        selectionRectangle.setStroke(Color.BLACK);
+        selectionRectangle.setFill(Color.BLACK);
+        selectionRectangle.getStrokeDashArray().addAll(5.0, 5.0);
+        
+        target.getChildren().add(selectionRectangle);
+        
         this.zoomNode = new Group(target);
         setContent(outerNode(zoomNode));
         
@@ -41,11 +64,41 @@ public class ZoomableScrollPane extends ScrollPane {
         setOnMousePressed(e -> {
             if ((e.getButton() == MouseButton.MIDDLE) || 
                 (e.getButton() == MouseButton.SECONDARY)) setPannable(true);
+            
+            if (e.getButton() == MouseButton.PRIMARY) {
+                    mouseStartX = e.getX();
+                    mouseStartY = e.getY();
+                    selectionRectangle.setX(mouseStartX);
+                    selectionRectangle.setY(mouseStartY);
+                    selectionRectangle.setWidth(0);
+                    selectionRectangle.setHeight(0);
+                    System.out.println("dale");
+                }
         });
+        // no funciona
+        setOnMouseDragged((MouseEvent e) -> {
+            Platform.runLater(() -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    selectionRectangle.setX(Math.min(e.getX(), mouseStartX));
+                    selectionRectangle.setWidth(Math.abs(e.getX() - mouseStartX));
+                    selectionRectangle.setY(Math.min(e.getY(), mouseStartY));
+                    selectionRectangle.setHeight(Math.abs(e.getY() - mouseStartY));
+                    System.out.println("andale");
+                }
+            });
+        });
+        
         setOnMouseReleased(e -> {
             if ((e.getButton() == MouseButton.MIDDLE) || 
                 (e.getButton() == MouseButton.SECONDARY)) setPannable(false);
+            
+            if (e.getButton() == MouseButton.PRIMARY) {
+                    System.out.println("daliendo");
+                }
         });
+        
+        
+        this.addRectangleSelection();
         /*
         StackPane pane = new StackPane(content);
         
@@ -155,7 +208,71 @@ public class ZoomableScrollPane extends ScrollPane {
         vBox.setAlignment(Pos.CENTER);
         return vBox;
     }
-
+    public void addRectangleSelection(){
+        
+        //group.getChildren().add(selectionRectangle);
+        
+        /*
+        setOnMouseDragged((MouseEvent e) -> {
+            Platform.runLater(() -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    selectionRectangle.setX(Math.min(e.getX(), mouseStartX));
+                    selectionRectangle.setWidth(Math.abs(e.getX() - mouseStartX));
+                    selectionRectangle.setY(Math.min(e.getY(), mouseStartY));
+                    selectionRectangle.setHeight(Math.abs(e.getY() - mouseStartY));
+                    System.out.println("andale");
+                }
+            });
+        });
+        
+        setOnMousePressed((MouseEvent e) -> {
+            Platform.runLater(() -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    mouseStartX = e.getX();
+                    mouseStartY = e.getY();
+                    selectionRectangle.setX(mouseStartX);
+                    selectionRectangle.setY(mouseStartY);
+                    selectionRectangle.setWidth(0);
+                    selectionRectangle.setHeight(0);
+                    System.out.println("dale");
+                }
+            });
+        });
+        
+        setOnMouseReleased((MouseEvent e) -> {
+            Platform.runLater(() -> {
+                if (e.getButton() == MouseButton.PRIMARY) {
+                    System.out.println("daliendo");
+                }
+            });
+        });
+        
+        /*
+        Platform.runLater(() -> {
+            
+                group.getChildren().clear();
+        
+                lanes.forEach((lane) -> {
+                    if (!lane.isInternal()){
+                        lane.getPolyline().setOnMousePressed(null);
+                        EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
+                            handler.addFunctionToLanes(lane, e);
+                        };
+                        
+                        //Adding event Filter 
+                        lane.getPolyline().addEventFilter(event, eventHandler);
+                        group.getChildren().add(lane.getPolyline());
+                    }else {
+                        lane.getPolyline().setStroke(Paint.valueOf(MapMouseEvent.INTERNAL_LANE_COLOR));
+                        group.getChildren().add(lane.getPolyline());
+                    }
+                });
+                ZoomableScrollPane pane = new ZoomableScrollPane(group);
+                this.setScene(new Scene(pane));
+                this.updateUI();
+                this.repaint();
+            });*/
+    }
     private void updateScale() {
         target.setScaleX(scaleValue);
         target.setScaleY(scaleValue);

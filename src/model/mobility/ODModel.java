@@ -1,6 +1,6 @@
 package model.mobility;
 
-import control.MogenControl;
+import control.Mogen;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -78,7 +78,7 @@ public class ODModel extends MobilityModel {
     
     @Override
     public void export(String location, String sim, String vTypes, 
-                MogenControl control) throws IOException, InterruptedException {
+                Mogen control) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File tazsFile = new File(FILE_LOCATION + TAZ_FILE + FilesExtension.TAZ);
         File odFile = new File(FILE_LOCATION + OD_FILE + FilesExtension.TAZ);

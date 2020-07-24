@@ -1,9 +1,11 @@
 package view.mapsimulation;
 
 import java.util.LinkedList;
+
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+
 import model.routes.TAZ;
 import model.topology.Lane;
 import view.MogenView;
@@ -37,7 +39,6 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
         initComponents();
         
         this.setLocationRelativeTo(view);
-        map.addRectangleSelection();
         mapView.add(map);
         
     }

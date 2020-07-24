@@ -1,6 +1,6 @@
 package model.mobility;
 
-import control.MogenControl;
+import control.Mogen;
 import java.io.File;
 import java.util.LinkedList;
 import java.io.IOException;
@@ -105,7 +105,7 @@ public class RandomModel extends MobilityModel{
         sumo.start();
     }*/
     @Override
-    public void export(String location, String sim, String vTypes, MogenControl control) throws IOException, InterruptedException {
+    public void export(String location, String sim, String vTypes, Mogen control) throws IOException, InterruptedException {
         
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File project = new File(location + FilesExtension.SUMO_CFG);

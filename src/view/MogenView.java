@@ -1381,6 +1381,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                             newTAZ((String)id, (TAZ)TAZ);
                         });
                     }
+                    break;
                 case FlowType:
                     if(tuple.obj2 instanceof HashMap){
                         HashMap FlowMap = (HashMap) tuple.obj2;
@@ -1391,8 +1392,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         FlowMap.forEach((id, flow) -> {
                             newFlow((String)id, (Flow)flow);
                         });
-                        
                     }
+                    break;
             }
             
         }
@@ -1403,8 +1404,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         switch (type){
                 case TAZType:
                     removeTableElement(type, Event.REMOVE_TAZ, TAZTable, 0);
+                    break;
                 case FlowType:
                     removeTableElement(type, Event.REMOVE_FLOW, flowTable, 0);
+                    break;
         }
         
     }

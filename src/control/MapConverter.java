@@ -11,27 +11,20 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
-import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.events.Attribute;
-import javax.xml.stream.events.XMLEvent;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
 import model.constants.RoadTypes;
 import model.map.MapSelection;
-import model.topology.Edge;
-import model.topology.Junction;
-import model.topology.Lane;
 
 /**
  * Map once already converted using netconvert

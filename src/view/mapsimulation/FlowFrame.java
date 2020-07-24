@@ -1,12 +1,14 @@
 package view.mapsimulation;
 
 import java.util.List;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
+
 import javax.swing.DefaultComboBoxModel;
 import model.routes.Flow;
 import model.topology.Lane;

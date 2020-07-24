@@ -1,6 +1,6 @@
 package model.mobility;
 
-import control.MogenControl;
+import control.Mogen;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -45,7 +45,7 @@ public abstract class MobilityModel {
                                         "--fcd-input", "", "--ns2mobility-output", 
                                         ""};
     
-    public abstract void export(String location, String sim, String vTypes, MogenControl control) 
+    public abstract void export(String location, String sim, String vTypes, Mogen control) 
                                     throws IOException, InterruptedException;
     
     public String[] sumoCommand (String network, String routes, String output){

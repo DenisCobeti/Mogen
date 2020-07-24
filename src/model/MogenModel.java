@@ -1,6 +1,5 @@
 package model;
 
-import control.MogenControl;
 import control.Simulation;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,20 +20,18 @@ public class MogenModel extends Observable{
     public static enum ElementType {FLOW, VEHICLE, ROUTE, VTYPE};
     public static enum Mobility {Random, Flow, ODMatrix};
     
-    private final MogenControl control;
     private final MogenView view;
     
-    private Map<String, VType> vTypes;
-    private Map<String, Simulation> simulations;
-    private HashMap<String, Flow> flows;
-    private HashMap <String, TAZ> tazs;
-    private ArrayList<ODElement> elements;
+    private final Map<String, VType> vTypes;
+    private final Map<String, Simulation> simulations;
+    private final HashMap<String, Flow> flows;
+    private final HashMap <String, TAZ> tazs;
+    private final ArrayList<ODElement> elements;
     
     
-    private String map;
+    private String OSMmap, netconvertMap;
     
-    public MogenModel(MogenControl control, MogenView view) {
-        this.control = control;
+    public MogenModel(MogenView view) {
         this.view = view;
         
         this.vTypes = new HashMap<>();
@@ -127,13 +124,21 @@ public class MogenModel extends Observable{
     public HashMap<String, TAZ> getTazs() {
         return tazs;
     }
-
-    public void setMap(String map) {
-        this.map = map;
+    
+    public String getOSMMap() {
+        return OSMmap;
+    }
+    
+    public void setOSMMap(String map) {
+        this.OSMmap = map;
     }
 
-    public String getMap() {
-        return map;
+    public void setNetconvertMap(String map) {
+        this.netconvertMap = map;
+    }
+    
+    public String getNetconvertMap() {
+        return netconvertMap;
     }
     
     
