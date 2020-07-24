@@ -58,6 +58,7 @@ import model.topology.Lane;
         
         Platform.setImplicitExit(false);
         this.setAutoscrolls(true);
+        
         selectionRectangle = new Rectangle();
         selectionRectangle.setStroke(Color.BLACK);
         selectionRectangle.setFill(Color.TRANSPARENT);
@@ -126,7 +127,7 @@ import model.topology.Lane;
         
         //group.getChildren().add(selectionRectangle);
         
-        
+        /*
         this.addMouseListener(new RectangularSelection(this));
         
         this.addMouseMotionListener(new MouseMotionAdapter() {
@@ -191,7 +192,7 @@ import model.topology.Lane;
                         group.getChildren().add(lane.getPolyline());
                     }
                 });
-                group.getChildren().add(selectionRectangle);
+                //group.getChildren().add(selectionRectangle);
                 ZoomableScrollPane pane = new ZoomableScrollPane(group);
                 this.setScene(new Scene(pane));
                 this.updateUI();

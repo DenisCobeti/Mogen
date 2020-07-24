@@ -531,11 +531,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
             },
             new String [] {
-                "To", "From", "Number"
+                "Id", "To", "From", "Number"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1236,10 +1236,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             
         } else if (tuple.obj2 instanceof TAZ){
             newTAZ((String)tuple.obj1, (TAZ)tuple.obj2);
-            
-        } else if (tuple.obj2 instanceof ODElement){
-            newElement((ODElement)tuple.obj2);
-            
+         
         } else if (tuple.obj2 instanceof HashMap){
             updateTables(tuple);
         }
@@ -1279,6 +1276,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     
     public void addTAZ(String id, TAZ taz){
         listenerUI.producedEvent(Event.NEW_TAZ, new Tuple(id,taz));
+        //listenerUI.producedEvent(ViewListener.Event.NEW_FLOW, flow);
+    }
+    
+    public void addODElement(ODElement element){
+        listenerUI.producedEvent(Event.NEW_ODELEMENT, element);
         //listenerUI.producedEvent(ViewListener.Event.NEW_FLOW, flow);
     }
     
@@ -1357,10 +1359,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                                 new ODElement(origin, destination, vehiclesNum));
     }
 
-    private void newElement(ODElement odElement) {
+    private void newElement(String id, ODElement odElement) {
         DefaultTableModel model = (DefaultTableModel)ODMTable.getModel();
         
-        model.addRow(new Object[]{
+        model.addRow(new Object[]{id,
             odElement.getDestination(), odElement.getOrigin(), odElement.getVehiclesNum()
         });
     }
@@ -1391,6 +1393,19 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         
                         FlowMap.forEach((id, flow) -> {
                             newFlow((String)id, (Flow)flow);
+                        });
+                    }
+                    break;
+                    
+                case ODElementType:
+                    if(tuple.obj2 instanceof HashMap){
+                        HashMap ODMap = (HashMap) tuple.obj2;
+                        
+                        DefaultTableModel model = (DefaultTableModel)ODMTable.getModel();
+                        model.setRowCount(0);
+                        
+                        ODMap.forEach((id, ODelement) -> {
+                            newElement((String)id, (ODElement)ODelement);
                         });
                     }
                     break;

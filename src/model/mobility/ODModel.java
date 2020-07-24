@@ -4,7 +4,6 @@ import control.Mogen;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,18 +32,18 @@ public class ODModel extends MobilityModel {
     
     
     private Map<String, TAZ> tazs;
-    private final ArrayList<ODElement> elements;
+    private final Map<String, ODElement> elements;
     private final File inputFiles = new File(FILE_LOCATION); 
     
     private int begin;
     
-    public ODModel(int time, Map<String, TAZ> tazs) {
-        this.elements = new ArrayList();
+    public ODModel(int time, Map<String, TAZ> tazs, Map<String, ODElement> elements) {
         
         if (!inputFiles.exists()) inputFiles.mkdirs();
         
         this.begin = time;
         this.tazs = tazs;
+        this.elements = elements;
     }
 
     public void setTazs(HashMap<String, TAZ> tazs) {
@@ -65,10 +64,10 @@ public class ODModel extends MobilityModel {
         return !tazs.containsKey(id);
     }
     
-    public boolean addElement(String origin, String destination, int vehicleNum){
+    public boolean addElement(String id, String origin, String destination, int vehicleNum){
         ODElement element = new ODElement(origin, destination, vehicleNum);
-        if (elements.contains(element)) return false;
-        elements.add(element);
+        if (elements.containsKey(id)) return false;
+        elements.put(id, element);
         return true;
     }
     
@@ -114,8 +113,8 @@ public class ODModel extends MobilityModel {
         writerOD.println(begin);
         writerOD.println(OD_ELEMENT_FACTOR);
         
-        elements.forEach((ODElement) -> {
-            writerOD.println(ODElement.toFile());
+        elements.forEach((id, ODelement) -> {
+            writerOD.println(ODelement.toFile());
         });
         
         writerOD.close();

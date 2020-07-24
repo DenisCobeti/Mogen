@@ -186,7 +186,7 @@ public class Mogen implements ViewListener{
                 break; 
                 
             case NEW_ODELEMENT:
-                view.update(model, addODElemnt((ODElement)obj));
+                view.update(model, new Tuple<>(TableTypes.ODElementType, addODElemnt((ODElement)obj)));
                 break;
                 
             case EDIT_VTYPE:
@@ -421,7 +421,7 @@ public class Mogen implements ViewListener{
         
         String vehiclesPath = exportVehicles(DEFAULT_VTYPE_LOCATION 
                                         + FilesExtension.VEHICLES.getExtension());
-        ODModel ODmodel = new ODModel(time, model.getTazs());
+        ODModel ODmodel = new ODModel(time, model.getTazs(), model.getElements());
         
         ODmodel.export(location, model.getOSMMap(), vehiclesPath, this);
     }
@@ -455,7 +455,7 @@ public class Mogen implements ViewListener{
         
     }
     
-    public Tuple addODElemnt(ODElement element){
+    public HashMap addODElemnt(ODElement element){
         return model.addODElement(element);
     }
     

@@ -26,7 +26,7 @@ public class MogenModel extends Observable{
     private final Map<String, Simulation> simulations;
     private final HashMap<String, Flow> flows;
     private final HashMap <String, TAZ> tazs;
-    private final ArrayList<ODElement> elements;
+    private final HashMap<String, ODElement> elements;
     
     
     private String OSMmap, netconvertMap;
@@ -37,7 +37,7 @@ public class MogenModel extends Observable{
         this.vTypes = new HashMap<>();
         this.flows = new HashMap<>();
         this.tazs =  new HashMap<>();
-        this.elements = new ArrayList<>();
+        this.elements = new HashMap<>();
         
         defaultVTypes();
         
@@ -81,10 +81,11 @@ public class MogenModel extends Observable{
         return tazs;
     }
     
-    public Tuple addODElement(ODElement element) {
-        elements.add(element);
+    public HashMap addODElement(ODElement element) {
+        int id = elements.size();
+        elements.put(String.valueOf(id), element);
         
-        return new Tuple<>(null, element);
+        return elements;
     }
     
     public HashMap<String, Flow> getFlows() {
@@ -123,6 +124,10 @@ public class MogenModel extends Observable{
 
     public HashMap<String, TAZ> getTazs() {
         return tazs;
+    }
+
+    public HashMap<String, ODElement> getElements() {
+        return elements;
     }
     
     public String getOSMMap() {

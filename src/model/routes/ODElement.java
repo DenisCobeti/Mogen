@@ -16,6 +16,8 @@ public class ODElement {
     private final String destination;
     private int vehiclesNum;
 
+    private static final String FILE_FORMAT = "%s   %s  %s";
+    
     public ODElement(String origin, String destination, int vehiclesNum) {
         this.origin = origin;
         this.destination = destination;
@@ -62,7 +64,7 @@ public class ODElement {
     }
     
     public String toFile(){
-        return (origin + "/t" + destination + "/t" + vehiclesNum );
+        return String.format(FILE_FORMAT, origin, destination, vehiclesNum + ".00");
     }
 
     public String getOrigin() {

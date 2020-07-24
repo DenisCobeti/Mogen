@@ -11,15 +11,22 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.EndElement;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import model.map.MapAPI.APIS;
 import model.constants.FilesExtension;
 import model.constants.Netconvert;
@@ -55,7 +62,6 @@ public class MapConverter {
         options = new HashSet();
         convertCommand.add(Netconvert.PROGRAM.toString());
         
-        for (Netconvert option: DEFAULT_OPTIONS) options.add(option.getCommand());
         for (Netconvert option: DEFAULT_OPTIONS) options.add(option.getCommand());
         
         switch(api){
@@ -152,32 +158,67 @@ public class MapConverter {
         
         InputStream in = new FileInputStream(mapName);
         //XMLEventReader reader = inputFactory.createXMLEventReader(in);
-        XMLStreamReader reader = inputFactory.createXMLStreamReader(in);
+        XMLEventReader reader = inputFactory.createXMLEventReader(in);
         
-        OutputStream out = new FileOutputStream(mapName +'0');
+        OutputStream out = new FileOutputStream(mapName + ".tmp");
         XMLEventWriter writer =  outputFactory.createXMLEventWriter(out);
         
-        //XMLEvent event;
-        int event;
-        boolean internal = true;
-        String tag, function;
-        // conversion for faster comparison
+        XMLEvent event;
+        boolean deleteSection = false;
         
         double lon = 0, lat = 0;
+        
         while (reader.hasNext()){
-            event = reader.next();
-            if(event == XMLStreamConstants.START_ELEMENT){
-                tag = reader.getLocalName();
+            event = reader.nextEvent();
+            
+            if(deleteSection){
+                // if we wish to delete a section iterate until you find an end element
+                if(event.isEndElement()){
+                    EndElement endElement = event.asEndElement();
+                    // if the end element id the desired one to delete, return iteration to normal
+                    if (endElement.getName().getLocalPart().equals(OSM_FILE_NODE)){
+                        deleteSection = false;
+                    }
+                    continue;
+                }else{
+                    continue;
+                }
+            }
+            
+            if(event.isStartElement()){
+                StartElement startElement = event.asStartElement();
                 
-                if(tag.equals(OSM_FILE_NODE)){
-                    lon = Double.valueOf(reader.getAttributeValue(null, OSM_FILE_LON));
-                    lat = Double.valueOf(reader.getAttributeValue(null, OSM_FILE_LAT));
+                if(startElement.getName().getLocalPart().equals(OSM_FILE_NODE)){
+                    
+                    Iterator<Attribute> attributes = startElement.getAttributes();
+                    
+                    while (attributes.hasNext()){
+                        Attribute attribute = attributes.next();
+                        
+                        if(attribute.getName().toString().equals(OSM_FILE_LON)){
+                            lon = Double.valueOf(attribute.getValue());
+                        }else if(attribute.getName().toString().equals(OSM_FILE_LAT)){
+                            lat = Double.valueOf(attribute.getValue());
+                        }
+                    }
                     
                     if ((lon > selection.maxLon) || (lon < selection.minLon) ||
                      (lat > selection.maxLat) || (lat < selection.minLat)){
                         System.out.println("found one");
+                        deleteSection = true;
+                        continue;
                     }
+                   
                 }
+                
+            }
+            writer.add(event);
+            /*
+            if(event.isCharacters()){
+                //System.out.println("Element TextValue :" + xsr.getText());
+                txt = reader.getElementText();
+                writer.add(event);
+            }*/
         }
         /*
         while (reader.hasNext()){
@@ -209,7 +250,7 @@ public class MapConverter {
                 writer.add(event);
             }  */
             
-        }
+        
         reader.close();
         //writer.close();
         in.close();
