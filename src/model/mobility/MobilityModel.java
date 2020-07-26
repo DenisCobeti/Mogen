@@ -40,6 +40,7 @@ public abstract class MobilityModel {
                                             "-n", "", "-r", "", "--fcd-output", "", 
                                             "--additional-files", ""};
     
+    
     private static final String[] TRACE_CMD = {Config.python2, 
                                         Config.sumoLocation + PYTHON_SCRIPT_NAME, 
                                         "--fcd-input", "", "--ns2mobility-output", 
@@ -81,6 +82,12 @@ public abstract class MobilityModel {
         return TRACE_CMD;
     }
     
+    public String[] od2TripsCommand (String fcd, String output){
+        TRACE_CMD[TRACE_INPUT_OPT] = fcd;
+        TRACE_CMD[TRACE_OUTPUT_OPT] = output;
+        
+        return TRACE_CMD;
+    }
     public static void executeProcess(Process process) throws IOException, InterruptedException{
         
         InputStream stdin = process.getInputStream();

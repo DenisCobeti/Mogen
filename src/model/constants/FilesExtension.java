@@ -16,6 +16,8 @@ public enum FilesExtension {
     NS2_TRACE(".trace.tcl"),
     NS2_CONFIG(".conf.tcl"),
     TAZ(".taz.xml"),
+    OD(".or"),
+    TRIPS(".trips.xml"),
     ROUTE(".rou.xml");
     
     private final String extension;

@@ -1094,9 +1094,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             doneLoading();
             avalibleMap();
             
-        } else if (arg instanceof HashSet){
-            options.addOptions((HashSet)arg);
-            
         } else if (arg instanceof Netconvert[]){
             options.addOptions((Netconvert[])arg);
             
@@ -1104,7 +1101,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             loadProgress((Progress)arg);
             
         } else if (arg instanceof RoadTypes[]){
-            options.addRoads((RoadTypes[])arg);
+            options.addDefaultRoads((RoadTypes[])arg);
             
         } 
     }
@@ -1296,6 +1293,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         listenerUI.producedEvent(Event.FILTER_ROADS, roads);
     }
     
+    public void applyOptions (HashSet<String> roads, Netconvert[] options){
+        listenerUI.producedEvent(Event.ROADS_OPTIONS, new Tuple(roads, options));
+    }
+    
     public void deleteVType(VehicleTypePanel type){
         vehicleTypesPanel.remove(type);
         vehicleTypes.remove(type);
@@ -1342,6 +1343,17 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 progressFrame.progressLoading(progress);
                 break;
             case DOWNLOAD_MAP:
+                if (progress.getCurrent() == 0){
+                    progressFrame = new ProgressFrame(this, progress);
+                    progressFrame.setVisible(true);
+                    progressFrame.setLocationRelativeTo(this);
+                }else{
+                    progressFrame.progressLoading(progress);
+                }
+                
+                break;
+                
+            case OPEN_MAP:
                 if (progress.getCurrent() == 0){
                     progressFrame = new ProgressFrame(this, progress);
                     progressFrame.setVisible(true);

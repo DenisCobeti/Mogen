@@ -9,12 +9,16 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
@@ -42,28 +46,37 @@ public class MapConverter {
     
     private final static String OSM_FILE_BOUNDS = "bounds"; 
     private final static String OSM_FILE_NODE = "node"; 
+    private final static String OSM_FILE_WAY = "way"; 
     private final static String OSM_FILE_LAT = "lat"; 
     private final static String OSM_FILE_LON = "lon"; 
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
-    private  List<String> convertCommand;
+    private final  List<String> convertCommand;
     
     public final static Netconvert[] DEFAULT_OPTIONS = new Netconvert[] {
                     Netconvert.JOIN_JUNCTIONS,
                     Netconvert.GUESS_ROUNDABOUTS,
                     Netconvert.REMOVE_GEOMETRY};
     
-    public final static RoadTypes[] DEFAULT_ROADS = new RoadTypes[] {
-                    RoadTypes.RAIL};
+    public final static RoadTypes[] DEFAULT_ROADS = new RoadTypes[] {RoadTypes.PEDESTRIAN, 
+                        RoadTypes.RAIL, RoadTypes.SUBWAY, RoadTypes.TRAM, 
+                        RoadTypes.FORD, RoadTypes.SERVICE, RoadTypes.SERVICES, 
+                        RoadTypes.TRACK, RoadTypes.BUS, RoadTypes.PATH, 
+                        RoadTypes.CYCLEWAY, RoadTypes.FOOTWAY, RoadTypes.BRIDLEWAY,
+                        RoadTypes.STAIRS, RoadTypes.STEP, RoadTypes.STEPS
+    };
    
     private HashSet<String> options;
     
-    public MapConverter(String map, APIS api) throws IOException {
+    public MapConverter() {
         convertCommand = new LinkedList();
         options = new HashSet();
         convertCommand.add(Netconvert.PROGRAM.toString());
         
         for (Netconvert option: DEFAULT_OPTIONS) options.add(option.getCommand());
         
+    }
+    
+    public void setMap(String map, APIS api){
         switch(api){
             case OSM:
                 // add recommended options when an OSM file is converted
@@ -71,6 +84,11 @@ public class MapConverter {
                 convertCommand.add(map);
                 //convertCommand.addAll(Arrays.asList(DEFAULT_OSM_OPTIONS));
         }
+    }
+    
+    public void cleanCommand(){
+        convertCommand.clear();
+        convertCommand.add(Netconvert.PROGRAM.toString());
     }
     
     public String executeConvert(String convertedMap) throws IOException, InterruptedException{
@@ -134,11 +152,12 @@ public class MapConverter {
         command.addAll(Arrays.asList(options));
     }
     
-    public void addOptions(List<String> command, HashSet<String> options){
+    public void addOptions(HashSet<String> options){
         options.forEach((option) -> {
             convertCommand.add(option);
         });
     }
+    
     public void addRoads (List<String> command, HashSet<String> roads){
         command.add(Netconvert.REMOVE_ROADS.getCommand());
         StringJoiner joiner = new StringJoiner(",");
@@ -153,23 +172,31 @@ public class MapConverter {
     void pruneNodes(String mapName, MapSelection selection) throws FileNotFoundException, 
                                                             XMLStreamException,
                                                             IOException {
+        File mapFile = new File(mapName);
+        File mapTmpFile = new File(mapName + ".tmp");
+        mapTmpFile.createNewFile();
+        
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
         XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
         
-        InputStream in = new FileInputStream(mapName);
-        //XMLEventReader reader = inputFactory.createXMLEventReader(in);
+        InputStream in = new FileInputStream(mapFile);
         XMLEventReader reader = inputFactory.createXMLEventReader(in);
-        
-        OutputStream out = new FileOutputStream(mapName + ".tmp");
+        OutputStream out = new FileOutputStream(mapTmpFile);
         XMLEventWriter writer =  outputFactory.createXMLEventWriter(out);
         
         XMLEvent event;
         boolean deleteSection = false;
+        boolean done = false;
         
         double lon = 0, lat = 0;
         
         while (reader.hasNext()){
             event = reader.nextEvent();
+            
+            if (done){
+                writer.add(event);
+                continue;
+            }
             
             if(deleteSection){
                 // if we wish to delete a section iterate until you find an end element
@@ -209,6 +236,8 @@ public class MapConverter {
                         continue;
                     }
                    
+                } else if (startElement.getName().getLocalPart().equals(OSM_FILE_NODE)){
+                    done = true;
                 }
                 
             }
@@ -220,6 +249,7 @@ public class MapConverter {
                 writer.add(event);
             }*/
         }
+        
         /*
         while (reader.hasNext()){
             event = reader.nextEvent();
@@ -251,9 +281,9 @@ public class MapConverter {
             }  */
             
         
-        reader.close();
-        //writer.close();
+        out.close();
         in.close();
-        //out.close();
+        
+        Files.move(mapTmpFile.toPath(), mapFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
     }
 }

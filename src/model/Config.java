@@ -29,6 +29,7 @@ public class Config {
     public static final String PYTHON_DEFFAULT = "python2";
     
     public static final String SUMO_PROGRAM = "\\bin\\sumo";
+    public static final String OD2TRIPS_PROGRAM = "\\bin\\od2trips";
     public static Path SUMO_EXE;
     
     public static final int SCREEN_WIDTH = Toolkit.getDefaultToolkit()

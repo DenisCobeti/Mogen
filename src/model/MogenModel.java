@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Observable;
+import model.constants.RoadTypes;
 import model.routes.Flow;
 import model.routes.ODElement;
 import model.routes.TAZ;

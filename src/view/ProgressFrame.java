@@ -19,7 +19,7 @@ public class ProgressFrame extends javax.swing.JFrame {
     ProgressFrame(MogenView view, Progress progress) {
         this.view = view;
         progressType = progress;
-        
+        this.toFront();
         initComponents();
     }
 

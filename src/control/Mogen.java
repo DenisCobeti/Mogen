@@ -25,6 +25,7 @@ import model.Tuple;
 import model.map.MapSelection;
 import model.constants.Errors;
 import model.constants.FilesExtension;
+import model.constants.RoadTypes;
 import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
 import model.exceptions.NoRouteConnectionException;
@@ -60,6 +61,9 @@ public class Mogen implements ViewListener{
     private static final String[] LOADING_MAP = {"Connecting to server..." ,
                                                  "Saving file...", 
                                                  "Opening map..."};
+    private static final String[] OPEN_MAP = { "Converting map..."};
+    
+        
     
     private MapConverter converter;
     private HashSet<String> roads;
@@ -72,8 +76,10 @@ public class Mogen implements ViewListener{
         
         view = new MogenView(this);
         model = new MogenModel(view);
-        
         roads = new HashSet();
+        converter = new MapConverter();
+        
+        for(RoadTypes road : MapConverter.DEFAULT_ROADS) roads.add(road.toString());
         //obtainMap(0,0,0,0);
         Config.load();
         view.update(model, MapConverter.DEFAULT_OPTIONS);
@@ -199,6 +205,7 @@ public class Mogen implements ViewListener{
         
                 try {
                     setRoadsFiltered(roads);
+                    view.update(model, model.getOSMMap());
                 } catch (IOException | InterruptedException ex) {
                     view.update(model, new DownloadMapException
                                            (Errors.OSM_DOWNLOAD.toString()));
@@ -207,6 +214,21 @@ public class Mogen implements ViewListener{
                 
             case REMOVE_VTYPE:
                 model.removeVType((String)obj);
+                break;
+                
+            case ROADS_OPTIONS:
+                tuple = (Tuple)obj;
+                
+                HashSet filteredRoads = (HashSet)tuple.obj1;
+                HashSet options = (HashSet)tuple.obj2;
+                
+                try {
+                    converter.addOptions(options);
+                    setRoadsFiltered(filteredRoads);
+                } catch (IOException | InterruptedException ex) {
+                    view.update(model, new DownloadMapException
+                                           (Errors.OSM_DOWNLOAD.toString()));
+                }
                 break;
                 
             case REMOVE_TAZ:
@@ -261,7 +283,8 @@ public class Mogen implements ViewListener{
                                     ProtocolException, IOException,
                                     InterruptedException,FileNotFoundException,
                                     XMLStreamException{
-        converter = new MapConverter(location, MapAPI.APIS.OSM);
+        converter.cleanCommand();
+        converter.setMap(location, MapAPI.APIS.OSM);
         converter.pruneNodes(location, selection);
         String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
         System.out.println("---" + location);
@@ -276,13 +299,21 @@ public class Mogen implements ViewListener{
                                                             IOException,
                                                             InterruptedException,
                                                             FileNotFoundException{
+        progress = Progress.OPEN_MAP;
+        progress.initialize(OPEN_MAP.length);
+        view.update(model, progress);
+        converter.cleanCommand();
         // Modify second parameter to change the imported map type
-        converter = new MapConverter(location, MapAPI.APIS.OSM);
+        converter.setMap(location, MapAPI.APIS.OSM);
+        progress.progress(OPEN_MAP);
+        view.update(model, progress);
         String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
         model.setOSMMap(DEFAULT_MAP_NAME);
         model.getFlows().clear();
         
         model.setNetconvertMap(location);
+        progress.end();
+        view.update(model, progress);
         hasMap = true;
     }
     
@@ -453,6 +484,12 @@ public class Mogen implements ViewListener{
         this.roads = roads;
         if (hasMap) openMap(model.getNetconvertMap());
         
+    }
+    
+    public void setRoadsFiltered(RoadTypes[] roads){
+        for(RoadTypes road : roads){
+            this.roads.add(road.toString());
+        }
     }
     
     public HashMap addODElemnt(ODElement element){

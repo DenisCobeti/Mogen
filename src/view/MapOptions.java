@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Cursor;
 import java.awt.Font;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import javax.swing.table.DefaultTableModel;
@@ -27,7 +28,7 @@ public class MapOptions extends javax.swing.JFrame {
     private final static String ROUNDABOUTS = "Guess roundabouts";
     private final static String STREET_NAMES = "Street names";
     private final static String OVERTAKE_LANES = "Overtake lanes";
-    private final static String JOIN_JUNCTIONS = "Overtake lanes";
+    private final static String JOIN_JUNCTIONS = "Join junctions";
     private static final String ACCEPT = "Accept";
     
     private final static String VEHICLE_FILTERS = "Vehicle filters";
@@ -390,7 +391,7 @@ public class MapOptions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void acceptLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_acceptLabelMouseClicked
-       
+        
         if (filteredRoadsChange) view.filterRoads(filteredRoads);
         view.enableEvents(true);
         this.setVisible(false);
@@ -465,20 +466,31 @@ public class MapOptions extends javax.swing.JFrame {
     private javax.swing.JButton unfilterButton;
     // End of variables declaration//GEN-END:variables
     
-    public void addOptions(HashSet<Netconvert> options){
-        options.forEach((option) -> {
-            checkBox(true, option);
-        });
-        this.options.addAll(options);
-    }
     
     public void addOptions(Netconvert... options){
         for (Netconvert option : options) checkBox(true, option);
         this.options.addAll(Arrays.asList(options));
     }
     
-    public void addRoads(RoadTypes... roads){
-        //for (RoadTypes road : roads) //checkBox(true, option);
+    public void addDefaultRoads(RoadTypes... roads){
+        for (RoadTypes road : roads){
+            filteredRoads.add(road.toString());
+            this.roads.remove(road.toString());
+        }
+        ((DefaultTableModel)roadsTable.getModel()).setRowCount(0);
+        ((DefaultTableModel)filteredRoadsTable.getModel()).setRowCount(0);
+        
+        this.roads.forEach((road) -> {
+            ((DefaultTableModel)roadsTable.getModel()).addRow(new String[] { 
+                road
+            });
+        }); 
+        this.filteredRoads.forEach((road) -> {
+            ((DefaultTableModel)filteredRoadsTable.getModel()).addRow(new String[] { 
+                road
+            });
+        }); 
+        
         //this.roads.addAll(Arrays.asList(roads));
     }
     
@@ -504,6 +516,32 @@ public class MapOptions extends javax.swing.JFrame {
                 junctionsBox.setSelected(select);
                 break;
         }
+    }
+    
+    private HashSet getOptions(){
+        HashSet<String> options = new HashSet();
+        
+        if(roundaboutBox.isSelected()){
+            options.add(Netconvert.GUESS_ROUNDABOUTS.toString());
+        }
+        
+        if(geometryBox.isSelected()){
+            options.add(Netconvert.REMOVE_GEOMETRY.toString());
+        }
+        
+        if(lefthandedBox.isSelected()){
+            options.add(Netconvert.LEFTHANDED.toString());
+        }
+        
+        if(overtakeBox.isSelected()){
+            options.add(Netconvert.OVERTAKE_LANES.toString());
+        }
+        
+        if(junctionsBox.isSelected()){
+            options.add(Netconvert.JOIN_JUNCTIONS.toString());
+        }
+        
+        return options;
     }
 }
 
