@@ -1059,6 +1059,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
     private void ODiImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ODiImportButtonActionPerformed
         // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        
+        int returnVal = chooser.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            listenerUI.producedEvent(ViewListener.Event.IMPORT_OD, 
+                        chooser.getSelectedFile().getAbsolutePath());
+        }
     }//GEN-LAST:event_ODiImportButtonActionPerformed
 
     private void timeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeFieldActionPerformed

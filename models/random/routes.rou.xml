@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 04/24/20 13:27:42 by Eclipse SUMO duarouter Version 1.2.0
+<!-- generated on 07/27/20 03:10:43 by Eclipse SUMO duarouter Version 1.2.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>
         <net-file value="mapNetconvert.net.xml"/>
-        <additional-files value="C:\Users\darkm\Documents\Mogen\vehicles.add.xml"/>
+        <additional-files value="C:\Users\darkm\Documents\proyectos\Mogen\vehicles.add.xml"/>
         <route-files value="models/random/trips.trips.xml"/>
     </input>
 
@@ -30,7 +30,14 @@
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     <vType id="Truck" length="3.00" minGap="1.00" maxSpeed="40.00" probability="0.50" carFollowModel="Krauss" accel="1.40" decel="5.00" sigma="0.5" tau="7.0"/>
+    <vehicle id="0" type="Truck" depart="0.00">
+        <route edges="5069757#2 5073085 492264419#0 191548220#1 339610125#0 339610125#1 -504582669 -504582668 -492264418 -49515976 -43210309 -492264417 -49499527#0 -492264416 -266026705 48098268#0 248096127 209078964#1 30705976"/>
+    </vehicle>
     <vehicle id="1" type="Truck" depart="0.33">
-        <route edges="-219291916#0 219291916#0 -27885170#0 -514121075 514121073 514121076#0 70662637#1 70662637#2 -23100792#1 -23100801#1"/>
+        <route edges="4223137#0 24527732#0 472503796#1 30194665#0 30194665#1 756909463 266449023#0 24535789#0"/>
+    </vehicle>
+    <vType id="Sport" length="1.00" minGap="1.00" maxSpeed="80.00" probability="0.50" carFollowModel="Krauss" accel="3.00" decel="5.00" sigma="0.5" tau="7.0"/>
+    <vehicle id="2" type="Sport" depart="0.67">
+        <route edges="472503801 148754586#0 472503797 502484458 49501589 24527718#1 344453961 31281046 5069788 5069764#0 -5069579#2 4834461#0"/>
     </vehicle>
 </routes>

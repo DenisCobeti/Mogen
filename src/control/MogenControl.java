@@ -16,6 +16,10 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 import model.Config;
 
@@ -28,12 +32,14 @@ import model.constants.FilesExtension;
 import model.constants.RoadTypes;
 import model.exceptions.DownloadMapException;
 import model.exceptions.DuplicatedKeyException;
+import model.exceptions.NoODFileFormatFoundException;
 import model.exceptions.NoRouteConnectionException;
 import model.map.MapAPI;
 import model.map.OsmAPI;
 import model.mobility.FlowModel;
 import model.mobility.MobilityModel;
 import model.mobility.ODModel;
+import model.mobility.ODModel.Format;
 import model.routes.Flow;
 import model.routes.ODElement;
 import model.routes.TAZ;
@@ -46,7 +52,7 @@ import view.MogenView;
  *
  * @author Denis C
  */
-public class Mogen implements ViewListener{
+public class MogenControl implements ViewListener{
     
     //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
     
@@ -72,7 +78,7 @@ public class Mogen implements ViewListener{
     
     private Progress progress;
 
-    public Mogen(String[] args) {
+    public MogenControl(String[] args) {
         
         view = new MogenView(this);
         model = new MogenModel(view);
@@ -233,6 +239,18 @@ public class Mogen implements ViewListener{
                 
             case REMOVE_TAZ:
                 view.update(model, new Tuple<>(TableTypes.TAZType, removeTAZ((String[])obj)));
+                break;
+                
+            case IMPORT_OD:
+                
+                try {
+                    view.update(model, new Tuple<>(TableTypes.ODElementType, importOD((String)obj)));
+                } catch (FileNotFoundException ex) {
+                    Logger.getLogger(MogenControl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoODFileFormatFoundException ex) {
+                    Logger.getLogger(MogenControl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
                 break;
                 
             case EDIT_PYTHON:
@@ -520,6 +538,49 @@ public class Mogen implements ViewListener{
         return model.getTazs();
     }
     
+    public HashMap importOD(String path) throws FileNotFoundException, NoODFileFormatFoundException{
+        File file = new File(path);
+        Scanner scanner = new Scanner(file);
+        scanner.useDelimiter("[\\n]");
+        Format format = Format.None;
+        //pattern to find the OD Elements in a O format file
+        String patternStringO = ".*\\s+.*\\s+[0-9]+[.][0-9]+";
+        System.out.println(patternStringO);
+        
+        while (scanner.hasNextLine()){
+            String data = scanner.nextLine();
+            // if its a coment continue and ignore it
+            if(data.startsWith("*"))continue;
+            if(data.startsWith(Format.OType.toString())){
+                format = Format.OType;
+                break;
+            } 
+            if(data.startsWith(Format.VType.toString())){
+                format = Format.VType;
+                break;
+            }
+        }
+        switch(format){
+            case None:
+                throw new NoODFileFormatFoundException();
+            case OType:
+                while (scanner.hasNextLine()){
+                    if(scanner.hasNext(Pattern.compile(patternStringO))){
+                        String data = scanner.nextLine();
+
+                        System.out.println(data);
+                    }else{
+                        //System.out.println(scanner.nextLine());
+                        scanner.nextLine();
+                    }
+                }
+                break;
+            case VType:
+                break;
+        }
+        return null;
+    }
+    
     private void salir() {
         System.exit(0);
     }
@@ -534,7 +595,7 @@ public class Mogen implements ViewListener{
         }
     }
     
-    public static void main(String[] args) throws FileNotFoundException, XMLStreamException {
-        new Mogen(args);
+    public static void main(String[] args) {
+        new MogenControl(args);
     }   
 }

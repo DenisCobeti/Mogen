@@ -1,18 +1,15 @@
 package model.mobility;
 
-import control.Mogen;
+import control.MogenControl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import model.Config;
 import model.constants.FilesExtension;
-import model.constants.Netconvert;
 import model.routes.ODElement;
 import model.routes.TAZ;
 import model.routes.VType;
@@ -27,9 +24,21 @@ public class ODModel extends MobilityModel {
     private final static String FOOTER_TAZ = "</tazs>";
     private final static String FILE_LOCATION = "models/od/";
     
+    public enum Format {
+        OType("$OR"), VType("$VMR"), None("");
+        
+        private final String start;
+        
+        private Format(String start){
+            this.start = start;
+        }
+        
+        @Override
+        public String toString(){
+            return start;
+        }
+    };
     
-    private final static String O_FORMAT_TYPE = "$OR;D2";
-    private final static String V_FORMAT_TYPE = "$VMR";
     
     private final static String OD_ELEMENT_FACTOR = "1.00";
     
@@ -88,7 +97,7 @@ public class ODModel extends MobilityModel {
     
     @Override
     public void export(String location, String sim, String vTypes, 
-                Mogen control) throws IOException, InterruptedException {
+                MogenControl control) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File tazsFile = new File(FILE_LOCATION + TAZ_FILE + FilesExtension.TAZ);
         File odFile = new File(FILE_LOCATION + OD_FILE + FilesExtension.OD);
@@ -123,7 +132,7 @@ public class ODModel extends MobilityModel {
         int hours = time / 3600;
         int minutes = time % 3600;
         
-        writerOD.println(O_FORMAT_TYPE);
+        writerOD.println(Format.OType.toString());
         
         writerOD.println("0.0 " + hours + "." + minutes);
         writerOD.println(OD_ELEMENT_FACTOR);

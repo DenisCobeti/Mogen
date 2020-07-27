@@ -1,5 +1,6 @@
 package view.mapsimulation;
 
+import java.awt.Point;
 import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -59,18 +60,20 @@ public class ZoomableScrollPane extends ScrollPane {
                 (e.getButton() == MouseButton.SECONDARY)) setPannable(true);
             
             if (e.getButton() == MouseButton.PRIMARY) {
-                    mouseStartX = e.getX();
-                    mouseStartY = e.getY();
+                
+                    Point mouse = java.awt.MouseInfo.getPointerInfo().getLocation();
+                    Point2D local = target.screenToLocal(mouse.x, mouse.y);
+                    
+                    mouseStartX = local.getX();
+                    mouseStartY = local.getY();
+                    
                     selectionRectangle.setX(mouseStartX);
                     selectionRectangle.setY(mouseStartY);
-                    selectionRectangle.setWidth(0);
-                    selectionRectangle.setHeight(0);
+                    selectionRectangle.setWidth(100);
+                    selectionRectangle.setHeight(100);
                     System.out.println("dale");
                 }
         });
-        // no funciona
-        
-        
         
         setOnMouseReleased(e -> {
             if ((e.getButton() == MouseButton.MIDDLE) || 

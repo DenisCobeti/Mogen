@@ -1,6 +1,6 @@
 package model.mobility;
 
-import control.Mogen;
+import control.MogenControl;
 import java.io.File;
 import java.util.LinkedList;
 import java.io.IOException;
@@ -9,11 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
-import java.util.Map;
 
 import model.Config;
 import model.constants.FilesExtension;
-import model.constants.Netconvert;
 import model.routes.VType;
 
 /**
@@ -105,7 +103,7 @@ public class RandomModel extends MobilityModel{
         sumo.start();
     }*/
     @Override
-    public void export(String location, String sim, String vTypes, Mogen control) throws IOException, InterruptedException {
+    public void export(String location, String sim, String vTypes, MogenControl control) throws IOException, InterruptedException {
         
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File project = new File(location + FilesExtension.SUMO_CFG);
@@ -149,7 +147,7 @@ public class RandomModel extends MobilityModel{
         System.out.println(sumo.command().toString());
         
         for (int i = 0; i < files; i++){
-            control.progressExport(files);
+            control.progressExport(files + 1);
             File ns2 = new File(location + i + FilesExtension.NS2_MOBILITY.getExtension());
             ns2.createNewFile();
             

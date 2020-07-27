@@ -39,17 +39,10 @@ import model.topology.Lane;
     private final List<Lane> lanes = new LinkedList<>();
     private final Group group = new Group();
     private final static String ID = "id";
-    private final static double ZOOM_AMOUNT = 0.25;
     public final Rectangle selectionRectangle;
     
     public int mouseStartX;         
     public int mouseStartY; 
-    
-    private double zoomFactor = 1;
-    private double prevZoomFactor = 1;
-    private double xOffset = 0;
-    private double yOffset = 0;
-    
     
     public MapPanel(String name) throws FileNotFoundException, 
                                         XMLStreamException, IOException {
