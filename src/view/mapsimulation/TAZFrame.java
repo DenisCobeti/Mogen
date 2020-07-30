@@ -1,5 +1,6 @@
 package view.mapsimulation;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 
 import javafx.scene.input.MouseButton;
@@ -26,7 +27,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     private final static String EMPTY_EDGES_ERROR = "No roads selected for TAZ";
     
     private final MogenView view;
-    private final LinkedList<Lane> edges;
+    private final LinkedList<Lane> lanes;
     /**
      * Creates new form TAZFrame
      * @param view
@@ -34,7 +35,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
      */
     public TAZFrame(MogenView view, MapPanel map) {
         this.view = view;
-        this.edges = new LinkedList();
+        this.lanes = new LinkedList();
         
         initComponents();
         
@@ -189,10 +190,10 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         // TODO add your handling code here:
-        if (edges.isEmpty()){
+        if (lanes.isEmpty()){
             view.error(EMPTY_EDGES_ERROR);
         }else{
-            view.addTAZ(idField.getText(), new TAZ(edges));
+            view.addTAZ(idField.getText(), new TAZ(lanes));
             unselectLanes();
             this.dispose();
         }
@@ -206,7 +207,7 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     
     @Override
     public void unselectLanes(){
-        edges.forEach((edge)-> 
+        lanes.forEach((edge)-> 
                     edge.getPolyline().setStroke(Paint.valueOf
                     (UNSELECTED_LANE_COLOR)));
     }
@@ -220,19 +221,17 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     }*/
     
     @Override
-    public void addFunctionToLanes(Lane lane, MouseEvent e) {
+    public void addFunctionToLanes(Lane lane,  MouseEvent e) {
         MouseButton button = e.getButton();
         if (button == MouseButton.PRIMARY){
-            if(this.edges.contains(lane)){
+            if(this.lanes.contains(lane)){
                 lane.getPolyline().setStroke(Paint.valueOf(UNSELECTED_LANE_COLOR));
-                edges.remove(lane);
+                lanes.remove(lane);
             }else{
                 lane.getPolyline().setStroke(Paint.valueOf(SELECTED_LANE_COLOR));
-                edges.add(lane);
+                lanes.add(lane);
             }
-        } else if (button == MouseButton.SECONDARY){
-           
-        }
+        } 
         System.out.println(lane.toString()); 
     }
 
@@ -247,4 +246,5 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
     private javax.swing.JPanel mapView;
     private javax.swing.JPanel optionsPanel;
     // End of variables declaration//GEN-END:variables
+
 }

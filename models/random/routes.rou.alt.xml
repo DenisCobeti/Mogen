@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 07/27/20 03:10:43 by Eclipse SUMO duarouter Version 1.2.0
+<!-- generated on 07/30/20 16:09:45 by Eclipse SUMO duarouter Version 1.2.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>
@@ -30,20 +30,15 @@
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
     <vType id="Truck" length="3.00" minGap="1.00" maxSpeed="40.00" probability="0.50" carFollowModel="Krauss" accel="1.40" decel="5.00" sigma="0.5" tau="7.0"/>
-    <vehicle id="0" type="Truck" depart="0.00">
-        <routeDistribution last="0">
-            <route cost="105.33" probability="1.00000000" edges="5069757#2 5073085 492264419#0 191548220#1 339610125#0 339610125#1 -504582669 -504582668 -492264418 -49515976 -43210309 -492264417 -49499527#0 -492264416 -266026705 48098268#0 248096127 209078964#1 30705976"/>
-        </routeDistribution>
-    </vehicle>
     <vehicle id="1" type="Truck" depart="0.33">
         <routeDistribution last="0">
-            <route cost="92.70" probability="1.00000000" edges="4223137#0 24527732#0 472503796#1 30194665#0 30194665#1 756909463 266449023#0 24535789#0"/>
+            <route cost="96.38" probability="1.00000000" edges="24527718#1 -4722379#2 4793112#1 495766634 495766636#0 495766635 495766637#0 30194665#0 30194665#1 756909463 5072869 49967561#0 174274186#0 -174274186#1"/>
         </routeDistribution>
     </vehicle>
     <vType id="Sport" length="1.00" minGap="1.00" maxSpeed="80.00" probability="0.50" carFollowModel="Krauss" accel="3.00" decel="5.00" sigma="0.5" tau="7.0"/>
     <vehicle id="2" type="Sport" depart="0.67">
         <routeDistribution last="0">
-            <route cost="74.49" probability="1.00000000" edges="472503801 148754586#0 472503797 502484458 49501589 24527718#1 344453961 31281046 5069788 5069764#0 -5069579#2 4834461#0"/>
+            <route cost="151.27" probability="1.00000000" edges="758932762#0 4850965 148754587#0 148754587#2 24527732#0 502484458 49501589 5069789#0 167633348#3 4937457#1 404737753#0 404737753#4 692664116#0 692664116#1 339610125#0 339610125#1 -504582669 -504582668 -492264418 -49515976 -43210309 -492264417 -49499527#0 -492264416 -266026705 48098268#0 248096127 209078964#1 -503322111"/>
         </routeDistribution>
     </vehicle>
 </routes>

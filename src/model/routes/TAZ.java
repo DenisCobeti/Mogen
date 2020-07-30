@@ -37,7 +37,7 @@ public class TAZ {
         String edgesString = "";
         
         for(Lane lane : edges){
-            edgesString += lane.toString() + " ";
+            edgesString += lane.getEdge() + " ";
         }
         return String.format(FILE_FORMAT, id, edgesString);
     }

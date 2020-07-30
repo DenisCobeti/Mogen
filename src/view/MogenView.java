@@ -997,7 +997,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         }
         flowFrame = new FlowFrame(this, mapVisual, vehicleTypes);
-        mapVisual.addMouseHandler(flowFrame, MouseEvent.MOUSE_CLICKED);
+        mapVisual.addMouseHandler(false, flowFrame, MouseEvent.MOUSE_CLICKED);
         flowFrame.setVisible(true);
      
     }//GEN-LAST:event_addFlowButtonActionPerformed
@@ -1034,7 +1034,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         }
         TazFrame = new TAZFrame(this, mapVisual);
-        mapVisual.addMouseHandler(TazFrame, MouseEvent.MOUSE_CLICKED);
+        mapVisual.addMouseHandler(false, TazFrame, MouseEvent.MOUSE_CLICKED);
         TazFrame.setVisible(true);
      
     }//GEN-LAST:event_TAZAddButtonActionPerformed
@@ -1489,7 +1489,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                         Integer.valueOf(flowTable.getValueAt(selectedRow, 5).toString()),
                         this, mapVisual, vehicleTypes);
                     
-                    mapVisual.addMouseHandler(flowFrame, MouseEvent.MOUSE_CLICKED);
+                    mapVisual.addMouseHandler(false, flowFrame, MouseEvent.MOUSE_CLICKED);
                     flowFrame.setVisible(true);
                     
         }

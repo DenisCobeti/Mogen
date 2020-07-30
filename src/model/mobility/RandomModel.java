@@ -105,13 +105,11 @@ public class RandomModel extends MobilityModel{
     @Override
     public void export(String location, String sim, String vTypes, MogenControl control) throws IOException, InterruptedException {
         
+        File projectFolder = new File(location);
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File project = new File(location + FilesExtension.SUMO_CFG);
-        File projectFolder = new File(location);
+        
         double repetition = DEFAULT_TIME / vehicles;
-        System.out.println(DEFAULT_TIME);
-        System.out.println(vehicles);
-        System.out.println(repetition);
         control.startExport(files);
         
         projectFolder.mkdirs();
@@ -147,7 +145,7 @@ public class RandomModel extends MobilityModel{
         System.out.println(sumo.command().toString());
         
         for (int i = 0; i < files; i++){
-            control.progressExport(files + 1);
+            control.progressExport(i + 1);
             File ns2 = new File(location + i + FilesExtension.NS2_MOBILITY.getExtension());
             ns2.createNewFile();
             
@@ -179,6 +177,30 @@ public class RandomModel extends MobilityModel{
         writer.println("</input>");
         writer.println("</configuration>");
         writer.close();
+        control.endExport();
+    }
+    
+    private LinkedList commandOnFile(String sim, String vTypes, double repetition, int file){
+        
+        LinkedList <String> command = new LinkedList(Arrays.asList(
+                Config.python2,
+                Config.sumoLocation + PYTHON_SCRIPT_NAME,
+                NETWORK_OPT,
+                sim + FilesExtension.NETCONVERT,
+                VEHICLE_OPT,
+                vTypes,
+                TIME_OPT,
+                String.valueOf(DEFAULT_TIME),
+                REPETITION_OPT,
+                String.valueOf(repetition),
+                OUTPUT_OPT,
+                FILE_LOCATION + TRIPS_FILE,
+                ROUTES_OPT,
+                FILE_LOCATION + ROUTES_FILE,
+                ATT_OPT,
+                DIST_OPT 
+        ));
+        return command;
     }
     
 }

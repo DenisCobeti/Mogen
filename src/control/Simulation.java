@@ -33,7 +33,7 @@ public class Simulation {
     public Simulation(String[] commands) {
         this.commands = commands;
     }
-    
+    /*
     public void parseNetwork(String location) throws FileNotFoundException, 
                                                             XMLStreamException{
         XMLInputFactory inputFactory = XMLInputFactory.newInstance();
@@ -52,21 +52,6 @@ public class Simulation {
         while (reader.hasNext()){
             event = reader.next();
             if(event == XMLStreamConstants.START_ELEMENT){
-                /*switch(reader.getLocalName()){
-                     case Lane.TAG:
-                         lanes.put(reader.getAttributeValue(null, ID),
-                             new Lane( reader.getAttributeValue(null, Lane.LENGTH)
-                                 ,reader.getAttributeValue(null, Lane.SHAPE)));
-                         System.out.println(reader.getAttributeValue(null, Lane.SHAPE));
-                         
-                         break;
-                     case Junction.TAG:
-                        
-                         break;
-                     default: 
-                        
-                }*/
-                
                 tag = reader.getLocalName();
                 
                 if(tag.equals(Lane.TAG)){
@@ -85,7 +70,7 @@ public class Simulation {
         //printMap(lanes);
         //printMap(junctions);
        
-    }
+    }*/
 
     public static void printMap(Map mp) {
         Iterator it = mp.entrySet().iterator();
@@ -94,9 +79,5 @@ public class Simulation {
             System.out.println(pair.getKey() + " = " + pair.getValue());
             it.remove(); // avoids a ConcurrentModificationException
         }
-    }
-
-    public HashMap<String, Lane> getLanes() {
-        return lanes;
     }
 }

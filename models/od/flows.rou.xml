@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 07/30/20 22:49:18 by Eclipse SUMO od2trips Version 1.2.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/od2tripsConfiguration.xsd">
+
+    <input>
+        <taz-files value="C:\Users\darkm\Documents\proyectos\Mogen\models\od\tazs.taz.xml"/>
+        <od-matrix-files value="C:\Users\darkm\Documents\proyectos\Mogen\models\od\od.or"/>
+    </input>
+
+    <output>
+        <output-file value="C:\Users\darkm\Documents\proyectos\Mogen\models\od\trips.trips.xml"/>
+        <flow-output value="C:\Users\darkm\Documents\proyectos\Mogen\models\od\flows.rou.xml"/>
+    </output>
+
+    <processing>
+        <vtype value="dist"/>
+    </processing>
+
+</configuration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <flow id="0" begin="0.00" end="3600.00" number="40" type="dist" fromTaz="56" toTaz="89" departLane="free" departSpeed="max"/>
+</routes>

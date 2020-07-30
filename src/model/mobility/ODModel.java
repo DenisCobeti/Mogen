@@ -45,11 +45,13 @@ public class ODModel extends MobilityModel {
     private final static String TAZ_FILE = "tazs";
     private final static String OD_FILE = "od";
     private final static String TRIPS_FILE = "trips";
+    private final static String FLOW_FILE = "flows";
     
     private final static String TAZ_OPT = "-n";
     private final static String OD_OPT = "-d";
     private final static String OUTPUT_OPT = "-o";
     private final static String TYPE_OPT = "--vtype";
+    private final static String FLOW_OPT = "--flow-output";
     
     private Map<String, TAZ> tazs;
     private final Map<String, ODElement> elements;
@@ -100,6 +102,7 @@ public class ODModel extends MobilityModel {
                 MogenControl control) throws IOException, InterruptedException {
         File output = new File(FILE_LOCATION + sim + FilesExtension.FCD);
         File tazsFile = new File(FILE_LOCATION + TAZ_FILE + FilesExtension.TAZ);
+        File flowsFile = new File(FILE_LOCATION + FLOW_FILE + FilesExtension.ROUTE);
         File odFile = new File(FILE_LOCATION + OD_FILE + FilesExtension.OD);
         File od2TripsFile = new File(FILE_LOCATION + TRIPS_FILE + FilesExtension.TRIPS);
         File project = new File(location + FilesExtension.SUMO_CFG);
@@ -111,6 +114,7 @@ public class ODModel extends MobilityModel {
         projectFolder.mkdirs();
         project.createNewFile();
         output.createNewFile();
+        flowsFile.createNewFile();
         tazsFile.createNewFile();
         odFile.createNewFile();
         od2TripsFile.createNewFile();
@@ -155,9 +159,15 @@ public class ODModel extends MobilityModel {
                 od2TripsFile.getAbsolutePath()
         ));
         
+        ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
+                sim + FilesExtension.NETCONVERT, od2TripsFile.getAbsolutePath(), 
+                output.getAbsolutePath(), vTypes + "," + tazsFile.getAbsolutePath()));
+        
         ProcessBuilder od2Trips = new ProcessBuilder(command);
         System.out.println(od2Trips.command().toString());
+        System.out.println(sumo.command().toString());
         executeProcess(od2Trips.start());
+        executeProcess(sumo.start());
         /*
         ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
                 sim + FilesExtension.NETCONVERT, routes.getAbsolutePath(),

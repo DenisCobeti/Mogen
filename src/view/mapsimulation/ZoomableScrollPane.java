@@ -11,6 +11,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -59,44 +60,13 @@ public class ZoomableScrollPane extends ScrollPane {
             if ((e.getButton() == MouseButton.MIDDLE) || 
                 (e.getButton() == MouseButton.SECONDARY)) setPannable(true);
             
-            if (e.getButton() == MouseButton.PRIMARY) {
-                
-                    Point mouse = java.awt.MouseInfo.getPointerInfo().getLocation();
-                    Point2D local = target.screenToLocal(mouse.x, mouse.y);
-                    
-                    mouseStartX = local.getX();
-                    mouseStartY = local.getY();
-                    
-                    selectionRectangle.setX(mouseStartX);
-                    selectionRectangle.setY(mouseStartY);
-                    selectionRectangle.setWidth(100);
-                    selectionRectangle.setHeight(100);
-                    System.out.println("dale");
-                }
         });
         
         setOnMouseReleased(e -> {
             if ((e.getButton() == MouseButton.MIDDLE) || 
                 (e.getButton() == MouseButton.SECONDARY)) setPannable(false);
             
-            if (e.getButton() == MouseButton.PRIMARY) {
-                    System.out.println("daliendo");
-                }
         });
-        
-        setOnMouseDragged(e -> {
-            Platform.runLater(() -> {
-                if (e.getButton() == MouseButton.PRIMARY) {
-                    selectionRectangle.setX(Math.min(e.getX(), mouseStartX));
-                    selectionRectangle.setWidth(Math.abs(e.getX() - mouseStartX));
-                    selectionRectangle.setY(Math.min(e.getY(), mouseStartY));
-                    selectionRectangle.setHeight(Math.abs(e.getY() - mouseStartY));
-                    System.out.println("andale");
-                }
-            });
-            System.out.println("andale");
-        });
-        
         /*
         StackPane pane = new StackPane(content);
         
@@ -208,6 +178,53 @@ public class ZoomableScrollPane extends ScrollPane {
     }
     
     public void addRectangleSelection(){
+        
+        setOnDragDetected(event -> startFullDrag());
+        
+        setOnMousePressed(e -> {
+            if ((e.getButton() == MouseButton.MIDDLE) || 
+                (e.getButton() == MouseButton.SECONDARY)) setPannable(true);
+            
+            if (e.getButton() == MouseButton.PRIMARY) {
+                
+                    Point mouse = java.awt.MouseInfo.getPointerInfo().getLocation();
+                    Point2D local = target.screenToLocal(mouse.x, mouse.y);
+                    
+                    mouseStartX = local.getX();
+                    mouseStartY = local.getY();
+                    
+                    e.setDragDetect(true);
+                    
+                    selectionRectangle.setX(mouseStartX);
+                    selectionRectangle.setY(mouseStartY);
+                    selectionRectangle.setWidth(100);
+                    selectionRectangle.setHeight(100);
+                    System.out.println("dale");
+                }
+        });
+        
+        setOnMouseReleased(e -> {
+            if ((e.getButton() == MouseButton.MIDDLE) || 
+                (e.getButton() == MouseButton.SECONDARY)) setPannable(false);
+            
+            if (e.getButton() == MouseButton.PRIMARY) {
+                    System.out.println("daliendo");
+                }
+        });
+        
+        this.setOnMouseDragEntered(e->{
+            System.out.println("dragggggggggggg");
+            e.setDragDetect(true);
+            e.consume();
+        });
+        
+        this.setOnMouseDragOver(e->{
+            selectionRectangle.setWidth(e.getSceneX() - mouseStartX );
+            selectionRectangle.setHeight( e.getSceneY() - mouseStartY );
+            System.out.println("X -> " + e.getScreenX());
+            System.out.println("Y -> " +e.getScreenY());
+            e.consume();
+        });
         
         //group.getChildren().add(selectionRectangle);
         

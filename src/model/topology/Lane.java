@@ -9,6 +9,7 @@ import javafx.scene.shape.Polyline;
 public class Lane  {
     private final double length;
     private final String name;
+    private final String edge;
     private final Polyline polyline;
     private final boolean internal;
     
@@ -18,23 +19,25 @@ public class Lane  {
 
     private final static double WIDTH = 2;
     
-    public Lane(String name, String length, String shape) {
+    public Lane(String name, String length, String shape, String edge) {
         this.length = Double.valueOf(length);
         this.name = name;
         //int[] shapeInt = parseShape(shape.replace(".", "").split("[\\s,]+"));
         double[] shapePoints = parseShape(shape.split("[\\s,]+"));
         polyline = new Polyline(shapePoints);
         polyline.setStrokeWidth(Lane.WIDTH);
+        this.edge = edge;
         internal = false;
     }
     
-    public Lane(String name, String length, String shape, boolean internal) {
+    public Lane(String name, String length, String shape, boolean internal, String edge) {
         this.length = Double.valueOf(length);
         this.name = name;
         this.internal = internal;
         //int[] shapeInt = parseShape(shape.replace(".", "").split("[\\s,]+"));
         double[] shapePoints = parseShape(shape.split("[\\s,]+"));
         polyline = new Polyline(shapePoints);
+        this.edge = edge;
         polyline.setStrokeWidth(Lane.WIDTH);
     }
 
@@ -70,6 +73,10 @@ public class Lane  {
         return shapeNum;
     }
 
+    public String getEdge() {
+        return edge;
+    }
+    
     public String getName() {
         return name;
     }

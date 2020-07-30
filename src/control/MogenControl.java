@@ -522,11 +522,15 @@ public class MogenControl implements ViewListener{
     
     public void progressExport(int num){
         if (progress != null){
-            progress.progress(LOADING_EXPORT + progress.getCurrent());
+            progress.progress(LOADING_EXPORT + num);
             view.update(model, progress);
         }
     }
-
+    
+    public void endExport(){
+        progress.end();
+        view.update(model, progress);
+    }
     public HashMap addTAZ(String string, TAZ taz) {
         return model.addTAZ(string, taz);
     }

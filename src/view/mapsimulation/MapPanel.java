@@ -39,7 +39,8 @@ import model.topology.Lane;
     private final List<Lane> lanes = new LinkedList<>();
     private final Group group = new Group();
     private final static String ID = "id";
-    public final Rectangle selectionRectangle;
+    private String currentEdge = "";
+    private EventHandler<MouseEvent> currentEventHandler;
     
     public int mouseStartX;         
     public int mouseStartY; 
@@ -52,10 +53,6 @@ import model.topology.Lane;
         Platform.setImplicitExit(false);
         this.setAutoscrolls(true);
         
-        selectionRectangle = new Rectangle();
-        selectionRectangle.setStroke(Color.BLACK);
-        selectionRectangle.setFill(Color.TRANSPARENT);
-        selectionRectangle.getStrokeDashArray().addAll(5.0, 5.0);
         
     }
     
@@ -80,6 +77,7 @@ import model.topology.Lane;
         int event;
         boolean internal = true;
         String tag, function;
+        String edgeId = "";
         
         while(!reader.getLocalName().equals(Edge.TAG)) reader.nextTag(); // go to edges
         //HECER BIEN
@@ -93,7 +91,7 @@ import model.topology.Lane;
                     Lane lane = new Lane( reader.getAttributeValue(null, ID), 
                                   reader.getAttributeValue(null, Lane.LENGTH),
                                   reader.getAttributeValue(null, Lane.SHAPE), 
-                                  internal);
+                                  internal, edgeId);
                     lanes.add(lane);
                     
                     //System.out.println(lane.toString());
@@ -102,6 +100,7 @@ import model.topology.Lane;
                                   reader.getAttributeValue(null, Lane.SHAPE));*/
                 }else if(tag.equals(Edge.TAG)){
                     function = reader.getAttributeValue(null, Edge.FUNCTION);
+                    edgeId = reader.getAttributeValue(null, Edge.ID);
                     
                     if(function != null){
                         if ("internal".equals(function)) internal = true;
@@ -165,18 +164,18 @@ import model.topology.Lane;
             });*/
     }
     
-    public void addMouseHandler(MapMouseEvent handler, EventType event){
-        
+    public void addMouseHandler(boolean rectangleSelection, MapMouseEvent handler,  
+                                EventType event){
         Platform.runLater(() -> {
                 group.getChildren().clear();
-        
+                
                 lanes.forEach((lane) -> {
                     if (!lane.isInternal()){
                         lane.getPolyline().setOnMousePressed(null);
                         EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
                             handler.addFunctionToLanes(lane, e);
                         };
-                        
+                    
                         //Adding event Filter 
                         lane.getPolyline().addEventFilter(event, eventHandler);
                         group.getChildren().add(lane.getPolyline());
@@ -187,13 +186,30 @@ import model.topology.Lane;
                 });
                 //group.getChildren().add(selectionRectangle);
                 ZoomableScrollPane pane = new ZoomableScrollPane(group);
+                if(rectangleSelection) pane.addRectangleSelection();
                 this.setScene(new Scene(pane));
                 this.updateUI();
                 this.repaint();
             });
     }
     
-
+    public void laneFunction(Lane lane, EventType event, MapMouseEvent handler){
+        if (!lane.isInternal()){
+            if (!lane.getEdge().equals(currentEdge)){
+                currentEventHandler = (MouseEvent e) -> {
+                    handler.addFunctionToLanes(lane,  e);
+                };
+            }
+            lane.getPolyline().setOnMousePressed(null);
+            currentEdge = lane.getEdge();
+            //Adding event Filter 
+            lane.getPolyline().addEventFilter(event, currentEventHandler);
+            group.getChildren().add(lane.getPolyline());
+        }else {
+            lane.getPolyline().setStroke(Paint.valueOf(MapMouseEvent.INTERNAL_LANE_COLOR));
+            group.getChildren().add(lane.getPolyline());
+        }
+    }
     /*
     @Override
     public void paintComponent(Graphics g) {

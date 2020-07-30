@@ -363,7 +363,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void addFunctionToLanes(Lane lane, MouseEvent e) {
+    public void addFunctionToLanes(Lane lane,  MouseEvent e) {
         MouseButton button = e.getButton();
         if (button == MouseButton.PRIMARY){
             if(this.selectedLaneOrigin != null){
@@ -385,4 +385,5 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         }
         System.out.println(lane.toString()); 
     }
+
 }
