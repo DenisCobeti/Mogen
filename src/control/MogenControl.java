@@ -541,7 +541,8 @@ public class MogenControl implements ViewListener{
         return model.getTazs();
     }
     
-    public HashMap importOD(String path) throws FileNotFoundException, NoODFileFormatFoundException{
+    public HashMap importOD(String path) throws FileNotFoundException, 
+                                                NoODFileFormatFoundException{
         File file = new File(path);
         HashMap<String, ODElement> map = new HashMap();
         
@@ -552,7 +553,7 @@ public class MogenControl implements ViewListener{
             
             while (scanner.hasNextLine()){
                 String data = scanner.nextLine();
-                // if its a coment continue and ignore it
+                // if its a comment continue and ignore it
                 if(data.startsWith("*"))continue;
                 if(data.startsWith(Format.OType.toString())){
                     format = Format.OType;
@@ -564,24 +565,26 @@ public class MogenControl implements ViewListener{
                 }
             }
             switch(format){
+                // we scan the file differently deppending on the format
                 case None:
                     throw new NoODFileFormatFoundException(Errors.INCORRECT_MATRIX_FORMAT);
                 case OType:
                     while (scanner.hasNextLine()){
+                        // get the line based on regular expresion
                         scanner.nextLine();
-                        
                         String result = scanner.findInLine(patternStringO);
                         
                         if(result != null){
+                            // Split the line to get the individual elements
                             String[] elements = result.trim().split("\\s+");
                             
                             if(elements.length == 3){
+                                // unique ID for the hash map
                                 String uniqueID = UUID.randomUUID().toString();
                                 
                                 ODElement ODelement = new ODElement(elements[0], 
                                     elements[1], Double.parseDouble(elements[2]));
                                 
-                                System.out.println(ODelement.toFile());
                                 map.put(uniqueID, ODelement);
                             }
                         }
@@ -593,6 +596,7 @@ public class MogenControl implements ViewListener{
             HashSet<String> notFoundTAZ = new HashSet();
             Set <String> namedTAZ = model.getTazs().keySet();
             
+            // we search if any of the destinations or origins are definied in the model
             map.values().forEach(element -> {
                 if(!namedTAZ.contains(element.getOrigin()) && 
                    !notFoundTAZ.contains(element.getOrigin())) 

@@ -13,6 +13,7 @@
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/view/Settings.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/constants/Errors.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/exceptions/NoRouteConnectionException.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/warnings/NoNamedDistrictsWarning.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/view/mapsimulation/TAZFrame.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/routes/TAZ.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/topology/Edge.java</file>
@@ -27,6 +28,7 @@
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/MogenModel.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/Config.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/topology/Lane.java</file>
+            <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/model/warnings/Warning.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/view/mapsimulation/ZoomableScrollPane.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/control/MapConverter.java</file>
             <file>file:/C:/Users/darkm/Documents/proyectos/Mogen/src/delete/Connection.java</file>

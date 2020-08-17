@@ -183,20 +183,19 @@ import model.topology.Lane;
             });*/
     }
     
-    public void addMouseHandler(boolean rectangleSelection, MapMouseEvent handler,  
-                                EventType event){
+    public void addMouseHandler(boolean rectangleSelection, MapMouseEvent handler){
         Platform.runLater(() -> {
                 group.getChildren().clear();
                 
                 lanes.forEach((lane) -> {
                     if (!lane.isInternal()){
-                        lane.getPolyline().setOnMousePressed(null);
+                        lane.getPolyline().setOnMouseClicked(null);
                         EventHandler<MouseEvent> eventHandler = (MouseEvent e) -> {
                             handler.addFunctionToLanes(lane, e);
                         };
                     
                         //Adding event Filter 
-                        lane.getPolyline().addEventFilter(event, eventHandler);
+                        lane.getPolyline().setOnMouseClicked(eventHandler);
                         group.getChildren().add(lane.getPolyline());
                     }else {
                         lane.getPolyline().setStroke(Paint.valueOf(MapMouseEvent.INTERNAL_LANE_COLOR));
