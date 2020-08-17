@@ -34,6 +34,7 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import javax.xml.stream.XMLStreamException;
 
 import model.map.MapSelection;
@@ -50,6 +51,7 @@ import model.routes.TAZ;
 import model.Config;
 import model.MogenModel.Mobility;
 import model.Progress;
+import model.warnings.Warning;
 
 import view.jxmapviewer2.MapSelect;
 import view.mapelements.DialogAddType;
@@ -219,6 +221,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         TAZTable.setComponentPopupMenu(popupMenuTAZ);
         flowTable.setComponentPopupMenu(popupMenuFlow);
       
+        TableColumnModel tcm = flowTable.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(0));
+        
+        TableColumnModel tcm2 = ODMTable.getColumnModel();
+        tcm2.removeColumn(tcm2.getColumn(0));
+        
         this.setIconImages(icons);
         this.setLocationRelativeTo(null);
         this.setVisible(true);
@@ -1032,10 +1040,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             } catch (NullPointerException ex){
                 error(NO_MAP);
             }
+        }else{
+            TazFrame = new TAZFrame(this, mapVisual);
+            mapVisual.addMouseHandler(false, TazFrame, MouseEvent.MOUSE_CLICKED);
+            TazFrame.setVisible(true);
         }
-        TazFrame = new TAZFrame(this, mapVisual);
-        mapVisual.addMouseHandler(false, TazFrame, MouseEvent.MOUSE_CLICKED);
-        TazFrame.setVisible(true);
      
     }//GEN-LAST:event_TAZAddButtonActionPerformed
 
@@ -1110,7 +1119,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         } else if (arg instanceof RoadTypes[]){
             options.addDefaultRoads((RoadTypes[])arg);
             
-        } 
+        } else if (arg instanceof Warning){
+            warning(((Warning)arg).getMessage());
+        }
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1247,7 +1258,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     public void error(String msg){
-        JOptionPane.showMessageDialog(this, msg);
+        JOptionPane.showMessageDialog(this, msg, "Error", JOptionPane.ERROR_MESSAGE);
     }
     
     public void importMap(JFrame map, MapSelection selection) {
@@ -1480,13 +1491,13 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     }
                     
                     flowFrame = new FlowFrame(
-                        flowTable.getValueAt(selectedRow, 0).toString(),
-                        Integer.valueOf(flowTable.getValueAt(selectedRow, 3).toString()),
-                        Integer.valueOf(flowTable.getValueAt(selectedRow, 4).toString()),
-                        flowTable.getValueAt(selectedRow, 1).toString(),    
-                        flowTable.getValueAt(selectedRow, 2).toString(),
-                        flowTable.getValueAt(selectedRow, 6).toString(),
-                        Integer.valueOf(flowTable.getValueAt(selectedRow, 5).toString()),
+                        flowTable.getModel().getValueAt(selectedRow, 0).toString(),
+                        Integer.valueOf(flowTable.getModel().getValueAt(selectedRow, 3).toString()),
+                        Integer.valueOf(flowTable.getModel().getValueAt(selectedRow, 4).toString()),
+                        flowTable.getModel().getValueAt(selectedRow, 1).toString(),    
+                        flowTable.getModel().getValueAt(selectedRow, 2).toString(),
+                        flowTable.getModel().getValueAt(selectedRow, 6).toString(),
+                        Integer.valueOf(flowTable.getModel().getValueAt(selectedRow, 5).toString()),
                         this, mapVisual, vehicleTypes);
                     
                     mapVisual.addMouseHandler(false, flowFrame, MouseEvent.MOUSE_CLICKED);
@@ -1496,5 +1507,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     public void editFlow(String id, Flow flow) {
         listenerUI.producedEvent(Event.EDIT_FLOW, new Tuple(id, flow));
+    }
+
+    private void warning(String message) {
+        JOptionPane.showMessageDialog(this, message, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 }

@@ -34,8 +34,6 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
     private final static String TYPE = "Vehicle type";
     private final static String NUMBER = "Number";
     
-    private final static String SELECTED_LANE_COLOR2 = "BLUE";
-    
     private final static String NOT_SELECTED_LANE_ERROR = "Mest select both a "
                             + "destination and an origin for the vehicle flow";
     private final static String VARIABLES_NOT_SET_ERROR = "All values must be set";
@@ -74,6 +72,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
             MapPanel map, List<VehicleTypePanel> VehicleTypes) {
         this.view = view;
         this.id = id;
+        Lane[] selectedLanes;
         
         FlowFrame.boxModel = new DefaultComboBoxModel<>(VehicleTypes.toArray());
         
@@ -84,8 +83,13 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
         numberTextField.setText(String.valueOf(number));
         destinationInfoLabel.setText(destination);
         originInfoLabel.setText(origin);
+        
         this.setLocationRelativeTo(view);
-        map.selectRoad(new String[]{origin, destination});
+        selectedLanes = map.selectRoadFlows(new String[]{origin, destination});
+        
+        this.selectedLaneOrigin = selectedLanes[0];
+        this.selectedLaneDestination = selectedLanes[1];
+        
         mapView.add(map);
         //map.addScrollListener();
     }
@@ -379,7 +383,7 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
                 this.selectedLaneDestination.getPolyline().setStroke(Paint.valueOf(UNSELECTED_LANE_COLOR));
             }
             
-            lane.getPolyline().setStroke(Paint.valueOf(SELECTED_LANE_COLOR2));
+            lane.getPolyline().setStroke(Paint.valueOf(SELECTED_LANE_COLOR_ALT));
             this.selectedLaneDestination = lane;
             destinationInfoLabel.setText(selectedLaneDestination.getName());
         }

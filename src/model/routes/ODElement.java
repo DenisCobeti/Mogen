@@ -23,7 +23,13 @@ public class ODElement {
         this.destination = destination;
         this.vehiclesNum = vehiclesNum;
     }
-
+    
+    public ODElement(String origin, String destination, double vehiclesNum) {
+        this.origin = origin;
+        this.destination = destination;
+        this.vehiclesNum = (int)vehiclesNum;
+    }
+    
     public ODElement(String origin, String destination, String vehiclesNum) {
         this.origin = origin;
         this.destination = destination;

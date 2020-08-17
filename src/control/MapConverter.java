@@ -17,16 +17,11 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringJoiner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
-import javax.xml.stream.XMLStreamWriter;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
@@ -206,10 +201,8 @@ public class MapConverter {
                     if (endElement.getName().getLocalPart().equals(OSM_FILE_NODE)){
                         deleteSection = false;
                     }
-                    continue;
-                }else{
-                    continue;
                 }
+                continue;
             }
             
             if(event.isStartElement()){
@@ -231,12 +224,12 @@ public class MapConverter {
                     
                     if ((lon > selection.maxLon) || (lon < selection.minLon) ||
                      (lat > selection.maxLat) || (lat < selection.minLat)){
-                        System.out.println("found one");
+                        //System.out.println("found one");
                         deleteSection = true;
                         continue;
                     }
                    
-                } else if (startElement.getName().getLocalPart().equals(OSM_FILE_NODE)){
+                } else if (startElement.getName().getLocalPart().equals(OSM_FILE_WAY)){
                     done = true;
                 }
                 

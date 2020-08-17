@@ -17,6 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -44,6 +46,7 @@ import model.routes.Flow;
 import model.routes.ODElement;
 import model.routes.TAZ;
 import model.routes.VType;
+import model.warnings.NoNamedDistrictsWarning;
 
 import view.MogenView;
 
@@ -144,10 +147,9 @@ public class MogenControl implements ViewListener{
                     
                     view.update(model, new Tuple<>(TableTypes.FlowType, 
                                 addFlow(flow)));
-                } catch (NoRouteConnectionException ex) {
+                } catch (NoRouteConnectionException | IOException | 
+                            InterruptedException ex) {
                     view.update(model, ex);
-                } catch (IOException | InterruptedException ex2){
-                    
                 } 
                 break;
            case EDIT_FLOW:
@@ -156,10 +158,9 @@ public class MogenControl implements ViewListener{
                     
                     view.update(model, new Tuple<>(TableTypes.FlowType, 
                                 editFlow((String)tuple.obj1, (Flow)tuple.obj2)));
-                } catch (NoRouteConnectionException ex) {
+                } catch (NoRouteConnectionException | IOException | 
+                            InterruptedException ex) {
                     view.update(model, ex);
-                } catch (IOException | InterruptedException ex2){
-                    
                 } 
                 break;
            case NEW_TAZ:
@@ -175,7 +176,7 @@ public class MogenControl implements ViewListener{
                     exportSimulation((MobilityModel)tuple.obj1, 
                             (String)tuple.obj2);
                 } catch (IOException | InterruptedException ex) {
-                    handleError(ex, Errors.ROUTE);
+                    view.update(model, ex);
                 }
                 break;
                 
@@ -184,7 +185,7 @@ public class MogenControl implements ViewListener{
                 try{
                     exportFlows((String)tuple.obj1, (int)tuple.obj2);
                 } catch (IOException | InterruptedException ex) {
-                    handleError(ex, Errors.ROUTE);
+                    view.update(model, ex);
                 }
                 break; 
                 
@@ -193,7 +194,7 @@ public class MogenControl implements ViewListener{
                 try{
                     exportODMatrix((String)tuple.obj1, (int)tuple.obj2);
                 } catch (IOException | InterruptedException ex) {
-                    handleError(ex, Errors.ROUTE);
+                    view.update(model, ex);
                 }
                 break; 
                 
@@ -207,10 +208,10 @@ public class MogenControl implements ViewListener{
                 break;
                 
             case FILTER_ROADS:
-                HashSet roads = (HashSet)obj;
+                HashSet roadsFiltered = (HashSet)obj;
         
                 try {
-                    setRoadsFiltered(roads);
+                    setRoadsFiltered(roadsFiltered);
                     view.update(model, model.getOSMMap());
                 } catch (IOException | InterruptedException ex) {
                     view.update(model, new DownloadMapException
@@ -245,10 +246,8 @@ public class MogenControl implements ViewListener{
                 
                 try {
                     view.update(model, new Tuple<>(TableTypes.ODElementType, importOD((String)obj)));
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(MogenControl.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (NoODFileFormatFoundException ex) {
-                    Logger.getLogger(MogenControl.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (FileNotFoundException | NoODFileFormatFoundException ex) {
+                    view.update(model, ex);
                 }
         
                 break;
@@ -544,59 +543,76 @@ public class MogenControl implements ViewListener{
     
     public HashMap importOD(String path) throws FileNotFoundException, NoODFileFormatFoundException{
         File file = new File(path);
-        Scanner scanner = new Scanner(file);
-        scanner.useDelimiter("[\\n]");
-        Format format = Format.None;
-        //pattern to find the OD Elements in a O format file
-        String patternStringO = ".*\\s+.*\\s+[0-9]+[.][0-9]+";
-        System.out.println(patternStringO);
+        HashMap<String, ODElement> map = new HashMap();
         
-        while (scanner.hasNextLine()){
-            String data = scanner.nextLine();
-            // if its a coment continue and ignore it
-            if(data.startsWith("*"))continue;
-            if(data.startsWith(Format.OType.toString())){
-                format = Format.OType;
-                break;
-            } 
-            if(data.startsWith(Format.VType.toString())){
-                format = Format.VType;
-                break;
-            }
-        }
-        switch(format){
-            case None:
-                throw new NoODFileFormatFoundException();
-            case OType:
-                while (scanner.hasNextLine()){
-                    if(scanner.hasNext(Pattern.compile(patternStringO))){
-                        String data = scanner.nextLine();
-
-                        System.out.println(data);
-                    }else{
-                        //System.out.println(scanner.nextLine());
-                        scanner.nextLine();
-                    }
+        try (Scanner scanner = new Scanner(file)) {
+            Format format = Format.None;
+            //pattern to find the OD Elements in a O format file
+            String patternStringO = ".*\\s+.*\\s+[0-9]+[\\.][0-9]+";
+            
+            while (scanner.hasNextLine()){
+                String data = scanner.nextLine();
+                // if its a coment continue and ignore it
+                if(data.startsWith("*"))continue;
+                if(data.startsWith(Format.OType.toString())){
+                    format = Format.OType;
+                    break;
                 }
-                break;
-            case VType:
-                break;
+                if(data.startsWith(Format.VType.toString())){
+                    format = Format.VType;
+                    break;
+                }
+            }
+            switch(format){
+                case None:
+                    throw new NoODFileFormatFoundException(Errors.INCORRECT_MATRIX_FORMAT);
+                case OType:
+                    while (scanner.hasNextLine()){
+                        scanner.nextLine();
+                        
+                        String result = scanner.findInLine(patternStringO);
+                        
+                        if(result != null){
+                            String[] elements = result.trim().split("\\s+");
+                            
+                            if(elements.length == 3){
+                                String uniqueID = UUID.randomUUID().toString();
+                                
+                                ODElement ODelement = new ODElement(elements[0], 
+                                    elements[1], Double.parseDouble(elements[2]));
+                                
+                                System.out.println(ODelement.toFile());
+                                map.put(uniqueID, ODelement);
+                            }
+                        }
+                    }
+                    break;
+                case VType:
+                    break;
+            }
+            HashSet<String> notFoundTAZ = new HashSet();
+            Set <String> namedTAZ = model.getTazs().keySet();
+            
+            map.values().forEach(element -> {
+                if(!namedTAZ.contains(element.getOrigin()) && 
+                   !notFoundTAZ.contains(element.getOrigin())) 
+                    
+                        notFoundTAZ.add(element.getOrigin());
+                if(!namedTAZ.contains(element.getDestination()) && 
+                   !notFoundTAZ.contains(element.getDestination())) 
+                    
+                        notFoundTAZ.add(element.getDestination());
+            });
+            
+            if(!notFoundTAZ.isEmpty()){
+                view.update(model, new NoNamedDistrictsWarning(notFoundTAZ));
+            }
+            return model.addODElement(map);
         }
-        return null;
     }
     
     private void salir() {
         System.exit(0);
-    }
-    
-    public  void handleError(Exception e, Errors error){
-        switch(error){
-            case OSM_DOWNLOAD:
-                //logger.log(Level.SEVERE, error.toString(), e);
-                view.update(model, e);
-            case NETCONVERT_CMD:
-                view.update(model, e);
-        }
     }
     
     public static void main(String[] args) {

@@ -1,11 +1,11 @@
 package model;
 
 import control.Simulation;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Observable;
-import model.constants.RoadTypes;
+import java.util.UUID;
 import model.routes.Flow;
 import model.routes.ODElement;
 import model.routes.TAZ;
@@ -64,9 +64,15 @@ public class MogenModel extends Observable{
         return false;
     }
     
+    public HashMap addODElement(HashMap map) {
+        elements.putAll(map);
+        
+        return elements;
+    }
+    
     public HashMap addFlow(Flow flow){
-        int id = flows.size();
-        flows.put(String.valueOf(id), flow);
+        String id = UUID.randomUUID().toString();
+        flows.put(id, flow);
         
         return flows;
     }

@@ -13,6 +13,8 @@ public enum Errors {
     FIRST_SIM("Error: a simulation must be created first"),
     NO_CONNECTION("No connection between lanes "),
     NO_SELECTED_SIM("Error: a simulation must be selected"),
+    INCORRECT_MATRIX_FORMAT("Error: incorrect OD matrix format"),
+    NO_FILE("Error: couldn´t open file"),
     ROUTE(".rou.xml");
     
     private final String msg;

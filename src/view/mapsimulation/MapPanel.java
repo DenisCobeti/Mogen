@@ -1,6 +1,5 @@
 package view.mapsimulation;
 
-import java.awt.event.MouseMotionAdapter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -16,10 +15,7 @@ import javafx.event.EventType;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javax.swing.SwingUtilities;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -64,6 +60,29 @@ import model.topology.Lane;
                             (Paint.valueOf(MapMouseEvent.SELECTED_LANE_COLOR));
             }
         });
+    }
+    
+    public Lane[] selectRoadFlows(String[] roads){
+        if (roads.length == 2){
+            Lane[] lanesSelected = new Lane[2];
+            
+            lanes.forEach(lane -> {
+                if(lane.getName().equals(roads[0])){
+                    lane.getPolyline().setStroke
+                            (Paint.valueOf(MapMouseEvent.SELECTED_LANE_COLOR));
+                    lanesSelected[0] = lane;
+                } 
+                    
+                if(lane.getName().equals(roads[1])){ 
+                    lane.getPolyline().setStroke
+                            (Paint.valueOf(MapMouseEvent.SELECTED_LANE_COLOR_ALT));
+                    lanesSelected[1] = lane;
+                }
+            });
+            return lanesSelected;
+        }else{
+            return null;
+        }
     }
     
     public void parseNetwork(String location) throws FileNotFoundException, 
