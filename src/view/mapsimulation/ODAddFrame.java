@@ -62,6 +62,7 @@ public class ODAddFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(TITILE);
+        setIconImage(view.getIconImage());
 
         fromComboBox.setFont(view.getFont());
         fromComboBox.setModel(new DefaultComboBoxModel<>(tazs));

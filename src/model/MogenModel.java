@@ -2,7 +2,6 @@ package model;
 
 import control.Simulation;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.util.Observable;
 import java.util.UUID;
@@ -111,6 +110,9 @@ public class MogenModel extends Observable{
         tazs.remove(id);
     }
     
+    public void removeODE(String id){
+        elements.remove(id);
+    }
     private void defaultVTypes(){
         vTypes.put("Car", new VType());
         

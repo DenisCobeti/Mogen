@@ -19,9 +19,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
 import javax.xml.stream.XMLStreamException;
 import model.Config;
 
@@ -74,7 +71,7 @@ public class MogenControl implements ViewListener{
     
         
     
-    private MapConverter converter;
+    private final MapConverter converter;
     private HashSet<String> roads;
     //private HashMap<String, Simulation> simulations;
     private boolean hasMap = false;
@@ -250,6 +247,10 @@ public class MogenControl implements ViewListener{
                     view.update(model, ex);
                 }
         
+                break;
+                
+            case REMOVE_OD_ELEMENT:
+                view.update(model, new Tuple<>(TableTypes.ODElementType, removeODElement((String[])obj)));
                 break;
                 
             case EDIT_PYTHON:
@@ -539,6 +540,13 @@ public class MogenControl implements ViewListener{
             model.removeTAZ(id);
         }
         return model.getTazs();
+    }
+    
+    public HashMap removeODElement(String[] ODEid) {
+        for(String id : ODEid){
+            model.removeODE(id);
+        }
+        return model.getElements();
     }
     
     public HashMap importOD(String path) throws FileNotFoundException, 

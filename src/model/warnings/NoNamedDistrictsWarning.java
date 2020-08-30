@@ -13,8 +13,8 @@ import java.util.HashSet;
  */
 public class NoNamedDistrictsWarning implements Warning {
     
-    private HashSet<String> notFoundDistricts;
-    private String MESSAGE = "Warning: The following names of districts could not be found, \n"
+    private final HashSet<String> notFoundDistricts;
+    private final String MESSAGE = "Warning: The following names of districts could not be found, \n"
                            + "it is recommended to assign them with the same name in the \n "
                            + "districts section: ";
 

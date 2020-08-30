@@ -14,8 +14,7 @@ public enum Errors {
     NO_CONNECTION("No connection between lanes "),
     NO_SELECTED_SIM("Error: a simulation must be selected"),
     INCORRECT_MATRIX_FORMAT("Error: incorrect OD matrix format"),
-    NO_FILE("Error: couldn´t open file"),
-    ROUTE(".rou.xml");
+    NO_FILE("Error: couldn´t open file");
     
     private final String msg;
 

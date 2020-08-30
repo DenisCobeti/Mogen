@@ -198,13 +198,19 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         
         JPopupMenu popupMenuTAZ = new JPopupMenu();
         JPopupMenu popupMenuFlow = new JPopupMenu();
+        JPopupMenu popupMenuOD = new JPopupMenu();
         
         JMenuItem deleteTAZ = new JMenuItem(CONTEXTUAL_MENU_DELETE);
+        JMenuItem deleteOD = new JMenuItem(CONTEXTUAL_MENU_DELETE);
         JMenuItem deleteFlow = new JMenuItem(CONTEXTUAL_MENU_DELETE);
         JMenuItem editFlow = new JMenuItem(CONTEXTUAL_MENU_EDIT);
         
         deleteTAZ.addActionListener((ActionEvent e) -> {
             deleteElement(TableTypes.TAZType);
+        });
+        
+        deleteOD.addActionListener((ActionEvent e) -> {
+            deleteElement(TableTypes.ODElementType);
         });
         
         deleteFlow.addActionListener((ActionEvent e) -> {
@@ -214,12 +220,15 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         editFlow.addActionListener((ActionEvent e) -> {
             editElement(TableTypes.FlowType);
         });
+        
         popupMenuTAZ.add(deleteTAZ);
+        popupMenuOD.add(deleteOD);
         popupMenuFlow.add(deleteFlow);
         popupMenuFlow.add(editFlow);
         
         TAZTable.setComponentPopupMenu(popupMenuTAZ);
         flowTable.setComponentPopupMenu(popupMenuFlow);
+        ODMTable.setComponentPopupMenu(popupMenuOD);
       
         TableColumnModel tcm = flowTable.getColumnModel();
         tcm.removeColumn(tcm.getColumn(0));
@@ -1455,6 +1464,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 case FlowType:
                     removeTableElement(type, Event.REMOVE_FLOW, flowTable, 0);
                     break;
+                case ODElementType:
+                    removeTableElement(type, Event.REMOVE_OD_ELEMENT, ODMTable, 0);
+                    break;
         }
         
     }
@@ -1468,7 +1480,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             error(NO_SELECTION_TABLE);
         }else{
             for(int row : selectedRows){
-                removedElement[row] = table.getValueAt(row, idColumn).toString();
+                removedElement[row] = table.getModel().getValueAt
+                                                (row, idColumn).toString();
             }
             listenerUI.producedEvent(event, removedElement);
 

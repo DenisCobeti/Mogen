@@ -9,7 +9,7 @@ import javax.swing.JFileChooser;
  */
 public class Settings extends javax.swing.JFrame {
 
-    private final static String PYTHON2 = "Python 2 command:";
+    private final static String PYTHON2 = "Python command:";
     private final static String SUMO = "Sumo location:";
     
     private final static String TITLE = "Mogen Settings";

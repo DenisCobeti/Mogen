@@ -4,12 +4,16 @@ import control.MogenControl;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import model.Config;
 import model.constants.FilesExtension;
+import model.constants.Netconvert;
 import model.routes.ODElement;
 import model.routes.TAZ;
 import model.routes.VType;
@@ -168,6 +172,40 @@ public class ODModel extends MobilityModel {
         System.out.println(sumo.command().toString());
         executeProcess(od2Trips.start());
         executeProcess(sumo.start());
+        
+        File ns2 = new File(location + FilesExtension.NS2_MOBILITY.getExtension());
+        ns2.createNewFile();
+        
+        ProcessBuilder trace = new ProcessBuilder(traceCommand(
+                output.getAbsolutePath(), ns2.getAbsolutePath()));
+        
+        executeProcess(trace.start());
+        
+        control.endExport();
+        
+        Files.copy(Paths.get(od2TripsFile.getAbsolutePath()), Paths.get(projectFolder.toString(), 
+                                            od2TripsFile.getName()), StandardCopyOption.REPLACE_EXISTING);
+        
+        Files.copy(Paths.get(sim + FilesExtension.NETCONVERT), Paths.get(projectFolder.toString(), 
+                                            sim + FilesExtension.NETCONVERT), 
+                                            StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(Paths.get(vTypes), Paths.get(projectFolder.toString(), 
+                                            Netconvert.VEHICLES.getCommand() + 
+                                            FilesExtension.VEHICLES.getExtension()), 
+                                            StandardCopyOption.REPLACE_EXISTING);
+        
+        PrintWriter writer2 = new PrintWriter(project.getAbsoluteFile(), "UTF-8");
+        writer2.println("<configuration>");
+        writer2.println("<input>");
+        writer2.println("<net-file value=\"" +Paths.get(projectFolder.toString(),sim + FilesExtension.NETCONVERT)+"\"/>");
+        writer2.println("<route-files value=\"" + Paths.get(projectFolder.toString(),od2TripsFile.getName())+"\"/>");
+        writer2.println("<additional-files value=\"" + Paths.get(projectFolder.toString(), 
+                                            Netconvert.VEHICLES.getCommand() + 
+                                            FilesExtension.VEHICLES.getExtension())+"\"/>");
+        
+        writer2.println("</input>");
+        writer2.println("</configuration>");
+        writer2.close();
         /*
         ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
                 sim + FilesExtension.NETCONVERT, routes.getAbsolutePath(),
