@@ -1,6 +1,6 @@
-### Mogen: mobility generator
+# Mogen: mobility generator
 
-## Vehicle simulation program capable of exporting traces in ns2/ns3 format
+### Vehicle simulation program capable of exporting traces in ns2/ns3 format
 
 This software consists of a vehicle simulator that exports mobility traces written 
 from real-world maps. It was designed to implement the first step in vehicular 
