@@ -1,4 +1,4 @@
-# ![Icon](https://deniscobeti.github.io/icons/mogen/icon128.png) Mogen: mobility generator
+# ![Icon](https://deniscobeti.github.io/icons/mogen/icon64.png) Mogen: mobility generator
 
 ### Vehicle simulation program capable of exporting traces in ns2/ns3 format
 
