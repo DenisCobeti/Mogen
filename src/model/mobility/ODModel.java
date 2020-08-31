@@ -55,7 +55,6 @@ public class ODModel extends MobilityModel {
     private final static String OD_OPT = "-d";
     private final static String OUTPUT_OPT = "-o";
     private final static String TYPE_OPT = "--vtype";
-    private final static String FLOW_OPT = "--flow-output";
     
     private Map<String, TAZ> tazs;
     private final Map<String, ODElement> elements;
