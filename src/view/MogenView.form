@@ -123,10 +123,10 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="mainPanelElements" max="32767" attributes="0"/>
+              <Component id="mainPanelElements" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="simulationPanel" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -202,7 +202,7 @@
                   <Component id="mobilityOptionsPanel" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="exportButton" min="-2" pref="35" max="-2" attributes="0"/>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -520,7 +520,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="flowScrollPane" min="-2" pref="324" max="-2" attributes="0"/>
+                          <Component id="flowScrollPane" pref="324" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="addFlowButton" min="-2" max="-2" attributes="0"/>
@@ -662,13 +662,13 @@
                           <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
                           <Component id="TAZSeparator" min="-2" pref="5" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="TAZScrollPane" min="-2" pref="125" max="-2" attributes="0"/>
+                          <Component id="TAZScrollPane" pref="125" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="ODInfoPanel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="ODSeparator" min="-2" pref="2" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="ODMScrollPane" min="-2" pref="110" max="-2" attributes="0"/>
+                          <Component id="ODMScrollPane" pref="110" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="ODTimeLabel" alignment="3" min="-2" pref="22" max="-2" attributes="0"/>
@@ -967,7 +967,7 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="panelElements" alignment="0" pref="554" max="32767" attributes="0"/>
+                      <Component id="panelElements" alignment="0" pref="400" max="32767" attributes="0"/>
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           <Component id="addVTypeButton" min="-2" pref="35" max="-2" attributes="0"/>
@@ -994,6 +994,9 @@
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="FONT" type="code"/>
+            </Property>
+            <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+              <Dimension value="[32, 33]"/>
             </Property>
           </Properties>
 

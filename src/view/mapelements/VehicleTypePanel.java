@@ -1,6 +1,7 @@
 package view.mapelements;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -29,14 +30,16 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     public final static Font NAME_FONT = new Font("Century Gothic", Font.BOLD, 14);
     
     private final static String DELETE_ICON_IMG = "resources/button/delete.png";
-    private final static String EDIT_ICON_IMG = "resources/button/edit.png";
+    private final static String SETTINGS_ICON_IMG = "resources/button/settings.png";
+    private final static String EDIT_FOLLOWING_ICON_IMG = "resources/button/editFollow.png";
     
     private final static int SPEED_SPORT = 50;
     private final static double ACCEL_SPORT = 3;
     private final static double LENGTH_TRUCK = 3;
 
     ImageIcon DELETE_ICON = new ImageIcon(DELETE_ICON_IMG);
-    ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
+    ImageIcon EDIT_FOLLOWING_ICON = new ImageIcon(EDIT_FOLLOWING_ICON_IMG);
+    ImageIcon SETTINGS_ICON = new ImageIcon(SETTINGS_ICON_IMG);
     
     private final MogenView view;
     private final String name;
@@ -79,12 +82,17 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         
         initComponents();
         removeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-        editLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        editFollowingLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        settingsLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         icon.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         update();
         
         icon.setIcon(imageIcon);
         setFont(view.getFont());
+        
+        System.out.println(buttonsPanel.getWidth());
+        variablesPanel.setVisible(false);
+        this.setMaximumSize(new Dimension(370, 67));
     }
     
     public void update(){
@@ -95,6 +103,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         tauField.setText(Double.toString(type.getTau()));
         speedField.setText(Integer.toString(type.getMaxSpeed()));
         probabilityField.setText(Double.toString(type.getProbability()));
+        
         this.updateUI();
     }
     /**
@@ -106,28 +115,33 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonsPanel = new javax.swing.JPanel();
         icon = new javax.swing.JLabel();
         optionsPanel = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
-        speedLabel = new javax.swing.JLabel();
-        accelLabel = new javax.swing.JLabel();
-        decelLabel = new javax.swing.JLabel();
-        sigmaLabel = new javax.swing.JLabel();
-        tauField = new javax.swing.JFormattedTextField();
-        accelField = new javax.swing.JFormattedTextField();
-        decelField = new javax.swing.JFormattedTextField();
-        speedField = new javax.swing.JFormattedTextField();
-        lengthLabel = new javax.swing.JLabel();
-        lengthField = new javax.swing.JFormattedTextField();
         enabledBox = new javax.swing.JCheckBox();
         removeLabel = new javax.swing.JLabel();
+        editFollowingLabel = new javax.swing.JLabel();
+        settingsLabel = new javax.swing.JLabel();
+        variablesPanel = new javax.swing.JPanel();
+        speedLabel = new javax.swing.JLabel();
+        speedField = new javax.swing.JFormattedTextField();
+        accelLabel = new javax.swing.JLabel();
+        accelField = new javax.swing.JFormattedTextField();
+        sigmaLabel = new javax.swing.JLabel();
+        tauField = new javax.swing.JFormattedTextField();
+        decelLabel = new javax.swing.JLabel();
+        decelField = new javax.swing.JFormattedTextField();
+        lengthLabel = new javax.swing.JLabel();
+        lengthField = new javax.swing.JFormattedTextField();
         probabilityLabel = new javax.swing.JLabel();
-        editLabel = new javax.swing.JLabel();
         probabilityField = new javax.swing.JFormattedTextField();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         setMaximumSize(new java.awt.Dimension(600, 67));
+
+        buttonsPanel.setBackground(new java.awt.Color(255, 255, 255));
 
         icon.setPreferredSize(new java.awt.Dimension(50, 50));
         icon.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -137,71 +151,12 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         });
 
         optionsPanel.setBackground(new java.awt.Color(255, 255, 255));
+        optionsPanel.setMaximumSize(new java.awt.Dimension(32767, 64));
 
         nameLabel.setFont(NAME_FONT);
         nameLabel.setForeground(new java.awt.Color(14, 153, 79));
         nameLabel.setText(name
         );
-
-        speedLabel.setFont(view.getFont());
-        speedLabel.setText(MAX_SPEED);
-
-        accelLabel.setFont(view.getFont());
-        accelLabel.setText(ACCEL);
-
-        decelLabel.setFont(view.getFont());
-        decelLabel.setText(DECEL);
-
-        sigmaLabel.setFont(view.getFont());
-        sigmaLabel.setText(TAU);
-
-        tauField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        tauField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        tauField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        tauField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tauFieldActionPerformed(evt);
-            }
-        });
-
-        accelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        accelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        accelField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        accelField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                accelFieldActionPerformed(evt);
-            }
-        });
-
-        decelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        decelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        decelField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        decelField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                decelFieldActionPerformed(evt);
-            }
-        });
-
-        speedField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        speedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        speedField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        speedField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                speedFieldActionPerformed(evt);
-            }
-        });
-
-        lengthLabel.setFont(view.getFont());
-        lengthLabel.setText(LENGHT);
-
-        lengthField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        lengthField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
-        lengthField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        lengthField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lengthFieldActionPerformed(evt);
-            }
-        });
 
         enabledBox.setBackground(new java.awt.Color(255, 255, 255));
         enabledBox.setSelected(true);
@@ -219,22 +174,17 @@ public class VehicleTypePanel extends javax.swing.JPanel {
             }
         });
 
-        probabilityLabel.setFont(view.getFont());
-        probabilityLabel.setText(PROBABILITY);
-
-        editLabel.setIcon(EDIT_ICON);
-        editLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        editFollowingLabel.setIcon(EDIT_FOLLOWING_ICON);
+        editFollowingLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                editLabelMouseClicked(evt);
+                editFollowingLabelMouseClicked(evt);
             }
         });
 
-        probabilityField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
-        probabilityField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
-        probabilityField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        probabilityField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                probabilityFieldActionPerformed(evt);
+        settingsLabel.setIcon(SETTINGS_ICON);
+        settingsLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                settingsLabelMouseClicked(evt);
             }
         });
 
@@ -245,122 +195,232 @@ public class VehicleTypePanel extends javax.swing.JPanel {
             .addGroup(optionsPanelLayout.createSequentialGroup()
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addComponent(speedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(speedField, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(enabledBox)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(accelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(decelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(accelField, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                    .addComponent(decelField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(sigmaLabel)
-                    .addComponent(lengthLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lengthField, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tauField, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(probabilityLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(probabilityField, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(editLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(21, Short.MAX_VALUE))
+                        .addContainerGap()
+                        .addComponent(enabledBox))
+                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(settingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(editFollowingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addComponent(removeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         optionsPanelLayout.setVerticalGroup(
             optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(enabledBox)
+                .addGap(8, 8, 8))
+            .addGroup(optionsPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addGap(0, 4, Short.MAX_VALUE)
-                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(accelLabel)
-                            .addComponent(sigmaLabel)
-                            .addComponent(tauField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(accelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(probabilityLabel)
-                            .addComponent(probabilityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(enabledBox)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(1, 1, 1)
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(optionsPanelLayout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(speedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(speedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(decelLabel)
-                            .addComponent(decelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lengthLabel)
-                            .addComponent(lengthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(editLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE)
-                    .addComponent(removeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(settingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(removeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(editFollowingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
+        buttonsPanel.setLayout(buttonsPanelLayout);
+        buttonsPanelLayout.setHorizontalGroup(
+            buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonsPanelLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
+        );
+        buttonsPanelLayout.setVerticalGroup(
+            buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(buttonsPanelLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addGroup(buttonsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
+        );
+
+        variablesPanel.setBackground(new java.awt.Color(236, 236, 236));
+
+        speedLabel.setFont(view.getFont());
+        speedLabel.setText(MAX_SPEED);
+
+        speedField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        speedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        speedField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        speedField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                speedFieldActionPerformed(evt);
+            }
+        });
+
+        accelLabel.setFont(view.getFont());
+        accelLabel.setText(ACCEL);
+
+        accelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        accelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        accelField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        accelField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                accelFieldActionPerformed(evt);
+            }
+        });
+
+        sigmaLabel.setFont(view.getFont());
+        sigmaLabel.setText(TAU);
+
+        tauField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        tauField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        tauField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tauField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tauFieldActionPerformed(evt);
+            }
+        });
+
+        decelLabel.setFont(view.getFont());
+        decelLabel.setText(DECEL);
+
+        decelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        decelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        decelField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        decelField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                decelFieldActionPerformed(evt);
+            }
+        });
+
+        lengthLabel.setFont(view.getFont());
+        lengthLabel.setText(LENGHT);
+
+        lengthField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        lengthField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
+        lengthField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        lengthField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lengthFieldActionPerformed(evt);
+            }
+        });
+
+        probabilityLabel.setFont(view.getFont());
+        probabilityLabel.setText(PROBABILITY);
+
+        probabilityField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        probabilityField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
+        probabilityField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        probabilityField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                probabilityFieldActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout variablesPanelLayout = new javax.swing.GroupLayout(variablesPanel);
+        variablesPanel.setLayout(variablesPanelLayout);
+        variablesPanelLayout.setHorizontalGroup(
+            variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(variablesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(decelLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(speedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(speedField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(decelField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(accelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lengthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(accelField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                    .addComponent(lengthField))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(sigmaLabel)
+                    .addComponent(probabilityLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tauField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(probabilityField, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        variablesPanelLayout.setVerticalGroup(
+            variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(variablesPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(speedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(speedField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(accelLabel)
+                    .addComponent(accelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(sigmaLabel)
+                    .addComponent(tauField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(decelLabel)
+                    .addComponent(decelField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lengthLabel)
+                    .addComponent(lengthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(probabilityLabel)
+                    .addComponent(probabilityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(icon, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(variablesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(buttonsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(icon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(optionsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(buttonsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(variablesPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconMouseClicked
+    private void probabilityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_probabilityFieldActionPerformed
         // TODO add your handling code here:
-        view.selectIcon(this);
-    }//GEN-LAST:event_iconMouseClicked
-
-    private void accelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accelFieldActionPerformed
-        // TODO add your handling code here:
-        //
-        //
-        //hay que tratar errores
-        //
-        //
-        accelField.setText(accelField.getText().replace(',', '.'));
-        type.setAccel(Double.valueOf(accelField.getText()));
+        type.setProbability(Double.valueOf(probabilityField.getText()));
         view.editVType(name, type);
-    }//GEN-LAST:event_accelFieldActionPerformed
+    }//GEN-LAST:event_probabilityFieldActionPerformed
+
+    private void editFollowingLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editFollowingLabelMouseClicked
+        // TODO add your handling code here:
+        JFrame edit = new FollowingModelFrame(view, name, type);
+        edit.setVisible(true);
+    }//GEN-LAST:event_editFollowingLabelMouseClicked
 
     private void removeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeLabelMouseClicked
         // TODO add your handling code here:
         view.deleteVType(this);
     }//GEN-LAST:event_removeLabelMouseClicked
 
-    private void editLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editLabelMouseClicked
+    private void enabledBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enabledBoxActionPerformed
         // TODO add your handling code here:
-        JFrame edit = new FollowingModelFrame(view, name, type);
-        edit.setVisible(true);
-    }//GEN-LAST:event_editLabelMouseClicked
+        type.setEnabled(enabledBox.isSelected());
+        view.editVType(name, type);
+        
+    }//GEN-LAST:event_enabledBoxActionPerformed
+
+    private void lengthFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lengthFieldActionPerformed
+        // TODO add your handling code here:
+        type.setLength(Integer.parseInt(lengthField.getText()));
+        view.editVType(name, type);
+    }//GEN-LAST:event_lengthFieldActionPerformed
 
     private void speedFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speedFieldActionPerformed
         // TODO add your handling code here:
@@ -374,6 +434,28 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         type.setDecel(Double.valueOf(decelField.getText()));
         view.editVType(name, type);
     }//GEN-LAST:event_decelFieldActionPerformed
+    
+    private void retractPanel(){
+        
+        if(variablesPanel.isVisible()){
+            variablesPanel.setVisible(false);
+            this.setMaximumSize(new Dimension(this.getWidth(), 67));
+        }else{
+            variablesPanel.setVisible(true);
+            this.setMaximumSize(new Dimension(this.getWidth(), 200));
+        }
+    }
+    private void accelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accelFieldActionPerformed
+        // TODO add your handling code here:
+        //
+        //
+        //hay que tratar errores
+        //
+        //
+        accelField.setText(accelField.getText().replace(',', '.'));
+        type.setAccel(Double.valueOf(accelField.getText()));
+        view.editVType(name, type);
+    }//GEN-LAST:event_accelFieldActionPerformed
 
     private void tauFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tauFieldActionPerformed
         // TODO add your handling code here:
@@ -382,23 +464,15 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         view.editVType(name, type);
     }//GEN-LAST:event_tauFieldActionPerformed
 
-    private void lengthFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lengthFieldActionPerformed
+    private void iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconMouseClicked
         // TODO add your handling code here:
-        type.setLength(Integer.parseInt(lengthField.getText()));
-        view.editVType(name, type);
-    }//GEN-LAST:event_lengthFieldActionPerformed
+        view.selectIcon(this);
+    }//GEN-LAST:event_iconMouseClicked
 
-    private void enabledBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enabledBoxActionPerformed
+    private void settingsLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_settingsLabelMouseClicked
         // TODO add your handling code here:
-        type.setEnabled(enabledBox.isSelected());
-        view.editVType(name, type);
-    }//GEN-LAST:event_enabledBoxActionPerformed
-
-    private void probabilityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_probabilityFieldActionPerformed
-        // TODO add your handling code here:
-        type.setProbability(Double.valueOf(probabilityField.getText()));
-        view.editVType(name, type);
-    }//GEN-LAST:event_probabilityFieldActionPerformed
+        this.retractPanel();
+    }//GEN-LAST:event_settingsLabelMouseClicked
 
     public JLabel getIconLabel() {
         return icon;
@@ -421,9 +495,10 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField accelField;
     private javax.swing.JLabel accelLabel;
+    private javax.swing.JPanel buttonsPanel;
     private javax.swing.JFormattedTextField decelField;
     private javax.swing.JLabel decelLabel;
-    private javax.swing.JLabel editLabel;
+    private javax.swing.JLabel editFollowingLabel;
     private javax.swing.JCheckBox enabledBox;
     private javax.swing.JLabel icon;
     private javax.swing.JFormattedTextField lengthField;
@@ -433,9 +508,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField probabilityField;
     private javax.swing.JLabel probabilityLabel;
     private javax.swing.JLabel removeLabel;
+    private javax.swing.JLabel settingsLabel;
     private javax.swing.JLabel sigmaLabel;
     private javax.swing.JFormattedTextField speedField;
     private javax.swing.JLabel speedLabel;
     private javax.swing.JFormattedTextField tauField;
+    private javax.swing.JPanel variablesPanel;
     // End of variables declaration//GEN-END:variables
 }
