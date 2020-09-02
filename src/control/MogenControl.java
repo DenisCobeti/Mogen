@@ -121,7 +121,8 @@ public class MogenControl implements ViewListener{
         view.update(model, MapConverter.DEFAULT_OPTIONS);
         view.update(model, MapConverter.DEFAULT_ROADS);
         System.out.println(Config.osmMap +" " +Config.sumoMap);
-        model.getvTypes().forEach((k, v) -> view.update(model, new Tuple(k, v)));
+        
+        view.update(model, new Tuple<>(TableTypes.VehicleType, model.getvTypes()));
         
     }
 
@@ -298,15 +299,14 @@ public class MogenControl implements ViewListener{
                 } catch (FileNotFoundException | XMLStreamException ex) {
                     view.update(model, ex);
                 } finally{
-                    model.getvTypes().forEach((k, v) -> view.update
-                                                (model, new Tuple(k, v)));
+                    view.update(model, new Tuple<>(TableTypes.VehicleType, model.getvTypes()));
                 }
                 break;
                 
             case EXPORT_VEHICLES:
         
                 try {
-                    exportVehicles((String)obj);
+                    exportVehicles((String)obj + ".add.xml");
                 } catch (IOException ex) {
                     view.update(model, ex);
                 }

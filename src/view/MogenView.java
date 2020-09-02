@@ -131,7 +131,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private final static String MAP_ICON_IMG = "resources/button/map.png";
     private final static String SETTINGS_ICON_IMG = "resources/button/settings.png";
     private final static String EXPORT_ICON_IMG = "resources/button/export.png";
-    private final static String EDIT_ICON_IMG = "resources/button/editFollowingModel.png";
+    private final static String EXPORT2_ICON_IMG = "resources/button/export2.png";
+    private final static String IMPORT_ICON_IMG = "resources/button/import.png";
     
     private static final String ICON_LOCATION_16 = "resources/icon/icon16.png";
     private static final String ICON_LOCATION_32 = "resources/icon/icon32.png";
@@ -147,7 +148,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private ImageIcon MAP_ICON = new ImageIcon(MAP_ICON_IMG);
     private ImageIcon SETTINGS_ICON = new ImageIcon(SETTINGS_ICON_IMG);
     private ImageIcon EXPORT_ICON = new ImageIcon(EXPORT_ICON_IMG);
-    private ImageIcon EDIT_ICON = new ImageIcon(EDIT_ICON_IMG);
+    private ImageIcon EXPORT2_ICON = new ImageIcon(EXPORT2_ICON_IMG);
+    private ImageIcon IMPORT_ICON = new ImageIcon(IMPORT_ICON_IMG);
     
     private final ViewListener listenerUI;
     
@@ -188,6 +190,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         optionsMapButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         exportButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         addVTypeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        exportVTypeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        importVTypeButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         
         //menuFileExit.addActionListener(this);
         options = new MapOptions(this);
@@ -295,6 +299,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         vehicleTypesScroll = new javax.swing.JScrollPane();
         vehicleTypesPanel = new javax.swing.JPanel();
         addVTypeButton = new javax.swing.JLabel();
+        exportVTypeButton = new javax.swing.JLabel();
+        importVTypeButton = new javax.swing.JLabel();
         menuBar = new javax.swing.JMenuBar();
         menuFile = new javax.swing.JMenu();
         menuFileNew = new javax.swing.JMenuItem();
@@ -350,9 +356,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addComponent(mapInfoField, javax.swing.GroupLayout.DEFAULT_SIZE, 319, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(searchMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(searchMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(newMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(newMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         mapPanelLayout.setVerticalGroup(
@@ -360,8 +366,8 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mapPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(mapPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(searchMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(newMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(searchMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
+                    .addComponent(newMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, 32, Short.MAX_VALUE)
                     .addComponent(mapInfoField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -750,7 +756,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                             .addGroup(simulationPanelLayout.createSequentialGroup()
                                 .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(optionsMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(optionsMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addContainerGap())))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, simulationPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -760,12 +766,12 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
         simulationPanelLayout.setVerticalGroup(
             simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(simulationPanelLayout.createSequentialGroup()
-                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(simulationPanelLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(optionsMapButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGap(13, 13, 13)
+                        .addComponent(optionsMapButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mapPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(simulationPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(mobilityComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(errorLabel))
@@ -810,6 +816,20 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             }
         });
 
+        exportVTypeButton.setIcon(EXPORT2_ICON);
+        exportVTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                exportVTypeButtonMouseClicked(evt);
+            }
+        });
+
+        importVTypeButton.setIcon(IMPORT_ICON);
+        importVTypeButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                importVTypeButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout mainPanelElementsLayout = new javax.swing.GroupLayout(mainPanelElements);
         mainPanelElements.setLayout(mainPanelElementsLayout);
         mainPanelElementsLayout.setHorizontalGroup(
@@ -820,6 +840,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                     .addComponent(panelElements, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelElementsLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(exportVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(importVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(47, 47, 47)
                         .addComponent(addVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -829,7 +853,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                 .addContainerGap()
                 .addComponent(panelElements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(mainPanelElementsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(addVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exportVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(importVTypeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -899,7 +926,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(mainPanelElements, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mainPanelElements, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(simulationPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1099,6 +1126,31 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         listenerUI.producedEvent(ViewListener.Event.EXIT, null);
     }//GEN-LAST:event_formWindowClosing
+
+    private void exportVTypeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_exportVTypeButtonMouseClicked
+        JFileChooser chooser = new JFileChooser();
+
+        int returnVal = chooser.showSaveDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+             listenerUI.producedEvent(ViewListener.Event.EXPORT_VEHICLES, 
+                        chooser.getSelectedFile().getAbsolutePath());
+        }
+    }//GEN-LAST:event_exportVTypeButtonMouseClicked
+
+    private void importVTypeButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_importVTypeButtonMouseClicked
+        // TODO add your handling code here:
+        JFileChooser chooser = new JFileChooser();
+        
+        FileNameExtensionFilter filter = new FileNameExtensionFilter
+                                      (null, "xml");
+        chooser.setFileFilter(filter);
+        
+        int returnVal = chooser.showOpenDialog(this);
+        if(returnVal == JFileChooser.APPROVE_OPTION) {
+            listenerUI.producedEvent(ViewListener.Event.IMPORT_VEHICLES, 
+                        chooser.getSelectedFile().getAbsolutePath());
+        }
+    }//GEN-LAST:event_importVTypeButtonMouseClicked
    
     
     @Override
@@ -1164,6 +1216,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JLabel addVTypeButton;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel exportButton;
+    private javax.swing.JLabel exportVTypeButton;
     private javax.swing.JFormattedTextField filesFlowField;
     private javax.swing.JLabel filesFlowLabel;
     private javax.swing.JFormattedTextField filesRandomField;
@@ -1171,6 +1224,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private javax.swing.JPanel flowOptionsPanel;
     private javax.swing.JScrollPane flowScrollPane;
     private javax.swing.JTable flowTable;
+    private javax.swing.JLabel importVTypeButton;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel mainPanelElements;
     private javax.swing.JTextField mapInfoField;
@@ -1457,6 +1511,22 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
                             newElement((String)id, (ODElement)ODelement);
                         });
                     }
+                    break;
+                    
+                case VehicleType:
+                    if(tuple.obj2 instanceof HashMap){
+                        HashMap VehicleMap = (HashMap) tuple.obj2;
+                        vehicleTypesPanel.removeAll();
+                        
+                        VehicleMap.forEach((id, vehicle) -> {
+                            VehicleTypePanel vType = new VehicleTypePanel((String)id, 
+                                                    (VType)vehicle, this);
+                            vehicleTypes.add(vType);
+
+                            vehicleTypesPanel.add(vType);
+                        });
+                    }
+                    vehicleTypesPanel.updateUI();
                     break;
             }
             

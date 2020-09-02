@@ -197,7 +197,6 @@ public class ZoomableScrollPane extends ScrollPane {
                     selectionRectangle.setY(mouseStartY);
                     selectionRectangle.setWidth(100);
                     selectionRectangle.setHeight(100);
-                    System.out.println("dale");
                 }
         });
         
@@ -205,13 +204,10 @@ public class ZoomableScrollPane extends ScrollPane {
             if ((e.getButton() == MouseButton.MIDDLE) || 
                 (e.getButton() == MouseButton.SECONDARY)) setPannable(false);
             
-            if (e.getButton() == MouseButton.PRIMARY) {
-                    System.out.println("daliendo");
-                }
+            if (e.getButton() == MouseButton.PRIMARY) {}
         });
         
         this.setOnMouseDragEntered(e->{
-            System.out.println("dragggggggggggg");
             e.setDragDetect(true);
             e.consume();
         });
@@ -219,8 +215,6 @@ public class ZoomableScrollPane extends ScrollPane {
         this.setOnMouseDragOver(e->{
             selectionRectangle.setWidth(e.getSceneX() - mouseStartX );
             selectionRectangle.setHeight( e.getSceneY() - mouseStartY );
-            System.out.println("X -> " + e.getScreenX());
-            System.out.println("Y -> " +e.getScreenY());
             e.consume();
         });
         

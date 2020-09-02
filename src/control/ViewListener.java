@@ -13,7 +13,7 @@ public interface ViewListener {
                         REMOVE_TAZ, REMOVE_OD_ELEMENT, REMOVE_FLOW, EDIT_FLOW,
                         ROADS_OPTIONS,IMPORT_OD, IMPORT_VEHICLES, EXPORT_VEHICLES}
     
-    public enum TableTypes{TAZType, FlowType, ODElementType}
+    public enum TableTypes{TAZType, FlowType, ODElementType, VehicleType}
     
     public void producedEvent(Event event, Object obj);
     
