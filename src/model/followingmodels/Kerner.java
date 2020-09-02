@@ -1,5 +1,8 @@
 package model.followingmodels;
 
+import java.util.Iterator;
+import javax.xml.stream.events.Attribute;
+
 /**
  *
  * @author Neblis
@@ -7,12 +10,16 @@ package model.followingmodels;
 public class Kerner implements FollowingModel{
     private final static String FORMAT = "carFollowModel=\"%s\" minGap=\"%d\"  "
                                         + "phi=\"%d\" k=\"%d\"";
-    private final static String NAME = "BKerner";
+    public final static String NAME = "BKerner";
     public final static String EXPLANATION = "BKerner Model \n"
                             + "In addition "
                             + "to the free flow traffic phase (F), there are two traffic "
                             + "phases in congested traffic: the synchronized flow traffic "
                             + "phase (S) and the wide moving jam phase (J).";
+    
+    private final static String MIN_GAP = "minGap";
+    private final static String PHI = "phi";
+    private final static String K = "k";
     
     private int minGap;
     private int k;
@@ -61,5 +68,27 @@ public class Kerner implements FollowingModel{
     @Override
     public String toSimulation() {
         return  String.format(FORMAT, NAME, minGap, phi, k);
+    }
+
+    @Override
+    public void importAttributes(Iterator<Attribute> attributes) {
+        while (attributes.hasNext()){
+            Attribute attribute = attributes.next();
+
+            switch (attribute.getName().toString()){
+                case MIN_GAP:
+                    this.setMinGap(Integer.valueOf(attribute.getValue()));
+                    break;
+                    
+                case PHI:
+                    this.setPhi(Integer.valueOf(attribute.getValue()));
+                    break;
+                    
+                case K:
+                    this.setK(Integer.valueOf(attribute.getValue()));
+                    break;
+                    
+            }
+        }
     }
 }

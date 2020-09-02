@@ -1,6 +1,9 @@
 package model.routes;
 
+import java.util.Iterator;
+import javax.xml.stream.events.Attribute;
 import model.followingmodels.FollowingModel;
+import model.followingmodels.FollowingModelFactory;
 import model.followingmodels.Krauss;
 
 /**
@@ -93,6 +96,12 @@ public class VType {
     public FollowingModel getModel() { return model; }
     public boolean isEnabled() { return enabled; }
     
+    public void assignFollowingModel(String modelName, Iterator<Attribute> attributes){
+        FollowingModel model = FollowingModelFactory.getFollowingModel(modelName);
+        
+        model.importAttributes(attributes);
+        this.setModel(model);
+    }
     /*
     public String toFile(String id) {
         return String.format(FILE_FORMAT, id, accel, decel, tau, length, 

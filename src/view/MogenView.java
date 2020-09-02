@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Observable;
 import java.util.Observer;
-import javafx.scene.input.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
@@ -307,6 +306,11 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle(PROGRAM);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         simulationPanel.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1079,7 +1083,6 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }//GEN-LAST:event_ODAddButtonActionPerformed
 
     private void ODiImportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ODiImportButtonActionPerformed
-        // TODO add your handling code here:
         JFileChooser chooser = new JFileChooser();
         
         int returnVal = chooser.showOpenDialog(this);
@@ -1092,6 +1095,10 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     private void timeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timeFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_timeFieldActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        listenerUI.producedEvent(ViewListener.Event.EXIT, null);
+    }//GEN-LAST:event_formWindowClosing
    
     
     @Override
