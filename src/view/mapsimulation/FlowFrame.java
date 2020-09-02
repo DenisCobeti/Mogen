@@ -387,7 +387,6 @@ public class FlowFrame extends javax.swing.JFrame implements MapMouseEvent {
             this.selectedLaneDestination = lane;
             destinationInfoLabel.setText(selectedLaneDestination.getName());
         }
-        System.out.println(lane.toString()); 
     }
 
 }

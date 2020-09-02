@@ -1,5 +1,8 @@
 package model.followingmodels;
 
+import java.util.Iterator;
+import javax.xml.stream.events.Attribute;
+
 /**
  *
  * @author Denis Florin Cobeti
@@ -7,12 +10,15 @@ package model.followingmodels;
 public class Krauss implements FollowingModel {
 
     private final static String FORMAT = "carFollowModel=\"%s\" sigma=\"%.1f\""
-            + " minGap=\"%d\" ";
-    private final static String NAME = "Krauss";
+                                        + " minGap=\"%d\" ";
+    public final static String NAME = "Krauss";
     public final static String EXPLANATION = "Krauss model\n" +
                                 "The model developed by Krauß is a microscopic, "
                                 + "space-continuous, car-following model based on "
                                 + "the safe speed in 1997.";
+    
+    private final static String MIN_GAP = "minGap";
+    private final static String SIGMA = "sigma";
     
     private double sigma;
     private int minGap;
@@ -51,6 +57,23 @@ public class Krauss implements FollowingModel {
     @Override
     public String toSimulation() {
         return  String.format(FORMAT, NAME, sigma, minGap);
+    }
+
+    @Override
+    public void importAttributes(Iterator<Attribute> attributes) {
+        while (attributes.hasNext()){
+            Attribute attribute = attributes.next();
+
+            switch (attribute.getName().toString()){
+                case MIN_GAP:
+                    this.setMinGap(Integer.valueOf(attribute.getValue()));
+                    break;
+                    
+                case SIGMA:
+                    this.setSigma(Double.valueOf(attribute.getValue()));
+                    break;   
+            }
+        }
     }
 
     

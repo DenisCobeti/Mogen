@@ -232,7 +232,6 @@ public class TAZFrame extends javax.swing.JFrame implements MapMouseEvent{
                 lanes.add(lane);
             }
         } 
-        System.out.println(lane.toString()); 
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -3,6 +3,7 @@ package control;
 import static control.ViewListener.TableTypes;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,13 +14,21 @@ import java.net.ProtocolException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.StartElement;
+import javax.xml.stream.events.XMLEvent;
 import model.Config;
 
 import model.MogenModel;
@@ -58,6 +67,17 @@ public class MogenControl implements ViewListener{
     
     private final MogenModel model;
     private final MogenView view;
+    
+    private static final String VEHICLE_START_XML = "vType";
+    private static final String VEHICLE_ID_XML = "id";
+    private static final String VEHICLE_ACCEL_XML = "accel";
+    private static final String VEHICLE_DECEL_XML = "decel";
+    private static final String VEHICLE_TAU_XML = "tau";
+    private static final String VEHICLE_LENGTH_XML = "length";
+    private static final String VEHICLE_SPEED_XML = "maxSpeed";
+    private static final String VEHICLE_FOLLOW_XML = "carFollowModel";
+    private static final String VEHICLE_PROB_XML = "probability";
+    
    
     public static final String DEFAULT_MAP_NAME = "mapNetconvert";
     public static final String DEFAULT_VTYPE_LOCATION = "vehicles";
@@ -85,13 +105,24 @@ public class MogenControl implements ViewListener{
         roads = new HashSet();
         converter = new MapConverter();
         
+        
+        File vehicles = new File(DEFAULT_VTYPE_LOCATION 
+                    + FilesExtension.VEHICLES.getExtension());
+        
+        try {
+            this.importVehicles(vehicles);
+        } catch (FileNotFoundException | XMLStreamException ex) {
+            model.defaultVTypes();
+        }
+        
         for(RoadTypes road : MapConverter.DEFAULT_ROADS) roads.add(road.toString());
         //obtainMap(0,0,0,0);
         Config.load();
         view.update(model, MapConverter.DEFAULT_OPTIONS);
         view.update(model, MapConverter.DEFAULT_ROADS);
         System.out.println(Config.osmMap +" " +Config.sumoMap);
-        model.getvTypes().forEach((k, v) -> view.update(model, new Tuple(k, v)));
+        
+        view.update(model, new Tuple<>(TableTypes.VehicleType, model.getvTypes()));
         
     }
 
@@ -261,11 +292,32 @@ public class MogenControl implements ViewListener{
                 Config.setSumoLocation((String)obj);
                 break;
                 
+            case IMPORT_VEHICLES:
+                
+                try {
+                    importVehicles(new File((String)obj));
+                } catch (FileNotFoundException | XMLStreamException ex) {
+                    view.update(model, ex);
+                } finally{
+                    view.update(model, new Tuple<>(TableTypes.VehicleType, model.getvTypes()));
+                }
+                break;
+                
+            case EXPORT_VEHICLES:
+        
+                try {
+                    exportVehicles((String)obj + ".add.xml");
+                } catch (IOException ex) {
+                    view.update(model, ex);
+                }
+                break;
+        
         } 
     }
     
     
-    public void saveMap(MapSelection selection, String location) throws ProtocolException, 
+    public void saveMap(MapSelection selection, String location) throws 
+                                                            ProtocolException, 
                                                             IOException,
                                                             InterruptedException,
                                                             FileNotFoundException,
@@ -497,6 +549,65 @@ public class MogenControl implements ViewListener{
         return vehicles.getAbsolutePath();
     }
     
+    public void importVehicles(File vehicles) throws FileNotFoundException, 
+                                            XMLStreamException{
+        
+        
+        XMLInputFactory inputFactory = XMLInputFactory.newInstance();
+        InputStream in = new FileInputStream(vehicles);
+        XMLEventReader reader = inputFactory.createXMLEventReader(in);
+        
+        XMLEvent event;
+        
+        while (reader.hasNext()){
+            event = reader.nextEvent();
+            
+            if(event.isStartElement()){
+                StartElement startElement = event.asStartElement();
+                
+                if(startElement.getName().getLocalPart().equals(VEHICLE_START_XML)){
+                    VType vehicle = new VType();
+                    String  idVehicle = "default";
+                    
+                    Iterator<Attribute> attributes = startElement.getAttributes();
+                    
+                    while (attributes.hasNext()){
+                        Attribute attribute = attributes.next();
+                        
+                        switch (attribute.getName().toString()){
+                            case VEHICLE_ID_XML:
+                                idVehicle = attribute.getValue();
+                                break;
+                            case VEHICLE_ACCEL_XML:
+                                vehicle.setAccel(Double.valueOf(attribute.getValue()));
+                                break;
+                            case VEHICLE_DECEL_XML:
+                                vehicle.setDecel(Double.valueOf(attribute.getValue()));
+                                break;
+                            case VEHICLE_TAU_XML:
+                                vehicle.setTau(Double.valueOf(attribute.getValue()));
+                                break;
+                            case VEHICLE_LENGTH_XML:
+                                vehicle.setLength(Integer.valueOf(attribute.getValue()));
+                                break;
+                            case VEHICLE_SPEED_XML:
+                                vehicle.setMaxSpeed(Integer.valueOf(attribute.getValue()));
+                                break;
+                            case VEHICLE_FOLLOW_XML:
+                                vehicle.assignFollowingModel(attribute.getValue(), startElement.getAttributes());
+                                break;
+                            case VEHICLE_PROB_XML:
+                                vehicle.setProbability(Double.valueOf(attribute.getValue()));
+                                break;
+                        }
+                    }
+                    model.addElement(idVehicle, vehicle);
+                   
+                }
+                
+            }
+        }
+    }
     public void setRoadsFiltered(HashSet<String> roads) throws IOException, 
                                         ProtocolException, InterruptedException{
         this.roads = roads;
@@ -624,6 +735,10 @@ public class MogenControl implements ViewListener{
     }
     
     private void salir() {
+        try {
+            exportVehicles(DEFAULT_VTYPE_LOCATION + FilesExtension.VEHICLES.getExtension());
+        } catch (IOException ex) {}
+        
         System.exit(0);
     }
     

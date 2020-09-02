@@ -210,17 +210,15 @@ public class VehicleTypePanel extends javax.swing.JPanel {
             optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(enabledBox)
-                .addGap(8, 8, 8))
-            .addGroup(optionsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(settingsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(removeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(editFollowingLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(optionsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(settingsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, optionsPanelLayout.createSequentialGroup()
+                        .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(enabledBox)
+                        .addGap(8, 8, 8))
+                    .addComponent(editFollowingLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(removeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout buttonsPanelLayout = new javax.swing.GroupLayout(buttonsPanel);
@@ -252,6 +250,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         speedField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         speedField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         speedField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        speedField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                speedFieldFocusLost(evt);
+            }
+        });
         speedField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 speedFieldActionPerformed(evt);
@@ -264,6 +267,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         accelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         accelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         accelField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        accelField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                accelFieldFocusLost(evt);
+            }
+        });
         accelField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 accelFieldActionPerformed(evt);
@@ -276,6 +284,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         tauField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         tauField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         tauField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        tauField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tauFieldFocusLost(evt);
+            }
+        });
         tauField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tauFieldActionPerformed(evt);
@@ -288,6 +301,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         decelField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         decelField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         decelField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        decelField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                decelFieldFocusLost(evt);
+            }
+        });
         decelField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 decelFieldActionPerformed(evt);
@@ -300,6 +318,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         lengthField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         lengthField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0"))));
         lengthField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        lengthField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                lengthFieldFocusLost(evt);
+            }
+        });
         lengthField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 lengthFieldActionPerformed(evt);
@@ -312,6 +335,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         probabilityField.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
         probabilityField.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         probabilityField.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        probabilityField.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                probabilityFieldFocusLost(evt);
+            }
+        });
         probabilityField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 probabilityFieldActionPerformed(evt);
@@ -393,46 +421,34 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void probabilityFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_probabilityFieldActionPerformed
-        // TODO add your handling code here:
-        type.setProbability(Double.valueOf(probabilityField.getText()));
-        view.editVType(name, type);
+        probabilityAction();
     }//GEN-LAST:event_probabilityFieldActionPerformed
 
     private void editFollowingLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editFollowingLabelMouseClicked
-        // TODO add your handling code here:
         JFrame edit = new FollowingModelFrame(view, name, type);
         edit.setVisible(true);
     }//GEN-LAST:event_editFollowingLabelMouseClicked
 
     private void removeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeLabelMouseClicked
-        // TODO add your handling code here:
         view.deleteVType(this);
     }//GEN-LAST:event_removeLabelMouseClicked
 
     private void enabledBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enabledBoxActionPerformed
-        // TODO add your handling code here:
         type.setEnabled(enabledBox.isSelected());
         view.editVType(name, type);
         
     }//GEN-LAST:event_enabledBoxActionPerformed
 
     private void lengthFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lengthFieldActionPerformed
-        // TODO add your handling code here:
-        type.setLength(Integer.parseInt(lengthField.getText()));
-        view.editVType(name, type);
+        lengthAction();
     }//GEN-LAST:event_lengthFieldActionPerformed
 
     private void speedFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_speedFieldActionPerformed
-        // TODO add your handling code here:
-        type.setMaxSpeed(Integer.parseInt(speedField.getText()));
-        view.editVType(name, type);
+        speedAction();
     }//GEN-LAST:event_speedFieldActionPerformed
 
     private void decelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_decelFieldActionPerformed
-        // TODO add your handling code here:
-        decelField.setText(decelField.getText().replace(',', '.'));
-        type.setDecel(Double.valueOf(decelField.getText()));
-        view.editVType(name, type);
+        decelAction();
     }//GEN-LAST:event_decelFieldActionPerformed
     
     private void retractPanel(){
@@ -445,23 +461,13 @@ public class VehicleTypePanel extends javax.swing.JPanel {
             this.setMaximumSize(new Dimension(this.getWidth(), 200));
         }
     }
+    
     private void accelFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accelFieldActionPerformed
-        // TODO add your handling code here:
-        //
-        //
-        //hay que tratar errores
-        //
-        //
-        accelField.setText(accelField.getText().replace(',', '.'));
-        type.setAccel(Double.valueOf(accelField.getText()));
-        view.editVType(name, type);
+        this.accelAction();
     }//GEN-LAST:event_accelFieldActionPerformed
 
     private void tauFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tauFieldActionPerformed
-        // TODO add your handling code here:
-        tauField.setText(tauField.getText().replace(',', '.'));
-        type.setTau(Double.valueOf(tauField.getText()));
-        view.editVType(name, type);
+        tauAction();
     }//GEN-LAST:event_tauFieldActionPerformed
 
     private void iconMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_iconMouseClicked
@@ -474,6 +480,66 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         this.retractPanel();
     }//GEN-LAST:event_settingsLabelMouseClicked
 
+    private void speedFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_speedFieldFocusLost
+        speedAction();
+    }//GEN-LAST:event_speedFieldFocusLost
+
+    private void decelFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_decelFieldFocusLost
+        decelAction();
+    }//GEN-LAST:event_decelFieldFocusLost
+
+    private void accelFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_accelFieldFocusLost
+        accelAction();
+    }//GEN-LAST:event_accelFieldFocusLost
+
+    private void lengthFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_lengthFieldFocusLost
+        lengthAction();
+    }//GEN-LAST:event_lengthFieldFocusLost
+
+    private void tauFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tauFieldFocusLost
+        tauAction();
+    }//GEN-LAST:event_tauFieldFocusLost
+
+    private void probabilityFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_probabilityFieldFocusLost
+        probabilityAction();
+    }//GEN-LAST:event_probabilityFieldFocusLost
+
+    private void speedAction(){
+        type.setMaxSpeed(Integer.parseInt(speedField.getText()));
+        view.editVType(name, type);
+    }
+    
+    
+    private void accelAction(){
+        accelField.setText(accelField.getText().replace(',', '.'));
+        type.setAccel(Double.valueOf(accelField.getText()));
+        view.editVType(name, type);
+    }
+    
+    
+    private void decelAction(){
+        decelField.setText(decelField.getText().replace(',', '.'));
+        type.setDecel(Double.valueOf(decelField.getText()));
+        view.editVType(name, type);
+    }
+    
+    private void lengthAction(){
+        type.setLength(Integer.parseInt(lengthField.getText()));
+        view.editVType(name, type);
+    }
+    
+    private void tauAction(){
+        tauField.setText(tauField.getText().replace(',', '.'));
+        type.setTau(Double.valueOf(tauField.getText()));
+        view.editVType(name, type);
+    }
+    
+    private void probabilityAction(){
+        probabilityField.setText(probabilityField.getText().replace(',', '.'));
+        type.setProbability(Double.valueOf(probabilityField.getText()));
+        view.editVType(name, type);
+    }
+    
     public JLabel getIconLabel() {
         return icon;
     }

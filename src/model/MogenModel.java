@@ -39,7 +39,7 @@ public class MogenModel extends Observable{
         this.tazs =  new HashMap<>();
         this.elements = new HashMap<>();
         
-        defaultVTypes();
+        //defaultVTypes();
         
         this.simulations = new HashMap<>();
     }
@@ -113,7 +113,8 @@ public class MogenModel extends Observable{
     public void removeODE(String id){
         elements.remove(id);
     }
-    private void defaultVTypes(){
+    
+    public void defaultVTypes(){
         vTypes.put("Car", new VType());
         
         VType sport = new VType();

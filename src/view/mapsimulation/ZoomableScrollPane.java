@@ -1,7 +1,6 @@
 package view.mapsimulation;
 
 import java.awt.Point;
-import javafx.application.Platform;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Bounds;
@@ -11,7 +10,6 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -199,7 +197,6 @@ public class ZoomableScrollPane extends ScrollPane {
                     selectionRectangle.setY(mouseStartY);
                     selectionRectangle.setWidth(100);
                     selectionRectangle.setHeight(100);
-                    System.out.println("dale");
                 }
         });
         
@@ -207,13 +204,10 @@ public class ZoomableScrollPane extends ScrollPane {
             if ((e.getButton() == MouseButton.MIDDLE) || 
                 (e.getButton() == MouseButton.SECONDARY)) setPannable(false);
             
-            if (e.getButton() == MouseButton.PRIMARY) {
-                    System.out.println("daliendo");
-                }
+            if (e.getButton() == MouseButton.PRIMARY) {}
         });
         
         this.setOnMouseDragEntered(e->{
-            System.out.println("dragggggggggggg");
             e.setDragDetect(true);
             e.consume();
         });
@@ -221,8 +215,6 @@ public class ZoomableScrollPane extends ScrollPane {
         this.setOnMouseDragOver(e->{
             selectionRectangle.setWidth(e.getSceneX() - mouseStartX );
             selectionRectangle.setHeight( e.getSceneY() - mouseStartY );
-            System.out.println("X -> " + e.getScreenX());
-            System.out.println("Y -> " +e.getScreenY());
             e.consume();
         });
         
