@@ -3,10 +3,15 @@ package view.mapelements;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ItemEvent;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+
 import model.routes.VType;
+import model.routes.VType.EmissionType;
+
 import view.MogenView;
 
 /**
@@ -24,6 +29,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private static final String TAU = "Tau";
     private static final String LENGHT = "Length";
     private static final String PROBABILITY = "Prob.";
+    private static final String EMISSION = "Emission";
     
     private static final String ENABLE_TOOL_TIP = "Enable";
     
@@ -41,9 +47,13 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     ImageIcon EDIT_FOLLOWING_ICON = new ImageIcon(EDIT_FOLLOWING_ICON_IMG);
     ImageIcon SETTINGS_ICON = new ImageIcon(SETTINGS_ICON_IMG);
     
+    private static DefaultComboBoxModel boxModel;
+    
     private final MogenView view;
     private final String name;
     private final VType type;
+    
+    boolean eventsEnabled;
     
     protected static enum Icon {
         CAR("resources/icon/car.png"), 
@@ -69,6 +79,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         this.name = name;
         this.view = view;
         this.type = type;
+        eventsEnabled = false;
         
         ImageIcon imageIcon;
                 
@@ -79,6 +90,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         }else{
             imageIcon = new ImageIcon(Icon.CAR.getLocation());
         }
+        VehicleTypePanel.boxModel = new DefaultComboBoxModel<>(EmissionType.values());
         
         initComponents();
         removeLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
@@ -93,6 +105,8 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         System.out.println(buttonsPanel.getWidth());
         variablesPanel.setVisible(false);
         this.setMaximumSize(new Dimension(370, 67));
+        
+        eventsEnabled = true;
     }
     
     public void update(){
@@ -103,6 +117,7 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         tauField.setText(Double.toString(type.getTau()));
         speedField.setText(Integer.toString(type.getMaxSpeed()));
         probabilityField.setText(Double.toString(type.getProbability()));
+        emissionBox.setSelectedItem(type.getEmission());
         
         this.updateUI();
     }
@@ -136,6 +151,8 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         lengthField = new javax.swing.JFormattedTextField();
         probabilityLabel = new javax.swing.JLabel();
         probabilityField = new javax.swing.JFormattedTextField();
+        emissionLabel = new javax.swing.JLabel();
+        emissionBox = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
@@ -346,6 +363,18 @@ public class VehicleTypePanel extends javax.swing.JPanel {
             }
         });
 
+        emissionLabel.setFont(view.getFont());
+        emissionLabel.setText(EMISSION);
+
+        emissionBox.setFont(view.getFont());
+        emissionBox.setModel(boxModel);
+        emissionBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        emissionBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                emissionBoxItemStateChanged(evt);
+            }
+        });
+
         javax.swing.GroupLayout variablesPanelLayout = new javax.swing.GroupLayout(variablesPanel);
         variablesPanel.setLayout(variablesPanelLayout);
         variablesPanelLayout.setHorizontalGroup(
@@ -353,20 +382,24 @@ public class VehicleTypePanel extends javax.swing.JPanel {
             .addGroup(variablesPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(emissionLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(decelLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
                     .addComponent(speedLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(speedField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                    .addComponent(decelField))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(accelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lengthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(accelField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                    .addComponent(lengthField))
+                    .addGroup(variablesPanelLayout.createSequentialGroup()
+                        .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(speedField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(decelField))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(accelLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lengthLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(accelField, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                            .addComponent(lengthField)))
+                    .addComponent(emissionBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(sigmaLabel)
@@ -396,7 +429,11 @@ public class VehicleTypePanel extends javax.swing.JPanel {
                     .addComponent(lengthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(probabilityLabel)
                     .addComponent(probabilityField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(variablesPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(emissionBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(emissionLabel))
+                .addContainerGap(64, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -425,17 +462,23 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_probabilityFieldActionPerformed
 
     private void editFollowingLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_editFollowingLabelMouseClicked
-        JFrame edit = new FollowingModelFrame(view, name, type);
-        edit.setVisible(true);
+        if(eventsEnabled){
+            JFrame edit = new FollowingModelFrame(view, name, type);
+            edit.setVisible(true);
+        }
     }//GEN-LAST:event_editFollowingLabelMouseClicked
 
     private void removeLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_removeLabelMouseClicked
-        view.deleteVType(this);
+        if(eventsEnabled){
+            view.deleteVType(this);
+        }
     }//GEN-LAST:event_removeLabelMouseClicked
 
     private void enabledBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enabledBoxActionPerformed
-        type.setEnabled(enabledBox.isSelected());
-        view.editVType(name, type);
+        if(eventsEnabled){
+            type.setEnabled(enabledBox.isSelected());
+            view.editVType(name, type);
+        }
         
     }//GEN-LAST:event_enabledBoxActionPerformed
 
@@ -452,13 +495,14 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_decelFieldActionPerformed
     
     private void retractPanel(){
-        
-        if(variablesPanel.isVisible()){
-            variablesPanel.setVisible(false);
-            this.setMaximumSize(new Dimension(this.getWidth(), 67));
-        }else{
-            variablesPanel.setVisible(true);
-            this.setMaximumSize(new Dimension(this.getWidth(), 200));
+        if(eventsEnabled){
+            if(variablesPanel.isVisible()){
+                variablesPanel.setVisible(false);
+                this.setMaximumSize(new Dimension(this.getWidth(), 67));
+            }else{
+                variablesPanel.setVisible(true);
+                this.setMaximumSize(new Dimension(this.getWidth(), 200));
+            }
         }
     }
     
@@ -504,40 +548,62 @@ public class VehicleTypePanel extends javax.swing.JPanel {
         probabilityAction();
     }//GEN-LAST:event_probabilityFieldFocusLost
 
+    private void emissionBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_emissionBoxItemStateChanged
+        
+        // TODO add your handling code here:
+        if(evt.getStateChange() == ItemEvent.SELECTED && eventsEnabled) {
+            System.out.print(emissionBox.getSelectedItem().toString() + "\n");
+            type.setEmission((EmissionType)emissionBox.getSelectedItem());
+            view.editVType(name, type);
+        }
+    }//GEN-LAST:event_emissionBoxItemStateChanged
+
     private void speedAction(){
-        type.setMaxSpeed(Integer.parseInt(speedField.getText()));
-        view.editVType(name, type);
+        if(eventsEnabled){
+            type.setMaxSpeed(Integer.parseInt(speedField.getText()));
+            view.editVType(name, type);
+        }
     }
     
     
     private void accelAction(){
-        accelField.setText(accelField.getText().replace(',', '.'));
-        type.setAccel(Double.valueOf(accelField.getText()));
-        view.editVType(name, type);
+        if(eventsEnabled){
+            accelField.setText(accelField.getText().replace(',', '.'));
+            type.setAccel(Double.valueOf(accelField.getText()));
+            view.editVType(name, type);
+        }
     }
     
     
     private void decelAction(){
-        decelField.setText(decelField.getText().replace(',', '.'));
-        type.setDecel(Double.valueOf(decelField.getText()));
-        view.editVType(name, type);
+        if(eventsEnabled){
+            decelField.setText(decelField.getText().replace(',', '.'));
+            type.setDecel(Double.valueOf(decelField.getText()));
+            view.editVType(name, type);
+        }
     }
     
     private void lengthAction(){
-        type.setLength(Integer.parseInt(lengthField.getText()));
-        view.editVType(name, type);
+        if(eventsEnabled){
+            type.setLength(Integer.parseInt(lengthField.getText()));
+            view.editVType(name, type);
+        }
     }
     
     private void tauAction(){
-        tauField.setText(tauField.getText().replace(',', '.'));
-        type.setTau(Double.valueOf(tauField.getText()));
-        view.editVType(name, type);
+        if(eventsEnabled){
+            tauField.setText(tauField.getText().replace(',', '.'));
+            type.setTau(Double.valueOf(tauField.getText()));
+            view.editVType(name, type);
+        }
     }
     
     private void probabilityAction(){
-        probabilityField.setText(probabilityField.getText().replace(',', '.'));
-        type.setProbability(Double.valueOf(probabilityField.getText()));
-        view.editVType(name, type);
+        if(eventsEnabled){
+            probabilityField.setText(probabilityField.getText().replace(',', '.'));
+            type.setProbability(Double.valueOf(probabilityField.getText()));
+            view.editVType(name, type);
+        }
     }
     
     public JLabel getIconLabel() {
@@ -555,8 +621,10 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     }
     
     public void changeIcon(Icon iconImage) {
-        ImageIcon imageIcon = new ImageIcon(iconImage.getLocation());
-        icon.setIcon(imageIcon);
+        if(eventsEnabled){
+            ImageIcon imageIcon = new ImageIcon(iconImage.getLocation());
+            icon.setIcon(imageIcon);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JFormattedTextField accelField;
@@ -565,6 +633,8 @@ public class VehicleTypePanel extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField decelField;
     private javax.swing.JLabel decelLabel;
     private javax.swing.JLabel editFollowingLabel;
+    private javax.swing.JComboBox<String> emissionBox;
+    private javax.swing.JLabel emissionLabel;
     private javax.swing.JCheckBox enabledBox;
     private javax.swing.JLabel icon;
     private javax.swing.JFormattedTextField lengthField;

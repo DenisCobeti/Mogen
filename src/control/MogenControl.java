@@ -21,8 +21,6 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -63,8 +61,6 @@ import view.MogenView;
  */
 public class MogenControl implements ViewListener{
     
-    //private static final Logger logger = Logger.getLogger(GeoMap.class.getName());
-    
     private final MogenModel model;
     private final MogenView view;
     
@@ -77,6 +73,7 @@ public class MogenControl implements ViewListener{
     private static final String VEHICLE_SPEED_XML = "maxSpeed";
     private static final String VEHICLE_FOLLOW_XML = "carFollowModel";
     private static final String VEHICLE_PROB_XML = "probability";
+    private static final String VEHICLE_EMISSION_XML = "emissionClass";
     
    
     public static final String DEFAULT_MAP_NAME = "mapNetconvert";
@@ -599,6 +596,8 @@ public class MogenControl implements ViewListener{
                             case VEHICLE_PROB_XML:
                                 vehicle.setProbability(Double.valueOf(attribute.getValue()));
                                 break;
+                            case VEHICLE_EMISSION_XML:
+                                vehicle.setEmission(attribute.getValue());
                         }
                     }
                     model.addElement(idVehicle, vehicle);
