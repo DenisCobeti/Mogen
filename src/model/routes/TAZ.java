@@ -2,6 +2,7 @@ package model.routes;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import model.topology.Lane;
 
 /**
