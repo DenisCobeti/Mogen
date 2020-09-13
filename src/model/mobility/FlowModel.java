@@ -78,7 +78,6 @@ public class FlowModel extends MobilityModel {
             ProcessBuilder trace = new ProcessBuilder(traceCommand(
                 output.getAbsolutePath(), ns2.getAbsolutePath()));
 
-            System.out.println(sumo.command().toString());
             executeProcess(sumo.start());
             executeProcess(trace.start());
         }

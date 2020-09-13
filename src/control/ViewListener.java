@@ -11,7 +11,8 @@ public interface ViewListener {
                         EDIT_SUMO, REMOVE_VTYPE, FILTER_ROADS, NEW_TAZ, 
                         SAVE_VEHICLES, NEW_ODELEMENT, EXPORT_ODMATRIX,
                         REMOVE_TAZ, REMOVE_OD_ELEMENT, REMOVE_FLOW, EDIT_FLOW,
-                        ROADS_OPTIONS,IMPORT_OD, IMPORT_VEHICLES, EXPORT_VEHICLES}
+                        ROADS_OPTIONS,IMPORT_OD, IMPORT_VEHICLES, EXPORT_VEHICLES,
+                        EDIT_SETTINGS}
     
     public enum TableTypes{TAZType, FlowType, ODElementType, VehicleType}
     

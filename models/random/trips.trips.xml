@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated on 2020-07-30 16:09:45.266000 by $Id$
+<!-- generated on 2020-09-13 13:13:16.209000 by $Id$
   options: -n mapNetconvert.net.xml <doubleminus>additional-file C:\Users\darkm\Documents\proyectos\Mogen\vehicles.add.xml -e 1.0 -p 0.3333333333333333 -o models/random/trips.trips.xml -r models/random/routes.rou.xml <doubleminus>trip-attributes type='dist'
 -->
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <trip id="0" depart="0.00" from="4850461#4" to="495766635" type='dist'/>
-    <trip id="1" depart="0.33" from="24527718#1" to="-174274186#1" type='dist'/>
-    <trip id="2" depart="0.67" from="758932762#0" to="-503322111" type='dist'/>
+    <trip id="0" depart="0.00" from="-47425124#0" to="47623626" type='dist'/>
+    <trip id="1" depart="0.33" from="228799507#0" to="47222339#0" type='dist'/>
+    <trip id="2" depart="0.67" from="-144158358#2" to="47222385#6" type='dist'/>
 </routes>

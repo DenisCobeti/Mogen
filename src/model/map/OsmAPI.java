@@ -33,7 +33,7 @@ public class OsmAPI implements MapAPI{
         //this.API = Config.API;
         String petition = String.format(API_FORMAT, API, minLon, minLat, maxLon, maxLat );
         //String petition = String.format(API_FORMAT, API, minLon, minLat, maxLon, maxLat );
-        System.out.println(petition);
+        
         URL url = new URL(petition);
         
         connection = (HttpURLConnection)url.openConnection();

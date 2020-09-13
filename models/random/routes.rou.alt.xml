@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 07/30/20 16:09:45 by Eclipse SUMO duarouter Version 1.2.0
+<!-- generated on 09/13/20 13:13:16 by Eclipse SUMO duarouter Version 1.2.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/duarouterConfiguration.xsd">
 
     <input>
@@ -29,16 +29,21 @@
 -->
 
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <vType id="Truck" length="3.00" minGap="1.00" maxSpeed="40.00" probability="0.50" carFollowModel="Krauss" accel="1.40" decel="5.00" sigma="0.5" tau="7.0"/>
-    <vehicle id="1" type="Truck" depart="0.33">
+    <vType id="Truck" length="3.00" minGap="1.00" maxSpeed="40.00" probability="0.50" emissionClass="HBEFA3/LDV_G_EU4" carFollowModel="Krauss" accel="1.40" decel="5.00" sigma="0.5" tau="7.0"/>
+    <vehicle id="0" type="Truck" depart="0.00">
         <routeDistribution last="0">
-            <route cost="96.38" probability="1.00000000" edges="24527718#1 -4722379#2 4793112#1 495766634 495766636#0 495766635 495766637#0 30194665#0 30194665#1 756909463 5072869 49967561#0 174274186#0 -174274186#1"/>
+            <route cost="218.94" probability="1.00000000" edges="-47425124#0 47425124#0 47425124#1 47360626#5 -47368026#2 47370578#0 47370578#1 47370578#2 47370578#3 47370578#4 47370578#5 47425143#0 228371100#5 228371100#6 228371100#7 228371100#8 228371140 228371136 -619424528 -228371126#2 228371135 702265269 228371133 -333598151#1 441628289 89456347#0 89456347#1 89456347#2 333598150 -48479686#4 -48479686#3 -48479686#2 -48479686#0 441623943 48479684 228373948 -333598116 -333598120 -702265290#2 -702265290#0 -618616782 47623208#0 47623208#1 -144112139#4 -144112139#3 450777256#0 47751981#0 449698637#0 47623594#1 47623626"/>
         </routeDistribution>
     </vehicle>
-    <vType id="Sport" length="1.00" minGap="1.00" maxSpeed="80.00" probability="0.50" carFollowModel="Krauss" accel="3.00" decel="5.00" sigma="0.5" tau="7.0"/>
+    <vehicle id="1" type="Truck" depart="0.33">
+        <routeDistribution last="0">
+            <route cost="92.24" probability="1.00000000" edges="228799507#0 47323602#3 47323602#4 47323602#5 47323612#0 47323612#3 47222369#3 47222369#4 618619082#0 47222372 618810374#0 618810374#2 47246615#0 47222331#0 47222331#1 47222331#2 47222331#3 47222331#4 618619090#0 618810378 47222324#0 47222324#2 47222339#0"/>
+        </routeDistribution>
+    </vehicle>
+    <vType id="Sport" length="1.00" minGap="1.00" maxSpeed="80.00" probability="0.50" emissionClass="HBEFA3/LDV_G_EU4" carFollowModel="Krauss" accel="3.00" decel="5.00" sigma="0.5" tau="7.0"/>
     <vehicle id="2" type="Sport" depart="0.67">
         <routeDistribution last="0">
-            <route cost="151.27" probability="1.00000000" edges="758932762#0 4850965 148754587#0 148754587#2 24527732#0 502484458 49501589 5069789#0 167633348#3 4937457#1 404737753#0 404737753#4 692664116#0 692664116#1 339610125#0 339610125#1 -504582669 -504582668 -492264418 -49515976 -43210309 -492264417 -49499527#0 -492264416 -266026705 48098268#0 248096127 209078964#1 -503322111"/>
+            <route cost="104.09" probability="1.00000000" edges="-144158358#2 -47419212#0 702265273#1 702265277 47222369#0 47222369#3 47222369#4 47222371#0 702265276#0 -47222345 47222294#1 47222294#3 -47222364#3 -47222364#2 -47222364#1 -47222364#0 47222357#1 47222357#2 47222385#0 47222385#4 47222385#6"/>
         </routeDistribution>
     </vehicle>
 </routes>

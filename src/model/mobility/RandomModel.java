@@ -20,7 +20,7 @@ import model.routes.VType;
  */
 public class RandomModel extends MobilityModel{
 
-    private final static String PYTHON_SCRIPT_NAME = "\\tools\\randomTrips.py";
+    private final static String PYTHON_SCRIPT_NAME = "/tools/randomTrips.py";
     private final static String TRIPS_FILE = "trips.trips.xml";
     private final static String ROUTES_FILE = "routes.rou.xml";
     
@@ -116,9 +116,8 @@ public class RandomModel extends MobilityModel{
         project.createNewFile();
         output.createNewFile();
         
-        LinkedList <String> command = new LinkedList(Arrays.asList(
-                Config.python2,
-                Config.sumoLocation + PYTHON_SCRIPT_NAME,
+        LinkedList <String> command = new LinkedList(Arrays.asList(Config.python,
+                Config.sumo + PYTHON_SCRIPT_NAME,
                 NETWORK_OPT,
                 sim + FilesExtension.NETCONVERT,
                 VEHICLE_OPT,
@@ -134,15 +133,12 @@ public class RandomModel extends MobilityModel{
                 ATT_OPT,
                 DIST_OPT 
         ));
-        
-        System.out.println(command.toString());
 
         ProcessBuilder randomTrips = new ProcessBuilder(command);
         ProcessBuilder sumo = new ProcessBuilder(sumoCommand(
                 sim + FilesExtension.NETCONVERT, FILE_LOCATION + ROUTES_FILE,
                 output.getAbsolutePath(), time));
         
-        System.out.println(sumo.command().toString());
         
         for (int i = 0; i < files; i++){
             control.progressExport(i + 1);
@@ -154,7 +150,6 @@ public class RandomModel extends MobilityModel{
             
             ProcessBuilder trace = new ProcessBuilder(traceCommand(
             output.getAbsolutePath(), ns2.getAbsolutePath()));
-            System.out.println(trace.command().toString());
 
             executeProcess(trace.start());
         }
@@ -182,9 +177,8 @@ public class RandomModel extends MobilityModel{
     
     private LinkedList commandOnFile(String sim, String vTypes, double repetition, int file){
         
-        LinkedList <String> command = new LinkedList(Arrays.asList(
-                Config.python2,
-                Config.sumoLocation + PYTHON_SCRIPT_NAME,
+        LinkedList <String> command = new LinkedList(Arrays.asList(Config.python,
+                Config.sumo + PYTHON_SCRIPT_NAME,
                 NETWORK_OPT,
                 sim + FilesExtension.NETCONVERT,
                 VEHICLE_OPT,

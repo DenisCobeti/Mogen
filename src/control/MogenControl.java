@@ -21,6 +21,8 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -50,6 +52,8 @@ import model.routes.Flow;
 import model.routes.ODElement;
 import model.routes.TAZ;
 import model.routes.VType;
+import model.warnings.InvalidPythonLocationWarning;
+import model.warnings.InvalidSumoLocationWarning;
 import model.warnings.NoNamedDistrictsWarning;
 
 import view.MogenView;
@@ -117,10 +121,10 @@ public class MogenControl implements ViewListener{
         Config.load();
         view.update(model, MapConverter.DEFAULT_OPTIONS);
         view.update(model, MapConverter.DEFAULT_ROADS);
-        System.out.println(Config.osmMap +" " +Config.sumoMap);
-        
+        //System.out.println(Config.osmMap +" " +Config.sumoMap);
         view.update(model, new Tuple<>(TableTypes.VehicleType, model.getvTypes()));
         
+        checkConfig();
     }
 
     @Override
@@ -159,7 +163,6 @@ public class MogenControl implements ViewListener{
                 
                 if(model.addElement((String)obj, type)){ 
                     view.update(model, new Tuple<>((String)obj, type));
-                    System.out.println(obj.toString());
                 }else{
                     view.update(model, new DuplicatedKeyException
                                             (Errors.DUPLICATED_VTYPE));
@@ -177,6 +180,7 @@ public class MogenControl implements ViewListener{
                     view.update(model, ex);
                 } 
                 break;
+                
            case EDIT_FLOW:
                 tuple = (Tuple)obj;
                 try {
@@ -282,13 +286,22 @@ public class MogenControl implements ViewListener{
                 break;
                 
             case EDIT_PYTHON:
-                Config.setPython2((String)obj);
+                Config.setPython((String)obj);
                 break;
                 
             case EDIT_SUMO:
                 Config.setSumoLocation((String)obj);
                 break;
                 
+            case EDIT_SETTINGS:
+                tuple = (Tuple)obj;
+                
+                Config.setSumoLocation((String)tuple.obj1);
+                Config.setPython((String)tuple.obj2);
+                Config.save();
+                        
+                checkConfig();
+                break;
             case IMPORT_VEHICLES:
                 
                 try {
@@ -354,7 +367,6 @@ public class MogenControl implements ViewListener{
         converter.setMap(location, MapAPI.APIS.OSM);
         converter.pruneNodes(location, selection);
         String stream = converter.executeConvert(DEFAULT_MAP_NAME, roads);
-        System.out.println("---" + location);
         model.setOSMMap(DEFAULT_MAP_NAME);
         model.getFlows().clear();
         
@@ -400,9 +412,8 @@ public class MogenControl implements ViewListener{
     
     public void checkConnection(String origin, String destination)throws 
             NoRouteConnectionException, IOException, InterruptedException{
-        LinkedList <String> command = new LinkedList(Arrays.asList(
-                Config.python2,
-                Config.sumoLocation + PYTHON_CHECK,
+        LinkedList <String> command = new LinkedList(Arrays.asList(Config.python,
+                Config.sumo + PYTHON_CHECK,
                 model.getOSMMap() + FilesExtension.NETCONVERT,
                 "--source",
                 origin
@@ -422,13 +433,11 @@ public class MogenControl implements ViewListener{
         String line = null;
         while ((line = br.readLine()) != null)output += line;
 
-        System.out.println(output);
         output = output.substring(output.indexOf("["));
         
         if (!output.contains( "'"+ destination + "'"))
                                 throw new NoRouteConnectionException
                                           (Errors.NO_CONNECTION.getErrorMsg());
-        System.out.println(output);
         process.waitFor();
     }
     
@@ -733,6 +742,21 @@ public class MogenControl implements ViewListener{
         }
     }
     
+    private void checkConfig() {
+        try {
+            Runtime.getRuntime().exec(Config.python);
+        } catch (IOException ex) {
+            view.update(model, new InvalidPythonLocationWarning(Config.python));
+        }
+        
+        try {
+            Runtime.getRuntime().exec(Config.SUMO_EXE.toString());
+        } catch (IOException ex) {
+            view.update(model, new InvalidSumoLocationWarning(Config.SUMO_EXE.toString()));
+        }
+        
+    }
+    
     private void salir() {
         try {
             exportVehicles(DEFAULT_VTYPE_LOCATION + FilesExtension.VEHICLES.getExtension());
@@ -744,4 +768,5 @@ public class MogenControl implements ViewListener{
     public static void main(String[] args) {
         new MogenControl(args);
     }   
+
 }
