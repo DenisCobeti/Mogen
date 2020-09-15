@@ -1,9 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- generated on 2020-07-30 16:09:45.266000 by $Id$
-  options: -n mapNetconvert.net.xml <doubleminus>additional-file C:\Users\darkm\Documents\proyectos\Mogen\vehicles.add.xml -e 1.0 -p 0.3333333333333333 -o models/random/trips.trips.xml -r models/random/routes.rou.xml <doubleminus>trip-attributes type='dist'
+<!-- generated on 2020-09-15 23:41:47.447000 by $Id$
+  options: -n mapNetconvert.net.xml <doubleminus>additional-file C:\Users\darkm\Documents\proyectos\Mogen\vehicles.add.xml -e 1.0 -p 0.03333333333333333 -o models/random/trips.trips.xml -r models/random/routes.rou.xml <doubleminus>trip-attributes type='dist'
 -->
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
-    <trip id="0" depart="0.00" from="4850461#4" to="495766635" type='dist'/>
-    <trip id="1" depart="0.33" from="24527718#1" to="-174274186#1" type='dist'/>
-    <trip id="2" depart="0.67" from="758932762#0" to="-503322111" type='dist'/>
+    <trip id="0" depart="0.00" from="-72369035#2" to="24527732#0" type='dist'/>
+    <trip id="1" depart="0.03" from="758932760#1" to="49499524#0" type='dist'/>
+    <trip id="2" depart="0.07" from="758932760#1" to="-5072885" type='dist'/>
+    <trip id="3" depart="0.10" from="472503797" to="174600936#0" type='dist'/>
+    <trip id="4" depart="0.13" from="301592615" to="266364703#0" type='dist'/>
+    <trip id="5" depart="0.17" from="142685257#0" to="5073138" type='dist'/>
+    <trip id="6" depart="0.20" from="174600936#2" to="24527732#0" type='dist'/>
+    <trip id="7" depart="0.23" from="-5069792#1" to="692664116#0" type='dist'/>
+    <trip id="8" depart="0.27" from="4943633#0" to="24527659#0" type='dist'/>
+    <trip id="9" depart="0.30" from="5069790" to="266449023#3" type='dist'/>
+    <trip id="10" depart="0.33" from="553918577#1" to="-5069579#3" type='dist'/>
+    <trip id="11" depart="0.37" from="692792970#0" to="-5073085" type='dist'/>
+    <trip id="12" depart="0.40" from="-5069579#2" to="758932760#0" type='dist'/>
+    <trip id="13" depart="0.43" from="4846191#0" to="-159016933#1" type='dist'/>
+    <trip id="14" depart="0.47" from="5069579#0" to="266364703#0" type='dist'/>
+    <trip id="15" depart="0.50" from="441319290" to="148754587#2" type='dist'/>
+    <trip id="16" depart="0.53" from="174274186#0" to="4834463" type='dist'/>
+    <trip id="17" depart="0.57" from="174600936#1" to="692664116#1" type='dist'/>
+    <trip id="18" depart="0.60" from="373852729" to="495766634" type='dist'/>
+    <trip id="19" depart="0.63" from="229811477" to="4722378" type='dist'/>
+    <trip id="20" depart="0.67" from="495766635" to="229808017#1" type='dist'/>
+    <trip id="21" depart="0.70" from="373852729" to="502484458" type='dist'/>
+    <trip id="22" depart="0.73" from="247499957#1" to="553918577#1" type='dist'/>
+    <trip id="23" depart="0.77" from="344453961" to="49499524#0" type='dist'/>
+    <trip id="24" depart="0.80" from="489224054" to="495766635" type='dist'/>
+    <trip id="25" depart="0.83" from="-24535786#0" to="4722378" type='dist'/>
+    <trip id="26" depart="0.87" from="5069792#1" to="24527660#0" type='dist'/>
+    <trip id="27" depart="0.90" from="22374974#0" to="24527662#0" type='dist'/>
+    <trip id="28" depart="0.93" from="148754587#2" to="229808017#0" type='dist'/>
+    <trip id="29" depart="0.97" from="5073085" to="384870499#0" type='dist'/>
+    <trip id="30" depart="1.00" from="148754587#0" to="4943633#2" type='dist'/>
 </routes>

@@ -1066,7 +1066,7 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }//GEN-LAST:event_exportButtonMouseClicked
 
     private void menuEditSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuEditSettingsActionPerformed
-        Settings settings = new Settings (this, Config.getSumoLocation(), Config.getPython2());
+        Settings settings = new Settings (this, Config.getSumoLocation(), Config.getPython());
         settings.setVisible(true);
     }//GEN-LAST:event_menuEditSettingsActionPerformed
 
@@ -1400,8 +1400,9 @@ public class MogenView extends javax.swing.JFrame  implements ActionListener, Ob
     }
     
     public void changeSettings(String python, String sumo){
-        listenerUI.producedEvent(Event.EDIT_PYTHON, python);
-        listenerUI.producedEvent(Event.EDIT_SUMO, sumo);
+        //listenerUI.producedEvent(Event.EDIT_PYTHON, python);
+        //listenerUI.producedEvent(Event.EDIT_SUMO, sumo);
+        listenerUI.producedEvent(Event.EDIT_SETTINGS, new Tuple(sumo, python));
     }
     
     private void newFlow(String id, Flow flow) {

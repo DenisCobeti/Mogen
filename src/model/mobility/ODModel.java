@@ -125,7 +125,6 @@ public class ODModel extends MobilityModel {
         PrintWriter writer = new PrintWriter(tazsFile.getAbsoluteFile(), "UTF-8");
         
         writer.println(HEADER_TAZ);
-        System.out.println(tazs.toString());
         tazs.entrySet().forEach((entry) -> {
             //writer.println(entry.getValue().toFile(entry.getKey()));
             writer.println(entry.getValue().toFile(entry.getKey()));
@@ -151,7 +150,7 @@ public class ODModel extends MobilityModel {
         writerOD.close();
         
         LinkedList <String> command = new LinkedList(Arrays.asList(
-                Config.sumoLocation + Config.OD2TRIPS_PROGRAM,
+                Config.sumo + Config.OD2TRIPS_PROGRAM,
                 TAZ_OPT,
                 tazsFile.getAbsolutePath(),
                 OD_OPT,
@@ -167,8 +166,6 @@ public class ODModel extends MobilityModel {
                 output.getAbsolutePath(), vTypes + "," + tazsFile.getAbsolutePath()));
         
         ProcessBuilder od2Trips = new ProcessBuilder(command);
-        System.out.println(od2Trips.command().toString());
-        System.out.println(sumo.command().toString());
         executeProcess(od2Trips.start());
         executeProcess(sumo.start());
         
@@ -179,6 +176,7 @@ public class ODModel extends MobilityModel {
                 output.getAbsolutePath(), ns2.getAbsolutePath()));
         
         executeProcess(trace.start());
+        System.out.println(trace.command());
         
         control.endExport();
         

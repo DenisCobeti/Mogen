@@ -30,7 +30,7 @@ public abstract class MobilityModel {
     protected final static int TRACE_INPUT_OPT = 3;
     protected final static int TRACE_OUTPUT_OPT = 5;
     
-    private final static String PYTHON_SCRIPT_NAME = "\\tools\\traceExporter.py";
+    private final static String PYTHON_SCRIPT_NAME = "/tools/traceExporter.py";
     
     private static final String[] SUMO_CMD = {Config.SUMO_EXE.toString(), 
                                             "-n", "", "-r", "", "--fcd-output", ""};
@@ -43,8 +43,8 @@ public abstract class MobilityModel {
                                             "--additional-files", ""};
     
     
-    private static final String[] TRACE_CMD = {Config.python2, 
-                                        Config.sumoLocation + PYTHON_SCRIPT_NAME, 
+    private static final String[] TRACE_CMD = {Config.python, 
+                                        Config.sumo + PYTHON_SCRIPT_NAME, 
                                         "--fcd-input", "", "--ns2mobility-output", 
                                         ""};
     

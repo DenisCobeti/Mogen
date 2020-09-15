@@ -34,7 +34,7 @@ public class VType {
         PASSANGER_DIESEL("HBEFA3/PC_D_EU4", "Passanger diesel"),
         PASSANGER_GASOLINE("HBEFA3/PC_G_EU4", "Passanger gasoline"),
         
-        ELECTRIC("Energy", "Electric"),
+        ELECTRIC("Energy/unknown", "Electric"),
         ZERO("Zero", "Zero emissions");
         
         private final String value;
