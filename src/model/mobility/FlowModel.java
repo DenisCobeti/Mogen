@@ -106,5 +106,6 @@ public class FlowModel extends MobilityModel {
         writer2.println("</input>");
         writer2.println("</configuration>");
         writer2.close();
+        control.endExport();
     }
 }

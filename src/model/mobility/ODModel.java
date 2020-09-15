@@ -176,6 +176,7 @@ public class ODModel extends MobilityModel {
                 output.getAbsolutePath(), ns2.getAbsolutePath()));
         
         executeProcess(trace.start());
+        System.out.println(trace.command());
         
         control.endExport();
         
